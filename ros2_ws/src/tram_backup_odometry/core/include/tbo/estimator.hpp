@@ -16,12 +16,15 @@
 
 #include <array>
 #include <cstdint>
+#include <deque>
+#include <utility>
 #include <vector>
 
 #include "tbo/geo.hpp"
 #include "tbo/params.hpp"
 #include "tbo/small_matrix.hpp"
 #include "tbo/traction_model.hpp"
+#include "tbo/track_field.hpp"
 #include "tbo/track_map.hpp"
 #include "tbo/types.hpp"
 
@@ -42,7 +45,7 @@ bool loadLandmarks(const std::string& path, std::vector<Landmark>& out, std::str
 struct Diagnostics {
   std::uint64_t wheel_msgs = 0, cmd_msgs = 0, gnss_msgs = 0;
   std::uint64_t invalid_wheel = 0, invalid_cmd = 0, rejected_stamps = 0;
-  std::uint64_t late_dropped = 0, merged_pairs = 0, recoveries = 0, resets = 0;
+  std::uint64_t late_dropped = 0, merged_pairs = 0, recoveries = 0, resets = 0, time_gaps = 0;
   std::uint64_t implausible_wheel = 0, gnss_ignored_after_window = 0, landmark_fixes = 0;
   int max_buffer = 0;
 };
@@ -53,9 +56,10 @@ class Estimator {
             std::vector<const TrackMap*> branches = {});
 
   // Inputs. `stamp` is the message header stamp (bag time). Never throws; bad data is
-  // counted, flagged and ignored.
-  void onWheel(Sensor sensor, Stamp stamp, double speed_kmh);
-  void onCmd(Stamp stamp, int notch);
+  // counted, flagged and ignored. Returns false if the message was dropped (bad stamp or
+  // notch): callers must not publish an output at that stamp.
+  bool onWheel(Sensor sensor, Stamp stamp, double speed_kmh);
+  bool onCmd(Stamp stamp, int notch);
   void onGnssFix(GnssSource src, Stamp stamp, double lat, double lon, double alt, int status);
   void onGnssVel(GnssSource src, Stamp stamp, double vx, double vy, double vz);
 
@@ -66,11 +70,16 @@ class Estimator {
   Stamp latestStamp() const { return latest_; }
   bool initialized() const { return init_.anchored; }
   bool mapMatched() const { return init_.map_matched; }
+  // GNSS init window of the current run is over (the node then drops its GNSS subscriptions).
+  bool gnssWindowClosed() const {
+    return init_.have_gnss && latest_ > init_.t_first_gnss + fromSec(p_.gnss_init_window_s + 1.0);
+  }
   const Diagnostics& diagnostics() const { return diag_; }
   const Config& config() const { return cfg_; }
   void reset();
   void setLandmarks(std::vector<Landmark> lms) { landmarks_ = std::move(lms); }
   void setCutoffs(std::vector<Landmark> lms) { cutoffs_ = std::move(lms); }
+  void setDisturbanceField(TrackField f) { dfield_ = std::move(f); }
 
   // ---- internals exposed for tests ----
   struct WheelTrack {
@@ -149,8 +158,8 @@ class Estimator {
   void applyEvent(FilterState& f, const Event& e) const;
   void advance(FilterState& f, Stamp t) const;
   void predictMode(StateVec& x, StateCov& P, double a, double a_ext, double h, bool standstill,
-                   double sigma_accel, double q_d) const;
-  double trackAccel(const FilterState& f) const;  // grade + curve terms from the map
+                   double sigma_accel, double q_d, double da_ds = 0.0) const;
+  double trackAccel(const FilterState& f, double ds = 0.0) const;  // map terms at s + ds
   void wheelUpdate(FilterState& f, const Event& e) const;
   bool jointMonitor(FilterState& f, const Event& e, const bool* avail, const double* z) const;
   // Along-track fix from a list of known places; `lead` shifts the place by v*lead (GNSS timing).
@@ -161,6 +170,8 @@ class Estimator {
   Output makeOutput(const FilterState& f, Stamp t) const;
   double combinedV(const FilterState& f) const;
   void updateAnchor();
+  void noteCommitted();          // record (t, s) of the committed state
+  double distanceAt(Stamp t) const;  // travelled distance at any recent time (anchor at fix time)
 
   Config cfg_;
   const Params& p_;
@@ -169,6 +180,7 @@ class Estimator {
   std::vector<const TrackMap*> branches_;  // alternative start tracks merging into main
   std::vector<Landmark> landmarks_;
   std::vector<Landmark> cutoffs_;
+  TrackField dfield_;
   // Maps a relative distance to (edge, arc length) along the anchored route.
   bool routeAt(double s_rel, const TrackMap*& m, double& s) const;
 
@@ -176,8 +188,12 @@ class Estimator {
   std::vector<Event> buf_;  // sorted by (t, seq); capacity reserved up front
   bool started_ = false;
   Stamp latest_ = 0;
+  Stamp pending_jump_ = 0;  // stamp of a lone message far from the current time (glitch or jump?)
   std::uint64_t seq_ = 0;
   Diagnostics diag_;
+  // (t, s) of the committed state over the last seconds: the GNSS anchor needs the distance at
+  // the fix time, which may lie before the fixed-lag window when fixes arrive late or the tram moves.
+  std::deque<std::pair<Stamp, double>> s_hist_;
 
   // ---- GNSS initialisation (first seconds only) ----
   struct Fix {
@@ -186,7 +202,9 @@ class Estimator {
   };
   struct InitState {
     bool have_first = false;
-    Stamp t_first = 0;
+    Stamp t_first = 0;             // first input of the run (wheel, controller or GNSS)
+    bool have_gnss = false;
+    Stamp t_first_gnss = 0;        // the init window counts from the first valid fix
     bool origin_set = false;
     geo::Geodetic origin{};      // output frame origin (first fix of init_source)
     std::vector<Fix> fixes;      // init_source fixes inside the window

@@ -61,9 +61,10 @@ int main(int argc, char** argv) {
       std::printf("tram_backup_odometry:\n  ros__parameters:\n");
       std::printf("    map_file: \"%s\"\n", "maps/track_map.csv");
       std::printf("    traction_file: \"%s\"\n", "config/traction_lut.csv");
-      std::printf("    branch_files: \"%s\"\n", "maps/branch_fan_F2.csv,maps/branch_wb_detour.csv");
+      std::printf("    branch_files: \"%s\"\n", "maps/branch_fan_F2.csv,maps/branch_fan_F3.csv,maps/branch_wb_detour.csv");
       std::printf("    landmark_file: \"%s\"\n", "maps/landmarks.csv");
       std::printf("    cutoff_file: \"%s\"\n", "maps/cutoffs.csv");
+      std::printf("    dfield_file: \"%s\"\n", "");
       std::printf("    output_frame: \"mgrs\"         # mgrs (jury, Autoware map frame) | enu | utm | map\n");
       std::printf("    init_source: \"master\"        # GNSS antenna used for the initial fix\n");
       std::printf("    frame_id: \"map\"\n    child_frame_id: \"base_link\"\n");
@@ -111,6 +112,7 @@ int main(int argc, char** argv) {
     else if (kv.first == "branch_files") cfg.branch_files = kv.second;
     else if (kv.first == "landmark_file") cfg.landmark_file = kv.second;
     else if (kv.first == "cutoff_file") cfg.cutoff_file = kv.second;
+    else if (kv.first == "dfield_file") cfg.dfield_file = kv.second;
     else { std::fprintf(stderr, "unknown string param %s\n", kv.first.c_str()); return 2; }
   }
 
@@ -160,6 +162,14 @@ int main(int argc, char** argv) {
     }
     est.setCutoffs(std::move(cut));
   }
+  if (!cfg.dfield_file.empty()) {
+    TrackField fld;
+    if (!fld.loadCsv(cfg.dfield_file, map.cyclic() ? map.length() : 0.0, &err)) {
+      std::fprintf(stderr, "%s\n", err.c_str());
+      return 2;
+    }
+    est.setDisturbanceField(std::move(fld));
+  }
   OutputScheduler sched(cfg.p);
 
   std::FILE* fin = std::fopen(in_path.c_str(), "rb");
@@ -168,13 +178,13 @@ int main(int argc, char** argv) {
   if (!fout) { std::fprintf(stderr, "cannot write %s\n", out_path.c_str()); return 2; }
   std::fprintf(fout,
                "stamp_ns,recv_ns,trigger,v,v_var,x,y,z,yaw,s,s_var,cov_xx,cov_xy,cov_yy,cov_zz,"
-               "mu0,mu1,mu2,mu3,mu4,slip_f,slip_r,d,k,g,a_model,accel,flags,pos_valid,proc_ns\n");
+               "mu0,mu1,mu2,mu3,mu4,slip_f,slip_r,d,k,g,a_model,accel,flags,pos_valid,s_map,a_ext,proc_ns\n");
 
   std::vector<char*> f;
   f.reserve(16);
   char line[512];
   Stamp outs[64];
-  std::uint64_t n_in = 0, n_out = 0;
+  std::uint64_t n_in = 0, n_out = 0, resets = 0;
   while (std::fgets(line, sizeof(line), fin)) {
     if (!splitCsv(line, f) || f.size() < 4) continue;
     const std::string type = f[0];
@@ -183,9 +193,9 @@ int main(int argc, char** argv) {
     const auto t0 = std::chrono::steady_clock::now();
     bool is_input = true, is_cmd = false;
     if (type == "W0" || type == "W1") {
-      est.onWheel(type == "W0" ? Sensor::Front : Sensor::Rear, stamp, std::strtod(f[3], nullptr));
+      is_input = est.onWheel(type == "W0" ? Sensor::Front : Sensor::Rear, stamp, std::strtod(f[3], nullptr));
     } else if (type == "C") {
-      est.onCmd(stamp, static_cast<int>(std::strtol(f[3], nullptr, 10)));
+      is_input = est.onCmd(stamp, static_cast<int>(std::strtol(f[3], nullptr, 10)));
       is_cmd = true;
     } else if (type == "GF" && f.size() >= 8) {
       est.onGnssFix(std::atoi(f[3]) == 1 ? GnssSource::Rover : GnssSource::Master, stamp,
@@ -201,6 +211,10 @@ int main(int argc, char** argv) {
     }
     ++n_in;
     if (!is_input || !est.started()) continue;
+    if (est.diagnostics().resets != resets) {  // new run (bag replayed): restart the output stream
+      resets = est.diagnostics().resets;
+      sched.reset();
+    }
     const int n = sched.onInput(is_cmd, stamp, est.latestStamp(), outs, 64);
     for (int k = 0; k < n; ++k) {
       const Output o = est.query(outs[k]);
@@ -208,12 +222,12 @@ int main(int argc, char** argv) {
       const long long proc = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
       std::fprintf(fout,
                    "%lld,%lld,%s,%.6f,%.6g,%.4f,%.4f,%.4f,%.6f,%.4f,%.6g,%.6g,%.6g,%.6g,%.6g,"
-                   "%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.6f,%.6f,%.6f,%.5f,%.5f,%u,%d,%lld\n",
+                   "%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.6f,%.6f,%.6f,%.5f,%.5f,%u,%d,%.3f,%.5f,%lld\n",
                    static_cast<long long>(o.stamp), static_cast<long long>(recv), type.c_str(), o.v,
                    o.v_var, o.x, o.y, o.z, o.yaw, o.s, o.s_var, o.cov_xx, o.cov_xy, o.cov_yy, o.cov_zz,
                    o.mode_prob[0], o.mode_prob[1], o.mode_prob[2], o.mode_prob[3], o.mode_prob[4], o.slip_front,
                    o.slip_rear, o.disturbance, o.scale, o.gain, o.a_model, o.accel, o.flags,
-                   o.pos_valid ? 1 : 0, proc);
+                   o.pos_valid ? 1 : 0, o.s_map, o.a_ext, proc);
       ++n_out;
     }
   }

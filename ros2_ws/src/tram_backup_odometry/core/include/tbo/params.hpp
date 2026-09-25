@@ -12,6 +12,10 @@ struct Params {
   double wheel_curv_abs = 0.415;    // wheels under-read in curves: v = v_wheel (1 + a|k| + b k), a
   double wheel_curv_signed = -0.054;  // b (per 1/m of track curvature k from the map)
   double wheel_curv_sat = 0.009;    // the curve under-reading saturates at ~0.9 % (R < 60 m)
+  double front_bogie_along_m = 9.9; // bogie positions ahead of antenna 1 along the track (curvature
+  double rear_bogie_along_m = 2.35; //   for each bogie's wheel correction is taken at its own place)
+  double body_rear_m = -2.1;        // car body extent relative to antenna 1 (grade averaged over it)
+  double body_front_m = 14.4;
   double wheel_max_kmh = 110.0;           // readings above are physically impossible -> invalid
   double wheel_delay_s = 0.0;             // measurement latency: value at stamp t describes t - delay
   double cmd_delay_s = 0.0;               // dead time from notch change to drive response
@@ -21,8 +25,14 @@ struct Params {
   double max_step_s = 0.05;         // max integration step
   double wheel_timeout_s = 0.6;     // no valid sample for longer -> dropout
   double cmd_timeout_s = 0.6;       // controller silent for longer -> assume neutral + flag
-  double max_future_s = 2.0;        // stamps further ahead of the latest are rejected
-  double max_backjump_s = 30.0;     // stamps jumping back more than this reset the time base
+  // Time-base jumps. Header stamps are continuous (gaps <= 0.23 s in all bags), but arrival order
+  // interleaves topics: up to 2.6 s ahead / 2.7 s behind in the start-up burst, ~1 s mid-run.
+  // A stamp outside [latest - max_backjump_s, latest + max_future_s] is a glitch unless a second
+  // message within jump_confirm_s of it confirms that the time base itself jumped.
+  double max_future_s = 5.0;        // further ahead: needs confirmation (then: inputs were silent)
+  double max_backjump_s = 10.0;     // further back: needs confirmation (then: bag replayed, new run)
+  double jump_confirm_s = 1.0;      // two messages this close confirm a time jump
+  double new_run_gap_s = 60.0;      // a confirmed forward jump this long is a new run (another bag)
 
   // ---- process model noise ----
   double sigma_accel = 0.12;        // white acceleration noise of the model, m/s^2
@@ -31,7 +41,7 @@ struct Params {
   double q_gain = 2e-5;             // random walk of traction gain g, 1 / s
   double init_sigma_v = 0.3;
   double init_sigma_d = 0.10;
-  double init_sigma_scale = 0.006;
+  double init_sigma_scale = 0.015;  // fleet k spans +-1.6 % by vehicle/date: a wide prior lets stops calibrate it
   double init_sigma_gain = 0.08;
   double gain_min = 0.6, gain_max = 1.6;
   double disturbance_max = 0.6;     // max unexplained acceleration (grade), m/s^2: more is slip
@@ -57,7 +67,7 @@ struct Params {
   // ---- plausibility gates ----
   double max_wheel_accel = 6.0;     // |dv/dt| of a bogie beyond this is not vehicle motion, m/s^2
   double stuck_time_s = 1.2;        // identical readings for this long ...
-  double stuck_min_change = 0.4;    // ... while the vehicle speed changed by more than this (m/s)
+  double stuck_min_change = 0.15;   // ... while the vehicle speed changed by more than this (m/s)
   double zero_stuck_other = 0.5;    // a bogie at 0 while the other reads above this (m/s) is dead
   double single_bogie_latch_mult = 2.0;  // CUSUM threshold multiplier with only one live bogie
 
@@ -65,7 +75,7 @@ struct Params {
   // Only physically possible anomalies latch: slip under traction (wheels fast), slide under
   // braking (wheels slow). The opposite signs mean the controller signal is wrong instead.
   double cusum_slip_accel = 0.60;   // tolerated excess acceleration under traction, m/s^2
-  double cusum_slide_accel = 1.50;  // tolerated extra deceleration under braking notches, m/s^2
+  double cusum_slide_accel = 0.80;  // tolerated extra deceleration under braking notches, m/s^2
   double cusum_h = 0.30;            // alarm threshold, m/s (accumulated excess speed)
   double cmd_fault_accel = 0.50;    // excess of the impossible sign that indicts the controller, m/s^2
   double cmd_fault_h = 0.40;        // accumulated impossible-sign excess to raise the fault, m/s
@@ -93,9 +103,11 @@ struct Params {
   double kg_coast = 7.98;           //   rho = rotating-mass factor; identified per regime
   double kg_traction = 7.36;
   double curve_resist_coef = 0.0;   // curve resistance a = -coef * |curvature|, m^2/s^2
+  double dfield_gain = 1.0;         // weight of the learned disturbance field d(s) (when a file is given)
+  double grade_s_coupling = 0.0;    // 1: EKF Jacobian includes d(grade accel)/ds (position seen via grade)
 
   // ---- initialisation / map ----
-  double gnss_init_window_s = 5.0;  // GNSS used only this long after the first message
+  double gnss_init_window_s = 5.0;  // GNSS used only this long after the first fix
   double gnss_wait_s = 4.0;         // hold position output this long for the first fix, then go relative (start-up burst ~2.5 s)
   double gnss_min_fixes = 3.0;
   double map_gate_m = 25.0;         // max distance of the init fix from the map
@@ -110,7 +122,7 @@ struct Params {
   double landmark_enable = 1.0;
   double landmark_dwell_s = 1.5;    // standstill this long before using the stop as a fix
   double landmark_gate_sigma = 3.0; // association gate in standard deviations
-  double landmark_min_prob = 0.7;   // posterior probability required to apply the fix
+  double landmark_min_prob = 0.6;   // posterior probability required to apply the fix
   double landmark_p_random = 0.15;  // prior share of stops not at any landmark (traffic)
   double landmark_sigma_extra = 0.3;  // added to the landmark spread, m
   double landmark_max_dk = 0.004;   // max wheel-scale change applied by one landmark fix
@@ -153,6 +165,7 @@ struct Config {
   std::string branch_files;              // comma-separated branch CSVs merging into the main cycle
   std::string landmark_file;             // stop landmarks CSV (main cycle)
   std::string cutoff_file;               // traction cut-off landmarks CSV (main cycle)
+  std::string dfield_file;               // learned disturbance field d(s) CSV (main cycle), empty = off
   std::string output_frame = "mgrs";     // mgrs (jury) | enu (first fix) | utm | map
   std::string init_source = "master";    // master | rover
   std::string frame_id = "map";

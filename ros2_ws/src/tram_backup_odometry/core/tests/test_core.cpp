@@ -103,6 +103,7 @@ std::vector<In> makeRun(double t0, double dur, Truth& truth, WheelFn wheel_fn, d
 
 struct RunResult {
   std::vector<Output> outs;
+  Diagnostics diag;
 };
 
 RunResult run(const std::vector<In>& ev, const Config& cfg, const TractionModel& model,
@@ -111,20 +112,70 @@ RunResult run(const std::vector<In>& ev, const Config& cfg, const TractionModel&
   OutputScheduler sched(cfg.p);
   RunResult r;
   Stamp buf[64];
+  std::uint64_t resets = 0;
   for (const In& e : ev) {
     bool is_input = true, is_cmd = false;
     switch (e.type) {
-      case 0: est.onWheel(Sensor::Front, e.stamp, e.a); break;
-      case 1: est.onWheel(Sensor::Rear, e.stamp, e.a); break;
-      case 2: est.onCmd(e.stamp, static_cast<int>(e.a)); is_cmd = true; break;
+      case 0: is_input = est.onWheel(Sensor::Front, e.stamp, e.a); break;
+      case 1: is_input = est.onWheel(Sensor::Rear, e.stamp, e.a); break;
+      case 2: is_input = est.onCmd(e.stamp, static_cast<int>(e.a)); is_cmd = true; break;
       case 3: est.onGnssFix(GnssSource::Master, e.stamp, e.a, e.b, e.c, 2); is_input = false; break;
       case 4: est.onGnssFix(GnssSource::Rover, e.stamp, e.a, e.b, e.c, 2); is_input = false; break;
     }
     if (!is_input || !est.started()) continue;
+    if (est.diagnostics().resets != resets) {  // same as the node: new run -> new output stream
+      resets = est.diagnostics().resets;
+      sched.reset();
+    }
     const int n = sched.onInput(is_cmd, e.stamp, est.latestStamp(), buf, 64);
     for (int k = 0; k < n; ++k) r.outs.push_back(est.query(buf[k]));
   }
+  r.diag = est.diagnostics();
   return r;
+}
+
+bool sameOutputs(const RunResult& a, const RunResult& b) {
+  if (a.outs.size() != b.outs.size()) return false;
+  for (size_t i = 0; i < a.outs.size(); ++i)
+    if (a.outs[i].stamp != b.outs[i].stamp || a.outs[i].v != b.outs[i].v || a.outs[i].s != b.outs[i].s ||
+        a.outs[i].x != b.outs[i].x)
+      return false;
+  return true;
+}
+
+// Removes every message (all topics) whose stamp falls inside (t_from, t_to) seconds.
+std::vector<In> cutAll(const std::vector<In>& ev, double t_from, double t_to) {
+  std::vector<In> out;
+  for (const In& e : ev) {
+    const double t = toSec(e.stamp);
+    if (t > t_from && t < t_to) continue;
+    out.push_back(e);
+  }
+  return out;
+}
+
+void sortByArrival(std::vector<In>& ev) {
+  std::stable_sort(ev.begin(), ev.end(), [](const In& x, const In& y) { return x.recv < y.recv; });
+}
+
+// Straight east-west test track through the GNSS test position.
+TrackMap straightMap() {
+  TrackMap map;
+  map.setPoints({{-500, 0, 0, 0}, {5000, 0, 0, 0}}, false, {55.81, 37.462, 168.4});
+  return map;
+}
+
+// GNSS master/rover fixes that follow the truth along the straight map (rover 12.4 m ahead).
+void addMovingGnss(std::vector<In>& ev, const Truth& tr, double t0, double from, double to) {
+  const geo::LocalCartesian lc({55.81, 37.462, 168.4});
+  for (int k = 0; from + k * 0.1 <= to + 1e-9; ++k) {
+    const double t = from + k * 0.1;
+    const double s = tr.sAt(t0 + t);
+    const geo::Geodetic m = lc.reverse({s, 0.0, 0.0}), r = lc.reverse({s + 12.4, 0.0, 0.0});
+    ev.push_back({3, fromSec(t0 + t + 0.04), fromSec(t0 + t), m.lat_deg, m.lon_deg, m.h});
+    ev.push_back({4, fromSec(t0 + t + 0.04), fromSec(t0 + t), r.lat_deg, r.lon_deg, r.h});
+  }
+  sortByArrival(ev);
 }
 
 auto cleanWheels = [](int, double, double v) { return v * kKmh; };
@@ -356,7 +407,7 @@ TEST_CASE("no-GNSS proof: GNSS after the init window changes nothing (bit-identi
   map.setPoints({{-500, 0, 0, 0}, {5000, 0, 0, 0}}, false, {55.81, 37.462, 168.4});
   Truth tr;
   // Run A streams GNSS for the whole run; run B only for the first 6 s (window is 5 s
-  // from the first message), i.e. B is what the jury's test bags look like.
+  // from the first fix), i.e. B is what the jury's test bags look like.
   const auto with_all = makeRun(4000.0, 50.0, tr, cleanWheels, 1e9);
   const auto init_only = makeRun(4000.0, 50.0, tr, cleanWheels, 6.0);
   const RunResult a = run(with_all, cfg, model, &map), b = run(init_only, cfg, model, &map);
@@ -365,6 +416,109 @@ TEST_CASE("no-GNSS proof: GNSS after the init window changes nothing (bit-identi
     same = a.outs[i].x == b.outs[i].x && a.outs[i].y == b.outs[i].y && a.outs[i].v == b.outs[i].v;
   CHECK(same);
   CHECK(!a.outs.empty() && a.outs.back().map_matched);
+}
+
+// ---------------------------------------------------------------- time base and GNSS window
+
+TEST_CASE("all inputs silent for 3 s and 8 s: no lock-up, the model bridges, then recovers") {
+  Config cfg;
+  TractionModel model;
+  Truth tr;
+  const auto ev = makeRun(9600.0, 60.0, tr, cleanWheels);
+  for (const double gap : {3.0, 8.0}) {
+    const RunResult r = run(cutAll(ev, 9625.0, 9625.0 + gap), cfg, model);
+    size_t after = 0;
+    for (const Output& o : r.outs)
+      if (toSec(o.stamp) > 9636.0) ++after;
+    CHECK(after > 400);                                        // outputs continue after the gap
+    CHECK(maxSpeedError(r, tr, 9636.0, 9660.0) < 0.15);       // and track the wheels again
+    CHECK(r.diag.resets == 0);
+    CHECK(gap < 5.0 || r.diag.time_gaps == 1);                 // > max_future_s: confirmed jump
+  }
+}
+
+TEST_CASE("lone garbage stamps (+-1000 s) are dropped: no reset, no output, bit-identical") {
+  Config cfg;
+  TractionModel model;
+  Truth tr;
+  const auto ev = makeRun(9700.0, 60.0, tr, cleanWheels);
+  auto bad = ev;
+  bad.push_back({0, fromSec(9730.0), fromSec(10730.0), 30.0, 0, 0});  // wheel far ahead
+  bad.push_back({2, fromSec(9740.0), fromSec(8740.0), 5.0, 0, 0});    // controller far behind
+  bad.push_back({1, fromSec(9745.0), fromSec(9745.0 - 20.0), 0.0, 0, 0});  // bogie 20 s old
+  sortByArrival(bad);
+  const RunResult a = run(ev, cfg, model), b = run(bad, cfg, model);
+  CHECK(sameOutputs(a, b));
+  CHECK(b.diag.resets == 0);
+  CHECK(b.diag.rejected_stamps == a.diag.rejected_stamps + 3);
+}
+
+TEST_CASE("bag replayed from the start: new run; another bag 100 s later: new run") {
+  Config cfg;
+  TractionModel model;
+  Truth tr, tr2;
+  const auto first = makeRun(9900.0, 40.0, tr, cleanWheels);
+  auto loop = first;
+  for (In e : first) {  // the same bag once more, arriving after the first pass
+    e.recv += fromSec(45.0);
+    loop.push_back(e);
+  }
+  sortByArrival(loop);
+  const RunResult r = run(loop, cfg, model);
+  CHECK(r.diag.resets == 1);
+  // the second pass publishes the same stamps again and tracks the truth
+  size_t second = 0;
+  double m = 0.0;
+  for (size_t i = r.outs.size() / 2; i < r.outs.size(); ++i) {
+    const double t = toSec(r.outs[i].stamp);
+    if (t > 9905.0 && t < 9938.0) {
+      ++second;
+      m = std::max(m, std::abs(r.outs[i].v - tr.vAt(t)));
+    }
+  }
+  CHECK(second > 300);
+  CHECK(m < 0.3);
+  auto two = first;
+  const auto next = makeRun(9900.0 + 140.0, 40.0, tr2, cleanWheels);
+  two.insert(two.end(), next.begin(), next.end());
+  sortByArrival(two);
+  const RunResult r2 = run(two, cfg, model);
+  CHECK(r2.diag.resets == 1);
+  CHECK(maxSpeedError(r2, tr2, 10045.0, 10078.0) < 0.3);
+}
+
+TEST_CASE("GNSS init window counts from the first fix (GNSS starts 3 s after the wheels)") {
+  Config cfg;
+  cfg.p.gnss_init_window_s = 1.0;
+  TractionModel model;
+  const TrackMap map = straightMap();
+  Truth tr;
+  auto ev = makeRun(9950.0, 30.0, tr, cleanWheels, -1.0);  // no GNSS from makeRun
+  addMovingGnss(ev, tr, 9950.0, 3.0, 5.0);
+  const RunResult r = run(ev, cfg, model, &map);
+  CHECK(!r.outs.empty() && r.outs.back().map_matched);
+  CHECK(r.diag.gnss_ignored_after_window > 0);  // fixes after 4 s are not used
+}
+
+TEST_CASE("anchor while moving inside a 10 s GNSS window: position follows the truth") {
+  Config cfg;
+  cfg.output_frame = "map";
+  cfg.p.gnss_init_window_s = 10.0;
+  cfg.p.position_lead_s = 0.0;
+  cfg.p.base_link_along_m = 0.0;
+  cfg.p.base_link_height_m = 0.0;
+  TractionModel model;
+  const TrackMap map = straightMap();
+  Truth tr;
+  auto ev = makeRun(9980.0, 40.0, tr, cleanWheels, -1.0);
+  addMovingGnss(ev, tr, 9980.0, 0.0, 10.0);  // tram starts at 5 s: last fix ~11 m further
+  const RunResult r = run(ev, cfg, model, &map);
+  double m = 0.0;
+  for (const Output& o : r.outs) {
+    const double t = toSec(o.stamp);
+    if (t > 9992.0 && t < 10000.0 && o.pos_valid) m = std::max(m, std::abs(o.x - tr.sAt(t)));
+  }
+  CHECK(m < 1.0);
 }
 
 #ifdef TBO_PARAMS_YAML

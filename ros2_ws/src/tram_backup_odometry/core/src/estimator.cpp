@@ -127,6 +127,8 @@ void Estimator::reset() {
   buf_.clear();
   started_ = false;
   latest_ = 0;
+  pending_jump_ = 0;
+  s_hist_.clear();
   init_ = InitState{};
   init_.fixes.reserve(512);
   init_.other.reserve(512);
@@ -138,22 +140,34 @@ bool Estimator::acceptStamp(Stamp stamp) {
     ++diag_.rejected_stamps;
     return false;
   }
-  if (started_) {
-    if (stamp > latest_ + fromSec(p_.max_future_s)) {
-      ++diag_.rejected_stamps;
-      return false;
-    }
-    if (stamp < latest_ - fromSec(p_.max_backjump_s)) {  // time base restarted (bag loop)
-      ++diag_.resets;
-      reset();
-    }
+  if (!started_) return true;
+  const bool ahead = stamp > latest_ + fromSec(p_.max_future_s);
+  const bool behind = stamp < latest_ - fromSec(p_.max_backjump_s);
+  if (!ahead && !behind) {
+    pending_jump_ = 0;
+    return true;
+  }
+  // A lone stamp far from the current time is a glitch and is dropped. A second message close to
+  // it means the time base itself jumped: every input was silent for a while (continue, the model
+  // bridges the gap) or the bag was restarted / another bag is playing (new run).
+  if (pending_jump_ <= 0 || std::llabs(stamp - pending_jump_) > fromSec(p_.jump_confirm_s)) {
+    pending_jump_ = stamp;
+    ++diag_.rejected_stamps;
+    return false;
+  }
+  pending_jump_ = 0;
+  if (behind || stamp - latest_ >= fromSec(p_.new_run_gap_s)) {
+    ++diag_.resets;
+    reset();
+  } else {
+    ++diag_.time_gaps;
   }
   return true;
 }
 
-void Estimator::onWheel(Sensor sensor, Stamp stamp, double speed_kmh) {
+bool Estimator::onWheel(Sensor sensor, Stamp stamp, double speed_kmh) {
   ++diag_.wheel_msgs;
-  if (!acceptStamp(stamp)) return;
+  if (!acceptStamp(stamp)) return false;
   Event e;
   e.t = stamp - fromSec(p_.wheel_delay_s);
   e.seq = seq_++;
@@ -176,15 +190,16 @@ void Estimator::onWheel(Sensor sensor, Stamp stamp, double speed_kmh) {
   }
   latest_ = std::max(latest_, stamp);
   insert(e);
+  return true;
 }
 
-void Estimator::onCmd(Stamp stamp, int notch) {
+bool Estimator::onCmd(Stamp stamp, int notch) {
   ++diag_.cmd_msgs;
-  if (!acceptStamp(stamp)) return;
   if (notch < TractionModel::kNotchMin || notch > TractionModel::kNotchMax) {
     ++diag_.invalid_cmd;
-    return;
+    return false;
   }
+  if (!acceptStamp(stamp)) return false;
   Event e;
   e.is_cmd = true;
   e.notch = notch;
@@ -201,6 +216,7 @@ void Estimator::onCmd(Stamp stamp, int notch) {
   }
   latest_ = std::max(latest_, stamp);
   insert(e);
+  return true;
 }
 
 void Estimator::insert(const Event& e) {
@@ -241,6 +257,7 @@ void Estimator::insert(const Event& e) {
   commitOlderThan(latest_ - fromSec(p_.lag_window_s));
   while (buf_.size() > 200) {  // hard bound on work per query
     applyEvent(committed_, buf_.front());
+    noteCommitted();
     buf_.erase(buf_.begin());
   }
 }
@@ -249,9 +266,38 @@ void Estimator::commitOlderThan(Stamp t) {
   size_t n = 0;
   while (n < buf_.size() && buf_[n].t < t) {
     applyEvent(committed_, buf_[n]);
+    noteCommitted();
     ++n;
   }
   if (n > 0) buf_.erase(buf_.begin(), buf_.begin() + static_cast<long>(n));
+}
+
+void Estimator::noteCommitted() {
+  if (!committed_.started || gnssWindowClosed()) return;  // only the anchor needs the history
+  double s = 0.0;
+  for (int j = 0; j < kNumModes; ++j) s += committed_.mu[j] * committed_.x[j](kS, 0);
+  if (!s_hist_.empty() && s_hist_.back().first >= committed_.t) {
+    s_hist_.back().second = s;  // several events at one stamp: keep the latest state
+    return;
+  }
+  s_hist_.emplace_back(committed_.t, s);
+  constexpr double kHistS = 30.0;  // longer than the init window plus any fix delay
+  const Stamp keep = committed_.t - fromSec(kHistS);
+  while (s_hist_.size() > 2 && (s_hist_[1].first <= keep || s_hist_.size() > 4096)) s_hist_.pop_front();
+}
+
+double Estimator::distanceAt(Stamp t) const {
+  if (s_hist_.empty() || t >= s_hist_.back().first) {  // inside the lag window: replay the buffer
+    const Output o = query(t);
+    return o.valid ? o.s : 0.0;
+  }
+  if (t <= s_hist_.front().first) return s_hist_.front().second;
+  const auto it = std::lower_bound(s_hist_.begin(), s_hist_.end(), t,
+                                   [](const std::pair<Stamp, double>& a, Stamp b) { return a.first < b; });
+  const auto& b = *it;
+  const auto& a = *(it - 1);
+  const double w = toSec(t - a.first) / std::max(1e-9, toSec(b.first - a.first));
+  return a.second + w * (b.second - a.second);
 }
 
 void Estimator::startFilter(FilterState& f, Stamp t) const {
@@ -316,10 +362,15 @@ void Estimator::advance(FilterState& f, Stamp t) const {
     f.a_target = at;
     f.a_drive += alpha * (at - f.a_drive);
     const double a_ext = trackAccel(f);
+    double da_ds = 0.0;  // sensitivity of the map acceleration to position (grade changes along s)
+    if (p_.grade_s_coupling > 0.5 && !f.standstill) {
+      constexpr double kDs = 5.0;
+      da_ds = (trackAccel(f, kDs) - trackAccel(f, -kDs)) / (2.0 * kDs);
+    }
     for (int j = 0; j < kNumModes; ++j)
       predictMode(f.x[j], f.P[j], f.a_drive, a_ext, h, f.standstill,
                   j == kModeManeuver ? p_.sigma_accel_maneuver : p_.sigma_accel,
-                  j == kModeManeuver ? p_.q_disturbance_maneuver : p_.q_disturbance);
+                  j == kModeManeuver ? p_.q_disturbance_maneuver : p_.q_disturbance, da_ds);
   }
   f.t = t;
 }
@@ -341,23 +392,41 @@ bool Estimator::routeAt(double s_rel, const TrackMap*& m, double& s) const {
   return true;
 }
 
-double Estimator::trackAccel(const FilterState& f) const {
-  double s = 0.0, v = 0.0;
+double Estimator::trackAccel(const FilterState& f, double ds) const {
+  double s = ds, v = 0.0;
   for (int j = 0; j < kNumModes; ++j) {
     s += f.mu[j] * f.x[j](kS, 0);
     v += f.mu[j] * f.x[j](kV, 0);
   }
-  const TrackMap* m = nullptr;
-  double sm = 0.0;
-  if (!routeAt(s, m, sm) || !m->hasProfile()) return 0.0;
+  // grade and curvature averaged over the car body (the mass is spread along ~16.5 m)
+  constexpr int kSamples = 5;
+  double grade = 0.0, curv = 0.0;
+  int n = 0;
+  for (int q = 0; q < kSamples; ++q) {
+    const double off = p_.body_rear_m + (p_.body_front_m - p_.body_rear_m) * q / (kSamples - 1);
+    const TrackMap* m = nullptr;
+    double sm = 0.0;
+    if (!routeAt(s + off, m, sm) || !m->hasProfile()) continue;
+    grade += m->gradeAt(sm);
+    curv += std::abs(m->curvatureAt(sm));
+    ++n;
+  }
+  if (n == 0) return 0.0;
+  grade /= n;
+  curv /= n;
   const double kg = f.notch < 0 ? p_.kg_brake : (f.notch > 0 ? p_.kg_traction : p_.kg_coast);
-  double a = -kg * p_.map_grade_gain * m->gradeAt(sm);
-  if (p_.curve_resist_coef > 0.0 && v > 0.1) a -= p_.curve_resist_coef * std::abs(m->curvatureAt(sm));
+  double a = -kg * p_.map_grade_gain * grade;
+  if (p_.curve_resist_coef > 0.0 && v > 0.1) a -= p_.curve_resist_coef * curv;
+  if (!dfield_.empty() && p_.dfield_gain != 0.0 && v > 0.5) {  // learned field: main cycle, moving
+    const TrackMap* m = nullptr;
+    double sm = 0.0;
+    if (routeAt(s, m, sm) && m == map_) a += p_.dfield_gain * dfield_.at(sm);
+  }
   return a;
 }
 
 void Estimator::predictMode(StateVec& x, StateCov& P, double a, double a_ext, double h,
-                            bool standstill, double sigma_accel, double q_d) const {
+                            bool standstill, double sigma_accel, double q_d, double da_ds) const {
   if (standstill) {  // zero-velocity: position and speed frozen, parameters diffuse
     x(kV, 0) = 0.0;
     P(kD, kD) += p_.q_disturbance * h;
@@ -385,6 +454,8 @@ void Estimator::predictMode(StateVec& x, StateCov& P, double a, double a_ext, do
   F(kS, kG) = 0.5 * a * h * h;
   F(kV, kD) = h;
   F(kV, kG) = a * h;
+  F(kV, kS) = da_ds * h;             // grade seen through the dynamics (0 unless enabled)
+  F(kS, kS) += 0.5 * da_ds * h * h;
   P = F * P * transpose(F);
   const double qa = sigma_accel * sigma_accel;
   P(kS, kS) += qa * h * h * h / 3.0;
@@ -457,13 +528,13 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
   {
     double s = 0.0;
     for (int j = 0; j < kNumModes; ++j) s += f.mu[j] * f.x[j](kS, 0);
-    const TrackMap* m = nullptr;
-    double sm = 0.0;
-    if (routeAt(s, m, sm) && m->hasProfile()) {
+    const double along[2] = {p_.front_bogie_along_m, p_.rear_bogie_along_m};
+    for (int i = 0; i < 2; ++i) {
+      const TrackMap* m = nullptr;
+      double sm = 0.0;
+      if (!routeAt(s + along[i], m, sm) || !m->hasProfile()) continue;
       const double k = m->curvatureAt(sm);
-      const double corr = 1.0 + std::min(p_.wheel_curv_abs * std::abs(k), p_.wheel_curv_sat) +
-                          p_.wheel_curv_signed * k;
-      for (int i = 0; i < 2; ++i) z[i] *= corr;
+      z[i] *= 1.0 + std::min(p_.wheel_curv_abs * std::abs(k), p_.wheel_curv_sat) + p_.wheel_curv_signed * k;
     }
   }
 
@@ -843,7 +914,13 @@ bool Estimator::placeUpdate(FilterState& f, Stamp t, const std::vector<Landmark>
   const double extra2 = p_.landmark_sigma_extra * p_.landmark_sigma_extra;
   const double var_s = std::max(Pm(kS, kS), 0.0);
   const double g = p_.landmark_gate_sigma;
-  double best_w = 0.0, sum_w = 0.0, best_delta = 0.0, best_r = 0.0;
+  // candidates inside the gate: probabilistic data association (PDA) over all of them plus the
+  // "not a known place" hypothesis, so two close places (e.g. 6 m apart) blend instead of
+  // snapping to one and collapsing the along-track variance onto a possibly wrong place
+  constexpr int kMaxCand = 8;
+  double c_delta[kMaxCand], c_r[kMaxCand], c_w[kMaxCand];
+  int nc = 0;
+  double sum_w = 0.0;
   for (const Landmark& l : places) {
     double delta = l.s - sm;
     if (map_->cyclic()) {
@@ -855,45 +932,60 @@ bool Estimator::placeUpdate(FilterState& f, Stamp t, const std::vector<Landmark>
     const double var = var_s + r;
     if (delta * delta > g * g * var) continue;
     const double w = std::max(l.p_stop, 0.02) * std::exp(-0.5 * delta * delta / var) / std::sqrt(2.0 * kPi * var);
-    sum_w += w;
-    if (w > best_w) {
-      best_w = w;
-      best_delta = delta;
-      best_r = r;
+    if (nc < kMaxCand) {
+      c_delta[nc] = delta;
+      c_r[nc] = r;
+      c_w[nc] = w;
+      ++nc;
+      sum_w += w;
     }
   }
   const double width = 2.0 * g * std::sqrt(var_s + extra2 + 0.25);
   const double w_random = p_random / std::max(width, 1.0);
+  const double p_known = nc > 0 ? sum_w / (sum_w + w_random) : 0.0;
   static const bool dbg = std::getenv("TBO_DEBUG_LM") != nullptr;
   if (dbg)
-    std::fprintf(stderr, "LM t=%.1f s_map=%.1f sd=%.2f best_delta=%.2f post=%.2f k=%.4f\n", toSec(t), sm,
-                 std::sqrt(var_s), best_delta, best_w > 0 ? best_w / (sum_w + w_random) : 0.0, xm(kK, 0));
-  if (best_w <= 0.0) return false;
-  if (best_w / (sum_w + w_random) < p_.landmark_min_prob) return false;
-  const double target = xm(kS, 0) + best_delta;
+    std::fprintf(stderr, "LM t=%.1f s_map=%.1f sd=%.2f n=%d d0=%.2f p_known=%.2f k=%.4f\n", toSec(t), sm,
+                 std::sqrt(var_s), nc, nc > 0 ? c_delta[0] : 0.0, p_known, xm(kK, 0));
+  if (nc == 0 || p_known < p_.landmark_min_prob) return false;
+  // association probabilities (beta_0: a stop away from any known place)
+  double beta[kMaxCand], r_bar = 0.0;
+  for (int i = 0; i < nc; ++i) {
+    beta[i] = c_w[i] / (sum_w + w_random);
+    r_bar += beta[i] * c_r[i];
+  }
+  const double beta0 = w_random / (sum_w + w_random);
+  r_bar /= (1.0 - beta0);
   for (int j = 0; j < kNumModes; ++j) {
     StateVec& x = f.x[j];
     StateCov& P = f.P[j];
-    const double S = P(kS, kS) + best_r;
+    const double S = P(kS, kS) + r_bar;
     if (!(S > 0.0)) continue;
     StateVec K;
     // a landmark fixes position and (through the s-k correlation) the wheel scale only
     K(kS, 0) = P(kS, kS) / S;
     K(kK, 0) = P(kK, kS) / S;
-    const double innov = target - x(kS, 0);
-    const double dk = K(kK, 0) * innov;
+    double nu = 0.0, nu2 = 0.0;  // combined innovation and its spread over the hypotheses
+    for (int i = 0; i < nc; ++i) {
+      const double ni = xm(kS, 0) + c_delta[i] - x(kS, 0);
+      nu += beta[i] * ni;
+      nu2 += beta[i] * ni * ni;
+    }
+    const double dk = K(kK, 0) * nu;
     if (std::abs(dk) > p_.landmark_max_dk && std::abs(K(kK, 0)) > 0.0) {
       // inflate the scale-position coupling so one fix cannot rewrite the wheel calibration
       const double shrink = p_.landmark_max_dk / std::abs(dk);
       K(kK, 0) *= shrink;
     }
-    x += K * innov;
+    x += K * nu;
     Mat<1, kNx> H;
     H(0, kS) = 1.0;
     const StateCov IKH = StateCov::identity() - K * H;
     Mat<1, 1> R;
-    R(0, 0) = best_r;
-    P = IKH * P * transpose(IKH) + K * R * transpose(K);
+    R(0, 0) = r_bar;
+    const StateCov Pc = IKH * P * transpose(IKH) + K * R * transpose(K);  // correct association
+    // PDA: keep the prior with beta0, add the spread of the candidate innovations
+    P = beta0 * P + (1.0 - beta0) * Pc + (nu2 - nu * nu) * (K * transpose(K));
     symmetrize(P);
     x(kK, 0) = std::clamp(x(kK, 0), -0.05, 0.05);
   }
@@ -912,11 +1004,19 @@ void Estimator::onGnssFix(GnssSource src, Stamp stamp, double lat, double lon, d
   ++diag_.gnss_msgs;
   if (stamp <= 0 || !std::isfinite(lat) || !std::isfinite(lon) || !std::isfinite(alt)) return;
   if (std::abs(lat) > 90.0 || std::abs(lon) > 180.0 || status < 0) return;
+  // a fix stamped far from the input time base is a glitch (GNSS headers jump by +-1 s at most)
+  if (started_ && std::llabs(stamp - latest_) > fromSec(p_.max_future_s)) return;
   if (!init_.have_first) {
     init_.have_first = true;
     init_.t_first = stamp;
   }
-  if (stamp > init_.t_first + fromSec(p_.gnss_init_window_s)) {
+  // The window counts from the first fix, not from the first message: the start-up burst
+  // delivers wheel/controller history up to ~6 s old, and GNSS may start after the wheels.
+  if (!init_.have_gnss) {
+    init_.have_gnss = true;
+    init_.t_first_gnss = stamp;
+  }
+  if (stamp > init_.t_first_gnss + fromSec(p_.gnss_init_window_s) || gnssWindowClosed()) {
     ++diag_.gnss_ignored_after_window;
     return;
   }
@@ -992,7 +1092,10 @@ void Estimator::updateAnchor() {
     al.push_back(fx.alt);
   }
   const geo::Geodetic med{medianOf(la), medianOf(lo), medianOf(al)};
-  Stamp t_med = init_.fixes[init_.fixes.size() / 2].t;
+  std::vector<Stamp> ts;
+  for (const Fix& fx : init_.fixes) ts.push_back(fx.t);
+  std::nth_element(ts.begin(), ts.begin() + static_cast<long>(ts.size() / 2), ts.end());
+  const Stamp t_med = ts[ts.size() / 2];
 
   // Forward yaw from the antenna baseline (master -> rover points forward), in the
   // map frame when a map exists, else in the output ENU frame.
@@ -1026,8 +1129,8 @@ void Estimator::updateAnchor() {
     init_.have_yaw = true;
   }
 
-  const Output o = query(t_med);
-  const double s_rel = o.valid ? o.s : 0.0;
+  // distance travelled at the median fix time (the tram may already move inside the window)
+  const double s_rel = distanceAt(t_med);
   if (map_) {
     const geo::Enu m = map_lc_.forward(med);
     // candidates on the main cycle and on branches merging into it (e.g. a terminal fan track)
@@ -1131,6 +1234,7 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
   o.scale = xm(kK, 0);
   o.gain = xm(kG, 0);
   o.a_model = f.a_target;
+  o.a_ext = f.started ? trackAccel(f) : 0.0;
   o.accel = f.standstill ? 0.0 : xm(kG, 0) * f.a_drive + xm(kD, 0);
   for (int j = 0; j < kNumModes; ++j) o.mode_prob[j] = f.mu[j];
   o.wheel_trust = 1.0 - f.mu[kModeBothBad];
@@ -1171,6 +1275,11 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
   const TrackMap* rm = nullptr;
   double sm = 0.0;
   const double s_pub = o.s + o.v * p_.position_lead_s + p_.base_link_along_m;
+  {
+    const TrackMap* ra = nullptr;
+    double sa = 0.0;
+    if (routeAt(o.s, ra, sa) && ra == map_) o.s_map = sa;
+  }
   if (init_.anchored && routeAt(s_pub, rm, sm)) {
     const TrackMap* rm2 = nullptr;
     double sm2 = 0.0;

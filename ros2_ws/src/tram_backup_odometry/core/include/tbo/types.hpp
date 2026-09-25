@@ -56,7 +56,9 @@ struct Output {
   double v{0.0}, v_var{0.0};          // longitudinal speed, m/s
   double accel{0.0};                  // estimated longitudinal acceleration, m/s^2
   double a_model{0.0};                // drive acceleration predicted from the notch, m/s^2
+  double a_ext{0.0};                  // map terms: grade + curve resistance + learned field, m/s^2
   double s{0.0}, s_var{0.0};          // distance along the track map (or odometer), m
+  double s_map{-1.0};                 // antenna-1 arc length on the main map cycle (-1: off main / unknown)
   double x{0.0}, y{0.0}, z{0.0};      // position in the output frame, m
   double yaw{0.0};                    // heading in the output frame, rad (ENU: 0 = east, CCW)
   double cov_xx{0.0}, cov_xy{0.0}, cov_yy{0.0}, cov_zz{0.0};

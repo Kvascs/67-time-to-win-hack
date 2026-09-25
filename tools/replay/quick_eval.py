@@ -18,10 +18,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from cpp_bridge import NPZ, PKG, ROOT, export_events, run_replay  # noqa: E402
 
 TMP = ROOT / 'build_core' / 'replay_tmp'
-MAP = PKG / 'maps' / 'track_map.csv'
-LANDMARKS = PKG / 'maps' / 'landmarks.csv'
-CUTOFFS = PKG / 'maps' / 'cutoffs.csv'
-BRANCHES = ','.join(str(b) for b in sorted((PKG / 'maps').glob('branch_*.csv')))
+# Honest validation: maps, stops and cut-off places built from TRAIN bags only (the package ships
+# the all-data map for the jury, which contains the val traces).
+VAL_MAPS = ROOT / 'analysis' / 'validation_maps'
+MAP = VAL_MAPS / 'track_map.csv'
+LANDMARKS = VAL_MAPS / 'landmarks.csv'
+CUTOFFS = VAL_MAPS / 'cutoffs.csv'
+BRANCHES = ','.join(str(b) for b in sorted(VAL_MAPS.glob('branch_*.csv')))
 
 A, F = 6378137.0, 1 / 298.257223563
 E2 = F * (2 - F)

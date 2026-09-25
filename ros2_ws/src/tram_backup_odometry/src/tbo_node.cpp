@@ -82,6 +82,13 @@ class TboNode : public rclcpp::Node {
       if (tbo::loadLandmarks(resolve(cfg_.cutoff_file), cut, &err)) est_->setCutoffs(std::move(cut));
       else RCLCPP_WARN(get_logger(), "cut-off landmarks not loaded (%s)", err.c_str());
     }
+    if (!cfg_.dfield_file.empty()) {
+      tbo::TrackField fld;
+      std::string err;
+      if (fld.loadCsv(resolve(cfg_.dfield_file), map_.cyclic() ? map_.length() : 0.0, &err))
+        est_->setDisturbanceField(std::move(fld));
+      else RCLCPP_WARN(get_logger(), "disturbance field not loaded (%s)", err.c_str());
+    }
     sched_ = std::make_unique<tbo::OutputScheduler>(est_->config().p);
 
     // Best-effort subscribers are compatible with both reliable and best-effort publishers.
@@ -124,9 +131,10 @@ class TboNode : public rclcpp::Node {
     cfg_.map_file = declare_parameter<std::string>("map_file", "maps/track_map.csv");
     cfg_.traction_file = declare_parameter<std::string>("traction_file", "config/traction_lut.csv");
     cfg_.branch_files = declare_parameter<std::string>(
-        "branch_files", "maps/branch_fan_F2.csv,maps/branch_wb_detour.csv");
+        "branch_files", "maps/branch_fan_F2.csv,maps/branch_fan_F3.csv,maps/branch_wb_detour.csv");
     cfg_.landmark_file = declare_parameter<std::string>("landmark_file", "maps/landmarks.csv");
     cfg_.cutoff_file = declare_parameter<std::string>("cutoff_file", "maps/cutoffs.csv");
+    cfg_.dfield_file = declare_parameter<std::string>("dfield_file", "");
     cfg_.output_frame = declare_parameter<std::string>("output_frame", "mgrs");
     cfg_.init_source = declare_parameter<std::string>("init_source", "master");
     cfg_.frame_id = declare_parameter<std::string>("frame_id", "map");
@@ -180,20 +188,11 @@ class TboNode : public rclcpp::Node {
     gnss_subscribed_ = true;
   }
 
-  void noteFirst(tbo::Stamp st) {
-    if (!have_first_) {
-      have_first_ = true;
-      first_stamp_ = st;
-    }
-  }
-
   void onWheel(tbo::Sensor s, const VelocitySensor& m) {
     const auto t0 = SteadyClock::now();
     try {
       const tbo::Stamp st = toStamp(m.header.stamp);
-      noteFirst(st);
-      est_->onWheel(s, st, m.velocity);
-      afterInput(false, st, t0);
+      if (est_->onWheel(s, st, m.velocity)) afterInput(false, st, t0);
     } catch (const std::exception& e) {
       ++callback_errors_;
       RCLCPP_ERROR_THROTTLE(get_logger(), *get_clock(), 5000, "wheel callback error: %s", e.what());
@@ -204,9 +203,7 @@ class TboNode : public rclcpp::Node {
     const auto t0 = SteadyClock::now();
     try {
       const tbo::Stamp st = toStamp(m.header.stamp);
-      noteFirst(st);
-      est_->onCmd(st, static_cast<int>(m.position));
-      afterInput(true, st, t0);
+      if (est_->onCmd(st, static_cast<int>(m.position))) afterInput(true, st, t0);
     } catch (const std::exception& e) {
       ++callback_errors_;
       RCLCPP_ERROR_THROTTLE(get_logger(), *get_clock(), 5000, "cmd callback error: %s", e.what());
@@ -216,7 +213,6 @@ class TboNode : public rclcpp::Node {
   void onFix(tbo::GnssSource src, const NavSatFix& m) {
     try {
       const tbo::Stamp st = toStamp(m.header.stamp);
-      noteFirst(st);
       est_->onGnssFix(src, st, m.latitude, m.longitude, m.altitude, static_cast<int>(m.status.status));
     } catch (const std::exception&) {
       ++callback_errors_;
@@ -226,19 +222,16 @@ class TboNode : public rclcpp::Node {
   void afterInput(bool is_cmd, tbo::Stamp st, SteadyClock::time_point t0) {
     if (!est_->started()) return;
     const auto resets = est_->diagnostics().resets;
-    if (resets != last_resets_) {  // bag restarted: new run, new init window
+    if (resets != last_resets_) {  // bag restarted or another bag: new run, new init window
       last_resets_ = resets;
       sched_->reset();
-      have_first_ = false;
-      noteFirst(st);
       if (!gnss_subscribed_) subscribeGnss();
     }
     tbo::Stamp stamps[64];
     const int n = sched_->onInput(is_cmd, st, est_->latestStamp(), stamps, 64);
     for (int k = 0; k < n; ++k) publish(est_->query(stamps[k]), t0);
     // GNSS is used only for initialisation: drop the subscriptions once the window closed.
-    if (gnss_subscribed_ && have_first_ &&
-        est_->latestStamp() > first_stamp_ + tbo::fromSec(cfg_.p.gnss_init_window_s + 1.0)) {
+    if (gnss_subscribed_ && est_->gnssWindowClosed()) {
       sub_fix_master_.reset();
       sub_fix_rover_.reset();
       gnss_subscribed_ = false;
@@ -390,8 +383,6 @@ class TboNode : public rclcpp::Node {
   rclcpp::TimerBase::SharedPtr diag_timer_;
 
   bool gnss_subscribed_ = false;
-  bool have_first_ = false;
-  tbo::Stamp first_stamp_ = 0;
   std::uint64_t last_resets_ = 0;
   std::uint64_t callback_errors_ = 0;
   std::uint64_t published_ = 0, published_last_ = 0;

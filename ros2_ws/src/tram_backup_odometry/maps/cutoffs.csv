@@ -1,6 +1,6 @@
-# traction cut-off landmarks (notch >= 4 -> 0 in one step), train bags, main cycle s
+# traction cut-off landmarks (notch >= 4 -> 0 in one step), all bags, main cycle s
 s,sigma,n
-348.922,2.310,18
-3707.038,0.500,24
-5947.506,0.500,11
-8723.389,0.500,3
+349.145,2.501,21
+3707.046,0.500,27
+5947.618,0.500,17
+8723.396,0.500,3

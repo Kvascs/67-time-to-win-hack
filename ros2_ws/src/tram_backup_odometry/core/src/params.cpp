@@ -13,6 +13,10 @@ static const ParamInfo kRegistry[] = {
     TBO_P(wheel_curv_abs, "m", "wheel under-reading in curves, |curvature| coefficient"),
     TBO_P(wheel_curv_signed, "m", "wheel under-reading in curves, signed curvature coefficient"),
     TBO_P(wheel_curv_sat, "-", "saturation of the curve correction"),
+    TBO_P(front_bogie_along_m, "m", "front bogie ahead of antenna 1"),
+    TBO_P(rear_bogie_along_m, "m", "rear bogie ahead of antenna 1"),
+    TBO_P(body_rear_m, "m", "car body rear end relative to antenna 1"),
+    TBO_P(body_front_m, "m", "car body front end relative to antenna 1"),
     TBO_P(wheel_max_kmh, "km/h", "readings above are rejected as invalid"),
     TBO_P(wheel_delay_s, "s", "bogie speed latency compensation"),
     TBO_P(cmd_delay_s, "s", "notch -> drive dead time"),
@@ -20,8 +24,10 @@ static const ParamInfo kRegistry[] = {
     TBO_P(max_step_s, "s", "max integration step"),
     TBO_P(wheel_timeout_s, "s", "bogie dropout timeout"),
     TBO_P(cmd_timeout_s, "s", "controller dropout timeout"),
-    TBO_P(max_future_s, "s", "reject stamps further ahead than this"),
-    TBO_P(max_backjump_s, "s", "reset time base if stamps jump back further"),
+    TBO_P(max_future_s, "s", "stamps further ahead need a confirming message"),
+    TBO_P(max_backjump_s, "s", "stamps further back need a confirming message (then new run)"),
+    TBO_P(jump_confirm_s, "s", "two messages this close confirm a time-base jump"),
+    TBO_P(new_run_gap_s, "s", "confirmed forward jump that starts a new run"),
     TBO_P(sigma_accel, "m/s^2", "model acceleration white noise"),
     TBO_P(q_disturbance, "(m/s^2)^2/s", "disturbance random walk"),
     TBO_P(q_scale, "1/s", "wheel scale random walk"),
@@ -75,7 +81,9 @@ static const ParamInfo kRegistry[] = {
     TBO_P(kg_coast, "m/s^2", "grade coefficient when coasting"),
     TBO_P(kg_traction, "m/s^2", "grade coefficient under traction"),
     TBO_P(curve_resist_coef, "m^2/s^2", "curve resistance coefficient (0 = off)"),
-    TBO_P(gnss_init_window_s, "s", "GNSS accepted only this long after start"),
+    TBO_P(dfield_gain, "-", "weight of the learned disturbance field d(s)"),
+    TBO_P(grade_s_coupling, "bool", "EKF Jacobian includes d(grade accel)/ds"),
+    TBO_P(gnss_init_window_s, "s", "GNSS accepted only this long after the first fix"),
     TBO_P(gnss_wait_s, "s", "position withheld this long waiting for the first fix"),
     TBO_P(gnss_min_fixes, "-", "fixes needed for initialisation"),
     TBO_P(map_gate_m, "m", "init fix to map distance gate"),
@@ -155,6 +163,7 @@ bool loadFlatYaml(const std::string& path, Config& cfg, std::string* err, std::s
     if (key == "branch_files") { cfg.branch_files = val; continue; }
     if (key == "landmark_file") { cfg.landmark_file = val; continue; }
     if (key == "cutoff_file") { cfg.cutoff_file = val; continue; }
+    if (key == "dfield_file") { cfg.dfield_file = val; continue; }
     if (key == "output_frame") { cfg.output_frame = val; continue; }
     if (key == "init_source") { cfg.init_source = val; continue; }
     if (key == "frame_id") { cfg.frame_id = val; continue; }
