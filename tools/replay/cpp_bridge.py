@@ -59,7 +59,8 @@ def export_events(bag: str, out_csv: Path, gnss_seconds: float | None = 5.0) -> 
 
 
 def run_replay(events_csv: Path, out_csv: Path, params: Path | None = None, map_csv: Path | None = None,
-               traction_csv: Path | None = None, sets: dict | None = None) -> pd.DataFrame:
+               traction_csv: Path | None = None, sets: dict | None = None,
+               branches: str | None = None) -> pd.DataFrame:
     cmd = [str(REPLAY_EXE), '--in', str(events_csv), '--out', str(out_csv)]
     if params:
         cmd += ['--params', str(params)]
@@ -67,6 +68,8 @@ def run_replay(events_csv: Path, out_csv: Path, params: Path | None = None, map_
         cmd += ['--map', str(map_csv)]
     if traction_csv:
         cmd += ['--traction', str(traction_csv)]
+    if branches:
+        cmd += ['--branches', branches]
     for k, v in (sets or {}).items():
         cmd += ['--set', f'{k}={v}']
     res = subprocess.run(cmd, capture_output=True, text=True)

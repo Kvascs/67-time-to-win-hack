@@ -32,17 +32,25 @@ enum StateIndex : int { kS = 0, kV = 1, kD = 2, kK = 3, kG = 4 };
 using StateVec = Vec<kNx>;
 using StateCov = Mat<kNx, kNx>;
 
+struct Landmark {
+  double s = 0.0;       // main-cycle arc length of the standstill position, m
+  double sigma = 0.3;   // spread of observed stops, m
+  double p_stop = 0.5;  // probability that a pass stops here
+};
+bool loadLandmarks(const std::string& path, std::vector<Landmark>& out, std::string* err);
+
 struct Diagnostics {
   std::uint64_t wheel_msgs = 0, cmd_msgs = 0, gnss_msgs = 0;
   std::uint64_t invalid_wheel = 0, invalid_cmd = 0, rejected_stamps = 0;
   std::uint64_t late_dropped = 0, merged_pairs = 0, recoveries = 0, resets = 0;
-  std::uint64_t implausible_wheel = 0, gnss_ignored_after_window = 0;
+  std::uint64_t implausible_wheel = 0, gnss_ignored_after_window = 0, landmark_fixes = 0;
   int max_buffer = 0;
 };
 
 class Estimator {
  public:
-  Estimator(const Config& cfg, const TractionModel& model, const TrackMap* map);
+  Estimator(const Config& cfg, const TractionModel& model, const TrackMap* map,
+            std::vector<const TrackMap*> branches = {});
 
   // Inputs. `stamp` is the message header stamp (bag time). Never throws; bad data is
   // counted, flagged and ignored.
@@ -61,6 +69,7 @@ class Estimator {
   const Diagnostics& diagnostics() const { return diag_; }
   const Config& config() const { return cfg_; }
   void reset();
+  void setLandmarks(std::vector<Landmark> lms) { landmarks_ = std::move(lms); }
 
   // ---- internals exposed for tests ----
   struct WheelTrack {
@@ -116,6 +125,8 @@ class Estimator {
     Stamp latch_t = -1;
     int release_count = 0;
     int latch_sign = 0;      // +1 slip (wheels fast), -1 slide (wheels slow)
+    bool lm_done = false;    // landmark fix already attempted during the current stop
+    Stamp lm_t = -1;
     double cmd_cusum = 0.0;  // evidence that the controller signal is wrong
     Stamp cmd_fault_t = -1;  // last time that evidence crossed the threshold
     Stamp t_cmd_cusum = -1;
@@ -135,10 +146,12 @@ class Estimator {
   void commitOlderThan(Stamp t);
   void applyEvent(FilterState& f, const Event& e) const;
   void advance(FilterState& f, Stamp t) const;
-  void predictMode(StateVec& x, StateCov& P, double a, double h, bool standstill,
+  void predictMode(StateVec& x, StateCov& P, double a, double a_ext, double h, bool standstill,
                    double sigma_accel, double q_d) const;
+  double trackAccel(const FilterState& f) const;  // grade + curve terms from the map
   void wheelUpdate(FilterState& f, const Event& e) const;
   bool jointMonitor(FilterState& f, const Event& e, const bool* avail, const double* z) const;
+  void landmarkUpdate(FilterState& f, Stamp t) const;
   void startFilter(FilterState& f, Stamp t) const;
   bool acceptStamp(Stamp stamp);
   Output makeOutput(const FilterState& f, Stamp t) const;
@@ -149,6 +162,10 @@ class Estimator {
   const Params& p_;
   const TractionModel& model_;
   const TrackMap* map_;
+  std::vector<const TrackMap*> branches_;  // alternative start tracks merging into main
+  std::vector<Landmark> landmarks_;
+  // Maps a relative distance to (edge, arc length) along the anchored route.
+  bool routeAt(double s_rel, const TrackMap*& m, double& s) const;
 
   FilterState committed_;
   std::vector<Event> buf_;  // sorted by (t, seq); capacity reserved up front
@@ -172,10 +189,13 @@ class Estimator {
     bool anchored = false;
     bool map_matched = false;
     double s_offset = 0.0;       // s_map = wrap(s_offset + s_rel)
+    const TrackMap* prefix = nullptr;  // start branch (if the run starts off the main cycle)
+    double prefix_s0 = 0.0, prefix_len = 0.0;
     double dr_x = 0.0, dr_y = 0.0, dr_z = 0.0;  // dead-reckoning start (output frame)
     double yaw0 = 0.0;           // forward yaw (map ENU)
     bool have_yaw = false;
     double match_dist = 0.0;
+    bool var_applied = false;    // anchor uncertainty injected into the filter once
   } init_;
   geo::LocalCartesian map_lc_;   // map origin
   geo::LocalCartesian out_lc_;   // output origin (enu mode)

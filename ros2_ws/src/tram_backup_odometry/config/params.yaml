@@ -3,11 +3,15 @@ tram_backup_odometry:
   ros__parameters:
     map_file: "maps/track_map.csv"
     traction_file: "config/traction_lut.csv"
+    branch_files: "maps/branch_fan_F2.csv,maps/branch_wb_detour.csv"
+    landmark_file: "maps/landmarks.csv"
     output_frame: "enu"          # enu | utm | map
     init_source: "master"        # GNSS antenna used for the initial fix
     frame_id: "map"
     child_frame_id: "base_link"
-    wheel_kmh_to_ms: 0.2780481023  # nominal bogie speed calibration [m/s per km/h]
+    wheel_kmh_to_ms: 0.2778805556  # nominal bogie speed calibration [m/s per km/h]
+    wheel_curv_abs: 0.415  # wheel under-reading in curves, |curvature| coefficient [m]
+    wheel_curv_signed: -0.054  # wheel under-reading in curves, signed curvature coefficient [m]
     wheel_max_kmh: 110.0  # readings above are rejected as invalid [km/h]
     wheel_delay_s: 0.0  # bogie speed latency compensation [s]
     cmd_delay_s: 0.0  # notch -> drive dead time [s]
@@ -23,7 +27,7 @@ tram_backup_odometry:
     q_gain: 2e-05  # traction gain random walk [1/s]
     init_sigma_v: 0.3  # initial speed sigma [m/s]
     init_sigma_d: 0.1  # initial disturbance sigma [m/s^2]
-    init_sigma_scale: 0.004  # initial wheel scale sigma [-]
+    init_sigma_scale: 0.006  # initial wheel scale sigma [-]
     init_sigma_gain: 0.08  # initial traction gain sigma [-]
     gain_min: 0.6  # traction gain lower clamp [-]
     gain_max: 1.6  # traction gain upper clamp [-]
@@ -63,6 +67,8 @@ tram_backup_odometry:
     recover_agree: 0.35  # front/rear agreement for re-anchoring [m/s]
     recover_min_bad_s: 5.0  # min anomaly duration before re-anchoring [s]
     drive_tau_s: 0.3  # drive acceleration lag [s]
+    map_grade_gain: 1.0  # gain of the map grade term in the dynamics [-]
+    curve_resist_coef: 0.0  # curve resistance coefficient (0 = off) [m^2/s^2]
     gnss_init_window_s: 5.0  # GNSS accepted only this long after start [s]
     gnss_min_fixes: 3.0  # fixes needed for initialisation [-]
     map_gate_m: 25.0  # init fix to map distance gate [m]
@@ -70,7 +76,15 @@ tram_backup_odometry:
     map_sigma_cross: 0.3  # map cross-track sigma [m]
     map_sigma_z: 0.5  # map altitude sigma [m]
     init_sigma_s: 1.0  # along-track sigma after init [m]
+    init_sigma_s_per_m: 0.7  # extra along-track sigma per metre of init fix-to-map distance [-]
     use_baseline_heading: 1.0  # use master-rover baseline to pick direction [bool]
+    landmark_enable: 1.0  # use stop landmarks as along-track fixes [bool]
+    landmark_dwell_s: 1.5  # standstill before a landmark fix [s]
+    landmark_gate_sigma: 3.0  # landmark association gate [sigma]
+    landmark_min_prob: 0.7  # landmark association posterior threshold [-]
+    landmark_p_random: 0.15  # share of stops not at a landmark [-]
+    landmark_sigma_extra: 0.3  # extra landmark position sigma [m]
+    landmark_max_dk: 0.004  # max wheel-scale change per landmark fix [-]
     publish_grid_s: 0.05  # fixed stamp grid period (0 = off) [s]
     publish_on_cmd: 1.0  # publish at controller stamps [bool]
     publish_on_wheel: 1.0  # publish at bogie stamps [bool]

@@ -47,6 +47,7 @@ enum HealthFlag : std::uint32_t {
   kFlagLateData = 1u << 16,       // a message older than the fixed-lag window was dropped
   kFlagUnmodeledAccel = 1u << 17, // wheels agree on an acceleration the notch does not explain
   kFlagCmdInconsistent = 1u << 18,// controller notch contradicts consistent wheel motion
+  kFlagLandmark = 1u << 19,       // along-track position corrected at a known stop recently
 };
 
 struct Output {

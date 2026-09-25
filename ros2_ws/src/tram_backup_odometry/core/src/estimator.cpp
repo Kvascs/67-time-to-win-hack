@@ -2,7 +2,9 @@
 
 #include <algorithm>
 #include <cmath>
+#include <fstream>
 #include <limits>
+#include <sstream>
 
 namespace tbo {
 
@@ -81,8 +83,31 @@ void pinVelocity(StateVec& x, StateCov& P, double v, double var) {
 
 // --------------------------------------------------------------------------------------
 
-Estimator::Estimator(const Config& cfg, const TractionModel& model, const TrackMap* map)
+bool loadLandmarks(const std::string& path, std::vector<Landmark>& out, std::string* err) {
+  std::ifstream in(path);
+  if (!in) {
+    if (err) *err = "cannot open landmarks " + path;
+    return false;
+  }
+  out.clear();
+  std::string line;
+  while (std::getline(in, line)) {
+    if (line.empty() || line[0] == '#' || line[0] == 's') continue;
+    for (char& c : line)
+      if (c == ',') c = ' ';
+    std::istringstream ss(line);
+    Landmark l;
+    if (ss >> l.s >> l.sigma >> l.p_stop) out.push_back(l);
+  }
+  std::sort(out.begin(), out.end(), [](const Landmark& a, const Landmark& b) { return a.s < b.s; });
+  return true;
+}
+
+Estimator::Estimator(const Config& cfg, const TractionModel& model, const TrackMap* map,
+                     std::vector<const TrackMap*> branches)
     : cfg_(cfg), p_(cfg_.p), model_(model), map_(map && !map->empty() ? map : nullptr) {
+  for (const TrackMap* b : branches)
+    if (map_ && b && !b->empty() && b->hasJoin()) branches_.push_back(b);
   buf_.reserve(256);
   if (map_) map_lc_.reset(map_->origin());
   reset();
@@ -277,16 +302,48 @@ void Estimator::advance(FilterState& f, Stamp t) const {
     if (f.standstill && notch <= 0) at = 0.0;
     f.a_target = at;
     f.a_drive += alpha * (at - f.a_drive);
+    const double a_ext = trackAccel(f);
     for (int j = 0; j < kNumModes; ++j)
-      predictMode(f.x[j], f.P[j], f.a_drive, h, f.standstill,
+      predictMode(f.x[j], f.P[j], f.a_drive, a_ext, h, f.standstill,
                   j == kModeManeuver ? p_.sigma_accel_maneuver : p_.sigma_accel,
                   j == kModeManeuver ? p_.q_disturbance_maneuver : p_.q_disturbance);
   }
   f.t = t;
 }
 
-void Estimator::predictMode(StateVec& x, StateCov& P, double a, double h, bool standstill,
-                            double sigma_accel, double q_d) const {
+bool Estimator::routeAt(double s_rel, const TrackMap*& m, double& s) const {
+  if (!map_ || !init_.map_matched) return false;
+  if (init_.prefix) {
+    if (s_rel < init_.prefix_len) {
+      m = init_.prefix;
+      s = init_.prefix_s0 + s_rel;
+      return true;
+    }
+    m = map_;
+    s = map_->wrap(init_.prefix->joinS() + (s_rel - init_.prefix_len));
+    return true;
+  }
+  m = map_;
+  s = map_->wrap(init_.s_offset + s_rel);
+  return true;
+}
+
+double Estimator::trackAccel(const FilterState& f) const {
+  double s = 0.0, v = 0.0;
+  for (int j = 0; j < kNumModes; ++j) {
+    s += f.mu[j] * f.x[j](kS, 0);
+    v += f.mu[j] * f.x[j](kV, 0);
+  }
+  const TrackMap* m = nullptr;
+  double sm = 0.0;
+  if (!routeAt(s, m, sm) || !m->hasProfile()) return 0.0;
+  double a = -9.81 * p_.map_grade_gain * m->gradeAt(sm);
+  if (p_.curve_resist_coef > 0.0 && v > 0.1) a -= p_.curve_resist_coef * std::abs(m->curvatureAt(sm));
+  return a;
+}
+
+void Estimator::predictMode(StateVec& x, StateCov& P, double a, double a_ext, double h,
+                            bool standstill, double sigma_accel, double q_d) const {
   if (standstill) {  // zero-velocity: position and speed frozen, parameters diffuse
     x(kV, 0) = 0.0;
     P(kD, kD) += p_.q_disturbance * h;
@@ -295,7 +352,7 @@ void Estimator::predictMode(StateVec& x, StateCov& P, double a, double h, bool s
     return;
   }
   const double v0 = x(kV, 0), d = x(kD, 0), g = x(kG, 0);
-  const double acc = g * a + d;
+  const double acc = g * a + d + a_ext;
   double v1 = v0 + acc * h;
   double ds;
   if (v1 < 0.0) {  // comes to rest inside the step
@@ -369,6 +426,19 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
   }
   if (!avail[0] && !avail[1]) return;
 
+  // ---- wheels under-read in tight curves (inner/outer rail geometry): correct via map ----
+  {
+    double s = 0.0;
+    for (int j = 0; j < kNumModes; ++j) s += f.mu[j] * f.x[j](kS, 0);
+    const TrackMap* m = nullptr;
+    double sm = 0.0;
+    if (routeAt(s, m, sm) && m->hasProfile()) {
+      const double k = m->curvatureAt(sm);
+      const double corr = 1.0 + p_.wheel_curv_abs * std::abs(k) + p_.wheel_curv_signed * k;
+      for (int i = 0; i < 2; ++i) z[i] *= corr;
+    }
+  }
+
   // ---- zero-velocity (standstill) detection ----
   const double thr = p_.standstill_kmh * p_.wheel_kmh_to_ms;
   bool all_low = true;
@@ -385,11 +455,16 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
     f.still_since = -1;
     if (f.standstill) {  // leaving standstill: speed uncertainty must open up again
       f.standstill = false;
+      f.lm_done = false;
       for (int j = 0; j < kNumModes; ++j)
         pinVelocity(f.x[j], f.P[j], 0.0, p_.init_sigma_v * p_.init_sigma_v);
     }
   }
   if (f.standstill) {
+    if (!f.lm_done && toSec(e.t - f.still_since) >= p_.landmark_dwell_s) {
+      f.lm_done = true;
+      landmarkUpdate(f, e.t);
+    }
     const double relax = 1.0 - std::exp(-toSec(e.t - f.t_mix) * p_.rate_recover);
     double rest = 0.0;
     for (int j = 1; j < kNumModes; ++j) {
@@ -715,6 +790,73 @@ bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, 
   return false;
 }
 
+void Estimator::landmarkUpdate(FilterState& f, Stamp t) const {
+  if (landmarks_.empty() || p_.landmark_enable < 0.5 || !map_) return;
+  StateVec xm;
+  for (int j = 0; j < kNumModes; ++j) xm += f.mu[j] * f.x[j];
+  StateCov Pm;
+  for (int j = 0; j < kNumModes; ++j) {
+    const StateVec dx = f.x[j] - xm;
+    Pm += f.mu[j] * (f.P[j] + dx * transpose(dx));
+  }
+  const TrackMap* m = nullptr;
+  double sm = 0.0;
+  if (!routeAt(xm(kS, 0), m, sm) || m != map_) return;  // landmarks exist on the main cycle only
+  const double L = map_->length();
+  const double extra2 = p_.landmark_sigma_extra * p_.landmark_sigma_extra;
+  const double var_s = std::max(Pm(kS, kS), 0.0);
+  const double g = p_.landmark_gate_sigma;
+  double best_w = 0.0, sum_w = 0.0, best_delta = 0.0, best_r = 0.0;
+  for (const Landmark& l : landmarks_) {
+    double delta = l.s - sm;
+    if (map_->cyclic()) {
+      delta = std::fmod(delta, L);
+      if (delta > 0.5 * L) delta -= L;
+      if (delta < -0.5 * L) delta += L;
+    }
+    const double r = l.sigma * l.sigma + extra2;
+    const double var = var_s + r;
+    if (delta * delta > g * g * var) continue;
+    const double w = std::max(l.p_stop, 0.02) * std::exp(-0.5 * delta * delta / var) / std::sqrt(2.0 * kPi * var);
+    sum_w += w;
+    if (w > best_w) {
+      best_w = w;
+      best_delta = delta;
+      best_r = r;
+    }
+  }
+  if (best_w <= 0.0) return;
+  const double width = 2.0 * g * std::sqrt(var_s + extra2 + 0.25);
+  const double w_random = p_.landmark_p_random / std::max(width, 1.0);
+  if (best_w / (sum_w + w_random) < p_.landmark_min_prob) return;
+  const double target = xm(kS, 0) + best_delta;
+  for (int j = 0; j < kNumModes; ++j) {
+    StateVec& x = f.x[j];
+    StateCov& P = f.P[j];
+    const double S = P(kS, kS) + best_r;
+    if (!(S > 0.0)) continue;
+    StateVec K;
+    for (int i = 0; i < kNx; ++i) K(i, 0) = P(i, kS) / S;
+    const double innov = target - x(kS, 0);
+    const double dk = K(kK, 0) * innov;
+    if (std::abs(dk) > p_.landmark_max_dk && std::abs(K(kK, 0)) > 0.0) {
+      // inflate the scale-position coupling so one fix cannot rewrite the wheel calibration
+      const double shrink = p_.landmark_max_dk / std::abs(dk);
+      K(kK, 0) *= shrink;
+    }
+    x += K * innov;
+    Mat<1, kNx> H;
+    H(0, kS) = 1.0;
+    const StateCov IKH = StateCov::identity() - K * H;
+    Mat<1, 1> R;
+    R(0, 0) = best_r;
+    P = IKH * P * transpose(IKH) + K * R * transpose(K);
+    symmetrize(P);
+    x(kK, 0) = std::clamp(x(kK, 0), -0.05, 0.05);
+  }
+  f.lm_t = t;
+}
+
 // --------------------------------------------------------------------------------------
 // GNSS initialisation (only inside the init window) and output frame.
 
@@ -837,8 +979,17 @@ void Estimator::updateAnchor() {
   const double s_rel = o.valid ? o.s : 0.0;
   if (map_) {
     const geo::Enu m = map_lc_.forward(med);
-    MapProjection cand[8];
-    const int n = map_->projectAll(m.e, m.n, p_.map_gate_m, cand, 8);
+    // candidates on the main cycle and on branches merging into it (e.g. a terminal fan track)
+    constexpr int kMax = 24;
+    MapProjection cand[kMax];
+    const TrackMap* owner[kMax];
+    int n = map_->projectAll(m.e, m.n, p_.map_gate_m, cand, 8);
+    for (int i = 0; i < n; ++i) owner[i] = map_;
+    for (const TrackMap* b : branches_) {
+      const int k = b->projectAll(m.e, m.n, p_.map_gate_m, cand + n, std::min(4, kMax - n));
+      for (int i = n; i < n + k; ++i) owner[i] = b;
+      n += k;
+    }
     int best = -1;
     const double gate = p_.map_heading_gate_deg * kPi / 180.0;
     for (int pass = 0; pass < 2 && best < 0; ++pass) {
@@ -846,15 +997,29 @@ void Estimator::updateAnchor() {
       for (int i = 0; i < n; ++i) {
         const bool heading_ok = !init_.have_yaw || p_.use_baseline_heading < 0.5 ||
                                 std::abs(wrapAngle(cand[i].heading - init_.yaw0)) < gate;
-        if ((pass == 0 && !heading_ok) || cand[i].dist >= bd) continue;
-        bd = cand[i].dist;
+        // a branch must be clearly closer than the main line to be preferred
+        const double d = cand[i].dist + (owner[i] == map_ ? 0.0 : 1.0);
+        if ((pass == 0 && !heading_ok) || d >= bd) continue;
+        bd = d;
         best = i;
       }
     }
     init_.map_matched = best >= 0;
+    if (best >= 0 && !init_.var_applied && committed_.started) {
+      const double sig = p_.init_sigma_s + p_.init_sigma_s_per_m * cand[best].dist;
+      for (int j = 0; j < kNumModes; ++j) committed_.P[j](kS, kS) += sig * sig;
+      init_.var_applied = true;
+    }
+    init_.prefix = nullptr;
     if (best >= 0) {
-      init_.s_offset = cand[best].s - s_rel;
       init_.match_dist = cand[best].dist;
+      if (owner[best] == map_) {
+        init_.s_offset = cand[best].s - s_rel;
+      } else {
+        init_.prefix = owner[best];
+        init_.prefix_s0 = cand[best].s - s_rel;
+        init_.prefix_len = owner[best]->length() - init_.prefix_s0;
+      }
     }
   }
   // Dead-reckoning start in the output frame (used when not map-matched).
@@ -941,13 +1106,18 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
   if (f.recovered_t >= 0 && t - f.recovered_t <= fromSec(2.0)) fl |= kFlagRecovered;
   if (f.mu[kModeManeuver] > 0.5 && !f.standstill) fl |= kFlagUnmodeledAccel;
   if (f.cmd_fault_t >= 0 && t - f.cmd_fault_t < fromSec(p_.cmd_fault_hold_s)) fl |= kFlagCmdInconsistent;
+  if (f.lm_t >= 0 && t - f.lm_t < fromSec(3.0)) fl |= kFlagLandmark;
   if (committed_.late_t >= 0 && t - committed_.late_t <= hold) fl |= kFlagLateData;
 
   // ---- position ----
-  const double sig_s2 = o.s_var + p_.init_sigma_s * p_.init_sigma_s;
-  if (init_.anchored && init_.map_matched && map_) {
-    const double sm = map_->wrap(init_.s_offset + o.s);
-    const MapPose a = map_->at(sm), b = map_->at(sm + 1.0);
+  const double sig_s2 = o.s_var + (init_.var_applied ? 0.0 : p_.init_sigma_s * p_.init_sigma_s);
+  const TrackMap* rm = nullptr;
+  double sm = 0.0;
+  if (init_.anchored && routeAt(o.s, rm, sm)) {
+    const TrackMap* rm2 = nullptr;
+    double sm2 = 0.0;
+    routeAt(o.s + 1.0, rm2, sm2);
+    const MapPose a = rm->at(sm), b = rm2->at(sm2);
     double ax, ay, az, bx, by, bz;
     mapToOutput(a.x, a.y, a.z, ax, ay, az);
     mapToOutput(b.x, b.y, b.z, bx, by, bz);

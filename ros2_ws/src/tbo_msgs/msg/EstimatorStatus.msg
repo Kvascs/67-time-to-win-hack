@@ -20,6 +20,7 @@ uint32 FLAG_RECOVERED = 32768       # speed re-anchored to wheels after a long a
 uint32 FLAG_LATE_DATA = 65536       # message older than the fixed-lag window dropped
 uint32 FLAG_UNMODELED_ACCEL = 131072  # wheels agree on an acceleration the notch does not explain
 uint32 FLAG_CMD_INCONSISTENT = 262144 # controller notch contradicts consistent wheel motion
+uint32 FLAG_LANDMARK = 524288      # along-track position corrected at a known stop recently
 
 std_msgs/Header header
 float64 speed                 # m/s

@@ -27,8 +27,9 @@ bool TrackMap::loadCsv(const std::string& path, std::string* err) {
     return false;
   }
   std::vector<MapPose> pts;
-  double lat = 0, lon = 0, h = 0, cyc = 0;
-  bool have_origin = false;
+  std::vector<double> grade, curv;
+  double lat = 0, lon = 0, h = 0, cyc = 0, join = 0;
+  bool have_origin = false, have_join = false;
   std::string line;
   while (std::getline(in, line)) {
     if (line.empty()) continue;
@@ -37,6 +38,7 @@ bool TrackMap::loadCsv(const std::string& path, std::string* err) {
       parseMeta(line, "origin_lon", lon);
       parseMeta(line, "origin_h", h);
       parseMeta(line, "cyclic", cyc);
+      have_join |= parseMeta(line, "join_s", join);
       continue;
     }
     if (line[0] == 's' || std::isalpha(static_cast<unsigned char>(line[0]))) continue;  // header
@@ -44,17 +46,35 @@ bool TrackMap::loadCsv(const std::string& path, std::string* err) {
       if (c == ',' || c == ';') c = ' ';
     std::istringstream ss(line);
     double s, x, y, z;
-    if (ss >> s >> x >> y >> z) pts.push_back({x, y, z, 0.0});
+    if (ss >> s >> x >> y >> z) {
+      pts.push_back({x, y, z, 0.0});
+      double g = 0.0, k = 0.0;
+      if (ss >> g) {
+        grade.push_back(g);
+        if (ss >> k) curv.push_back(k);
+      }
+    }
   }
   if (pts.size() < 2 || !have_origin) {
     if (err) *err = "map " + path + " has < 2 points or no origin metadata";
     return false;
   }
   setPoints(pts, cyc > 0.5, {lat, lon, h});
+  has_join_ = have_join;
+  join_s_ = join;
+  // keep the profile only if it is complete and aligned with the kept vertices
+  if (grade.size() == pts.size() && s_.size() >= pts.size()) {
+    grade_.assign(grade.begin(), grade.end());
+    if (curv.size() == pts.size()) curv_.assign(curv.begin(), curv.end());
+    while (grade_.size() < s_.size()) grade_.push_back(grade_.front());  // closing vertex
+    while (!curv_.empty() && curv_.size() < s_.size()) curv_.push_back(curv_.front());
+  }
   return true;
 }
 
 void TrackMap::setPoints(const std::vector<MapPose>& pts, bool cyclic, const geo::Geodetic& origin) {
+  grade_.clear();
+  curv_.clear();
   s_.clear();
   x_.clear();
   y_.clear();
@@ -121,6 +141,18 @@ MapPose TrackMap::at(double s) const {
   p.heading = std::atan2(y_[i + 1] - y_[i], x_[i + 1] - x_[i]);
   return p;
 }
+
+double TrackMap::interpProfile(const std::vector<double>& v, double s) const {
+  if (v.size() != s_.size() || empty()) return 0.0;
+  const double ss = wrap(s);
+  const size_t i = segmentAt(ss);
+  const double seg = s_[i + 1] - s_[i];
+  const double w = seg > 0 ? std::clamp((ss - s_[i]) / seg, 0.0, 1.0) : 0.0;
+  return v[i] + w * (v[i + 1] - v[i]);
+}
+
+double TrackMap::gradeAt(double s) const { return interpProfile(grade_, s); }
+double TrackMap::curvatureAt(double s) const { return interpProfile(curv_, s); }
 
 MapProjection TrackMap::projectSegment(size_t i, double x, double y) const {
   MapProjection r;

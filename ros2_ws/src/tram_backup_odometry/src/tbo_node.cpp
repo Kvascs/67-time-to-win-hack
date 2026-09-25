@@ -69,7 +69,13 @@ class TboNode : public rclcpp::Node {
   TboNode() : Node("tram_backup_odometry") {
     declareParameters();
     loadModelAndMap();
-    est_ = std::make_unique<tbo::Estimator>(cfg_, model_, map_.empty() ? nullptr : &map_);
+    est_ = std::make_unique<tbo::Estimator>(cfg_, model_, map_.empty() ? nullptr : &map_, branch_ptrs_);
+    if (!cfg_.landmark_file.empty()) {
+      std::vector<tbo::Landmark> lms;
+      std::string err;
+      if (tbo::loadLandmarks(resolve(cfg_.landmark_file), lms, &err)) est_->setLandmarks(std::move(lms));
+      else RCLCPP_WARN(get_logger(), "landmarks not loaded (%s)", err.c_str());
+    }
     sched_ = std::make_unique<tbo::OutputScheduler>(est_->config().p);
 
     // Best-effort subscribers are compatible with both reliable and best-effort publishers.
@@ -111,6 +117,9 @@ class TboNode : public rclcpp::Node {
     }
     cfg_.map_file = declare_parameter<std::string>("map_file", "maps/track_map.csv");
     cfg_.traction_file = declare_parameter<std::string>("traction_file", "config/traction_lut.csv");
+    cfg_.branch_files = declare_parameter<std::string>(
+        "branch_files", "maps/branch_fan_F2.csv,maps/branch_wb_detour.csv");
+    cfg_.landmark_file = declare_parameter<std::string>("landmark_file", "maps/landmarks.csv");
     cfg_.output_frame = declare_parameter<std::string>("output_frame", "enu");
     cfg_.init_source = declare_parameter<std::string>("init_source", "master");
     cfg_.frame_id = declare_parameter<std::string>("frame_id", "map");
@@ -139,6 +148,19 @@ class TboNode : public rclcpp::Node {
       RCLCPP_WARN(get_logger(), "traction table not loaded (%s); using built-in table", err.c_str());
     if (!cfg_.map_file.empty() && !map_.loadCsv(cfg_.map_file, &err))
       RCLCPP_WARN(get_logger(), "track map not loaded (%s); position = dead reckoning", err.c_str());
+    size_t pos = 0;
+    const std::string list = cfg_.branch_files;
+    while (!list.empty() && pos != std::string::npos) {
+      const size_t comma = list.find(',', pos);
+      const std::string path =
+          resolve(list.substr(pos, comma == std::string::npos ? std::string::npos : comma - pos));
+      pos = comma == std::string::npos ? comma : comma + 1;
+      if (path.empty()) continue;
+      tbo::TrackMap b;
+      if (b.loadCsv(path, &err)) branches_.push_back(std::move(b));
+      else RCLCPP_WARN(get_logger(), "branch map not loaded (%s)", err.c_str());
+    }
+    for (const auto& b : branches_) branch_ptrs_.push_back(&b);
   }
 
   void subscribeGnss() {
@@ -332,6 +354,7 @@ class TboNode : public rclcpp::Node {
     st.values.push_back(kv("invalid_wheel", std::to_string(d.invalid_wheel)));
     st.values.push_back(kv("rejected_stamps", std::to_string(d.rejected_stamps)));
     st.values.push_back(kv("late_dropped", std::to_string(d.late_dropped)));
+    st.values.push_back(kv("landmark_flag", (f & tbo::kFlagLandmark) ? "true" : "false"));
     st.values.push_back(kv("callback_errors", std::to_string(callback_errors_)));
     arr.status.push_back(st);
     pub_diag_->publish(arr);
@@ -343,6 +366,8 @@ class TboNode : public rclcpp::Node {
   tbo::Config cfg_;
   tbo::TractionModel model_;
   tbo::TrackMap map_;
+  std::vector<tbo::TrackMap> branches_;
+  std::vector<const tbo::TrackMap*> branch_ptrs_;
   std::unique_ptr<tbo::Estimator> est_;
   std::unique_ptr<tbo::OutputScheduler> sched_;
 

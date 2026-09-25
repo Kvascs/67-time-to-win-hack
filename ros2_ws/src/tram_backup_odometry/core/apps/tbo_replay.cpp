@@ -61,6 +61,8 @@ int main(int argc, char** argv) {
       std::printf("tram_backup_odometry:\n  ros__parameters:\n");
       std::printf("    map_file: \"%s\"\n", "maps/track_map.csv");
       std::printf("    traction_file: \"%s\"\n", "config/traction_lut.csv");
+      std::printf("    branch_files: \"%s\"\n", "maps/branch_fan_F2.csv,maps/branch_wb_detour.csv");
+      std::printf("    landmark_file: \"%s\"\n", "maps/landmarks.csv");
       std::printf("    output_frame: \"enu\"          # enu | utm | map\n");
       std::printf("    init_source: \"master\"        # GNSS antenna used for the initial fix\n");
       std::printf("    frame_id: \"map\"\n    child_frame_id: \"base_link\"\n");
@@ -75,6 +77,8 @@ int main(int argc, char** argv) {
     else if (a == "--params") params_path = next();
     else if (a == "--map") cfg.map_file = next();
     else if (a == "--traction") cfg.traction_file = next();
+    else if (a == "--branches") cfg.branch_files = next();
+    else if (a == "--landmarks") cfg.landmark_file = next();
     else if (a == "--set") {
       const std::string kv = next();
       const auto eq = kv.find('=');
@@ -102,6 +106,8 @@ int main(int argc, char** argv) {
     else if (kv.first == "init_source") cfg.init_source = kv.second;
     else if (kv.first == "map_file") cfg.map_file = kv.second;
     else if (kv.first == "traction_file") cfg.traction_file = kv.second;
+    else if (kv.first == "branch_files") cfg.branch_files = kv.second;
+    else if (kv.first == "landmark_file") cfg.landmark_file = kv.second;
     else { std::fprintf(stderr, "unknown string param %s\n", kv.first.c_str()); return 2; }
   }
 
@@ -115,7 +121,34 @@ int main(int argc, char** argv) {
     std::fprintf(stderr, "%s\n", err.c_str());
     return 2;
   }
-  Estimator est(cfg, model, map.empty() ? nullptr : &map);
+  std::vector<TrackMap> branch_maps;
+  {
+    std::string list = cfg.branch_files;
+    size_t pos = 0;
+    while (!list.empty() && pos != std::string::npos) {
+      const size_t comma = list.find(',', pos);
+      const std::string path = list.substr(pos, comma == std::string::npos ? std::string::npos : comma - pos);
+      pos = comma == std::string::npos ? comma : comma + 1;
+      if (path.empty()) continue;
+      TrackMap b;
+      if (!b.loadCsv(path, &err)) {
+        std::fprintf(stderr, "%s\n", err.c_str());
+        return 2;
+      }
+      branch_maps.push_back(std::move(b));
+    }
+  }
+  std::vector<const TrackMap*> branch_ptrs;
+  for (const TrackMap& b : branch_maps) branch_ptrs.push_back(&b);
+  Estimator est(cfg, model, map.empty() ? nullptr : &map, branch_ptrs);
+  if (!cfg.landmark_file.empty()) {
+    std::vector<Landmark> lms;
+    if (!loadLandmarks(cfg.landmark_file, lms, &err)) {
+      std::fprintf(stderr, "%s\n", err.c_str());
+      return 2;
+    }
+    est.setLandmarks(std::move(lms));
+  }
   OutputScheduler sched(cfg.p);
 
   std::FILE* fin = std::fopen(in_path.c_str(), "rb");

@@ -8,7 +8,9 @@ namespace tbo {
 
 struct Params {
   // ---- sensor units / calibration ----
-  double wheel_kmh_to_ms = 1.0 / 3.5965;  // nominal: bogie topics carry km/h, calibrated on train bags
+  double wheel_kmh_to_ms = 1.00037 / 3.6;  // bogie topics carry km/h; straight-track scale from train bags
+  double wheel_curv_abs = 0.415;    // wheels under-read in curves: v = v_wheel (1 + a|k| + b k), a
+  double wheel_curv_signed = -0.054;  // b (per 1/m of track curvature k from the map)
   double wheel_max_kmh = 110.0;           // readings above are physically impossible -> invalid
   double wheel_delay_s = 0.0;             // measurement latency: value at stamp t describes t - delay
   double cmd_delay_s = 0.0;               // dead time from notch change to drive response
@@ -28,7 +30,7 @@ struct Params {
   double q_gain = 2e-5;             // random walk of traction gain g, 1 / s
   double init_sigma_v = 0.3;
   double init_sigma_d = 0.10;
-  double init_sigma_scale = 0.004;
+  double init_sigma_scale = 0.006;
   double init_sigma_gain = 0.08;
   double gain_min = 0.6, gain_max = 1.6;
   double disturbance_max = 0.6;     // max unexplained acceleration (grade), m/s^2: more is slip
@@ -83,6 +85,8 @@ struct Params {
 
   // ---- traction / drive model ----
   double drive_tau_s = 0.30;        // first-order lag of realised drive acceleration
+  double map_grade_gain = 1.0;      // x (-g * grade(s)) added to the dynamics when map-matched
+  double curve_resist_coef = 0.0;   // curve resistance a = -coef * |curvature|, m^2/s^2
 
   // ---- initialisation / map ----
   double gnss_init_window_s = 5.0;  // GNSS used only this long after the first message
@@ -92,7 +96,17 @@ struct Params {
   double map_sigma_cross = 0.30;    // map cross-track accuracy for the pose covariance, m
   double map_sigma_z = 0.50;
   double init_sigma_s = 1.0;        // along-track uncertainty after GNSS init, m
+  double init_sigma_s_per_m = 0.7;  // + this x distance of the init fix from the map (unmapped tracks)
   double use_baseline_heading = 1.0;
+
+  // ---- stop landmarks ("virtual balises"): known standstill positions on the map ----
+  double landmark_enable = 1.0;
+  double landmark_dwell_s = 1.5;    // standstill this long before using the stop as a fix
+  double landmark_gate_sigma = 3.0; // association gate in standard deviations
+  double landmark_min_prob = 0.7;   // posterior probability required to apply the fix
+  double landmark_p_random = 0.15;  // prior share of stops not at any landmark (traffic)
+  double landmark_sigma_extra = 0.3;  // added to the landmark spread, m
+  double landmark_max_dk = 0.004;   // max wheel-scale change applied by one landmark fix
 
   // ---- output ----
   double publish_grid_s = 0.05;     // also publish on a fixed stamp grid (0 disables)
@@ -116,6 +130,8 @@ struct Config {
   Params p;
   std::string map_file;                  // track map CSV (empty -> dead reckoning)
   std::string traction_file;             // traction LUT CSV (empty -> built-in table)
+  std::string branch_files;              // comma-separated branch CSVs merging into the main cycle
+  std::string landmark_file;             // stop landmarks CSV (main cycle)
   std::string output_frame = "enu";      // enu | utm | map
   std::string init_source = "master";    // master | rover
   std::string frame_id = "map";

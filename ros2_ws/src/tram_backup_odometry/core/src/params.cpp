@@ -10,6 +10,8 @@ namespace tbo {
 
 static const ParamInfo kRegistry[] = {
     TBO_P(wheel_kmh_to_ms, "m/s per km/h", "nominal bogie speed calibration"),
+    TBO_P(wheel_curv_abs, "m", "wheel under-reading in curves, |curvature| coefficient"),
+    TBO_P(wheel_curv_signed, "m", "wheel under-reading in curves, signed curvature coefficient"),
     TBO_P(wheel_max_kmh, "km/h", "readings above are rejected as invalid"),
     TBO_P(wheel_delay_s, "s", "bogie speed latency compensation"),
     TBO_P(cmd_delay_s, "s", "notch -> drive dead time"),
@@ -65,6 +67,8 @@ static const ParamInfo kRegistry[] = {
     TBO_P(recover_agree, "m/s", "front/rear agreement for re-anchoring"),
     TBO_P(recover_min_bad_s, "s", "min anomaly duration before re-anchoring"),
     TBO_P(drive_tau_s, "s", "drive acceleration lag"),
+    TBO_P(map_grade_gain, "-", "gain of the map grade term in the dynamics"),
+    TBO_P(curve_resist_coef, "m^2/s^2", "curve resistance coefficient (0 = off)"),
     TBO_P(gnss_init_window_s, "s", "GNSS accepted only this long after start"),
     TBO_P(gnss_min_fixes, "-", "fixes needed for initialisation"),
     TBO_P(map_gate_m, "m", "init fix to map distance gate"),
@@ -72,7 +76,15 @@ static const ParamInfo kRegistry[] = {
     TBO_P(map_sigma_cross, "m", "map cross-track sigma"),
     TBO_P(map_sigma_z, "m", "map altitude sigma"),
     TBO_P(init_sigma_s, "m", "along-track sigma after init"),
+    TBO_P(init_sigma_s_per_m, "-", "extra along-track sigma per metre of init fix-to-map distance"),
     TBO_P(use_baseline_heading, "bool", "use master-rover baseline to pick direction"),
+    TBO_P(landmark_enable, "bool", "use stop landmarks as along-track fixes"),
+    TBO_P(landmark_dwell_s, "s", "standstill before a landmark fix"),
+    TBO_P(landmark_gate_sigma, "sigma", "landmark association gate"),
+    TBO_P(landmark_min_prob, "-", "landmark association posterior threshold"),
+    TBO_P(landmark_p_random, "-", "share of stops not at a landmark"),
+    TBO_P(landmark_sigma_extra, "m", "extra landmark position sigma"),
+    TBO_P(landmark_max_dk, "-", "max wheel-scale change per landmark fix"),
     TBO_P(publish_grid_s, "s", "fixed stamp grid period (0 = off)"),
     TBO_P(publish_on_cmd, "bool", "publish at controller stamps"),
     TBO_P(publish_on_wheel, "bool", "publish at bogie stamps"),
@@ -122,6 +134,8 @@ bool loadFlatYaml(const std::string& path, Config& cfg, std::string* err, std::s
     if (key.empty() || val.empty()) continue;  // section headers like "ros__parameters:"
     if (key == "map_file") { cfg.map_file = val; continue; }
     if (key == "traction_file") { cfg.traction_file = val; continue; }
+    if (key == "branch_files") { cfg.branch_files = val; continue; }
+    if (key == "landmark_file") { cfg.landmark_file = val; continue; }
     if (key == "output_frame") { cfg.output_frame = val; continue; }
     if (key == "init_source") { cfg.init_source = val; continue; }
     if (key == "frame_id") { cfg.frame_id = val; continue; }

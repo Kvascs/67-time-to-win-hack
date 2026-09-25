@@ -33,6 +33,9 @@ class TrackMap {
   void setPoints(const std::vector<MapPose>& pts, bool cyclic, const geo::Geodetic& origin);
 
   bool empty() const { return s_.size() < 2; }
+  // Branches merging into the main cycle carry the main-cycle arc length of the merge point.
+  bool hasJoin() const { return has_join_; }
+  double joinS() const { return join_s_; }
   bool cyclic() const { return cyclic_; }
   double length() const { return length_; }
   const geo::Geodetic& origin() const { return origin_; }
@@ -42,6 +45,11 @@ class TrackMap {
   double wrap(double s) const;
   MapPose at(double s) const;
 
+  // Track grade dz/ds (positive = uphill along increasing s) and curvature at s; 0 if absent.
+  double gradeAt(double s) const;
+  double curvatureAt(double s) const;
+  bool hasProfile() const { return !grade_.empty(); }
+
   // Nearest point on the whole map.
   MapProjection project(double x, double y) const;
   // All local nearest points (distinct branches) within `gate` metres; returns count.
@@ -50,8 +58,12 @@ class TrackMap {
  private:
   MapProjection projectSegment(size_t i, double x, double y) const;
   size_t segmentAt(double s) const;
+  double interpProfile(const std::vector<double>& v, double s) const;
   std::vector<double> s_, x_, y_, z_;
+  std::vector<double> grade_, curv_;  // optional per-vertex profile
   bool cyclic_ = false;
+  bool has_join_ = false;
+  double join_s_ = 0.0;
   double length_ = 0.0;
   geo::Geodetic origin_{};
 };
