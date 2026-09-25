@@ -17,17 +17,28 @@ endif()
 
 add_library(tbo_core STATIC
   src/geo.cpp
+  src/params.cpp
+  src/traction_model.cpp
+  src/track_map.cpp
+  src/estimator.cpp
 )
 target_include_directories(tbo_core PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 set_target_properties(tbo_core PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
+option(TBO_BUILD_TOOLS "Build offline replay tool" ON)
+if(TBO_BUILD_TOOLS)
+  add_executable(tbo_replay apps/tbo_replay.cpp)
+  target_link_libraries(tbo_replay PRIVATE tbo_core)
+endif()
+
 option(TBO_BUILD_TESTS "Build core unit tests" ON)
 if(TBO_BUILD_TESTS)
   add_executable(tbo_core_tests
     tests/test_main.cpp
     tests/test_geo.cpp
+    tests/test_core.cpp
   )
   target_link_libraries(tbo_core_tests PRIVATE tbo_core)
   enable_testing()

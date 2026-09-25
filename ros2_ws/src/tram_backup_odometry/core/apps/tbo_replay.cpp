@@ -1,0 +1,169 @@
+// Offline replay of a recorded run through the exact estimator used by the ROS node.
+// Input: CSV event stream in arrival order (see tools/harness/cpp_bridge.py):
+//   W0,<recv_ns>,<stamp_ns>,<kmh>                 front bogie speed
+//   W1,<recv_ns>,<stamp_ns>,<kmh>                 rear bogie speed
+//   C,<recv_ns>,<stamp_ns>,<notch>                driver controller
+//   GF,<recv_ns>,<stamp_ns>,<src>,<lat>,<lon>,<alt>,<status>   GNSS fix (src 0 master, 1 rover)
+//   GV,<recv_ns>,<stamp_ns>,<src>,<vx>,<vy>,<vz>  GNSS velocity
+// Output: one CSV row per published estimate (same scheduling as the node).
+#include <chrono>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <fstream>
+#include <string>
+#include <vector>
+
+#include "tbo/estimator.hpp"
+#include "tbo/scheduler.hpp"
+
+using namespace tbo;
+
+namespace {
+
+void usage() {
+  std::fprintf(stderr,
+               "usage: tbo_replay --in events.csv --out outputs.csv [--params params.yaml]\n"
+               "                  [--map map.csv] [--traction lut.csv] [--set key=value]...\n");
+}
+
+bool splitCsv(char* line, std::vector<char*>& f) {
+  f.clear();
+  char* p = line;
+  f.push_back(p);
+  for (; *p; ++p) {
+    if (*p == ',') {
+      *p = '\0';
+      f.push_back(p + 1);
+    } else if (*p == '\n' || *p == '\r') {
+      *p = '\0';
+      break;
+    }
+  }
+  return !f.empty();
+}
+
+}  // namespace
+
+int main(int argc, char** argv) {
+  std::string in_path, out_path, params_path;
+  Config cfg;
+  std::vector<std::pair<std::string, double>> overrides;
+  std::vector<std::pair<std::string, std::string>> str_overrides;
+  for (int i = 1; i < argc; ++i) {
+    const std::string a = argv[i];
+    auto next = [&]() -> std::string { return i + 1 < argc ? argv[++i] : ""; };
+    if (a == "--in") in_path = next();
+    else if (a == "--out") out_path = next();
+    else if (a == "--params") params_path = next();
+    else if (a == "--map") cfg.map_file = next();
+    else if (a == "--traction") cfg.traction_file = next();
+    else if (a == "--set") {
+      const std::string kv = next();
+      const auto eq = kv.find('=');
+      if (eq == std::string::npos) { usage(); return 2; }
+      const std::string key = kv.substr(0, eq), val = kv.substr(eq + 1);
+      char* end = nullptr;
+      const double d = std::strtod(val.c_str(), &end);
+      if (end != val.c_str() && *end == '\0') overrides.push_back({key, d});
+      else str_overrides.push_back({key, val});
+    } else { usage(); return 2; }
+  }
+  if (in_path.empty() || out_path.empty()) { usage(); return 2; }
+
+  std::string err, unknown;
+  if (!params_path.empty()) {
+    const std::string keep_map = cfg.map_file, keep_tr = cfg.traction_file;
+    if (!loadFlatYaml(params_path, cfg, &err, &unknown)) { std::fprintf(stderr, "%s\n", err.c_str()); return 2; }
+    if (!keep_map.empty()) cfg.map_file = keep_map;
+    if (!keep_tr.empty()) cfg.traction_file = keep_tr;
+  }
+  for (const auto& kv : overrides)
+    if (!setParam(cfg.p, kv.first, kv.second)) { std::fprintf(stderr, "unknown param %s\n", kv.first.c_str()); return 2; }
+  for (const auto& kv : str_overrides) {
+    if (kv.first == "output_frame") cfg.output_frame = kv.second;
+    else if (kv.first == "init_source") cfg.init_source = kv.second;
+    else if (kv.first == "map_file") cfg.map_file = kv.second;
+    else if (kv.first == "traction_file") cfg.traction_file = kv.second;
+    else { std::fprintf(stderr, "unknown string param %s\n", kv.first.c_str()); return 2; }
+  }
+
+  TractionModel model;
+  if (!cfg.traction_file.empty() && !model.loadCsv(cfg.traction_file, &err)) {
+    std::fprintf(stderr, "%s\n", err.c_str());
+    return 2;
+  }
+  TrackMap map;
+  if (!cfg.map_file.empty() && !map.loadCsv(cfg.map_file, &err)) {
+    std::fprintf(stderr, "%s\n", err.c_str());
+    return 2;
+  }
+  Estimator est(cfg, model, map.empty() ? nullptr : &map);
+  OutputScheduler sched(cfg.p);
+
+  std::FILE* fin = std::fopen(in_path.c_str(), "rb");
+  if (!fin) { std::fprintf(stderr, "cannot open %s\n", in_path.c_str()); return 2; }
+  std::FILE* fout = std::fopen(out_path.c_str(), "wb");
+  if (!fout) { std::fprintf(stderr, "cannot write %s\n", out_path.c_str()); return 2; }
+  std::fprintf(fout,
+               "stamp_ns,recv_ns,trigger,v,v_var,x,y,z,yaw,s,s_var,cov_xx,cov_xy,cov_yy,cov_zz,"
+               "mu0,mu1,mu2,mu3,slip_f,slip_r,d,k,g,a_model,accel,flags,proc_ns\n");
+
+  std::vector<char*> f;
+  f.reserve(16);
+  char line[512];
+  Stamp outs[64];
+  std::uint64_t n_in = 0, n_out = 0;
+  while (std::fgets(line, sizeof(line), fin)) {
+    if (!splitCsv(line, f) || f.size() < 4) continue;
+    const std::string type = f[0];
+    const Stamp recv = std::strtoll(f[1], nullptr, 10);
+    const Stamp stamp = std::strtoll(f[2], nullptr, 10);
+    const auto t0 = std::chrono::steady_clock::now();
+    bool is_input = true, is_cmd = false;
+    if (type == "W0" || type == "W1") {
+      est.onWheel(type == "W0" ? Sensor::Front : Sensor::Rear, stamp, std::strtod(f[3], nullptr));
+    } else if (type == "C") {
+      est.onCmd(stamp, static_cast<int>(std::strtol(f[3], nullptr, 10)));
+      is_cmd = true;
+    } else if (type == "GF" && f.size() >= 8) {
+      est.onGnssFix(std::atoi(f[3]) == 1 ? GnssSource::Rover : GnssSource::Master, stamp,
+                    std::strtod(f[4], nullptr), std::strtod(f[5], nullptr), std::strtod(f[6], nullptr),
+                    std::atoi(f[7]));
+      is_input = false;
+    } else if (type == "GV" && f.size() >= 7) {
+      est.onGnssVel(std::atoi(f[3]) == 1 ? GnssSource::Rover : GnssSource::Master, stamp,
+                    std::strtod(f[4], nullptr), std::strtod(f[5], nullptr), std::strtod(f[6], nullptr));
+      is_input = false;
+    } else {
+      continue;
+    }
+    ++n_in;
+    if (!is_input || !est.started()) continue;
+    const int n = sched.onInput(is_cmd, stamp, est.latestStamp(), outs, 64);
+    for (int k = 0; k < n; ++k) {
+      const Output o = est.query(outs[k]);
+      const auto t1 = std::chrono::steady_clock::now();
+      const long long proc = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
+      std::fprintf(fout,
+                   "%lld,%lld,%s,%.6f,%.6g,%.4f,%.4f,%.4f,%.6f,%.4f,%.6g,%.6g,%.6g,%.6g,%.6g,"
+                   "%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.6f,%.6f,%.6f,%.5f,%.5f,%u,%lld\n",
+                   static_cast<long long>(o.stamp), static_cast<long long>(recv), type.c_str(), o.v,
+                   o.v_var, o.x, o.y, o.z, o.yaw, o.s, o.s_var, o.cov_xx, o.cov_xy, o.cov_yy, o.cov_zz,
+                   o.mode_prob[0], o.mode_prob[1], o.mode_prob[2], o.mode_prob[3], o.slip_front,
+                   o.slip_rear, o.disturbance, o.scale, o.gain, o.a_model, o.accel, o.flags, proc);
+      ++n_out;
+    }
+  }
+  std::fclose(fin);
+  std::fclose(fout);
+  const Diagnostics& d = est.diagnostics();
+  std::fprintf(stderr,
+               "inputs=%llu outputs=%llu invalid_wheel=%llu late=%llu rejected=%llu merged=%llu "
+               "resets=%llu max_buffer=%d map_matched=%d\n",
+               (unsigned long long)n_in, (unsigned long long)n_out, (unsigned long long)d.invalid_wheel,
+               (unsigned long long)d.late_dropped, (unsigned long long)d.rejected_stamps,
+               (unsigned long long)d.merged_pairs, (unsigned long long)d.resets, d.max_buffer,
+               est.mapMatched() ? 1 : 0);
+  return 0;
+}
