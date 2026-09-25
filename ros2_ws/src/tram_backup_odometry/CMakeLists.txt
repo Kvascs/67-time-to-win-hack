@@ -32,6 +32,7 @@ endif()
 
 install(TARGETS tbo_node tbo_replay DESTINATION lib/${PROJECT_NAME})
 install(DIRECTORY launch config maps DESTINATION share/${PROJECT_NAME})
+install(PROGRAMS scripts/check_run.sh DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   install(TARGETS tbo_core_tests DESTINATION lib/${PROJECT_NAME})

@@ -1,0 +1,3 @@
+*
+!ros2_ws/src/**
+ros2_ws/src/**/__pycache__
