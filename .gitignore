@@ -1,0 +1,17 @@
+# raw data stays local (jury gets it from organizers)
+/data/*
+!/data/splits.json
+# colcon / cmake outputs
+/ros2_ws/build/
+/ros2_ws/install/
+/ros2_ws/log/
+/build*/
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+# heavy intermediate artifacts
+*.npz
+*.db3
+**/cache/
+.vscode/
