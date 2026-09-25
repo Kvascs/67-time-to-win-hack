@@ -18,6 +18,8 @@ uint32 FLAG_NOT_INITIALIZED = 8192  # absolute position not anchored (no GNSS in
 uint32 FLAG_NO_MAP = 16384          # position is dead reckoning, not map-constrained
 uint32 FLAG_RECOVERED = 32768       # speed re-anchored to wheels after a long anomaly
 uint32 FLAG_LATE_DATA = 65536       # message older than the fixed-lag window dropped
+uint32 FLAG_UNMODELED_ACCEL = 131072  # wheels agree on an acceleration the notch does not explain
+uint32 FLAG_CMD_INCONSISTENT = 262144 # controller notch contradicts consistent wheel motion
 
 std_msgs/Header header
 float64 speed                 # m/s
@@ -26,7 +28,7 @@ float64 accel                 # estimated longitudinal acceleration, m/s^2
 float64 model_accel           # drive acceleration predicted from the notch, m/s^2
 float64 distance              # along-track distance since start, m
 float64 distance_std          # m
-float64[4] mode_prob          # IMM: nominal, front bad, rear bad, both bad (model only)
+float64[5] mode_prob          # IMM: nominal, front bad, rear bad, both bad (model only), maneuver
 float64 slip_ratio_front      # (wheel - vehicle) / vehicle
 float64 slip_ratio_rear
 float64 adhesion_used         # |accel| / g: adhesion utilisation (upper bound during slip)

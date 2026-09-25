@@ -49,7 +49,8 @@ double noise(uint32_t& st) { return ((lcg(st) >> 8) / 16777216.0 - 0.5) * 2.0; }
 // Synthetic run: accelerate with notch 10, cruise, brake with notch -8, stop.
 // wheel_fn(sensor, t, v_true) returns the km/h reading (or NaN to drop the message).
 template <class WheelFn>
-std::vector<In> makeRun(double t0, double dur, Truth& truth, WheelFn wheel_fn, double gnss_until = 3.0) {
+std::vector<In> makeRun(double t0, double dur, Truth& truth, WheelFn wheel_fn, double gnss_until = 3.0,
+                        double (*extra_accel)(double) = nullptr) {
   std::vector<In> ev;
   const double dt = 0.01;
   double v = 0.0, s = 0.0;
@@ -71,7 +72,8 @@ std::vector<In> makeRun(double t0, double dur, Truth& truth, WheelFn wheel_fn, d
     truth.t.push_back(t0 + t);
     truth.v.push_back(v);
     truth.s.push_back(s);
-    const double a = accelAt(t, v);
+    double a = accelAt(t, v);
+    if (extra_accel && v > 0.0) a += extra_accel(t);
     const double v1 = std::max(0.0, v + a * dt);
     s += 0.5 * (v + v1) * dt;
     v = v1;
@@ -315,6 +317,20 @@ TEST_CASE("wheel lock-up to zero while braking (1.5 s): no false stop") {
   auto lock = [](int, double t, double v) { return (t > 43.0 && t < 44.5) ? 0.0 : v * kKmh; };
   const RunResult r = run(makeRun(9000.0, 60.0, tr, lock), cfg, model);
   CHECK(maxSpeedError(r, tr, 9043.0, 9046.0) < 1.0);
+}
+
+TEST_CASE("unmodelled emergency brake (-2.8 m/s^2, notch 0): wheels trusted, flagged") {
+  Config cfg;
+  TractionModel model;
+  Truth tr;
+  auto brake = [](double t) { return (t > 30.0 && t < 33.0) ? -2.8 : 0.0; };
+  const RunResult r = run(makeRun(9800.0, 60.0, tr, cleanWheels, 3.0, +brake), cfg, model);
+  // onset needs ~2 samples to switch to the maneuver mode: <= 0.2 s x 2.8 m/s^2
+  CHECK(maxSpeedError(r, tr, 9829.0, 9836.0) < 0.5);
+  bool flagged = false;
+  for (const Output& o : r.outs)
+    if (toSec(o.stamp) > 9830.5 && toSec(o.stamp) < 9833.0 && (o.flags & kFlagUnmodeledAccel)) flagged = true;
+  CHECK(flagged);
 }
 
 TEST_CASE("dropout of both bogies (4 s) bridged by the model, then recovers") {

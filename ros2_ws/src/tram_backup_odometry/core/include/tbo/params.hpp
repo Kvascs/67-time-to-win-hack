@@ -31,7 +31,8 @@ struct Params {
   double init_sigma_scale = 0.004;
   double init_sigma_gain = 0.08;
   double gain_min = 0.6, gain_max = 1.6;
-  double disturbance_max = 1.0;     // |d| clamp, m/s^2
+  double disturbance_max = 0.6;     // max unexplained acceleration (grade), m/s^2: more is slip
+  double disturbance_max_decel = 4.0;  // max unexplained deceleration (grade, emergency brake), m/s^2
 
   // ---- measurement model ----
   double sigma_wheel = 0.05;        // per-bogie speed noise, m/s
@@ -44,11 +45,31 @@ struct Params {
   double rate_recover = 0.7;        // 1/s: bad -> nominal
   double mode_prob_floor = 1e-6;
   double slip_context_boost = 4.0;  // x rate_to_bad under high traction / braking effort
+  double rate_to_maneuver = 0.05;   // 1/s: nominal -> unmodelled acceleration (emergency brake...)
+  double rate_maneuver_end = 0.5;   // 1/s: maneuver -> nominal
+  double sigma_accel_maneuver = 0.5;  // acceleration noise in the maneuver mode, m/s^2
+  double q_disturbance_maneuver = 8.0;  // fast disturbance adaptation in maneuver mode, (m/s^2)^2/s
+  double wrong_sign_penalty = 3.0;  // log-penalty for a "bad sensor" residual of the impossible sign
 
   // ---- plausibility gates ----
-  double max_wheel_accel = 2.5;     // |dv/dt| of a bogie beyond this is not vehicle motion, m/s^2
+  double max_wheel_accel = 6.0;     // |dv/dt| of a bogie beyond this is not vehicle motion, m/s^2
   double stuck_time_s = 1.2;        // identical readings for this long ...
   double stuck_min_change = 0.4;    // ... while the vehicle speed changed by more than this (m/s)
+
+  // ---- joint slip/slide monitor: Page CUSUM on (bogie acceleration - model acceleration) ----
+  // Only physically possible anomalies latch: slip under traction (wheels fast), slide under
+  // braking (wheels slow). The opposite signs mean the controller signal is wrong instead.
+  double cusum_slip_accel = 0.60;   // tolerated excess acceleration under traction, m/s^2
+  double cusum_slide_accel = 1.50;  // tolerated extra deceleration under braking notches, m/s^2
+  double cusum_h = 0.30;            // alarm threshold, m/s (accumulated excess speed)
+  double cmd_fault_accel = 0.50;    // excess of the impossible sign that indicts the controller, m/s^2
+  double cmd_fault_h = 0.40;        // accumulated impossible-sign excess to raise the fault, m/s
+  double cmd_fault_hold_s = 8.0;    // controller distrusted this long after the last evidence
+  double disturbance_max_free = 2.0;  // max unexplained acceleration when not under traction, m/s^2
+  double latch_release_abs = 0.30;  // wheels back on the model trajectory within this, m/s ...
+  double latch_release_rel = 0.04;  // ... or this fraction of speed
+  double latch_release_n = 2.0;     // consecutive consistent samples to release
+  double latch_max_s = 10.0;        // longest joint anomaly bridged by the model before re-anchoring
 
   // ---- standstill (zero-velocity update) ----
   double standstill_kmh = 0.15;     // both bogies below -> candidate standstill

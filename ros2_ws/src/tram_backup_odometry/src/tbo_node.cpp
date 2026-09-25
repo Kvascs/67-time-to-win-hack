@@ -298,6 +298,10 @@ class TboNode : public rclcpp::Node {
       st.level = DiagStatus::WARN;
       msg = "wheel slip/slide detected: odometry de-weighted";
     }
+    if (f & tbo::kFlagUnmodeledAccel) {
+      st.level = DiagStatus::WARN;
+      msg = "acceleration not explained by the controller (emergency/track brake?): wheels trusted";
+    }
     if (f & tbo::kFlagModelOnly) {
       st.level = DiagStatus::WARN;
       msg = "model-only dead reckoning (wheel data untrusted or missing)";
@@ -320,6 +324,7 @@ class TboNode : public rclcpp::Node {
     st.values.push_back(kv("speed", std::to_string(last_out_.v)));
     st.values.push_back(kv("p_nominal", std::to_string(last_out_.mode_prob[0])));
     st.values.push_back(kv("p_model_only", std::to_string(last_out_.mode_prob[3])));
+    st.values.push_back(kv("p_unmodeled_accel", std::to_string(last_out_.mode_prob[4])));
     st.values.push_back(kv("map_matched", est_->mapMatched() ? "true" : "false"));
     st.values.push_back(kv("gnss_subscribed", gnss_subscribed_ ? "true" : "false"));
     st.values.push_back(kv("wheel_msgs", std::to_string(d.wheel_msgs)));

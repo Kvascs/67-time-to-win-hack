@@ -124,7 +124,7 @@ int main(int argc, char** argv) {
   if (!fout) { std::fprintf(stderr, "cannot write %s\n", out_path.c_str()); return 2; }
   std::fprintf(fout,
                "stamp_ns,recv_ns,trigger,v,v_var,x,y,z,yaw,s,s_var,cov_xx,cov_xy,cov_yy,cov_zz,"
-               "mu0,mu1,mu2,mu3,slip_f,slip_r,d,k,g,a_model,accel,flags,proc_ns\n");
+               "mu0,mu1,mu2,mu3,mu4,slip_f,slip_r,d,k,g,a_model,accel,flags,proc_ns\n");
 
   std::vector<char*> f;
   f.reserve(16);
@@ -164,10 +164,10 @@ int main(int argc, char** argv) {
       const long long proc = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
       std::fprintf(fout,
                    "%lld,%lld,%s,%.6f,%.6g,%.4f,%.4f,%.4f,%.6f,%.4f,%.6g,%.6g,%.6g,%.6g,%.6g,"
-                   "%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.6f,%.6f,%.6f,%.5f,%.5f,%u,%lld\n",
+                   "%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.6f,%.6f,%.6f,%.5f,%.5f,%u,%lld\n",
                    static_cast<long long>(o.stamp), static_cast<long long>(recv), type.c_str(), o.v,
                    o.v_var, o.x, o.y, o.z, o.yaw, o.s, o.s_var, o.cov_xx, o.cov_xy, o.cov_yy, o.cov_zz,
-                   o.mode_prob[0], o.mode_prob[1], o.mode_prob[2], o.mode_prob[3], o.slip_front,
+                   o.mode_prob[0], o.mode_prob[1], o.mode_prob[2], o.mode_prob[3], o.mode_prob[4], o.slip_front,
                    o.slip_rear, o.disturbance, o.scale, o.gain, o.a_model, o.accel, o.flags, proc);
       ++n_out;
     }

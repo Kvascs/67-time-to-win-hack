@@ -13,7 +13,8 @@ constexpr double kLog2Pi = 1.8378770664093453;
 constexpr double kImplausiblePenalty = -4.0;  // log-likelihood penalty for trusting a jump
 
 // Which bogie each IMM mode trusts: {front, rear}.
-constexpr bool kTrust[kNumModes][2] = {{true, true}, {false, true}, {true, false}, {false, false}};
+constexpr bool kTrust[kNumModes][2] = {
+    {true, true}, {false, true}, {true, false}, {false, false}, {true, true}};
 
 double wrapAngle(double a) {
   while (a > kPi) a -= 2.0 * kPi;
@@ -59,10 +60,10 @@ double kfUpdate(StateVec& x, StateCov& P, const double* z, const int* idx, const
   return -0.5 * maha - 0.5 * std::log(det) - 0.5 * M * kLog2Pi;
 }
 
-void clampState(StateVec& x, StateCov& P, const Params& p) {
+void clampState(StateVec& x, StateCov& P, const Params& p, double d_min, double d_max) {
   if (!(x(kV, 0) >= 0.0)) x(kV, 0) = 0.0;
   x(kG, 0) = std::clamp(x(kG, 0), p.gain_min, p.gain_max);
-  x(kD, 0) = std::clamp(x(kD, 0), -p.disturbance_max, p.disturbance_max);
+  x(kD, 0) = std::clamp(x(kD, 0), d_min, d_max);
   x(kK, 0) = std::clamp(x(kK, 0), -0.05, 0.05);
   conditionCovariance(P, 1e-12);
 }
@@ -236,8 +237,8 @@ void Estimator::startFilter(FilterState& f, Stamp t) const {
     f.x[j] = x0;
     f.P[j] = P0;
   }
-  f.mu[kModeNominal] = 1.0 - 3e-3;
-  f.mu[kModeFrontBad] = f.mu[kModeRearBad] = f.mu[kModeBothBad] = 1e-3;
+  for (int j = 0; j < kNumModes; ++j) f.mu[j] = 1e-3;
+  f.mu[kModeNominal] = 1.0 - 1e-3 * (kNumModes - 1);
 }
 
 double Estimator::combinedV(const FilterState& f) const {
@@ -276,12 +277,16 @@ void Estimator::advance(FilterState& f, Stamp t) const {
     if (f.standstill && notch <= 0) at = 0.0;
     f.a_target = at;
     f.a_drive += alpha * (at - f.a_drive);
-    for (int j = 0; j < kNumModes; ++j) predictMode(f.x[j], f.P[j], f.a_drive, h, f.standstill);
+    for (int j = 0; j < kNumModes; ++j)
+      predictMode(f.x[j], f.P[j], f.a_drive, h, f.standstill,
+                  j == kModeManeuver ? p_.sigma_accel_maneuver : p_.sigma_accel,
+                  j == kModeManeuver ? p_.q_disturbance_maneuver : p_.q_disturbance);
   }
   f.t = t;
 }
 
-void Estimator::predictMode(StateVec& x, StateCov& P, double a, double h, bool standstill) const {
+void Estimator::predictMode(StateVec& x, StateCov& P, double a, double h, bool standstill,
+                            double sigma_accel, double q_d) const {
   if (standstill) {  // zero-velocity: position and speed frozen, parameters diffuse
     x(kV, 0) = 0.0;
     P(kD, kD) += p_.q_disturbance * h;
@@ -310,12 +315,12 @@ void Estimator::predictMode(StateVec& x, StateCov& P, double a, double h, bool s
   F(kV, kD) = h;
   F(kV, kG) = a * h;
   P = F * P * transpose(F);
-  const double qa = p_.sigma_accel * p_.sigma_accel;
+  const double qa = sigma_accel * sigma_accel;
   P(kS, kS) += qa * h * h * h / 3.0;
   P(kS, kV) += qa * h * h / 2.0;
   P(kV, kS) += qa * h * h / 2.0;
   P(kV, kV) += qa * h;
-  P(kD, kD) += p_.q_disturbance * h;
+  P(kD, kD) += q_d * h;
   P(kK, kK) += p_.q_scale * h;
   P(kG, kG) += p_.q_gain * h;
 }
@@ -386,12 +391,21 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
   }
   if (f.standstill) {
     const double relax = 1.0 - std::exp(-toSec(e.t - f.t_mix) * p_.rate_recover);
-    for (int j = 1; j < kNumModes; ++j) f.mu[j] *= (1.0 - relax);
-    f.mu[kModeNominal] = 1.0 - f.mu[1] - f.mu[2] - f.mu[3];
+    double rest = 0.0;
+    for (int j = 1; j < kNumModes; ++j) {
+      f.mu[j] *= (1.0 - relax);
+      rest += f.mu[j];
+    }
+    f.mu[kModeNominal] = 1.0 - rest;
     f.t_mix = e.t;
     f.bad_since = f.agree_since = -1;
+    f.latch = f.onset = false;
+    for (int i = 0; i < 2; ++i) f.wheel[i].cusum_pos = f.wheel[i].cusum_neg = 0.0;
     return;
   }
+
+  // ---- joint slip/slide monitor: may roll back to the model and latch model-only ----
+  if (jointMonitor(f, e, avail, z)) return;
 
   // ---- IMM interaction (mixing) ----
   const double dt = std::clamp(toSec(e.t - f.t_mix), 0.0, 1.0);
@@ -401,31 +415,38 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
   const double pb = 1.0 - std::exp(-p_.rate_to_bad * boost * dt);
   const double pbb = 1.0 - std::exp(-p_.rate_to_both_bad * boost * dt);
   const double pr = 1.0 - std::exp(-p_.rate_recover * dt);
+  const double pm = 1.0 - std::exp(-p_.rate_to_maneuver * dt);
+  const double pme = 1.0 - std::exp(-p_.rate_maneuver_end * dt);
   const double eps = 0.1 * pb;
+  // rows: from-mode, columns: to-mode (N, F, R, B, M)
   const double T[kNumModes][kNumModes] = {
-      {1.0 - 2.0 * pb - pbb, pb, pb, pbb},
-      {pr, 1.0 - pr - pb - eps, eps, pb},
-      {pr, eps, 1.0 - pr - pb - eps, pb},
-      {0.5 * pr, 0.25 * pr, 0.25 * pr, 1.0 - pr}};
+      {1.0 - 2.0 * pb - pbb - pm, pb, pb, pbb, pm},
+      {pr, 1.0 - pr - pb - eps, eps, pb, 0.0},
+      {pr, eps, 1.0 - pr - pb - eps, pb, 0.0},
+      {0.5 * pr, 0.2 * pr, 0.2 * pr, 1.0 - pr, 0.1 * pr},
+      {pme, eps, eps, pb, 1.0 - pme - 2.0 * eps - pb}};
+  // GPB1: all modes share the collapsed posterior of the previous update and were predicted
+  // with their own process noise (see advance()), so the priors here are mode-specific.
+  // (Full IMM mixing let the nominal filter keep tracking biased wheels during a joint
+  // slip and re-lock onto them; our modes differ only in trust and process noise.)
   double cbar[kNumModes];
   StateVec x0[kNumModes];
   StateCov P0[kNumModes];
   for (int j = 0; j < kNumModes; ++j) {
     cbar[j] = 0.0;
     for (int i = 0; i < kNumModes; ++i) cbar[j] += T[i][j] * f.mu[i];
-    double w[kNumModes];
-    for (int i = 0; i < kNumModes; ++i) w[i] = cbar[j] > 1e-300 ? T[i][j] * f.mu[i] / cbar[j] : (i == j);
-    x0[j] = StateVec{};
-    for (int i = 0; i < kNumModes; ++i) x0[j] += w[i] * f.x[i];
-    P0[j] = StateCov{};
-    for (int i = 0; i < kNumModes; ++i) {
-      const StateVec dx = f.x[i] - x0[j];
-      P0[j] += w[i] * (f.P[i] + dx * transpose(dx));
-    }
+    x0[j] = f.x[j];
+    P0[j] = f.P[j];
   }
 
   // ---- mode-conditioned updates ----
+  // A faulty bogie is modelled by a broad uniform density. Its sign is informative: under
+  // traction a slipping wheel over-reads, under braking a sliding wheel under-reads.
   const double log_outlier = -std::log(p_.outlier_range);
+  const bool cmd_ok = !(f.cmd_fault_t >= 0 && toSec(e.t - f.cmd_fault_t) < p_.cmd_fault_hold_s);
+  const int effort_sign = !cmd_ok ? 0 : (f.a_target > 0.15 ? 1 : (f.a_target < -0.15 ? -1 : 0));
+  // Beyond-model acceleration is only a slip under traction; otherwise the wheels may lead.
+  const double d_max_pos = (cmd_ok && f.notch > 0) ? p_.disturbance_max : p_.disturbance_max_free;
   double logL[kNumModes];
   for (int j = 0; j < kNumModes; ++j) {
     StateVec x = x0[j];
@@ -440,11 +461,15 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
         if (implausible[i]) ll += kImplausiblePenalty;
       } else {
         ll += log_outlier;
+        const double r = z[i] - (1.0 + x(kK, 0)) * x(kV, 0);
+        if (effort_sign != 0 && r * effort_sign < -3.0 * p_.sigma_wheel) ll -= p_.wrong_sign_penalty;
       }
     }
     if (m == 1) ll += kfUpdate<1>(x, P, z, idx, p_);
     if (m == 2) ll += kfUpdate<2>(x, P, z, idx, p_);
-    clampState(x, P, p_);
+    // Unmodelled deceleration (emergency / track brake) is physically possible; unmodelled
+    // acceleration beyond the traction capability is not, so the disturbance is asymmetric.
+    clampState(x, P, p_, -p_.disturbance_max_decel, d_max_pos);
     if (!allFinite(x) || !allFiniteM(P)) {  // numerical safety net: keep the prediction
       x = x0[j];
       P = P0[j];
@@ -461,8 +486,23 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
     sum += f.mu[j];
   }
   for (int j = 0; j < kNumModes; ++j) f.mu[j] = std::max(f.mu[j] / sum, p_.mode_prob_floor);
-  sum = f.mu[0] + f.mu[1] + f.mu[2] + f.mu[3];
+  sum = 0.0;
+  for (int j = 0; j < kNumModes; ++j) sum += f.mu[j];
   for (int j = 0; j < kNumModes; ++j) f.mu[j] /= sum;
+
+  // collapse the mode-conditioned posteriors (moment matching) into every mode
+  StateVec xbar;
+  for (int j = 0; j < kNumModes; ++j) xbar += f.mu[j] * f.x[j];
+  StateCov Pbar;
+  for (int j = 0; j < kNumModes; ++j) {
+    const StateVec dx = f.x[j] - xbar;
+    Pbar += f.mu[j] * (f.P[j] + dx * transpose(dx));
+  }
+  symmetrize(Pbar);
+  for (int j = 0; j < kNumModes; ++j) {
+    f.x[j] = xbar;
+    f.P[j] = Pbar;
+  }
 
   // ---- recovery: wheels agree with each other for long while the filter rejects them ----
   if (f.mu[kModeBothBad] > 0.5) {
@@ -487,12 +527,192 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
         const double k = f.x[j](kK, 0);
         pinVelocity(f.x[j], f.P[j], zm / (1.0 + k), p_.sigma_wheel * p_.sigma_wheel);
       }
-      f.mu[kModeNominal] = 0.97;
-      f.mu[kModeFrontBad] = f.mu[kModeRearBad] = f.mu[kModeBothBad] = 0.01;
+      for (int j = 0; j < kNumModes; ++j) f.mu[j] = 0.01;
+      f.mu[kModeNominal] = 1.0 - 0.01 * (kNumModes - 1);
       f.recovered_t = e.t;
       f.bad_since = f.agree_since = -1;
     }
   }
+}
+
+bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, const double* z) const {
+  StateVec xm;
+  for (int j = 0; j < kNumModes; ++j) xm += f.mu[j] * f.x[j];
+  const double vc = std::max(0.0, xm(kV, 0));
+  const double k = xm(kK, 0);
+  // Reference: the controller model with a grade-sized disturbance only. A large negative d
+  // learned during an unmodelled brake must not make normal driving look like a slip.
+  const double d_ref = std::clamp(xm(kD, 0), -p_.disturbance_max, p_.disturbance_max);
+  const double a_model = xm(kG, 0) * f.a_drive + d_ref;
+  auto setModelOnly = [&]() {
+    for (int j = 0; j < kNumModes; ++j) f.mu[j] = p_.mode_prob_floor;
+    f.mu[kModeBothBad] = 1.0 - p_.mode_prob_floor * (kNumModes - 1);
+    f.t_mix = e.t;
+  };
+  auto setNominal = [&]() {
+    for (int j = 0; j < kNumModes; ++j) f.mu[j] = 0.01;
+    f.mu[kModeNominal] = 1.0 - 0.01 * (kNumModes - 1);
+  };
+  auto resetMonitor = [&]() {
+    f.onset = false;
+    for (int i = 0; i < 2; ++i) {
+      f.wheel[i].cusum_pos = f.wheel[i].cusum_neg = 0.0;
+      f.wheel[i].alarm = false;
+    }
+  };
+
+  // ---- latched: the filter coasts on the model; release when wheels return to it ----
+  if (f.latch) {
+    const double gate = std::max(p_.latch_release_abs, p_.latch_release_rel * vc);
+    int n = 0;
+    bool ok = true;
+    for (int i = 0; i < 2; ++i)
+      if (avail[i]) {
+        ++n;
+        if (std::abs(z[i] - (1.0 + k) * vc) > gate) ok = false;
+      }
+    f.release_count = (n > 0 && ok) ? f.release_count + 1 : 0;
+    if (f.release_count >= static_cast<int>(p_.latch_release_n)) {
+      f.latch = false;
+      setNominal();
+      resetMonitor();
+      f.snap_t = -1;
+      return false;  // this sample updates the filter normally
+    }
+    if (toSec(e.t - f.latch_t) > p_.latch_max_s) {  // model drift now dominates: re-anchor
+      const bool both = avail[0] && avail[1];
+      if ((both && std::abs(z[0] - z[1]) < p_.recover_agree) || (avail[0] != avail[1])) {
+        const double zm = both ? 0.5 * (z[0] + z[1]) : (avail[0] ? z[0] : z[1]);
+        for (int j = 0; j < kNumModes; ++j)
+          pinVelocity(f.x[j], f.P[j], zm / (1.0 + f.x[j](kK, 0)), p_.sigma_wheel * p_.sigma_wheel);
+        f.latch = false;
+        f.recovered_t = e.t;
+        setNominal();
+        resetMonitor();
+        f.snap_t = -1;
+        return false;
+      }
+    }
+    setModelOnly();
+    return true;
+  }
+
+  // ---- per-bogie CUSUM on (bogie acceleration over ~0.3 s - model acceleration) ----
+  // Only the physically possible direction is monitored: slip under traction, slide under
+  // braking. Consistent wheel motion of the opposite sign indicts the controller instead.
+  const bool cmd_fault = f.cmd_fault_t >= 0 && toSec(e.t - f.cmd_fault_t) < p_.cmd_fault_hold_s;
+  const bool traction = !cmd_fault && f.notch > 0 && f.a_target > 0.1;
+  const bool braking = !cmd_fault && f.notch < 0;
+  int n_av = 0, alarms = 0, sign = 0;
+  double excess_sum = 0.0;
+  int n_excess = 0;
+  bool all_active = true;
+  for (int i = 0; i < 2; ++i) {
+    if (!avail[i]) continue;
+    ++n_av;
+    WheelTrack& w = f.wheel[i];
+    const int slot = w.hhead;
+    w.ht[slot] = e.t;
+    w.hz[slot] = z[i];
+    w.ham[slot] = a_model;
+    w.hhead = (w.hhead + 1) % WheelTrack::kHist;
+    w.hn = std::min(w.hn + 1, WheelTrack::kHist);
+    int ref = -1;
+    double best = 1e9;
+    for (int q = 0; q < w.hn; ++q) {
+      const double age = toSec(e.t - w.ht[q]);
+      if (age >= 0.2 && age <= 0.5 && std::abs(age - 0.3) < best) {
+        best = std::abs(age - 0.3);
+        ref = q;
+      }
+    }
+    const double dtc = w.t_cusum >= 0 ? std::clamp(toSec(e.t - w.t_cusum), 0.0, 0.5) : 0.0;
+    w.t_cusum = e.t;
+    if (ref < 0 || (vc < 0.5 && z[i] < 0.5)) {  // not enough history, or starting from rest
+      w.cusum_pos = w.cusum_neg = 0.0;
+    } else {
+      const double age = toSec(e.t - w.ht[ref]);
+      const double excess = (z[i] - w.hz[ref]) / age - 0.5 * (a_model + w.ham[ref]);
+      excess_sum += excess;
+      ++n_excess;
+      w.cusum_pos = traction ? std::max(0.0, w.cusum_pos + (excess - p_.cusum_slip_accel) * dtc) : 0.0;
+      w.cusum_neg = braking ? std::max(0.0, w.cusum_neg + (-excess - p_.cusum_slide_accel) * dtc) : 0.0;
+    }
+    w.alarm = w.cusum_pos > p_.cusum_h || w.cusum_neg > p_.cusum_h;
+    if (w.alarm) {
+      ++alarms;
+      sign = w.cusum_pos > p_.cusum_h ? +1 : -1;
+    }
+    if (w.cusum_pos <= 0.0 && w.cusum_neg <= 0.0) all_active = false;
+  }
+  if (n_av == 0) return false;
+
+  // ---- controller consistency: wheels accelerating without traction (or under braking), or
+  // decelerating hard under traction, mean the notch signal is wrong -> trust the wheels ----
+  if (n_excess > 0 && vc > 0.3) {
+    const double ex = excess_sum / n_excess;
+    double impossible = 0.0;
+    if (f.notch <= 0) impossible = ex;                  // speeding up with no traction
+    else if (f.a_target > 0.1) impossible = -ex - 1.0;  // strong braking under traction
+    const double dtc = f.t_cmd_cusum >= 0 ? std::clamp(toSec(e.t - f.t_cmd_cusum), 0.0, 0.5) : 0.0;
+    f.cmd_cusum = std::max(0.0, f.cmd_cusum + (impossible - p_.cmd_fault_accel) * dtc);
+    if (f.cmd_cusum > p_.cmd_fault_h) {
+      f.cmd_fault_t = e.t;
+      f.cmd_cusum = p_.cmd_fault_h;  // keep refreshing while evidence persists
+    }
+  }
+  f.t_cmd_cusum = e.t;
+
+  // ---- onset bookkeeping: model trajectory from the last clean state ----
+  if (!all_active) {
+    f.onset = false;
+    if (f.wheel[0].cusum_pos <= 0.0 && f.wheel[0].cusum_neg <= 0.0 &&
+        f.wheel[1].cusum_pos <= 0.0 && f.wheel[1].cusum_neg <= 0.0) {
+      f.snap_t = e.t;
+      f.snap_v = vc;
+      f.snap_s = xm(kS, 0);
+      f.snap_d = d_ref;
+      f.snap_g = xm(kG, 0);
+    }
+  } else if (!f.onset && f.snap_t >= 0) {
+    f.onset = true;
+    f.onset_t = f.mod_t = f.snap_t;
+    f.mod_v = f.snap_v;
+    f.mod_s = f.snap_s;
+    f.onset_d = f.snap_d;
+    f.onset_g = f.snap_g;
+  }
+  if (f.onset) {
+    const double dt = toSec(e.t - f.mod_t);
+    const double a = f.onset_g * f.a_drive + f.onset_d;
+    double v1 = f.mod_v + a * dt;
+    if (v1 < 0.0) v1 = 0.0;
+    f.mod_s += 0.5 * (f.mod_v + v1) * dt;
+    f.mod_v = v1;
+    f.mod_t = e.t;
+  }
+
+  // ---- joint alarm: every available bogie misbehaves in the same direction ----
+  if (alarms == n_av) {
+    if (f.onset) {
+      const double elapsed = toSec(e.t - f.onset_t);
+      const double var_v = p_.sigma_wheel * p_.sigma_wheel + p_.sigma_accel * p_.sigma_accel * elapsed;
+      for (int j = 0; j < kNumModes; ++j) {
+        f.x[j](kS, 0) = f.mod_s;
+        f.x[j](kD, 0) = f.onset_d;
+        f.x[j](kG, 0) = f.onset_g;
+        pinVelocity(f.x[j], f.P[j], f.mod_v, var_v);
+      }
+    }
+    f.latch = true;
+    f.latch_t = e.t;
+    f.latch_sign = sign;
+    f.release_count = 0;
+    resetMonitor();
+    setModelOnly();
+    return true;
+  }
+  return false;
 }
 
 // --------------------------------------------------------------------------------------
@@ -719,6 +939,8 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
   if (f.mu[kModeBothBad] > 0.5 || both_out) fl |= kFlagModelOnly;
   if (f.standstill) fl |= kFlagStandstill;
   if (f.recovered_t >= 0 && t - f.recovered_t <= fromSec(2.0)) fl |= kFlagRecovered;
+  if (f.mu[kModeManeuver] > 0.5 && !f.standstill) fl |= kFlagUnmodeledAccel;
+  if (f.cmd_fault_t >= 0 && t - f.cmd_fault_t < fromSec(p_.cmd_fault_hold_s)) fl |= kFlagCmdInconsistent;
   if (committed_.late_t >= 0 && t - committed_.late_t <= hold) fl |= kFlagLateData;
 
   // ---- position ----

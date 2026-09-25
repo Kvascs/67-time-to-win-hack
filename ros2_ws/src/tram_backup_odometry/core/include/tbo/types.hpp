@@ -22,7 +22,8 @@ enum Mode : int {
   kModeFrontBad = 1,  // front bogie slipping / sliding / faulty
   kModeRearBad = 2,   // rear bogie slipping / sliding / faulty
   kModeBothBad = 3,   // both untrustworthy -> model-only dead reckoning
-  kNumModes = 4
+  kModeManeuver = 4,  // both trusted, acceleration not explained by the notch (e.g. emergency brake)
+  kNumModes = 5
 };
 
 // Diagnostic bit flags published with every output.
@@ -44,6 +45,8 @@ enum HealthFlag : std::uint32_t {
   kFlagNoMap = 1u << 14,          // position is dead reckoning, not map-constrained
   kFlagRecovered = 1u << 15,      // speed re-anchored to wheels after a long anomaly
   kFlagLateData = 1u << 16,       // a message older than the fixed-lag window was dropped
+  kFlagUnmodeledAccel = 1u << 17, // wheels agree on an acceleration the notch does not explain
+  kFlagCmdInconsistent = 1u << 18,// controller notch contradicts consistent wheel motion
 };
 
 struct Output {
@@ -56,7 +59,7 @@ struct Output {
   double x{0.0}, y{0.0}, z{0.0};      // position in the output frame, m
   double yaw{0.0};                    // heading in the output frame, rad (ENU: 0 = east, CCW)
   double cov_xx{0.0}, cov_xy{0.0}, cov_yy{0.0}, cov_zz{0.0};
-  double mode_prob[kNumModes]{1.0, 0.0, 0.0, 0.0};
+  double mode_prob[kNumModes]{1.0, 0.0, 0.0, 0.0, 0.0};
   double slip_front{0.0}, slip_rear{0.0};  // longitudinal slip ratio (wheel - vehicle) / vehicle
   double disturbance{0.0};            // grade + resistance mismatch, m/s^2
   double scale{0.0};                  // wheel scale error estimate (reading / true - 1)

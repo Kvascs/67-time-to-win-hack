@@ -75,6 +75,16 @@ class Estimator {
     bool stuck = false;
     bool implausible = false;
     Stamp invalid_t = -1;    // last invalid sample
+    // short history for the acceleration-excess (CUSUM) monitor
+    static constexpr int kHist = 8;
+    Stamp ht[kHist]{};
+    double hz[kHist]{};
+    double ham[kHist]{};
+    int hn = 0;
+    int hhead = 0;
+    double cusum_pos = 0.0, cusum_neg = 0.0;
+    Stamp t_cusum = -1;
+    bool alarm = false;
   };
 
   struct FilterState {
@@ -82,7 +92,7 @@ class Estimator {
     Stamp t = 0;
     StateVec x[kNumModes];
     StateCov P[kNumModes];
-    double mu[kNumModes] = {1.0, 0.0, 0.0, 0.0};
+    double mu[kNumModes] = {1.0, 0.0, 0.0, 0.0, 0.0};
     Stamp t_mix = 0;
     int notch = 0;
     bool have_cmd = false;
@@ -96,6 +106,19 @@ class Estimator {
     Stamp agree_since = -1;
     Stamp recovered_t = -1;
     Stamp late_t = -1;
+    // joint slip/slide handling: model-only latch with roll-back to the anomaly onset
+    bool onset = false;
+    Stamp onset_t = -1, mod_t = -1;
+    double mod_v = 0.0, mod_s = 0.0, onset_d = 0.0, onset_g = 1.0;
+    Stamp snap_t = -1;       // last state before any CUSUM became active
+    double snap_v = 0.0, snap_s = 0.0, snap_d = 0.0, snap_g = 1.0;
+    bool latch = false;
+    Stamp latch_t = -1;
+    int release_count = 0;
+    int latch_sign = 0;      // +1 slip (wheels fast), -1 slide (wheels slow)
+    double cmd_cusum = 0.0;  // evidence that the controller signal is wrong
+    Stamp cmd_fault_t = -1;  // last time that evidence crossed the threshold
+    Stamp t_cmd_cusum = -1;
   };
 
  private:
@@ -112,8 +135,10 @@ class Estimator {
   void commitOlderThan(Stamp t);
   void applyEvent(FilterState& f, const Event& e) const;
   void advance(FilterState& f, Stamp t) const;
-  void predictMode(StateVec& x, StateCov& P, double a, double h, bool standstill) const;
+  void predictMode(StateVec& x, StateCov& P, double a, double h, bool standstill,
+                   double sigma_accel, double q_d) const;
   void wheelUpdate(FilterState& f, const Event& e) const;
+  bool jointMonitor(FilterState& f, const Event& e, const bool* avail, const double* z) const;
   void startFilter(FilterState& f, Stamp t) const;
   bool acceptStamp(Stamp stamp);
   Output makeOutput(const FilterState& f, Stamp t) const;
