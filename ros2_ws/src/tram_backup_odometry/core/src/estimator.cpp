@@ -1,6 +1,8 @@
 #include "tbo/estimator.hpp"
 
 #include <algorithm>
+#include <cstdio>
+#include <cstdlib>
 #include <cmath>
 #include <fstream>
 #include <limits>
@@ -53,7 +55,10 @@ double kfUpdate(StateVec& x, StateCov& P, const double* z, const int* idx, const
   Mat<M, M> Si;
   double det = 0.0;
   if (!invert(S, Si, det)) return -1e6;
-  const Mat<kNx, M> K = PHt * Si;
+  Mat<kNx, M> K = PHt * Si;
+  // Schmidt ("consider") state: the wheel scale k is not observable from wheels + model
+  // (only (1+k)*g is), so bogie updates must not move it; stop landmarks calibrate it.
+  for (int r = 0; r < M; ++r) K(kK, r) = 0.0;
   x += K * nu;
   const StateCov IKH = StateCov::identity() - K * H;
   P = IKH * P * transpose(IKH) + K * R * transpose(K);  // Joseph form
@@ -337,7 +342,8 @@ double Estimator::trackAccel(const FilterState& f) const {
   const TrackMap* m = nullptr;
   double sm = 0.0;
   if (!routeAt(s, m, sm) || !m->hasProfile()) return 0.0;
-  double a = -9.81 * p_.map_grade_gain * m->gradeAt(sm);
+  const double kg = f.notch < 0 ? p_.kg_brake : (f.notch > 0 ? p_.kg_traction : p_.kg_coast);
+  double a = -kg * p_.map_grade_gain * m->gradeAt(sm);
   if (p_.curve_resist_coef > 0.0 && v > 0.1) a -= p_.curve_resist_coef * std::abs(m->curvatureAt(sm));
   return a;
 }
@@ -434,7 +440,8 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
     double sm = 0.0;
     if (routeAt(s, m, sm) && m->hasProfile()) {
       const double k = m->curvatureAt(sm);
-      const double corr = 1.0 + p_.wheel_curv_abs * std::abs(k) + p_.wheel_curv_signed * k;
+      const double corr = 1.0 + std::min(p_.wheel_curv_abs * std::abs(k), p_.wheel_curv_sat) +
+                          p_.wheel_curv_signed * k;
       for (int i = 0; i < 2; ++i) z[i] *= corr;
     }
   }
@@ -825,9 +832,13 @@ void Estimator::landmarkUpdate(FilterState& f, Stamp t) const {
       best_r = r;
     }
   }
-  if (best_w <= 0.0) return;
   const double width = 2.0 * g * std::sqrt(var_s + extra2 + 0.25);
   const double w_random = p_.landmark_p_random / std::max(width, 1.0);
+  static const bool dbg = std::getenv("TBO_DEBUG_LM") != nullptr;
+  if (dbg)
+    std::fprintf(stderr, "LM t=%.1f s_map=%.1f sd=%.2f best_delta=%.2f post=%.2f k=%.4f\n", toSec(t), sm,
+                 std::sqrt(var_s), best_delta, best_w > 0 ? best_w / (sum_w + w_random) : 0.0, xm(kK, 0));
+  if (best_w <= 0.0) return;
   if (best_w / (sum_w + w_random) < p_.landmark_min_prob) return;
   const double target = xm(kS, 0) + best_delta;
   for (int j = 0; j < kNumModes; ++j) {
@@ -836,7 +847,9 @@ void Estimator::landmarkUpdate(FilterState& f, Stamp t) const {
     const double S = P(kS, kS) + best_r;
     if (!(S > 0.0)) continue;
     StateVec K;
-    for (int i = 0; i < kNx; ++i) K(i, 0) = P(i, kS) / S;
+    // a landmark fixes position and (through the s-k correlation) the wheel scale only
+    K(kS, 0) = P(kS, kS) / S;
+    K(kK, 0) = P(kK, kS) / S;
     const double innov = target - x(kS, 0);
     const double dk = K(kK, 0) * innov;
     if (std::abs(dk) > p_.landmark_max_dk && std::abs(K(kK, 0)) > 0.0) {
@@ -1113,10 +1126,11 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
   const double sig_s2 = o.s_var + (init_.var_applied ? 0.0 : p_.init_sigma_s * p_.init_sigma_s);
   const TrackMap* rm = nullptr;
   double sm = 0.0;
-  if (init_.anchored && routeAt(o.s, rm, sm)) {
+  const double s_pub = o.s + o.v * p_.position_lead_s;
+  if (init_.anchored && routeAt(s_pub, rm, sm)) {
     const TrackMap* rm2 = nullptr;
     double sm2 = 0.0;
-    routeAt(o.s + 1.0, rm2, sm2);
+    routeAt(s_pub + 1.0, rm2, sm2);
     const MapPose a = rm->at(sm), b = rm2->at(sm2);
     double ax, ay, az, bx, by, bz;
     mapToOutput(a.x, a.y, a.z, ax, ay, az);

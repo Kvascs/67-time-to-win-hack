@@ -56,6 +56,7 @@ def eval_bag(bag, sets=None, map_csv=MAP, traction_csv=None):
     ev = TMP / f'{bag}_events.csv'
     out = TMP / f'{bag}_out.csv'
     export_events(bag, ev)
+    traction_csv = traction_csv or (PKG / 'config' / 'traction_lut.csv')
     o = run_replay(ev, out, map_csv=map_csv if map_csv and Path(map_csv).exists() else None,
                    traction_csv=traction_csv, sets={**({'landmark_file': str(LANDMARKS)} if LANDMARKS.exists() else {}), **(sets or {})}, branches=BRANCHES)
     d = np.load(NPZ / f'{bag}.npz')
@@ -90,6 +91,13 @@ def eval_bag(bag, sets=None, map_csv=MAP, traction_csv=None):
                cross_rmse=float(np.sqrt(np.mean(cross ** 2))), z_rmse=float(np.sqrt(np.mean(e[:, 2] ** 2))),
                end_err=float(e3[-1]), drift_pct=float(100 * e3[-1] / max(dist, 1.0)), dist_m=dist,
                map_matched=float(((o['flags'].to_numpy() & (1 << 14)) == 0).mean()))
+    res['ref_rtk'] = float((mf[:, 5] == 2).mean())
+    try:
+        ck = pd.read_csv(ROOT / 'analysis' / 'timing_reference' / 'clocks_per_bag.csv').set_index('bag')
+        res['ref_clock_anom'] = float(ck.loc[bag, 'gnss_vs_veh_anom_frac']) if bag in ck.index else 0.0
+    except Exception:
+        res['ref_clock_anom'] = float('nan')
+    res['ref_good'] = bool(res['ref_rtk'] > 0.8 and not (res['ref_clock_anom'] > 0.01))
     res.update(model_only=float((o.mu3 > 0.5).mean()), rate_hz=float(len(o) / (out_t[-1] - out_t[0])),
                proc_us_p99=float(np.percentile(o.proc_ns, 99) / 1e3))
     return res, o
@@ -107,5 +115,11 @@ if __name__ == '__main__':
             'cross_rmse', 'z_rmse', 'end_err', 'drift_pct', 'dist_m', 'model_only']
     print(df[cols].round(3).to_string(index=False))
     num = df.drop(columns=['bag']).astype(float)
-    print('\nmean  :', num.mean().round(4).to_dict())
-    print('median:', num.median().round(4).to_dict())
+    keys = ['v_rmse', 'v_mae', 'v_bias', 'along_rmse', 'cross_rmse', 'z_rmse', 'end_err', 'drift_pct',
+            'model_only']
+    print('\nALL   mean  :', num[keys].mean().round(4).to_dict())
+    print('ALL   median:', num[keys].median().round(4).to_dict())
+    good = num[num.ref_good > 0.5]
+    print(f'GOOD-REF ({len(good)} bags) mean  :', good[keys].mean().round(4).to_dict())
+    print(f'GOOD-REF ({len(good)} bags) median:', good[keys].median().round(4).to_dict())
+    print(df[['bag', 'ref_rtk', 'ref_clock_anom', 'ref_good']].round(3).to_string(index=False))

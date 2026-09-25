@@ -11,6 +11,7 @@ struct Params {
   double wheel_kmh_to_ms = 1.00037 / 3.6;  // bogie topics carry km/h; straight-track scale from train bags
   double wheel_curv_abs = 0.415;    // wheels under-read in curves: v = v_wheel (1 + a|k| + b k), a
   double wheel_curv_signed = -0.054;  // b (per 1/m of track curvature k from the map)
+  double wheel_curv_sat = 0.009;    // the curve under-reading saturates at ~0.9 % (R < 60 m)
   double wheel_max_kmh = 110.0;           // readings above are physically impossible -> invalid
   double wheel_delay_s = 0.0;             // measurement latency: value at stamp t describes t - delay
   double cmd_delay_s = 0.0;               // dead time from notch change to drive response
@@ -84,8 +85,11 @@ struct Params {
   double recover_min_bad_s = 5.0;   // only after the filter has been in bad modes this long
 
   // ---- traction / drive model ----
-  double drive_tau_s = 0.30;        // first-order lag of realised drive acceleration
-  double map_grade_gain = 1.0;      // x (-g * grade(s)) added to the dynamics when map-matched
+  double drive_tau_s = 0.452;       // first-order lag of realised drive force (output-error fit)
+  double map_grade_gain = 1.0;      // multiplier of the grade term below (0 disables)
+  double kg_brake = 8.22;           // grade -> acceleration, m/s^2 per unit grade: g/(1+rho),
+  double kg_coast = 7.98;           //   rho = rotating-mass factor; identified per regime
+  double kg_traction = 7.36;
   double curve_resist_coef = 0.0;   // curve resistance a = -coef * |curvature|, m^2/s^2
 
   // ---- initialisation / map ----
@@ -109,6 +113,7 @@ struct Params {
   double landmark_max_dk = 0.004;   // max wheel-scale change applied by one landmark fix
 
   // ---- output ----
+  double position_lead_s = 0.045;   // GNSS fixes lead wheel/vel stamps: publish s(t + lead)
   double publish_grid_s = 0.05;     // also publish on a fixed stamp grid (0 disables)
   double publish_on_cmd = 1.0;      // publish at every controller stamp
   double publish_on_wheel = 1.0;    // publish at every bogie stamp
