@@ -430,6 +430,19 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
     implausible[i] = w.implausible;
     z[i] = zi;
   }
+  // ---- a bogie reading exactly zero while the other shows motion is dead (sensor stuck at
+  // zero at motion start, or a locked axle): exclude it instead of blaming the good one ----
+  for (int i = 0; i < 2; ++i) {
+    const int o = 1 - i;
+    if (!avail[i] || z[i] > 0.05) continue;
+    const WheelTrack& other = f.wheel[o];
+    const bool other_moving = (avail[o] && z[o] > p_.zero_stuck_other) ||
+                              (other.have && e.t - other.t <= fromSec(0.3) && other.z > p_.zero_stuck_other);
+    if (other_moving) {
+      avail[i] = false;
+      f.wheel[i].zero_stuck_t = e.t;
+    }
+  }
   if (!avail[0] && !avail[1]) return;
 
   // ---- wheels under-read in tight curves (inner/outer rail geometry): correct via map ----
@@ -774,7 +787,13 @@ bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, 
     f.mod_t = e.t;
   }
 
-  // ---- joint alarm: every available bogie misbehaves in the same direction ----
+  // ---- joint alarm: every available bogie misbehaves in the same direction; with a single
+  // live bogie there is no cross-check, so demand stronger evidence ----
+  if (n_av == 1 && alarms == 1) {
+    int live = avail[0] ? 0 : 1;
+    const WheelTrack& w = f.wheel[live];
+    if (std::max(w.cusum_pos, w.cusum_neg) < p_.cusum_h * p_.single_bogie_latch_mult) alarms = 0;
+  }
   if (alarms == n_av) {
     if (f.onset) {
       const double elapsed = toSec(e.t - f.onset_t);
@@ -1101,7 +1120,8 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
     const WheelTrack& w = f.wheel[i];
     const bool fresh = w.have && t - w.t <= wheel_to;
     if (!fresh) fl |= i == 0 ? kFlagFrontDropout : kFlagRearDropout;
-    if (w.stuck) fl |= i == 0 ? kFlagFrontStuck : kFlagRearStuck;
+    if (w.stuck || (w.zero_stuck_t >= 0 && t - w.zero_stuck_t <= hold))
+      fl |= i == 0 ? kFlagFrontStuck : kFlagRearStuck;
     if (w.invalid_t >= 0 && t - w.invalid_t <= hold) fl |= i == 0 ? kFlagFrontInvalid : kFlagRearInvalid;
     const double bad = f.mu[i == 0 ? kModeFrontBad : kModeRearBad] + f.mu[kModeBothBad];
     const double ratio = fresh ? (w.z - o.v * (1.0 + o.scale)) / vref : 0.0;

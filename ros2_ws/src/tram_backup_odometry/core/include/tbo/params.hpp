@@ -58,6 +58,8 @@ struct Params {
   double max_wheel_accel = 6.0;     // |dv/dt| of a bogie beyond this is not vehicle motion, m/s^2
   double stuck_time_s = 1.2;        // identical readings for this long ...
   double stuck_min_change = 0.4;    // ... while the vehicle speed changed by more than this (m/s)
+  double zero_stuck_other = 0.5;    // a bogie at 0 while the other reads above this (m/s) is dead
+  double single_bogie_latch_mult = 2.0;  // CUSUM threshold multiplier with only one live bogie
 
   // ---- joint slip/slide monitor: Page CUSUM on (bogie acceleration - model acceleration) ----
   // Only physically possible anomalies latch: slip under traction (wheels fast), slide under

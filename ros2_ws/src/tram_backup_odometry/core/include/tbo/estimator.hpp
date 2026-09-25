@@ -84,6 +84,7 @@ class Estimator {
     bool stuck = false;
     bool implausible = false;
     Stamp invalid_t = -1;    // last invalid sample
+    Stamp zero_stuck_t = -1; // last time the bogie read 0 while the other bogie showed motion
     // short history for the acceleration-excess (CUSUM) monitor
     static constexpr int kHist = 8;
     Stamp ht[kHist]{};

@@ -50,6 +50,8 @@ tram_backup_odometry:
     max_wheel_accel: 6.0  # implausible bogie acceleration [m/s^2]
     stuck_time_s: 1.2  # frozen reading duration [s]
     stuck_min_change: 0.4  # speed change proving a frozen reading [m/s]
+    zero_stuck_other: 0.5  # other bogie speed proving a zero reading dead [m/s]
+    single_bogie_latch_mult: 2.0  # latch threshold multiplier with one live bogie [-]
     cusum_slip_accel: 0.6  # CUSUM: tolerated excess accel under traction [m/s^2]
     cusum_slide_accel: 1.5  # CUSUM: tolerated extra decel under braking [m/s^2]
     cusum_h: 0.3  # CUSUM alarm threshold [m/s]

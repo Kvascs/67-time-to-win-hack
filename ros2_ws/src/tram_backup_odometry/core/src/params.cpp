@@ -50,6 +50,8 @@ static const ParamInfo kRegistry[] = {
     TBO_P(max_wheel_accel, "m/s^2", "implausible bogie acceleration"),
     TBO_P(stuck_time_s, "s", "frozen reading duration"),
     TBO_P(stuck_min_change, "m/s", "speed change proving a frozen reading"),
+    TBO_P(zero_stuck_other, "m/s", "other bogie speed proving a zero reading dead"),
+    TBO_P(single_bogie_latch_mult, "-", "latch threshold multiplier with one live bogie"),
     TBO_P(cusum_slip_accel, "m/s^2", "CUSUM: tolerated excess accel under traction"),
     TBO_P(cusum_slide_accel, "m/s^2", "CUSUM: tolerated extra decel under braking"),
     TBO_P(cusum_h, "m/s", "CUSUM alarm threshold"),
