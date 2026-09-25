@@ -113,6 +113,10 @@ struct Params {
   double landmark_p_random = 0.15;  // prior share of stops not at any landmark (traffic)
   double landmark_sigma_extra = 0.3;  // added to the landmark spread, m
   double landmark_max_dk = 0.004;   // max wheel-scale change applied by one landmark fix
+  double cutoff_enable = 1.0;       // traction cut-off landmarks (notch >= cutoff_notch -> 0)
+  double cutoff_notch = 4.0;
+  double cutoff_min_v = 2.0;        // only while moving faster than this, m/s
+  double cutoff_p_random = 0.05;    // share of abrupt cut-offs away from the known places
 
   // ---- output ----
   double position_lead_s = 0.045;   // GNSS fixes lead wheel/vel stamps: publish s(t + lead)
@@ -139,6 +143,7 @@ struct Config {
   std::string traction_file;             // traction LUT CSV (empty -> built-in table)
   std::string branch_files;              // comma-separated branch CSVs merging into the main cycle
   std::string landmark_file;             // stop landmarks CSV (main cycle)
+  std::string cutoff_file;               // traction cut-off landmarks CSV (main cycle)
   std::string output_frame = "enu";      // enu | utm | map
   std::string init_source = "master";    // master | rover
   std::string frame_id = "map";

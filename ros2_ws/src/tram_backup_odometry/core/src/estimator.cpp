@@ -102,7 +102,11 @@ bool loadLandmarks(const std::string& path, std::vector<Landmark>& out, std::str
       if (c == ',') c = ' ';
     std::istringstream ss(line);
     Landmark l;
-    if (ss >> l.s >> l.sigma >> l.p_stop) out.push_back(l);
+    if (ss >> l.s >> l.sigma) {
+      double p = 0.0;
+      l.p_stop = (ss >> p) ? (p <= 1.0 ? p : 1.0) : 1.0;  // cut-off files carry a count instead
+      out.push_back(l);
+    }
   }
   std::sort(out.begin(), out.end(), [](const Landmark& a, const Landmark& b) { return a.s < b.s; });
   return true;
@@ -281,6 +285,10 @@ void Estimator::applyEvent(FilterState& f, const Event& e) const {
   if (!f.started) startFilter(f, e.t);
   advance(f, e.t);
   if (e.is_cmd) {
+    if (p_.cutoff_enable > 0.5 && f.have_cmd && e.notch == 0 && f.notch >= p_.cutoff_notch &&
+        !cutoffs_.empty() && combinedV(f) > p_.cutoff_min_v) {
+      if (placeUpdate(f, e.t, cutoffs_, p_.cutoff_p_random, p_.position_lead_s)) f.lm_t = e.t;
+    }
     f.notch = e.notch;
     f.have_cmd = true;
     f.last_cmd = e.t;
@@ -483,7 +491,8 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
   if (f.standstill) {
     if (!f.lm_done && toSec(e.t - f.still_since) >= p_.landmark_dwell_s) {
       f.lm_done = true;
-      landmarkUpdate(f, e.t);
+      if (p_.landmark_enable > 0.5 && placeUpdate(f, e.t, landmarks_, p_.landmark_p_random, 0.0))
+        f.lm_t = e.t;
     }
     const double relax = 1.0 - std::exp(-toSec(e.t - f.t_mix) * p_.rate_recover);
     double rest = 0.0;
@@ -816,8 +825,9 @@ bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, 
   return false;
 }
 
-void Estimator::landmarkUpdate(FilterState& f, Stamp t) const {
-  if (landmarks_.empty() || p_.landmark_enable < 0.5 || !map_) return;
+bool Estimator::placeUpdate(FilterState& f, Stamp t, const std::vector<Landmark>& places,
+                            double p_random, double lead) const {
+  if (places.empty() || !map_) return false;
   StateVec xm;
   for (int j = 0; j < kNumModes; ++j) xm += f.mu[j] * f.x[j];
   StateCov Pm;
@@ -827,13 +837,14 @@ void Estimator::landmarkUpdate(FilterState& f, Stamp t) const {
   }
   const TrackMap* m = nullptr;
   double sm = 0.0;
-  if (!routeAt(xm(kS, 0), m, sm) || m != map_) return;  // landmarks exist on the main cycle only
+  if (!routeAt(xm(kS, 0), m, sm) || m != map_) return false;  // places exist on the main cycle only
+  sm = map_->wrap(sm + std::max(0.0, xm(kV, 0)) * lead);
   const double L = map_->length();
   const double extra2 = p_.landmark_sigma_extra * p_.landmark_sigma_extra;
   const double var_s = std::max(Pm(kS, kS), 0.0);
   const double g = p_.landmark_gate_sigma;
   double best_w = 0.0, sum_w = 0.0, best_delta = 0.0, best_r = 0.0;
-  for (const Landmark& l : landmarks_) {
+  for (const Landmark& l : places) {
     double delta = l.s - sm;
     if (map_->cyclic()) {
       delta = std::fmod(delta, L);
@@ -852,13 +863,13 @@ void Estimator::landmarkUpdate(FilterState& f, Stamp t) const {
     }
   }
   const double width = 2.0 * g * std::sqrt(var_s + extra2 + 0.25);
-  const double w_random = p_.landmark_p_random / std::max(width, 1.0);
+  const double w_random = p_random / std::max(width, 1.0);
   static const bool dbg = std::getenv("TBO_DEBUG_LM") != nullptr;
   if (dbg)
     std::fprintf(stderr, "LM t=%.1f s_map=%.1f sd=%.2f best_delta=%.2f post=%.2f k=%.4f\n", toSec(t), sm,
                  std::sqrt(var_s), best_delta, best_w > 0 ? best_w / (sum_w + w_random) : 0.0, xm(kK, 0));
-  if (best_w <= 0.0) return;
-  if (best_w / (sum_w + w_random) < p_.landmark_min_prob) return;
+  if (best_w <= 0.0) return false;
+  if (best_w / (sum_w + w_random) < p_.landmark_min_prob) return false;
   const double target = xm(kS, 0) + best_delta;
   for (int j = 0; j < kNumModes; ++j) {
     StateVec& x = f.x[j];
@@ -886,7 +897,7 @@ void Estimator::landmarkUpdate(FilterState& f, Stamp t) const {
     symmetrize(P);
     x(kK, 0) = std::clamp(x(kK, 0), -0.05, 0.05);
   }
-  f.lm_t = t;
+  return true;
 }
 
 // --------------------------------------------------------------------------------------

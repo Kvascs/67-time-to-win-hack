@@ -5,6 +5,7 @@ tram_backup_odometry:
     traction_file: "config/traction_lut.csv"
     branch_files: "maps/branch_fan_F2.csv,maps/branch_wb_detour.csv"
     landmark_file: "maps/landmarks.csv"
+    cutoff_file: "maps/cutoffs.csv"
     output_frame: "enu"          # enu | utm | map
     init_source: "master"        # GNSS antenna used for the initial fix
     frame_id: "map"
@@ -91,6 +92,10 @@ tram_backup_odometry:
     landmark_p_random: 0.15  # share of stops not at a landmark [-]
     landmark_sigma_extra: 0.3  # extra landmark position sigma [m]
     landmark_max_dk: 0.004  # max wheel-scale change per landmark fix [-]
+    cutoff_enable: 1.0  # use traction cut-off landmarks [bool]
+    cutoff_notch: 4.0  # min notch before an abrupt cut to 0 [-]
+    cutoff_min_v: 2.0  # min speed for a cut-off fix [m/s]
+    cutoff_p_random: 0.05  # share of cut-offs away from known places [-]
     position_lead_s: 0.045  # position published for stamp + lead (reference fix timing) [s]
     publish_grid_s: 0.05  # fixed stamp grid period (0 = off) [s]
     publish_on_cmd: 1.0  # publish at controller stamps [bool]

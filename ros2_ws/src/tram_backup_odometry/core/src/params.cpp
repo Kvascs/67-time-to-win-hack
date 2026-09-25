@@ -91,6 +91,10 @@ static const ParamInfo kRegistry[] = {
     TBO_P(landmark_p_random, "-", "share of stops not at a landmark"),
     TBO_P(landmark_sigma_extra, "m", "extra landmark position sigma"),
     TBO_P(landmark_max_dk, "-", "max wheel-scale change per landmark fix"),
+    TBO_P(cutoff_enable, "bool", "use traction cut-off landmarks"),
+    TBO_P(cutoff_notch, "-", "min notch before an abrupt cut to 0"),
+    TBO_P(cutoff_min_v, "m/s", "min speed for a cut-off fix"),
+    TBO_P(cutoff_p_random, "-", "share of cut-offs away from known places"),
     TBO_P(position_lead_s, "s", "position published for stamp + lead (reference fix timing)"),
     TBO_P(publish_grid_s, "s", "fixed stamp grid period (0 = off)"),
     TBO_P(publish_on_cmd, "bool", "publish at controller stamps"),
@@ -143,6 +147,7 @@ bool loadFlatYaml(const std::string& path, Config& cfg, std::string* err, std::s
     if (key == "traction_file") { cfg.traction_file = val; continue; }
     if (key == "branch_files") { cfg.branch_files = val; continue; }
     if (key == "landmark_file") { cfg.landmark_file = val; continue; }
+    if (key == "cutoff_file") { cfg.cutoff_file = val; continue; }
     if (key == "output_frame") { cfg.output_frame = val; continue; }
     if (key == "init_source") { cfg.init_source = val; continue; }
     if (key == "frame_id") { cfg.frame_id = val; continue; }

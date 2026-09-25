@@ -76,6 +76,12 @@ class TboNode : public rclcpp::Node {
       if (tbo::loadLandmarks(resolve(cfg_.landmark_file), lms, &err)) est_->setLandmarks(std::move(lms));
       else RCLCPP_WARN(get_logger(), "landmarks not loaded (%s)", err.c_str());
     }
+    if (!cfg_.cutoff_file.empty()) {
+      std::vector<tbo::Landmark> cut;
+      std::string err;
+      if (tbo::loadLandmarks(resolve(cfg_.cutoff_file), cut, &err)) est_->setCutoffs(std::move(cut));
+      else RCLCPP_WARN(get_logger(), "cut-off landmarks not loaded (%s)", err.c_str());
+    }
     sched_ = std::make_unique<tbo::OutputScheduler>(est_->config().p);
 
     // Best-effort subscribers are compatible with both reliable and best-effort publishers.
@@ -120,6 +126,7 @@ class TboNode : public rclcpp::Node {
     cfg_.branch_files = declare_parameter<std::string>(
         "branch_files", "maps/branch_fan_F2.csv,maps/branch_wb_detour.csv");
     cfg_.landmark_file = declare_parameter<std::string>("landmark_file", "maps/landmarks.csv");
+    cfg_.cutoff_file = declare_parameter<std::string>("cutoff_file", "maps/cutoffs.csv");
     cfg_.output_frame = declare_parameter<std::string>("output_frame", "enu");
     cfg_.init_source = declare_parameter<std::string>("init_source", "master");
     cfg_.frame_id = declare_parameter<std::string>("frame_id", "map");

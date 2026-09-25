@@ -70,6 +70,7 @@ class Estimator {
   const Config& config() const { return cfg_; }
   void reset();
   void setLandmarks(std::vector<Landmark> lms) { landmarks_ = std::move(lms); }
+  void setCutoffs(std::vector<Landmark> lms) { cutoffs_ = std::move(lms); }
 
   // ---- internals exposed for tests ----
   struct WheelTrack {
@@ -152,7 +153,9 @@ class Estimator {
   double trackAccel(const FilterState& f) const;  // grade + curve terms from the map
   void wheelUpdate(FilterState& f, const Event& e) const;
   bool jointMonitor(FilterState& f, const Event& e, const bool* avail, const double* z) const;
-  void landmarkUpdate(FilterState& f, Stamp t) const;
+  // Along-track fix from a list of known places; `lead` shifts the place by v*lead (GNSS timing).
+  bool placeUpdate(FilterState& f, Stamp t, const std::vector<Landmark>& places, double p_random,
+                   double lead) const;
   void startFilter(FilterState& f, Stamp t) const;
   bool acceptStamp(Stamp stamp);
   Output makeOutput(const FilterState& f, Stamp t) const;
@@ -165,6 +168,7 @@ class Estimator {
   const TrackMap* map_;
   std::vector<const TrackMap*> branches_;  // alternative start tracks merging into main
   std::vector<Landmark> landmarks_;
+  std::vector<Landmark> cutoffs_;
   // Maps a relative distance to (edge, arc length) along the anchored route.
   bool routeAt(double s_rel, const TrackMap*& m, double& s) const;
 

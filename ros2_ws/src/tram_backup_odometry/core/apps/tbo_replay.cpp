@@ -63,6 +63,7 @@ int main(int argc, char** argv) {
       std::printf("    traction_file: \"%s\"\n", "config/traction_lut.csv");
       std::printf("    branch_files: \"%s\"\n", "maps/branch_fan_F2.csv,maps/branch_wb_detour.csv");
       std::printf("    landmark_file: \"%s\"\n", "maps/landmarks.csv");
+      std::printf("    cutoff_file: \"%s\"\n", "maps/cutoffs.csv");
       std::printf("    output_frame: \"enu\"          # enu | utm | map\n");
       std::printf("    init_source: \"master\"        # GNSS antenna used for the initial fix\n");
       std::printf("    frame_id: \"map\"\n    child_frame_id: \"base_link\"\n");
@@ -79,6 +80,7 @@ int main(int argc, char** argv) {
     else if (a == "--traction") cfg.traction_file = next();
     else if (a == "--branches") cfg.branch_files = next();
     else if (a == "--landmarks") cfg.landmark_file = next();
+    else if (a == "--cutoffs") cfg.cutoff_file = next();
     else if (a == "--set") {
       const std::string kv = next();
       const auto eq = kv.find('=');
@@ -108,6 +110,7 @@ int main(int argc, char** argv) {
     else if (kv.first == "traction_file") cfg.traction_file = kv.second;
     else if (kv.first == "branch_files") cfg.branch_files = kv.second;
     else if (kv.first == "landmark_file") cfg.landmark_file = kv.second;
+    else if (kv.first == "cutoff_file") cfg.cutoff_file = kv.second;
     else { std::fprintf(stderr, "unknown string param %s\n", kv.first.c_str()); return 2; }
   }
 
@@ -148,6 +151,14 @@ int main(int argc, char** argv) {
       return 2;
     }
     est.setLandmarks(std::move(lms));
+  }
+  if (!cfg.cutoff_file.empty()) {
+    std::vector<Landmark> cut;
+    if (!loadLandmarks(cfg.cutoff_file, cut, &err)) {
+      std::fprintf(stderr, "%s\n", err.c_str());
+      return 2;
+    }
+    est.setCutoffs(std::move(cut));
   }
   OutputScheduler sched(cfg.p);
 

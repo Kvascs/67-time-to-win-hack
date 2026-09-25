@@ -20,6 +20,7 @@ from cpp_bridge import NPZ, PKG, ROOT, export_events, run_replay  # noqa: E402
 TMP = ROOT / 'build_core' / 'replay_tmp'
 MAP = PKG / 'maps' / 'track_map.csv'
 LANDMARKS = PKG / 'maps' / 'landmarks.csv'
+CUTOFFS = PKG / 'maps' / 'cutoffs.csv'
 BRANCHES = ','.join(str(b) for b in sorted((PKG / 'maps').glob('branch_*.csv')))
 
 A, F = 6378137.0, 1 / 298.257223563
@@ -58,7 +59,7 @@ def eval_bag(bag, sets=None, map_csv=MAP, traction_csv=None):
     export_events(bag, ev)
     traction_csv = traction_csv or (PKG / 'config' / 'traction_lut.csv')
     o = run_replay(ev, out, map_csv=map_csv if map_csv and Path(map_csv).exists() else None,
-                   traction_csv=traction_csv, sets={**({'landmark_file': str(LANDMARKS)} if LANDMARKS.exists() else {}), **(sets or {})}, branches=BRANCHES)
+                   traction_csv=traction_csv, sets={**({'landmark_file': str(LANDMARKS)} if LANDMARKS.exists() else {}), **({'cutoff_file': str(CUTOFFS)} if CUTOFFS.exists() else {}), **(sets or {})}, branches=BRANCHES)
     d = np.load(NPZ / f'{bag}.npz')
     out_t = o.stamp_ns.to_numpy() * 1e-9
     res = {'bag': bag}
