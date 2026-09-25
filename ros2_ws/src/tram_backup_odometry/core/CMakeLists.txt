@@ -14,6 +14,10 @@ endif()
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
+if(MINGW)
+  # Windows dev builds: avoid picking up a foreign libstdc++ DLL from PATH at runtime.
+  add_link_options(-static)
+endif()
 
 add_library(tbo_core STATIC
   src/geo.cpp
@@ -41,6 +45,8 @@ if(TBO_BUILD_TESTS)
     tests/test_core.cpp
   )
   target_link_libraries(tbo_core_tests PRIVATE tbo_core)
+  target_compile_definitions(tbo_core_tests PRIVATE
+    TBO_PARAMS_YAML="${CMAKE_CURRENT_SOURCE_DIR}/../config/params.yaml")
   enable_testing()
   add_test(NAME tbo_core_tests COMMAND tbo_core_tests)
 endif()

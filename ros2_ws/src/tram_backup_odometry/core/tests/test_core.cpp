@@ -351,6 +351,33 @@ TEST_CASE("no-GNSS proof: GNSS after the init window changes nothing (bit-identi
   CHECK(!a.outs.empty() && a.outs.back().map_matched);
 }
 
+#ifdef TBO_PARAMS_YAML
+TEST_CASE("params.yaml: every key is a known parameter and every parameter is present") {
+  Config cfg;
+  std::string err, unknown;
+  CHECK(loadFlatYaml(TBO_PARAMS_YAML, cfg, &err, &unknown));
+  CHECK(unknown.empty());
+  if (!unknown.empty()) std::printf("  unknown keys: %s\n", unknown.c_str());
+  // every registry entry must appear in the file
+  int n = 0;
+  const ParamInfo* reg = paramRegistry(&n);
+  std::FILE* fh = std::fopen(TBO_PARAMS_YAML, "rb");
+  CHECK(fh != nullptr);
+  std::string text;
+  if (fh) {
+    char b[4096];
+    size_t r;
+    while ((r = std::fread(b, 1, sizeof(b), fh)) > 0) text.append(b, r);
+    std::fclose(fh);
+  }
+  for (int i = 0; i < n; ++i) {
+    const bool present = text.find(std::string(reg[i].name) + ":") != std::string::npos;
+    if (!present) std::printf("  missing in params.yaml: %s\n", reg[i].name);
+    CHECK(present);
+  }
+}
+#endif
+
 TEST_CASE("scheduler: grid stamps hit exact multiples, stamps strictly increase") {
   Params p;
   OutputScheduler s(p);
