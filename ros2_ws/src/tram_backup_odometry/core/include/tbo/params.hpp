@@ -96,6 +96,7 @@ struct Params {
 
   // ---- initialisation / map ----
   double gnss_init_window_s = 5.0;  // GNSS used only this long after the first message
+  double gnss_wait_s = 4.0;         // hold position output this long for the first fix, then go relative (start-up burst ~2.5 s)
   double gnss_min_fixes = 3.0;
   double map_gate_m = 25.0;         // max distance of the init fix from the map
   double map_heading_gate_deg = 60.0;
@@ -120,6 +121,14 @@ struct Params {
 
   // ---- output ----
   double position_lead_s = 0.045;   // GNSS fixes lead wheel/vel stamps: publish s(t + lead)
+  // Reference frame of the jury: Autoware map frame = MGRS 100 km square (Moscow: 37U DB).
+  double mgrs_zone = 37.0;
+  double mgrs_origin_e = 400000.0;  // UTM easting of the square's west edge
+  double mgrs_origin_n = 6100000.0; // UTM northing of the square's south edge
+  // Published point = base_link (centre of the front bogie at rail-top level, REP-103).
+  double base_link_along_m = 9.9;   // front bogie ahead of antenna 1 (fitted: body heading vs chord)
+  double base_link_height_m = 3.5;  // antenna 1 above rail top (assumption until the TF is given)
+  double bogie_base_m = 7.55;       // distance between bogie centres (organisers)
   double publish_grid_s = 0.05;     // also publish on a fixed stamp grid (0 disables)
   double publish_on_cmd = 1.0;      // publish at every controller stamp
   double publish_on_wheel = 1.0;    // publish at every bogie stamp
@@ -144,7 +153,7 @@ struct Config {
   std::string branch_files;              // comma-separated branch CSVs merging into the main cycle
   std::string landmark_file;             // stop landmarks CSV (main cycle)
   std::string cutoff_file;               // traction cut-off landmarks CSV (main cycle)
-  std::string output_frame = "enu";      // enu | utm | map
+  std::string output_frame = "mgrs";     // mgrs (jury) | enu (first fix) | utm | map
   std::string init_source = "master";    // master | rover
   std::string frame_id = "map";
   std::string child_frame_id = "base_link";

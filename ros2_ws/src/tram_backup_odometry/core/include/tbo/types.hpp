@@ -68,6 +68,7 @@ struct Output {
   double wheel_trust{1.0};            // 1 - P(both bad)
   std::uint32_t flags{0};
   bool map_matched{false};
+  bool pos_valid{false};              // position may be published (anchored, or relative mode)
 };
 
 }  // namespace tbo

@@ -127,7 +127,7 @@ class TboNode : public rclcpp::Node {
         "branch_files", "maps/branch_fan_F2.csv,maps/branch_wb_detour.csv");
     cfg_.landmark_file = declare_parameter<std::string>("landmark_file", "maps/landmarks.csv");
     cfg_.cutoff_file = declare_parameter<std::string>("cutoff_file", "maps/cutoffs.csv");
-    cfg_.output_frame = declare_parameter<std::string>("output_frame", "enu");
+    cfg_.output_frame = declare_parameter<std::string>("output_frame", "mgrs");
     cfg_.init_source = declare_parameter<std::string>("init_source", "master");
     cfg_.frame_id = declare_parameter<std::string>("frame_id", "map");
     cfg_.child_frame_id = declare_parameter<std::string>("child_frame_id", "base_link");
@@ -254,6 +254,7 @@ class TboNode : public rclcpp::Node {
     v.header.frame_id = cfg_.child_frame_id;
     v.velocity = o.v;
     pub_vel_->publish(v);
+    if (!o.pos_valid) return;  // no anchor yet: wait (<= gnss_wait_s) for the first GNSS fix
 
     Odometry od;
     od.header.stamp = stamp;

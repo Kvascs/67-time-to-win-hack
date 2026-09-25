@@ -59,7 +59,7 @@ def eval_bag(bag, sets=None, map_csv=MAP, traction_csv=None):
     export_events(bag, ev)
     traction_csv = traction_csv or (PKG / 'config' / 'traction_lut.csv')
     o = run_replay(ev, out, map_csv=map_csv if map_csv and Path(map_csv).exists() else None,
-                   traction_csv=traction_csv, sets={**({'landmark_file': str(LANDMARKS)} if LANDMARKS.exists() else {}), **({'cutoff_file': str(CUTOFFS)} if CUTOFFS.exists() else {}), **(sets or {})}, branches=BRANCHES)
+                   traction_csv=traction_csv, sets={'output_frame': 'enu', 'base_link_along_m': 0, 'base_link_height_m': 0, **({'landmark_file': str(LANDMARKS)} if LANDMARKS.exists() else {}), **({'cutoff_file': str(CUTOFFS)} if CUTOFFS.exists() else {}), **(sets or {})}, branches=BRANCHES)
     d = np.load(NPZ / f'{bag}.npz')
     out_t = o.stamp_ns.to_numpy() * 1e-9
     res = {'bag': bag}
@@ -79,9 +79,11 @@ def eval_bag(bag, sets=None, map_csv=MAP, traction_csv=None):
     mf = d['sensing__gnss__master__fix']
     mf = mf[np.isfinite(mf[:, 2])]
     p_ref = enu(mf[:, 2], mf[:, 3], mf[:, 4], mf[0, 2], mf[0, 3], mf[0, 4])
-    pick, ok = match_nearest(mf[:, 1], out_t)
-    po = o[['x', 'y', 'z']].to_numpy()[pick][ok]
-    yaw = o.yaw.to_numpy()[pick][ok]
+    op = o[o.pos_valid == 1] if 'pos_valid' in o.columns else o   # only published positions
+    out_tp = op.stamp_ns.to_numpy() * 1e-9
+    pick, ok = match_nearest(mf[:, 1], out_tp)
+    po = op[['x', 'y', 'z']].to_numpy()[pick][ok]
+    yaw = op.yaw.to_numpy()[pick][ok]
     e = po - p_ref[ok]
     along = e[:, 0] * np.cos(yaw) + e[:, 1] * np.sin(yaw)
     cross = -e[:, 0] * np.sin(yaw) + e[:, 1] * np.cos(yaw)

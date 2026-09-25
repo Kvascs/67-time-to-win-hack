@@ -16,8 +16,8 @@ def generate_launch_description():
                               description='YAML with estimator parameters'),
         DeclareLaunchArgument('use_sim_time', default_value='false',
                               description='Only affects /diagnostics stamps; outputs use input stamps'),
-        DeclareLaunchArgument('output_frame', default_value='enu',
-                              description='enu (ENU at first GNSS fix) | utm (UTM offset) | map'),
+        DeclareLaunchArgument('output_frame', default_value='mgrs',
+                              description='mgrs (jury: Autoware MGRS map frame 37U DB) | enu | utm | map'),
         Node(
             package='tram_backup_odometry',
             executable='tbo_node',

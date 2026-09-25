@@ -6,7 +6,7 @@ tram_backup_odometry:
     branch_files: "maps/branch_fan_F2.csv,maps/branch_wb_detour.csv"
     landmark_file: "maps/landmarks.csv"
     cutoff_file: "maps/cutoffs.csv"
-    output_frame: "enu"          # enu | utm | map
+    output_frame: "mgrs"         # mgrs (jury, Autoware map frame) | enu | utm | map
     init_source: "master"        # GNSS antenna used for the initial fix
     frame_id: "map"
     child_frame_id: "base_link"
@@ -77,6 +77,7 @@ tram_backup_odometry:
     kg_traction: 7.36  # grade coefficient under traction [m/s^2]
     curve_resist_coef: 0.0  # curve resistance coefficient (0 = off) [m^2/s^2]
     gnss_init_window_s: 5.0  # GNSS accepted only this long after start [s]
+    gnss_wait_s: 4.0  # position withheld this long waiting for the first fix [s]
     gnss_min_fixes: 3.0  # fixes needed for initialisation [-]
     map_gate_m: 25.0  # init fix to map distance gate [m]
     map_heading_gate_deg: 60.0  # init heading consistency gate [deg]
@@ -97,6 +98,12 @@ tram_backup_odometry:
     cutoff_min_v: 2.0  # min speed for a cut-off fix [m/s]
     cutoff_p_random: 0.05  # share of cut-offs away from known places [-]
     position_lead_s: 0.045  # position published for stamp + lead (reference fix timing) [s]
+    mgrs_zone: 37.0  # UTM zone of the MGRS output frame [-]
+    mgrs_origin_e: 400000.0  # UTM easting of the MGRS square origin [m]
+    mgrs_origin_n: 6100000.0  # UTM northing of the MGRS square origin [m]
+    base_link_along_m: 9.9  # published point ahead of antenna 1 along the track [m]
+    base_link_height_m: 3.5  # antenna 1 height above rail top [m]
+    bogie_base_m: 7.55  # distance between bogie centres (heading chord) [m]
     publish_grid_s: 0.05  # fixed stamp grid period (0 = off) [s]
     publish_on_cmd: 1.0  # publish at controller stamps [bool]
     publish_on_wheel: 1.0  # publish at bogie stamps [bool]

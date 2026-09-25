@@ -961,18 +961,26 @@ void Estimator::mapToOutput(double mx, double my, double mz, double& ox, double&
     oz = mz;
     return;
   }
+  if (cfg_.output_frame == "mgrs") {  // Autoware MGRS map frame, one fixed 100 km square
+    const geo::Geodetic g = map_lc_.reverse({mx, my, mz});
+    const geo::Utm u = geo::geodeticToUtm(g.lat_deg, g.lon_deg, static_cast<int>(p_.mgrs_zone));
+    ox = u.easting - p_.mgrs_origin_e;
+    oy = u.northing - p_.mgrs_origin_n;
+    oz = g.h - p_.base_link_height_m;
+    return;
+  }
   if (cfg_.output_frame == "utm") {
     const geo::Geodetic g = map_lc_.reverse({mx, my, mz});
     const geo::Utm o = geo::geodeticToUtm(init_.origin.lat_deg, init_.origin.lon_deg);
     const geo::Utm u = geo::geodeticToUtm(g.lat_deg, g.lon_deg, o.zone);
     ox = u.easting - o.easting;
     oy = u.northing - o.northing;
-    oz = g.h - init_.origin.h;
+    oz = g.h - init_.origin.h - p_.base_link_height_m;
     return;
   }
   ox = rot_[0][0] * mx + rot_[0][1] * my + rot_[0][2] * mz + trans_[0];
   oy = rot_[1][0] * mx + rot_[1][1] * my + rot_[1][2] * mz + trans_[1];
-  oz = rot_[2][0] * mx + rot_[2][1] * my + rot_[2][2] * mz + trans_[2];
+  oz = rot_[2][0] * mx + rot_[2][1] * my + rot_[2][2] * mz + trans_[2] - p_.base_link_height_m;
 }
 
 void Estimator::updateAnchor() {
@@ -1066,17 +1074,22 @@ void Estimator::updateAnchor() {
     }
   }
   // Dead-reckoning start in the output frame (used when not map-matched).
-  if (cfg_.output_frame == "utm") {
+  if (cfg_.output_frame == "mgrs") {
+    const geo::Utm u = geo::geodeticToUtm(med.lat_deg, med.lon_deg, static_cast<int>(p_.mgrs_zone));
+    init_.dr_x = u.easting - p_.mgrs_origin_e;
+    init_.dr_y = u.northing - p_.mgrs_origin_n;
+    init_.dr_z = med.h - p_.base_link_height_m;
+  } else if (cfg_.output_frame == "utm") {
     const geo::Utm oz = geo::geodeticToUtm(init_.origin.lat_deg, init_.origin.lon_deg);
     const geo::Utm u = geo::geodeticToUtm(med.lat_deg, med.lon_deg, oz.zone);
     init_.dr_x = u.easting - oz.easting;
     init_.dr_y = u.northing - oz.northing;
-    init_.dr_z = med.h - init_.origin.h;
+    init_.dr_z = med.h - init_.origin.h - p_.base_link_height_m;
   } else {
     const geo::Enu q = out_lc_.forward(med);
     init_.dr_x = q.e;
     init_.dr_y = q.n;
-    init_.dr_z = q.u;
+    init_.dr_z = q.u - p_.base_link_height_m;
   }
   init_.anchored = true;
 }
@@ -1157,11 +1170,13 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
   const double sig_s2 = o.s_var + (init_.var_applied ? 0.0 : p_.init_sigma_s * p_.init_sigma_s);
   const TrackMap* rm = nullptr;
   double sm = 0.0;
-  const double s_pub = o.s + o.v * p_.position_lead_s;
+  const double s_pub = o.s + o.v * p_.position_lead_s + p_.base_link_along_m;
   if (init_.anchored && routeAt(s_pub, rm, sm)) {
     const TrackMap* rm2 = nullptr;
     double sm2 = 0.0;
-    routeAt(s_pub + 1.0, rm2, sm2);
+    // body heading = chord from the rear bogie to the front bogie (REP-103 base_link x axis)
+    const double back = p_.bogie_base_m > 0.5 ? p_.bogie_base_m : 1.0;
+    routeAt(s_pub - back, rm2, sm2);
     const MapPose a = rm->at(sm), b = rm2->at(sm2);
     double ax, ay, az, bx, by, bz;
     mapToOutput(a.x, a.y, a.z, ax, ay, az);
@@ -1169,7 +1184,7 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
     o.x = ax;
     o.y = ay;
     o.z = az;
-    o.yaw = std::atan2(by - ay, bx - ax);
+    o.yaw = std::atan2(ay - by, ax - bx);
     o.map_matched = true;
     const double sc2 = p_.map_sigma_cross * p_.map_sigma_cross;
     const double c = std::cos(o.yaw), s = std::sin(o.yaw);
@@ -1179,8 +1194,9 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
     o.cov_zz = p_.map_sigma_z * p_.map_sigma_z;
   } else if (init_.anchored) {
     const double yaw = init_.have_yaw ? init_.yaw0 : 0.0;
-    o.x = init_.dr_x + o.s * std::cos(yaw);
-    o.y = init_.dr_y + o.s * std::sin(yaw);
+    const double along = o.s + p_.base_link_along_m;
+    o.x = init_.dr_x + along * std::cos(yaw);
+    o.y = init_.dr_y + along * std::sin(yaw);
     o.z = init_.dr_z;
     o.yaw = yaw;
     const double cross = 1.0 + 0.05 * std::abs(o.s);  // heading unknown along curves
@@ -1188,8 +1204,8 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
     o.cov_yy = sig_s2 + cross * cross;
     o.cov_zz = 4.0 + (0.01 * o.s) * (0.01 * o.s);
     fl |= kFlagNoMap;
-  } else {
-    o.x = o.s;
+  } else {  // no GNSS at start: relative odometry from the start point (x forward along the track)
+    o.x = o.s + p_.base_link_along_m;
     o.y = 0.0;
     o.z = 0.0;
     o.cov_xx = sig_s2;
@@ -1198,6 +1214,7 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
     fl |= kFlagNotInitialized | kFlagNoMap;
   }
   o.flags = fl;
+  o.pos_valid = init_.anchored || (init_.have_first && t - init_.t_first >= fromSec(p_.gnss_wait_s));
   return o;
 }
 
