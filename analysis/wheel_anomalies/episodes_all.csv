@@ -1,0 +1,514 @@
+bag,source,topic,kind,regime,t_start,dur,magnitude,magnitude_rel,v_ref,notch_mode,notch_min,notch_max,fr_max_abs,a_wheel_max,a_wheel_min,both_bogies,dist_err_m,confidence,detail
+30618_01f73500,stream,front,stamp_excursion,,0.0,0.3,,,,,,,,,,,,,latency offset +1.49s
+30618_01f73500,stream,cmd,stamp_excursion,,0.0,0.455,,,,,,,,,,,,,latency offset +1.60s
+30618_01f73500,stream,rear,stamp_excursion,,0.02,0.0,,,,,,,,,,,,,latency offset +0.32s
+30618_01f73500,stream,cmd,cmd_jump,,129.28,0.0,,,,,,,,,,,,,+4 -> +0
+30618_01f73500,stream,cmd,cmd_jump,,804.93,0.0,,,,,,,,,,,,,+8 -> +0
+30618_0259fe53,stream,rear,stamp_excursion,,0.0,0.213,,,,,,,,,,,,,latency offset +2.09s
+30618_0259fe53,stream,cmd,stamp_excursion,,0.0,0.259,,,,,,,,,,,,,latency offset +2.03s
+30618_0259fe53,stream,cmd,cmd_jump,,117.1,0.0,,,,,,,,,,,,,+8 -> +0
+30618_0259fe53,stream,cmd,cmd_jump,,788.65,0.0,,,,,,,,,,,,,+7 -> +0
+30618_0652866c,stream,rear,stamp_excursion,,0.0,0.228,,,,,,,,,,,,,latency offset +2.18s
+30618_0652866c,stream,front,stamp_excursion,,0.01,0.19,,,,,,,,,,,,,latency offset +1.54s
+30618_0652866c,stream,cmd,stamp_excursion,,0.01,0.287,,,,,,,,,,,,,latency offset +1.61s
+30618_0652866c,stream,cmd,cmd_jump,,186.99,0.0,,,,,,,,,,,,,+9 -> +0
+30618_0652866c,stream,cmd,cmd_jump,,935.59,0.0,,,,,,,,,,,,,+8 -> +0
+30618_0652866c,stream,front,arrival_gap,,1372.44,0.901,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_0652866c,stream,rear,arrival_gap,,1372.44,0.901,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_0652866c,stream,front,gap,,1372.47,0.91,,,,,,,,,,,,,v_before=0.00 v_after=0.00
+30618_0652866c,stream,rear,gap,,1372.47,0.91,,,,,,,,,,,,,v_before=0.00 v_after=0.00
+30618_0686195f,stream,front,stamp_excursion,,0.0,0.279,,,,,,,,,,,,,latency offset +1.44s
+30618_0686195f,stream,cmd,stamp_excursion,,0.0,0.407,,,,,,,,,,,,,latency offset +1.53s
+30618_0686195f,stream,rear,stamp_excursion,,0.02,0.0,,,,,,,,,,,,,latency offset +0.30s
+30618_0686195f,stream,cmd,cmd_jump,,136.63,0.0,,,,,,,,,,,,,+7 -> +0
+30618_0686195f,stream,cmd,cmd_jump,,796.53,0.0,,,,,,,,,,,,,-14 -> -10
+30618_0686195f,stream,cmd,cmd_jump,,830.43,0.0,,,,,,,,,,,,,+9 -> +0
+30618_073f08d1,stream,cmd,cmd_jump,,191.58,0.0,,,,,,,,,,,,,+4 -> +0
+30618_082f1d65,stream,front,stamp_excursion,,0.0,0.272,,,,,,,,,,,,,latency offset +1.32s
+30618_082f1d65,stream,cmd,stamp_excursion,,0.0,0.395,,,,,,,,,,,,,latency offset +1.48s
+30618_095a115b,stream,rear,stamp_excursion,,0.0,0.152,,,,,,,,,,,,,latency offset +1.87s
+30618_095a115b,stream,cmd,cmd_jump,,168.34,0.0,,,,,,,,,,,,,+7 -> +0
+30618_095a115b,gnss_label,rear,slide,brake,884.93,0.9,-0.311,-0.079,3.92,-4.0,-4.0,-4.0,0.222,0.3,-1.53,False,-0.2,high,front/rear disagree
+30618_095a115b,gnss_label,rear,slip,traction,888.23,1.6,0.399,0.092,4.32,11.0,11.0,12.0,0.343,1.69,-0.2,False,0.42,high,front/rear disagree
+30618_095a115b,stream,cmd,cmd_jump,,895.59,0.0,,,,,,,,,,,,,+8 -> +0
+30618_0a83c933,stream,rear,stamp_excursion,,0.0,0.191,,,,,,,,,,,,,latency offset +2.21s
+30618_0a83c933,stream,cmd,stamp_excursion,,0.0,0.235,,,,,,,,,,,,,latency offset +2.10s
+30618_0a83c933,stream,front,stamp_excursion,,0.01,0.159,,,,,,,,,,,,,latency offset +1.58s
+30618_0a83c933,monitor_nognss,front,overspeed/slip,,62.67,0.33,0.34,,,-2.0,,,,,,,,,"classes=fr v_range=[2.05,2.24] v_model=1.91"
+30618_0a83c933,stream,cmd,cmd_jump,,130.93,0.0,,,,,,,,,,,,,+5 -> +0
+30618_0d865417,stream,rear,stamp_excursion,,0.0,0.174,,,,,,,,,,,,,latency offset +1.84s
+30618_0e41eac3,stream,cmd,cmd_jump,,143.46,0.0,,,,,,,,,,,,,+7 -> +0
+30618_0e41eac3,stream,cmd,cmd_jump,,891.06,0.0,,,,,,,,,,,,,+8 -> +0
+30618_0f120b35,stream,rear,stamp_excursion,,0.0,0.181,,,,,,,,,,,,,latency offset +2.01s
+30618_0f120b35,stream,cmd,cmd_jump,,240.11,0.0,,,,,,,,,,,,,+4 -> +0
+30618_117c2d02,stream,rear,stamp_excursion,,0.0,0.208,,,,,,,,,,,,,latency offset +2.17s
+30618_117c2d02,stream,cmd,stamp_excursion,,0.0,0.267,,,,,,,,,,,,,latency offset +2.04s
+30618_117c2d02,stream,front,stamp_excursion,,0.01,0.165,,,,,,,,,,,,,latency offset +1.37s
+30618_117c2d02,monitor_nognss,rear,slide,,96.87,2.28,-4.1,,,-8.0,,,,,,,,,"classes=fr/gate/rate v_range=[0.15,3.78] v_model=4.26"
+30618_117c2d02,stream,front,arrival_gap,,99.3,0.9,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_117c2d02,stream,rear,arrival_gap,,99.3,0.9,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_117c2d02,stream,front,gap,,99.31,0.87,,,,,,,,,,,,,v_before=0.38 v_after=0.00
+30618_117c2d02,stream,rear,gap,,99.31,0.87,,,,,,,,,,,,,v_before=0.40 v_after=0.00
+30618_117c2d02,stream,cmd,cmd_jump,,148.4,0.0,,,,,,,,,,,,,+5 -> +0
+30618_1551d0a9,stream,front,stamp_excursion,,0.25,0.999,,,,,,,,,,,,,latency offset -0.82s
+30618_1551d0a9,stream,rear,stamp_excursion,,0.25,0.999,,,,,,,,,,,,,latency offset -1.28s
+30618_1cc230fa,stream,rear,stamp_excursion,,0.0,0.195,,,,,,,,,,,,,latency offset +2.01s
+30618_1cc230fa,stream,cmd,cmd_jump,,918.27,0.0,,,,,,,,,,,,,+7 -> +0
+30618_2050d396,stream,front,stamp_excursion,,0.0,0.315,,,,,,,,,,,,,latency offset +1.32s
+30618_2050d396,stream,cmd,stamp_excursion,,0.0,0.497,,,,,,,,,,,,,latency offset +1.47s
+30618_2050d396,stream,cmd,cmd_jump,,206.67,0.0,,,,,,,,,,,,,+5 -> +0
+30618_2050d396,gnss_label,rear,slide,brake,397.09,2.2,-2.371,-0.26,9.1,-5.0,-5.0,0.0,2.347,6.22,-4.94,False,-3.22,high,front/rear disagree
+30618_2050d396,gnss_label,rear,slide,brake,400.39,1.6,-4.289,-0.554,7.74,-9.0,-9.0,0.0,4.246,10.05,-6.8,False,-4.47,high,front/rear disagree
+30618_2050d396,gnss_label,front,slide,coast,440.69,1.4,-3.224,-0.615,5.24,0.0,-14.0,0.0,1.188,5.81,-7.87,True,-2.82,high,front/rear disagree
+30618_2050d396,gnss_label,rear,slide,brake,440.79,1.1,-2.118,-0.394,5.37,-13.0,-13.0,0.0,1.188,4.24,-6.42,True,-1.67,high,front/rear disagree
+30618_2161b58b,stream,rear,stamp_excursion,,0.0,0.163,,,,,,,,,,,,,latency offset +2.12s
+30618_2161b58b,stream,cmd,cmd_jump,,133.61,0.0,,,,,,,,,,,,,+4 -> +0
+30618_2161b58b,stream,cmd,cmd_jump,,663.11,0.0,,,,,,,,,,,,,+5 -> +0
+30618_21dd3af3,stream,rear,stamp_excursion,,0.0,0.19,,,,,,,,,,,,,latency offset +2.00s
+30618_21dd3af3,stream,front,stamp_excursion,,0.01,0.158,,,,,,,,,,,,,latency offset +1.43s
+30618_21dd3af3,stream,cmd,stamp_excursion,,0.01,0.202,,,,,,,,,,,,,latency offset +1.51s
+30618_2255aade,stream,cmd,cmd_jump,,173.36,0.0,,,,,,,,,,,,,+7 -> +0
+30618_2255aade,stream,cmd,stamp_excursion,,195.81,0.0,,,,,,,,,,,,,latency offset -1.00s
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,195.81,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_2255aade,stream,cmd,cmd_jump,,195.81,0.0,,,,,,,,,,,,,-8 -> -14
+30618_2255aade,stream,cmd,cmd_jump,,195.81,0.0,,,,,,,,,,,,,-14 -> -9
+30618_2255aade,stream,cmd,stamp_excursion,,195.86,0.0,,,,,,,,,,,,,latency offset -1.00s
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,195.86,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_2255aade,stream,cmd,cmd_jump,,195.86,0.0,,,,,,,,,,,,,-9 -> -14
+30618_2255aade,stream,cmd,cmd_jump,,195.86,0.0,,,,,,,,,,,,,-14 -> -9
+30618_2255aade,stream,front,stamp_excursion,,195.87,0.0,,,,,,,,,,,,,latency offset -1.04s
+30618_2255aade,stream,front,stamp_nonmonotonic,,195.87,0.0,,,,,,,,,,,,,dt_hdr=-0.992
+30618_2255aade,stream,rear,stamp_excursion,,195.87,0.0,,,,,,,,,,,,,latency offset -1.04s
+30618_2255aade,stream,rear,stamp_nonmonotonic,,195.87,0.0,,,,,,,,,,,,,dt_hdr=-0.992
+30618_2255aade,stream,cmd,stamp_excursion,,195.91,0.0,,,,,,,,,,,,,latency offset -1.00s
+30618_2255aade,stream,cmd,cmd_jump,,195.91,0.0,,,,,,,,,,,,,-10 -> -14
+30618_2255aade,stream,cmd,stamp_excursion,,195.96,0.05,,,,,,,,,,,,,latency offset -1.00s
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,195.96,0.0,,,,,,,,,,,,,dt_hdr=-0.950
+30618_2255aade,stream,cmd,cmd_jump,,195.96,0.0,,,,,,,,,,,,,-14 -> -10
+30618_2255aade,stream,cmd,cmd_jump,,195.96,0.0,,,,,,,,,,,,,-10 -> -14
+30618_2255aade,stream,front,stamp_excursion,,195.97,0.0,,,,,,,,,,,,,latency offset -1.05s
+30618_2255aade,stream,rear,stamp_excursion,,195.97,0.0,,,,,,,,,,,,,latency offset -1.05s
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,196.01,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_2255aade,stream,cmd,stamp_excursion,,196.06,0.0,,,,,,,,,,,,,latency offset -1.00s
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,196.06,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_2255aade,stream,cmd,cmd_jump,,196.06,0.0,,,,,,,,,,,,,-11 -> -15
+30618_2255aade,stream,cmd,cmd_jump,,196.06,0.0,,,,,,,,,,,,,-15 -> -11
+30618_2255aade,stream,front,stamp_excursion,,196.07,0.0,,,,,,,,,,,,,latency offset -1.04s
+30618_2255aade,stream,front,stamp_nonmonotonic,,196.07,0.0,,,,,,,,,,,,,dt_hdr=-0.906
+30618_2255aade,stream,rear,stamp_excursion,,196.07,0.0,,,,,,,,,,,,,latency offset -1.04s
+30618_2255aade,stream,rear,stamp_nonmonotonic,,196.07,0.0,,,,,,,,,,,,,dt_hdr=-0.906
+30618_2255aade,stream,cmd,stamp_excursion,,196.11,0.0,,,,,,,,,,,,,latency offset -1.00s
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,196.11,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_2255aade,stream,cmd,cmd_jump,,196.11,0.0,,,,,,,,,,,,,-11 -> -15
+30618_2255aade,stream,cmd,stamp_excursion,,196.16,0.0,,,,,,,,,,,,,latency offset -1.00s
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,196.16,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_2255aade,stream,front,stamp_nonmonotonic,,196.17,0.0,,,,,,,,,,,,,dt_hdr=-0.888
+30618_2255aade,stream,rear,stamp_nonmonotonic,,196.17,0.0,,,,,,,,,,,,,dt_hdr=-0.888
+30618_2255aade,stream,cmd,stamp_excursion,,196.21,0.0,,,,,,,,,,,,,latency offset -1.00s
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,196.21,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_2255aade,stream,cmd,stamp_excursion,,196.26,2.75,,,,,,,,,,,,,latency offset -1.00s
+30618_2255aade,stream,front,stamp_excursion,,196.27,0.1,,,,,,,,,,,,,latency offset -1.05s
+30618_2255aade,stream,rear,stamp_excursion,,196.27,0.0,,,,,,,,,,,,,latency offset -1.05s
+30618_2255aade,stream,rear,stamp_nonmonotonic,,196.27,0.0,,,,,,,,,,,,,dt_hdr=-0.994
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,196.31,0.0,,,,,,,,,,,,,dt_hdr=-0.950
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,196.36,0.0,,,,,,,,,,,,,dt_hdr=-0.950
+30618_2255aade,stream,front,stamp_nonmonotonic,,196.37,0.0,,,,,,,,,,,,,dt_hdr=-0.988
+30618_2255aade,stream,rear,stamp_excursion,,196.37,0.0,,,,,,,,,,,,,latency offset -1.05s
+30618_2255aade,stream,rear,stamp_nonmonotonic,,196.37,0.0,,,,,,,,,,,,,dt_hdr=-0.988
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,196.41,0.0,,,,,,,,,,,,,dt_hdr=-0.950
+30618_2255aade,stream,cmd,cmd_jump,,196.41,0.0,,,,,,,,,,,,,-13 -> -9
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,196.46,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_2255aade,stream,cmd,cmd_jump,,196.46,0.0,,,,,,,,,,,,,-8 -> -13
+30618_2255aade,stream,cmd,cmd_jump,,196.51,0.0,,,,,,,,,,,,,-14 -> -7
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,196.56,0.0,,,,,,,,,,,,,dt_hdr=-0.950
+30618_2255aade,stream,cmd,cmd_jump,,196.56,0.0,,,,,,,,,,,,,-7 -> -14
+30618_2255aade,stream,cmd,cmd_jump,,196.56,0.0,,,,,,,,,,,,,-14 -> -6
+30618_2255aade,stream,front,stamp_excursion,,196.57,0.0,,,,,,,,,,,,,latency offset -1.05s
+30618_2255aade,stream,front,stamp_nonmonotonic,,196.57,0.0,,,,,,,,,,,,,dt_hdr=-1.086
+30618_2255aade,stream,rear,stamp_excursion,,196.57,0.0,,,,,,,,,,,,,latency offset -1.05s
+30618_2255aade,stream,rear,stamp_nonmonotonic,,196.57,0.0,,,,,,,,,,,,,dt_hdr=-1.086
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,196.61,0.0,,,,,,,,,,,,,dt_hdr=-0.950
+30618_2255aade,stream,cmd,cmd_jump,,196.61,0.0,,,,,,,,,,,,,-6 -> -14
+30618_2255aade,stream,cmd,cmd_jump,,196.61,0.0,,,,,,,,,,,,,-14 -> -5
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,196.66,0.0,,,,,,,,,,,,,dt_hdr=-0.950
+30618_2255aade,stream,cmd,cmd_jump,,196.66,0.0,,,,,,,,,,,,,-5 -> -14
+30618_2255aade,stream,cmd,cmd_jump,,196.66,0.0,,,,,,,,,,,,,-14 -> -4
+30618_2255aade,stream,front,stamp_excursion,,196.67,0.0,,,,,,,,,,,,,latency offset -1.05s
+30618_2255aade,stream,front,stamp_nonmonotonic,,196.67,0.0,,,,,,,,,,,,,dt_hdr=-1.006
+30618_2255aade,stream,rear,stamp_excursion,,196.67,0.0,,,,,,,,,,,,,latency offset -1.05s
+30618_2255aade,stream,rear,stamp_nonmonotonic,,196.67,0.0,,,,,,,,,,,,,dt_hdr=-1.006
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,196.71,0.0,,,,,,,,,,,,,dt_hdr=-0.950
+30618_2255aade,stream,cmd,cmd_jump,,196.71,0.0,,,,,,,,,,,,,-4 -> -14
+30618_2255aade,stream,cmd,cmd_jump,,196.71,0.0,,,,,,,,,,,,,-14 -> -4
+30618_2255aade,stream,cmd,stamp_nonmonotonic,,196.76,0.0,,,,,,,,,,,,,dt_hdr=-0.950
+30618_2255aade,stream,cmd,cmd_jump,,196.76,0.0,,,,,,,,,,,,,-4 -> -14
+30618_2255aade,stream,cmd,cmd_jump,,196.76,0.0,,,,,,,,,,,,,-14 -> -3
+30618_2255aade,stream,front,stamp_excursion,,196.77,2.1,,,,,,,,,,,,,latency offset -1.05s
+30618_2255aade,stream,rear,stamp_excursion,,196.77,2.1,,,,,,,,,,,,,latency offset -1.05s
+30618_2255aade,stream,front,arrival_gap,,198.87,1.2,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_2255aade,stream,rear,arrival_gap,,198.87,1.2,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_2255aade,stream,cmd,arrival_gap,,199.01,1.05,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_2255aade,stream,cmd,cmd_jump,,840.16,0.0,,,,,,,,,,,,,+6 -> +0
+30618_22c1c589,stream,rear,stamp_excursion,,0.0,0.227,,,,,,,,,,,,,latency offset +2.14s
+30618_22c1c589,stream,front,stamp_excursion,,0.01,0.187,,,,,,,,,,,,,latency offset +1.51s
+30618_22c1c589,stream,cmd,stamp_excursion,,0.01,0.235,,,,,,,,,,,,,latency offset +1.56s
+30618_22c1c589,stream,cmd,cmd_jump,,146.02,0.0,,,,,,,,,,,,,+4 -> +0
+30618_2366c74a,stream,rear,stamp_excursion,,0.0,0.243,,,,,,,,,,,,,latency offset +2.06s
+30618_2366c74a,stream,front,stamp_excursion,,0.01,0.206,,,,,,,,,,,,,latency offset +1.47s
+30618_2366c74a,stream,cmd,stamp_excursion,,0.01,0.258,,,,,,,,,,,,,latency offset +1.54s
+30618_27e994fc,stream,front,stamp_excursion,,0.0,0.335,,,,,,,,,,,,,latency offset +1.42s
+30618_27e994fc,stream,cmd,stamp_excursion,,0.0,0.533,,,,,,,,,,,,,latency offset +1.56s
+30618_27e994fc,stream,cmd,cmd_jump,,174.03,0.0,,,,,,,,,,,,,+4 -> +0
+30618_27e994fc,stream,cmd,cmd_jump,,802.98,0.0,,,,,,,,,,,,,+10 -> +0
+30618_27e994fc,stream,front,gap,,1606.86,0.96,,,,,,,,,,,,,v_before=0.00 v_after=0.00
+30618_27e994fc,stream,rear,gap,,1606.86,0.96,,,,,,,,,,,,,v_before=0.00 v_after=0.00
+30618_27e994fc,stream,front,arrival_gap,,1606.89,0.9,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_27e994fc,stream,rear,arrival_gap,,1606.89,0.9,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_28538acf,stream,rear,stamp_excursion,,0.0,0.225,,,,,,,,,,,,,latency offset +2.06s
+30618_28538acf,stream,cmd,stamp_excursion,,0.0,0.283,,,,,,,,,,,,,latency offset +2.11s
+30618_28538acf,stream,cmd,stamp_excursion,,165.45,4.502,,,,,,,,,,,,,latency offset +0.27s
+30618_28538acf,stream,front,stamp_excursion,,166.34,2.07,,,,,,,,,,,,,latency offset -0.31s
+30618_28538acf,stream,rear,stamp_excursion,,166.34,2.07,,,,,,,,,,,,,latency offset -0.31s
+30618_28538acf,stream,front,arrival_gap,,166.97,0.99,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_28538acf,stream,rear,arrival_gap,,166.97,0.99,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_28538acf,stream,cmd,arrival_gap,,167.02,0.945,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_28538acf,stream,cmd,cmd_jump,,833.75,0.0,,,,,,,,,,,,,+7 -> +0
+30618_2cb9ce37,stream,rear,stamp_excursion,,0.0,0.26,,,,,,,,,,,,,latency offset +2.38s
+30618_2cb9ce37,stream,front,stamp_excursion,,0.01,0.206,,,,,,,,,,,,,latency offset +1.64s
+30618_2cb9ce37,stream,cmd,stamp_excursion,,0.01,0.268,,,,,,,,,,,,,latency offset +1.65s
+30618_2d2fa7be,stream,rear,stamp_excursion,,0.0,0.258,,,,,,,,,,,,,latency offset +2.18s
+30618_2d2fa7be,stream,cmd,stamp_excursion,,0.0,0.325,,,,,,,,,,,,,latency offset +2.23s
+30618_2d2fa7be,stream,front,stamp_excursion,,0.01,0.205,,,,,,,,,,,,,latency offset +1.51s
+30618_2d2fa7be,stream,cmd,cmd_jump,,187.36,0.0,,,,,,,,,,,,,+4 -> +0
+30618_2dbce472,stream,rear,stamp_excursion,,0.0,0.203,,,,,,,,,,,,,latency offset +1.89s
+30618_2dbce472,stream,cmd,cmd_jump,,174.35,0.0,,,,,,,,,,,,,+7 -> +0
+30618_2dbce472,stream,cmd,cmd_jump,,958.95,0.0,,,,,,,,,,,,,+6 -> +0
+30618_2dbce472,stream,cmd,cmd_jump,,1245.25,0.0,,,,,,,,,,,,,-13 -> -9
+30618_2f104a1d,stream,cmd,cmd_jump,,100.58,0.0,,,,,,,,,,,,,-12 -> -8
+30618_2f104a1d,stream,cmd,cmd_jump,,178.83,0.0,,,,,,,,,,,,,+4 -> +0
+30618_2f2f1175,stream,rear,stamp_excursion,,0.0,0.173,,,,,,,,,,,,,latency offset +2.07s
+30618_2f2f1175,stream,cmd,stamp_excursion,,0.0,0.216,,,,,,,,,,,,,latency offset +2.04s
+30618_2f2f1175,stream,cmd,cmd_jump,,151.24,0.0,,,,,,,,,,,,,+8 -> +0
+30618_2f2f1175,stream,cmd,cmd_jump,,772.24,0.0,,,,,,,,,,,,,+7 -> +0
+30618_33bec73f,stream,front,stamp_excursion,,0.0,0.272,,,,,,,,,,,,,latency offset +1.44s
+30618_33bec73f,stream,cmd,stamp_excursion,,0.0,0.546,,,,,,,,,,,,,latency offset +1.53s
+30618_33bec73f,gnss_label,rear,slip,traction,100.85,4.4,2.915,0.814,3.58,7.0,-6.0,9.0,2.253,4.23,-7.26,True,5.1,high,front/rear disagree
+30618_33bec73f,gnss_label,front,slip,traction,100.95,1.4,1.634,0.456,3.58,8.0,-5.0,9.0,1.291,2.67,-5.36,True,1.19,high,front/rear disagree
+30618_33bec73f,gnss_label,front,slip,traction,103.55,1.2,0.505,0.128,3.94,7.0,-2.0,7.0,2.253,1.04,-1.65,True,0.38,high,front/rear disagree
+30618_33bec73f,gnss_label,rear,slip,traction,106.65,2.4,3.011,0.694,4.34,6.0,-1.0,6.0,2.985,3.16,-6.74,False,4.01,high,front/rear disagree
+30618_33bec73f,stream,cmd,cmd_jump,,159.21,0.0,,,,,,,,,,,,,+4 -> +0
+30618_3b36e5cd,stream,rear,stamp_excursion,,0.0,0.243,,,,,,,,,,,,,latency offset +2.08s
+30618_3b36e5cd,stream,cmd,cmd_jump,,160.83,0.0,,,,,,,,,,,,,+7 -> +0
+30618_3b36e5cd,stream,cmd,cmd_jump,,872.28,0.0,,,,,,,,,,,,,+8 -> +0
+30618_3ba2326f,stream,rear,stamp_excursion,,0.0,0.17,,,,,,,,,,,,,latency offset +2.02s
+30618_3ba2326f,stream,cmd,stamp_excursion,,0.0,0.22,,,,,,,,,,,,,latency offset +2.04s
+30618_3ba2326f,stream,cmd,cmd_jump,,109.86,0.0,,,,,,,,,,,,,+8 -> +0
+30618_3ba2326f,stream,cmd,cmd_jump,,866.66,0.0,,,,,,,,,,,,,+7 -> +0
+30618_3e012faf,stream,cmd,cmd_jump,,56.53,0.0,,,,,,,,,,,,,+8 -> +0
+30618_3e012faf,stream,front,negative,,588.69,0.0,,,,,,,,,,,,,v=-0.158 km/h
+30618_3e012faf,stream,front,negative,,588.79,0.0,,,,,,,,,,,,,v=-0.354 km/h
+30618_3e012faf,stream,rear,negative,,588.79,0.0,,,,,,,,,,,,,v=-0.341 km/h
+30618_3e012faf,stream,front,negative,,588.89,0.0,,,,,,,,,,,,,v=-0.378 km/h
+30618_3e012faf,stream,rear,negative,,588.89,0.0,,,,,,,,,,,,,v=-0.384 km/h
+30618_3e012faf,stream,front,negative,,588.99,0.0,,,,,,,,,,,,,v=-0.378 km/h
+30618_3e012faf,stream,rear,negative,,588.99,0.0,,,,,,,,,,,,,v=-0.389 km/h
+30618_3e012faf,stream,front,negative,,589.09,0.0,,,,,,,,,,,,,v=-0.350 km/h
+30618_3e012faf,stream,rear,negative,,589.09,0.0,,,,,,,,,,,,,v=-0.355 km/h
+30618_3e012faf,stream,front,negative,,589.19,0.0,,,,,,,,,,,,,v=-0.273 km/h
+30618_3e012faf,stream,rear,negative,,589.19,0.0,,,,,,,,,,,,,v=-0.269 km/h
+30618_3e012faf,stream,cmd,cmd_jump,,682.48,0.0,,,,,,,,,,,,,+7 -> +0
+30618_3e9f4952,stream,cmd,cmd_jump,,224.68,0.0,,,,,,,,,,,,,+6 -> +0
+30618_3e9f4952,stream,cmd,cmd_jump,,815.93,0.0,,,,,,,,,,,,,+6 -> +0
+30618_40ffd323,stream,front,arrival_gap,,82.93,1.093,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_40ffd323,stream,rear,arrival_gap,,82.93,1.093,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_40ffd323,stream,cmd,arrival_gap,,82.97,1.043,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_40ffd323,stream,front,stamp_excursion,,84.02,1.316,,,,,,,,,,,,,latency offset +0.95s
+30618_40ffd323,stream,rear,stamp_excursion,,84.02,1.316,,,,,,,,,,,,,latency offset +0.95s
+30618_40ffd323,stream,cmd,stamp_excursion,,84.02,1.824,,,,,,,,,,,,,latency offset +0.99s
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,85.38,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,85.44,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,85.49,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,front,stamp_excursion,,85.54,0.0,,,,,,,,,,,,,latency offset +1.03s
+30618_40ffd323,stream,front,stamp_nonmonotonic,,85.54,0.0,,,,,,,,,,,,,dt_hdr=-1.073
+30618_40ffd323,stream,rear,stamp_excursion,,85.54,0.0,,,,,,,,,,,,,latency offset +1.03s
+30618_40ffd323,stream,rear,stamp_nonmonotonic,,85.54,0.0,,,,,,,,,,,,,dt_hdr=-1.073
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,85.54,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,85.59,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,front,stamp_excursion,,85.64,0.0,,,,,,,,,,,,,latency offset +1.05s
+30618_40ffd323,stream,front,stamp_nonmonotonic,,85.64,0.0,,,,,,,,,,,,,dt_hdr=-1.088
+30618_40ffd323,stream,rear,stamp_excursion,,85.64,0.0,,,,,,,,,,,,,latency offset +1.05s
+30618_40ffd323,stream,rear,stamp_nonmonotonic,,85.64,0.0,,,,,,,,,,,,,dt_hdr=-1.088
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,85.64,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,85.69,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,85.74,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,front,stamp_excursion,,85.75,0.101,,,,,,,,,,,,,latency offset +1.03s
+30618_40ffd323,stream,front,stamp_nonmonotonic,,85.75,0.0,,,,,,,,,,,,,dt_hdr=-1.087
+30618_40ffd323,stream,rear,stamp_excursion,,85.75,0.101,,,,,,,,,,,,,latency offset +1.03s
+30618_40ffd323,stream,rear,stamp_nonmonotonic,,85.75,0.0,,,,,,,,,,,,,dt_hdr=-1.087
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,85.79,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,85.84,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,cmd,stamp_excursion,,85.89,0.0,,,,,,,,,,,,,latency offset +1.01s
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,85.89,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,cmd,stamp_excursion,,85.94,0.0,,,,,,,,,,,,,latency offset +1.01s
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,85.94,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,front,stamp_excursion,,85.95,0.0,,,,,,,,,,,,,latency offset +0.96s
+30618_40ffd323,stream,front,stamp_nonmonotonic,,85.95,0.0,,,,,,,,,,,,,dt_hdr=-0.993
+30618_40ffd323,stream,rear,stamp_excursion,,85.95,0.0,,,,,,,,,,,,,latency offset +0.96s
+30618_40ffd323,stream,rear,stamp_nonmonotonic,,85.95,0.0,,,,,,,,,,,,,dt_hdr=-0.993
+30618_40ffd323,stream,cmd,stamp_excursion,,85.99,0.0,,,,,,,,,,,,,latency offset +1.01s
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,85.99,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,cmd,cmd_jump,,86.02,0.0,,,,,,,,,,,,,-7 -> -11
+30618_40ffd323,stream,cmd,stamp_excursion,,86.04,0.0,,,,,,,,,,,,,latency offset +1.01s
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,86.04,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,cmd,cmd_jump,,86.04,0.0,,,,,,,,,,,,,-11 -> -7
+30618_40ffd323,stream,cmd,cmd_jump,,86.07,0.0,,,,,,,,,,,,,-7 -> -11
+30618_40ffd323,stream,cmd,stamp_excursion,,86.1,0.0,,,,,,,,,,,,,latency offset +1.02s
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,86.1,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,cmd,cmd_jump,,86.1,0.0,,,,,,,,,,,,,-11 -> -7
+30618_40ffd323,stream,cmd,cmd_jump,,86.12,0.0,,,,,,,,,,,,,-7 -> -12
+30618_40ffd323,stream,front,stamp_excursion,,86.15,0.0,,,,,,,,,,,,,latency offset +0.96s
+30618_40ffd323,stream,front,stamp_nonmonotonic,,86.15,0.0,,,,,,,,,,,,,dt_hdr=-0.991
+30618_40ffd323,stream,rear,stamp_excursion,,86.15,0.0,,,,,,,,,,,,,latency offset +0.96s
+30618_40ffd323,stream,rear,stamp_nonmonotonic,,86.15,0.0,,,,,,,,,,,,,dt_hdr=-0.991
+30618_40ffd323,stream,cmd,stamp_excursion,,86.15,0.0,,,,,,,,,,,,,latency offset +1.02s
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,86.15,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,cmd,cmd_jump,,86.15,0.0,,,,,,,,,,,,,-12 -> -7
+30618_40ffd323,stream,cmd,cmd_jump,,86.17,0.0,,,,,,,,,,,,,-7 -> -12
+30618_40ffd323,stream,cmd,stamp_excursion,,86.2,0.0,,,,,,,,,,,,,latency offset +1.02s
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,86.2,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,cmd,cmd_jump,,86.2,0.0,,,,,,,,,,,,,-12 -> -7
+30618_40ffd323,stream,cmd,cmd_jump,,86.22,0.0,,,,,,,,,,,,,-7 -> -12
+30618_40ffd323,stream,cmd,stamp_excursion,,86.25,0.0,,,,,,,,,,,,,latency offset +1.02s
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,86.25,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,cmd,cmd_jump,,86.25,0.0,,,,,,,,,,,,,-12 -> -7
+30618_40ffd323,stream,cmd,cmd_jump,,86.27,0.0,,,,,,,,,,,,,-7 -> -13
+30618_40ffd323,stream,cmd,stamp_excursion,,86.3,0.0,,,,,,,,,,,,,latency offset +1.02s
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,86.3,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,cmd,cmd_jump,,86.3,0.0,,,,,,,,,,,,,-13 -> -7
+30618_40ffd323,stream,cmd,cmd_jump,,86.32,0.0,,,,,,,,,,,,,-7 -> -13
+30618_40ffd323,stream,front,stamp_excursion,,86.35,0.0,,,,,,,,,,,,,latency offset +1.06s
+30618_40ffd323,stream,front,stamp_nonmonotonic,,86.35,0.0,,,,,,,,,,,,,dt_hdr=-1.093
+30618_40ffd323,stream,cmd,stamp_excursion,,86.35,0.0,,,,,,,,,,,,,latency offset +1.02s
+30618_40ffd323,stream,cmd,stamp_nonmonotonic,,86.35,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30618_40ffd323,stream,cmd,cmd_jump,,86.35,0.0,,,,,,,,,,,,,-13 -> -7
+30618_40ffd323,stream,rear,stamp_excursion,,86.36,0.0,,,,,,,,,,,,,latency offset +1.06s
+30618_40ffd323,stream,rear,stamp_nonmonotonic,,86.36,0.0,,,,,,,,,,,,,dt_hdr=-1.093
+30618_40ffd323,stream,cmd,cmd_jump,,86.38,0.0,,,,,,,,,,,,,-7 -> -13
+30618_40ffd323,stream,cmd,cmd_jump,,142.14,0.0,,,,,,,,,,,,,+7 -> +0
+30618_40ffd323,stream,cmd,stamp_excursion,,503.68,2.79,,,,,,,,,,,,,latency offset -0.41s
+30618_40ffd323,stream,front,stamp_excursion,,503.77,4.322,,,,,,,,,,,,,latency offset -0.36s
+30618_40ffd323,stream,rear,stamp_excursion,,503.77,4.321,,,,,,,,,,,,,latency offset -0.36s
+30618_40ffd323,stream,front,arrival_gap,,506.47,0.99,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_40ffd323,stream,rear,arrival_gap,,506.47,0.99,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_40ffd323,stream,cmd,arrival_gap,,506.47,0.944,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_40ffd323,stream,cmd,cmd_jump,,777.78,0.0,,,,,,,,,,,,,-14 -> -10
+30618_40ffd323,stream,cmd,cmd_jump,,813.68,0.0,,,,,,,,,,,,,+7 -> +0
+30618_437e855c,stream,front,stamp_excursion,,0.0,0.32,,,,,,,,,,,,,latency offset +1.42s
+30618_437e855c,stream,cmd,stamp_excursion,,0.0,0.433,,,,,,,,,,,,,latency offset +1.56s
+30618_437e855c,stream,cmd,cmd_jump,,777.62,0.0,,,,,,,,,,,,,+5 -> +0
+30618_49fe4c54,stream,rear,stamp_excursion,,0.0,0.14,,,,,,,,,,,,,latency offset +1.90s
+30618_49fe4c54,stream,cmd,stamp_excursion,,0.0,0.183,,,,,,,,,,,,,latency offset +1.82s
+30618_49fe4c54,stream,cmd,cmd_jump,,210.48,0.0,,,,,,,,,,,,,+8 -> +0
+30618_49fe4c54,stream,cmd,cmd_jump,,1019.13,0.0,,,,,,,,,,,,,+7 -> +0
+30618_4d487b0d,stream,cmd,cmd_jump,,135.57,0.0,,,,,,,,,,,,,+6 -> +0
+30618_4d487b0d,stream,cmd,cmd_jump,,739.07,0.0,,,,,,,,,,,,,+6 -> +0
+30618_5036aa78,stream,rear,stamp_excursion,,0.0,0.18,,,,,,,,,,,,,latency offset +2.00s
+30618_5036aa78,stream,cmd,stamp_excursion,,0.0,0.215,,,,,,,,,,,,,latency offset +2.01s
+30618_616ec56b,stream,rear,stamp_excursion,,0.0,0.168,,,,,,,,,,,,,latency offset +2.02s
+30618_616ec56b,stream,cmd,stamp_excursion,,0.0,0.207,,,,,,,,,,,,,latency offset +2.00s
+30618_616ec56b,stream,cmd,cmd_jump,,160.1,0.0,,,,,,,,,,,,,+5 -> +0
+30618_616ec56b,stream,cmd,cmd_jump,,790.45,0.0,,,,,,,,,,,,,+10 -> +6
+30618_6236f680,stream,rear,stamp_excursion,,0.0,0.19,,,,,,,,,,,,,latency offset +2.15s
+30618_6236f680,stream,cmd,stamp_excursion,,0.0,0.227,,,,,,,,,,,,,latency offset +2.17s
+30618_6236f680,stream,front,stamp_excursion,,0.01,0.158,,,,,,,,,,,,,latency offset +1.55s
+30618_6236f680,stream,cmd,cmd_jump,,113.3,0.0,,,,,,,,,,,,,+5 -> +0
+30618_67b89902,stream,front,stamp_excursion,,0.0,0.226,,,,,,,,,,,,,latency offset +1.43s
+30618_67b89902,stream,cmd,stamp_excursion,,0.0,0.404,,,,,,,,,,,,,latency offset +1.53s
+30618_67b89902,stream,cmd,cmd_jump,,113.99,0.0,,,,,,,,,,,,,+4 -> +0
+30618_67b89902,stream,cmd,cmd_jump,,637.79,0.0,,,,,,,,,,,,,+4 -> +0
+30618_68847170,stream,cmd,cmd_jump,,142.8,0.0,,,,,,,,,,,,,+5 -> +0
+30618_68d1748a,stream,rear,stamp_excursion,,0.0,0.179,,,,,,,,,,,,,latency offset +1.82s
+30618_68d1748a,stream,cmd,cmd_jump,,184.47,0.0,,,,,,,,,,,,,+6 -> +0
+30618_68d1748a,stream,cmd,cmd_jump,,794.22,0.0,,,,,,,,,,,,,+6 -> +0
+30618_68d1748a,gnss_label,rear,slide,brake,991.4,1.8,-2.531,-0.344,7.36,-5.0,-6.0,7.0,1.174,7.04,-3.18,True,-2.75,high,front/rear disagree
+30618_68d1748a,gnss_label,front,slide,brake,991.9,1.2,-1.671,-0.229,7.3,-5.0,-6.0,7.0,1.174,6.39,-2.97,True,-1.28,high,front/rear disagree
+30618_6cb3280a,stream,rear,stamp_excursion,,0.0,0.209,,,,,,,,,,,,,latency offset +1.96s
+30618_6cb3280a,stream,cmd,cmd_jump,,192.02,0.0,,,,,,,,,,,,,+4 -> +0
+30618_748832b9,stream,rear,stamp_excursion,,0.0,0.216,,,,,,,,,,,,,latency offset +2.09s
+30618_748832b9,stream,front,stamp_excursion,,0.01,0.172,,,,,,,,,,,,,latency offset +1.46s
+30618_748832b9,stream,cmd,stamp_excursion,,0.01,0.245,,,,,,,,,,,,,latency offset +1.64s
+30618_748832b9,stream,cmd,cmd_jump,,137.45,0.0,,,,,,,,,,,,,+4 -> +0
+30618_76e1f9c7,stream,cmd,cmd_jump,,116.91,0.0,,,,,,,,,,,,,+6 -> +0
+30618_76e1f9c7,stream,cmd,cmd_jump,,887.06,0.0,,,,,,,,,,,,,+6 -> +0
+30618_79b204dc,stream,rear,stamp_excursion,,0.0,0.169,,,,,,,,,,,,,latency offset +2.10s
+30618_7a152380,stream,rear,stamp_excursion,,0.0,0.206,,,,,,,,,,,,,latency offset +2.05s
+30618_7a152380,stream,cmd,stamp_excursion,,0.0,0.26,,,,,,,,,,,,,latency offset +2.06s
+30618_7a152380,stream,cmd,cmd_jump,,148.95,0.0,,,,,,,,,,,,,+7 -> +0
+30618_7a152380,stream,cmd,cmd_jump,,863.75,0.0,,,,,,,,,,,,,+7 -> +0
+30618_7b4d83f4,stream,rear,stamp_excursion,,0.0,0.196,,,,,,,,,,,,,latency offset +2.04s
+30618_7b4d83f4,stream,cmd,cmd_jump,,136.3,0.0,,,,,,,,,,,,,+5 -> +0
+30618_8158f0b0,stream,rear,stamp_excursion,,0.0,0.148,,,,,,,,,,,,,latency offset +1.88s
+30618_8158f0b0,stream,cmd,stamp_excursion,,0.0,0.183,,,,,,,,,,,,,latency offset +1.89s
+30618_8158f0b0,stream,cmd,cmd_jump,,115.81,0.0,,,,,,,,,,,,,+8 -> +0
+30618_8158f0b0,stream,cmd,cmd_jump,,794.11,0.0,,,,,,,,,,,,,+8 -> +0
+30618_81c22fee,stream,rear,stamp_excursion,,0.0,0.191,,,,,,,,,,,,,latency offset +2.05s
+30618_81c22fee,stream,cmd,stamp_excursion,,0.0,0.25,,,,,,,,,,,,,latency offset +2.03s
+30618_81c22fee,stream,front,stamp_excursion,,0.01,0.146,,,,,,,,,,,,,latency offset +1.47s
+30618_81c22fee,stream,cmd,cmd_jump,,127.59,0.0,,,,,,,,,,,,,+12 -> +0
+30618_81c22fee,stream,cmd,cmd_jump,,748.89,0.0,,,,,,,,,,,,,-13 -> -9
+30618_81c22fee,stream,cmd,cmd_jump,,784.34,0.0,,,,,,,,,,,,,+7 -> +0
+30618_87afe526,stream,cmd,cmd_jump,,167.46,0.0,,,,,,,,,,,,,+5 -> +0
+30618_87afe526,stream,cmd,cmd_jump,,795.51,0.0,,,,,,,,,,,,,+6 -> +0
+30618_88548b02,stream,front,stamp_excursion,,0.0,0.273,,,,,,,,,,,,,latency offset +1.38s
+30618_88548b02,stream,cmd,stamp_excursion,,0.0,0.46,,,,,,,,,,,,,latency offset +1.42s
+30618_88548b02,stream,cmd,cmd_jump,,126.72,0.0,,,,,,,,,,,,,+4 -> +0
+30618_9bbe6faa,stream,rear,stamp_excursion,,0.0,0.211,,,,,,,,,,,,,latency offset +2.18s
+30618_9bbe6faa,stream,cmd,stamp_excursion,,0.0,0.262,,,,,,,,,,,,,latency offset +2.21s
+30618_9bbe6faa,stream,front,stamp_excursion,,0.01,0.17,,,,,,,,,,,,,latency offset +1.62s
+30618_9bbe6faa,stream,cmd,cmd_jump,,182.28,0.0,,,,,,,,,,,,,+4 -> +0
+30618_9c09b081,stream,rear,stamp_excursion,,0.0,0.159,,,,,,,,,,,,,latency offset +2.07s
+30618_9c09b081,stream,cmd,cmd_jump,,162.34,0.0,,,,,,,,,,,,,+8 -> +0
+30618_9c09b081,stream,cmd,cmd_jump,,905.34,0.0,,,,,,,,,,,,,+7 -> +0
+30618_a53d5f6f,stream,front,stamp_excursion,,0.0,0.251,,,,,,,,,,,,,latency offset +1.34s
+30618_a53d5f6f,stream,cmd,stamp_excursion,,0.0,0.465,,,,,,,,,,,,,latency offset +1.41s
+30618_a53d5f6f,stream,cmd,cmd_jump,,174.02,0.0,,,,,,,,,,,,,+5 -> +0
+30618_a53d5f6f,stream,cmd,cmd_jump,,744.82,0.0,,,,,,,,,,,,,-14 -> -10
+30618_a53d5f6f,stream,cmd,cmd_jump,,784.82,0.0,,,,,,,,,,,,,+8 -> +0
+30618_a869780d,stream,front,stamp_excursion,,0.0,0.341,,,,,,,,,,,,,latency offset +1.54s
+30618_a869780d,stream,cmd,stamp_excursion,,0.0,0.46,,,,,,,,,,,,,latency offset +1.68s
+30618_a869780d,stream,cmd,cmd_jump,,43.09,0.0,,,,,,,,,,,,,+6 -> +0
+30618_a869780d,stream,cmd,cmd_jump,,666.39,0.0,,,,,,,,,,,,,+7 -> +0
+30618_ab5921a4,stream,cmd,cmd_jump,,93.83,0.0,,,,,,,,,,,,,+7 -> +0
+30618_ab5921a4,stream,cmd,cmd_jump,,692.23,0.0,,,,,,,,,,,,,+6 -> +0
+30618_af7496f0,stream,rear,stamp_excursion,,0.0,0.178,,,,,,,,,,,,,latency offset +1.94s
+30618_af7496f0,stream,cmd,stamp_excursion,,140.4,4.456,,,,,,,,,,,,,latency offset -0.26s
+30618_af7496f0,stream,front,stamp_excursion,,141.89,1.62,,,,,,,,,,,,,latency offset -0.42s
+30618_af7496f0,stream,rear,stamp_excursion,,141.89,1.62,,,,,,,,,,,,,latency offset -0.42s
+30618_af7496f0,stream,front,arrival_gap,,142.25,0.989,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_af7496f0,stream,rear,arrival_gap,,142.25,0.989,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_af7496f0,stream,cmd,arrival_gap,,142.29,0.945,,,,,,,,,,,,,no new-stamp message in arrival order
+30618_b15eafc3,stream,cmd,cmd_jump,,175.78,0.0,,,,,,,,,,,,,+4 -> +0
+30618_b8044aa0,stream,rear,stamp_excursion,,0.0,0.154,,,,,,,,,,,,,latency offset +1.87s
+30618_b83d854d,stream,rear,stamp_excursion,,0.0,0.157,,,,,,,,,,,,,latency offset +1.89s
+30618_b83d854d,stream,cmd,cmd_jump,,148.53,0.0,,,,,,,,,,,,,+4 -> +0
+30618_b83d854d,stream,cmd,cmd_jump,,825.23,0.0,,,,,,,,,,,,,+5 -> +0
+30618_b95ca60a,stream,rear,stamp_excursion,,0.0,0.193,,,,,,,,,,,,,latency offset +1.93s
+30618_b95ca60a,stream,cmd,cmd_jump,,105.66,0.0,,,,,,,,,,,,,+4 -> +0
+30618_bc5e53c2,stream,rear,stamp_excursion,,0.0,0.218,,,,,,,,,,,,,latency offset +2.28s
+30618_bc5e53c2,stream,front,stamp_excursion,,0.01,0.177,,,,,,,,,,,,,latency offset +1.61s
+30618_bc5e53c2,stream,cmd,stamp_excursion,,0.01,0.23,,,,,,,,,,,,,latency offset +1.54s
+30618_d4ba7005,stream,cmd,cmd_jump,,688.03,0.0,,,,,,,,,,,,,+4 -> +0
+30618_dd8d0741,stream,front,stamp_excursion,,0.0,0.241,,,,,,,,,,,,,latency offset +1.30s
+30618_dd8d0741,stream,cmd,stamp_excursion,,0.0,0.425,,,,,,,,,,,,,latency offset +1.37s
+30618_dd8d0741,stream,cmd,cmd_jump,,154.91,0.0,,,,,,,,,,,,,+8 -> +0
+30618_dd8d0741,stream,cmd,cmd_jump,,831.11,0.0,,,,,,,,,,,,,+9 -> +0
+30618_dd8d0741,stream,cmd,cmd_jump,,1070.96,0.0,,,,,,,,,,,,,-13 -> -9
+30618_dd8d0741,stream,cmd,cmd_jump,,1071.01,0.0,,,,,,,,,,,,,-9 -> -5
+30618_dd8e6395,stream,front,stamp_excursion,,0.0,0.204,,,,,,,,,,,,,latency offset +1.23s
+30618_dd8e6395,stream,cmd,stamp_excursion,,0.0,0.34,,,,,,,,,,,,,latency offset +1.30s
+30618_dd8e6395,stream,cmd,cmd_jump,,132.62,0.0,,,,,,,,,,,,,+6 -> +0
+30618_dd8e6395,stream,cmd,cmd_jump,,777.82,0.0,,,,,,,,,,,,,+6 -> +0
+30618_defd0170,stream,front,stamp_excursion,,0.0,0.244,,,,,,,,,,,,,latency offset +1.52s
+30618_defd0170,stream,cmd,stamp_excursion,,0.0,0.398,,,,,,,,,,,,,latency offset +1.59s
+30618_defd0170,stream,cmd,cmd_jump,,156.07,0.0,,,,,,,,,,,,,+5 -> +0
+30618_e2dcf65f,stream,rear,stamp_excursion,,0.0,0.172,,,,,,,,,,,,,latency offset +1.91s
+30618_e2dcf65f,stream,cmd,cmd_jump,,110.87,0.0,,,,,,,,,,,,,+5 -> +0
+30618_e3d94878,stream,rear,stamp_excursion,,0.0,0.182,,,,,,,,,,,,,latency offset +1.98s
+30618_e9a34502,stream,front,stamp_excursion,,0.0,0.248,,,,,,,,,,,,,latency offset +1.35s
+30618_e9a34502,stream,cmd,stamp_excursion,,0.0,0.401,,,,,,,,,,,,,latency offset +1.42s
+30618_e9a34502,stream,cmd,cmd_jump,,164.52,0.0,,,,,,,,,,,,,+4 -> +0
+30618_f19a4ac3,stream,cmd,cmd_jump,,847.1,0.0,,,,,,,,,,,,,+11 -> +7
+30639_0ab96c59,stream,front,stamp_excursion,,0.0,0.194,,,,,,,,,,,,,latency offset +1.21s
+30639_0ab96c59,stream,cmd,stamp_excursion,,0.0,0.29,,,,,,,,,,,,,latency offset +1.32s
+30639_0ab96c59,stream,front,gap,,26.74,0.77,,,,,,,,,,,,,v_before=0.00 v_after=0.00
+30639_0ab96c59,stream,rear,gap,,26.74,0.77,,,,,,,,,,,,,v_before=0.00 v_after=0.00
+30639_0be558e2,stream,front,stamp_excursion,,0.0,0.182,,,,,,,,,,,,,latency offset +1.26s
+30639_0be558e2,stream,cmd,stamp_excursion,,0.0,0.371,,,,,,,,,,,,,latency offset +1.38s
+30639_0be558e2,stream,cmd,cmd_jump,,271.66,0.0,,,,,,,,,,,,,+7 -> +0
+30639_0be558e2,stream,cmd,cmd_jump,,927.37,0.0,,,,,,,,,,,,,+6 -> +0
+30639_253671cc,stream,cmd,cmd_jump,,805.81,0.0,,,,,,,,,,,,,+4 -> +0
+30639_3b3d9eb8,stream,rear,frozen,,369.86,1.8,,,,,,,,,,,,,19 identical samples v=4.808 km/h
+30639_3b3d9eb8,gnss_label,rear,lock,coast,371.68,0.5,-1.442,-1.0,1.44,0.0,0.0,0.0,1.422,0.0,-5.92,False,-0.62,high,front/rear disagree
+30639_3b3d9eb8,stream,rear,gap,,372.15,30.398,,,,,,,,,,,,,v_before=0.00 v_after=0.00
+30639_3b3d9eb8,stream,rear,arrival_gap,,372.16,30.4,,,,,,,,,,,,,no new-stamp message in arrival order
+30639_3b3d9eb8,stream,front,gap,,401.66,0.89,,,,,,,,,,,,,v_before=0.31 v_after=0.00
+30639_3b3d9eb8,stream,front,arrival_gap,,401.66,0.9,,,,,,,,,,,,,no new-stamp message in arrival order
+30639_3b3d9eb8,gnss_label,rear,stuck_zero,traction,416.18,1.0,-0.583,-1.0,0.58,3.0,3.0,5.0,0.557,0.0,0.0,False,-0.33,high,sensor stuck at 0 at motion start (then topic silent)
+30639_3b3d9eb8,stream,rear,gap,,417.15,73.499,,,,,,,,,,,,,v_before=0.00 v_after=39.05
+30639_3b3d9eb8,stream,rear,arrival_gap,,417.16,73.5,,,,,,,,,,,,,no new-stamp message in arrival order
+30639_4285f2bc,gnss_label,rear,stuck_zero,traction,5.46,1.4,-0.319,-1.0,0.32,3.0,3.0,5.0,0.338,0.0,0.0,False,-0.31,high,sensor stuck at 0 at motion start (then topic silent)
+30639_4285f2bc,stream,rear,arrival_gap,,6.87,47.099,,,,,,,,,,,,,no new-stamp message in arrival order
+30639_4285f2bc,stream,rear,gap,,6.91,47.105,,,,,,,,,,,,,v_before=0.00 v_after=4.62
+30639_4285f2bc,stream,cmd,cmd_jump,,893.83,0.0,,,,,,,,,,,,,+6 -> +0
+30639_44226bde,gnss_label,rear,stuck_zero,traction,3.81,1.1,-0.509,-1.0,0.51,3.0,3.0,4.0,0.48,0.0,0.0,False,-0.35,high,sensor stuck at 0 at motion start (then topic silent)
+30639_44226bde,stream,rear,arrival_gap,,4.83,16.7,,,,,,,,,,,,,no new-stamp message in arrival order
+30639_44226bde,stream,rear,gap,,4.88,16.698,,,,,,,,,,,,,v_before=0.00 v_after=4.17
+30639_50956d6e,gnss_label,rear,slip,traction,76.94,2.5,2.156,0.373,5.78,11.0,1.0,11.0,2.161,4.16,-4.15,False,2.66,high,front/rear disagree
+30639_50956d6e,gnss_label,front,slip,traction,94.74,2.1,3.277,0.391,8.38,14.0,3.0,14.0,3.24,4.6,-5.0,False,4.05,high,front/rear disagree
+30639_50956d6e,stream,cmd,cmd_jump,,99.43,0.0,,,,,,,,,,,,,+4 -> +0
+30639_50956d6e,stream,cmd,cmd_jump,,701.74,0.0,,,,,,,,,,,,,+5 -> +0
+30639_50956d6e,gnss_label,front,slip,coast,1025.64,1.4,0.87,0.432,2.02,0.0,0.0,6.0,0.831,1.97,-2.63,False,0.8,high,front/rear disagree
+30639_50956d6e,gnss_label,front,lock,coast,1036.74,3.0,-1.69,-0.909,1.86,0.0,-15.0,0.0,0.293,0.45,-3.65,True,-3.14,high,front/rear disagree
+30639_50956d6e,gnss_label,rear,lock,coast,1036.74,3.0,-1.839,-0.961,1.91,0.0,-15.0,0.0,0.293,0.43,-3.79,True,-3.36,high,front/rear disagree
+30639_584b6e32,stream,cmd,cmd_jump,,100.31,0.0,,,,,,,,,,,,,+7 -> +0
+30639_584b6e32,stream,cmd,cmd_jump,,704.16,0.0,,,,,,,,,,,,,+4 -> +0
+30639_584b6e32,gnss_label,rear,stuck_zero,traction,1083.99,1.1,-0.445,-1.0,0.45,4.0,3.0,4.0,0.456,0.0,0.0,False,-0.31,high,sensor stuck at 0 at motion start (then topic silent)
+30639_584b6e32,stream,rear,arrival_gap,,1085.03,16.3,,,,,,,,,,,,,no new-stamp message in arrival order
+30639_584b6e32,stream,rear,gap,,1085.06,16.298,,,,,,,,,,,,,v_before=0.00 v_after=9.79
+30639_92226df0,stream,front,stamp_excursion,,0.0,0.427,,,,,,,,,,,,,latency offset +2.61s
+30639_92226df0,stream,rear,stamp_excursion,,0.0,0.427,,,,,,,,,,,,,latency offset +2.61s
+30639_92226df0,stream,cmd,stamp_excursion,,0.01,0.463,,,,,,,,,,,,,latency offset +2.07s
+30639_92226df0,stream,cmd,cmd_jump,,1013.22,0.0,,,,,,,,,,,,,+4 -> +0
+30639_927002c2,gnss_label,rear,slide,brake,60.49,2.0,-0.327,-0.14,2.34,-14.0,-14.0,-8.0,0.223,0.37,-2.11,False,-0.44,high,front/rear disagree
+30639_927002c2,gnss_label,rear,stuck_zero,traction,243.69,0.8,-0.39,-1.0,0.39,4.0,3.0,4.0,0.413,0.0,0.0,False,-0.21,high,sensor stuck at 0 at motion start (then topic silent)
+30639_927002c2,stream,rear,arrival_gap,,244.42,20.5,,,,,,,,,,,,,no new-stamp message in arrival order
+30639_927002c2,stream,rear,gap,,244.47,20.498,,,,,,,,,,,,,v_before=0.00 v_after=36.89
+30639_927002c2,gnss_label,rear,stuck_zero,traction,915.29,1.1,-0.389,-1.0,0.39,3.0,3.0,4.0,0.365,0.0,0.0,False,-0.27,high,sensor stuck at 0 at motion start (then topic silent)
+30639_927002c2,stream,rear,arrival_gap,,916.42,8.7,,,,,,,,,,,,,no new-stamp message in arrival order
+30639_927002c2,stream,rear,gap,,916.44,8.686,,,,,,,,,,,,,v_before=0.00 v_after=28.19
+30639_9c362687,stream,front,negative,,91.82,0.0,,,,,,,,,,,,,v=-0.264 km/h
+30639_9c362687,stream,rear,negative,,91.82,0.0,,,,,,,,,,,,,v=-0.264 km/h
+30639_9c362687,stream,front,negative,,91.92,0.0,,,,,,,,,,,,,v=-0.249 km/h
+30639_9c362687,stream,rear,negative,,91.92,0.0,,,,,,,,,,,,,v=-0.240 km/h
+30639_9c362687,stream,front,negative,,92.01,0.0,,,,,,,,,,,,,v=-0.216 km/h
+30639_9c362687,stream,rear,negative,,92.02,0.0,,,,,,,,,,,,,v=-0.216 km/h
+30639_9c362687,stream,cmd,cmd_jump,,111.08,0.0,,,,,,,,,,,,,+9 -> +5
+30639_9c362687,stream,cmd,arrival_gap,,1331.68,1.058,,,,,,,,,,,,,no new-stamp message in arrival order
+30639_9c362687,stream,cmd,stamp_excursion,,1331.68,0.0,,,,,,,,,,,,,latency offset -1.01s
+30639_9c362687,stream,cmd,stamp_nonmonotonic,,1331.68,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30639_9c362687,stream,front,arrival_gap,,1331.71,1.108,,,,,,,,,,,,,no new-stamp message in arrival order
+30639_9c362687,stream,front,stamp_excursion,,1331.71,0.0,,,,,,,,,,,,,latency offset -1.00s
+30639_9c362687,stream,rear,arrival_gap,,1331.71,1.109,,,,,,,,,,,,,no new-stamp message in arrival order
+30639_9c362687,stream,rear,stamp_excursion,,1331.71,0.0,,,,,,,,,,,,,latency offset -1.00s
+30639_9c362687,stream,front,stamp_nonmonotonic,,1331.72,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30639_9c362687,stream,rear,stamp_nonmonotonic,,1331.72,0.0,,,,,,,,,,,,,dt_hdr=-1.000
+30639_9f0b519f,stream,cmd,stamp_excursion,,0.0,0.309,,,,,,,,,,,,,latency offset +1.30s
+30639_9f0b519f,stream,front,stamp_excursion,,0.05,0.136,,,,,,,,,,,,,latency offset +1.08s
+30639_9f0b519f,gnss_label,rear,stuck_zero,traction,505.47,0.8,-0.441,-1.0,0.44,4.0,3.0,4.0,0.431,0.0,0.0,False,-0.22,high,sensor stuck at 0 at motion start (then topic silent)
+30639_9f0b519f,stream,rear,gap,,506.24,5.798,,,,,,,,,,,,,v_before=0.00 v_after=22.07
+30639_9f0b519f,stream,rear,arrival_gap,,506.24,5.799,,,,,,,,,,,,,no new-stamp message in arrival order
+30639_9f0b519f,stream,cmd,cmd_jump,,680.22,0.0,,,,,,,,,,,,,+4 -> +0
+30639_c31df386,stream,front,stamp_excursion,,0.0,0.51,,,,,,,,,,,,,latency offset +2.80s
+30639_c31df386,stream,rear,stamp_excursion,,0.0,0.51,,,,,,,,,,,,,latency offset +2.80s
+30639_c31df386,stream,cmd,stamp_excursion,,0.02,0.553,,,,,,,,,,,,,latency offset +2.20s
+30639_c31df386,gnss_label,front,stuck_zero,traction,8.76,1.0,-0.477,-1.0,0.48,3.0,3.0,4.0,0.478,0.0,0.0,False,-0.31,high,sensor stuck at 0 at motion start (then topic silent)
+30639_c31df386,stream,front,gap,,9.8,19.812,,,,,,,,,,,,,v_before=0.00 v_after=10.69
+30639_c31df386,stream,front,arrival_gap,,9.81,19.801,,,,,,,,,,,,,no new-stamp message in arrival order
+30639_d3c43d69,stream,cmd,cmd_jump,,156.53,0.0,,,,,,,,,,,,,+4 -> +0
+30639_d3c43d69,stream,cmd,cmd_jump,,815.33,0.0,,,,,,,,,,,,,+5 -> +0
+30639_d601d28f,stream,front,stamp_excursion,,0.0,0.211,,,,,,,,,,,,,latency offset +2.31s
+30639_d601d28f,stream,rear,stamp_excursion,,0.0,0.212,,,,,,,,,,,,,latency offset +2.31s
+30639_d601d28f,stream,cmd,stamp_excursion,,0.02,0.218,,,,,,,,,,,,,latency offset +1.73s
+30639_d927f360,gnss_label,rear,stuck_zero,traction,275.69,1.0,-0.491,-1.0,0.49,4.0,3.0,5.0,0.464,0.0,0.0,False,-0.29,high,sensor stuck at 0 at motion start (then topic silent)
+30639_d927f360,stream,rear,arrival_gap,,276.63,25.6,,,,,,,,,,,,,no new-stamp message in arrival order
+30639_d927f360,stream,rear,gap,,276.64,25.584,,,,,,,,,,,,,v_before=0.00 v_after=42.22
+30639_d927f360,gnss_label,rear,stuck_zero,coast,1058.59,0.6,-0.423,-1.0,0.42,0.0,0.0,0.0,0.35,0.0,0.0,False,-0.16,high,sensor stuck at 0 at motion start (then topic silent)
+30639_d927f360,stream,rear,gap,,1059.17,12.098,,,,,,,,,,,,,v_before=0.00 v_after=9.32
+30639_d927f360,stream,rear,arrival_gap,,1059.22,12.1,,,,,,,,,,,,,no new-stamp message in arrival order
+30639_dce52be4,stream,cmd,cmd_jump,,142.72,0.0,,,,,,,,,,,,,+4 -> +0
+30639_dce52be4,stream,cmd,cmd_jump,,830.32,0.0,,,,,,,,,,,,,+4 -> +0
+30639_e4379d7f,stream,front,stamp_excursion,,0.0,0.408,,,,,,,,,,,,,latency offset +3.47s
+30639_e4379d7f,stream,rear,stamp_excursion,,0.0,0.408,,,,,,,,,,,,,latency offset +3.47s
+30639_e4379d7f,stream,cmd,stamp_excursion,,0.01,0.477,,,,,,,,,,,,,latency offset +2.40s
+30639_e4379d7f,stream,cmd,cmd_jump,,975.57,0.0,,,,,,,,,,,,,+4 -> +0
+30639_e4379d7f,monitor_nognss,rear,slide,,1147.23,0.89,-1.92,,,-15.0,,,,,,,,,"classes=fr/gate/rate v_range=[7.22,8.72] v_model=9.14"

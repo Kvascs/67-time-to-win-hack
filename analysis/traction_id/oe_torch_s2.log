@@ -1,0 +1,47 @@
+windows 11798 3237 5 s
+ES rmse before: 0.4036  @1s 0.101 @5s 0.396 @10s 0.603
+C:\MosTransHack\analysis\traction_id\oe_torch.py:205: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:821.)
+  ep, r, rh[9], rh[49], rh[99], float(torch.exp(model.log_tau)), np.round(model.kg.detach().numpy(), 2),
+ep 0  ES rmse 0.3917  @1s 0.100 @5s 0.386 @10s 0.581  tau 0.318 kg [8.24 8.7  7.7 ]  (4 s)
+ep 1  ES rmse 0.3814  @1s 0.100 @5s 0.377 @10s 0.562  tau 0.337 kg [8.24 8.64 7.66]  (3 s)
+ep 2  ES rmse 0.3715  @1s 0.100 @5s 0.368 @10s 0.546  tau 0.355 kg [8.22 8.59 7.6 ]  (3 s)
+ep 3  ES rmse 0.3635  @1s 0.099 @5s 0.360 @10s 0.533  tau 0.373 kg [8.22 8.53 7.55]  (3 s)
+ep 4  ES rmse 0.3562  @1s 0.098 @5s 0.353 @10s 0.522  tau 0.389 kg [8.22 8.48 7.51]  (3 s)
+ep 5  ES rmse 0.3502  @1s 0.098 @5s 0.347 @10s 0.513  tau 0.404 kg [8.22 8.43 7.47]  (4 s)
+ep 6  ES rmse 0.3445  @1s 0.097 @5s 0.341 @10s 0.505  tau 0.418 kg [8.22 8.38 7.43]  (4 s)
+ep 7  ES rmse 0.3395  @1s 0.097 @5s 0.336 @10s 0.498  tau 0.429 kg [8.22 8.33 7.4 ]  (4 s)
+ep 8  ES rmse 0.3348  @1s 0.097 @5s 0.331 @10s 0.491  tau 0.437 kg [8.22 8.29 7.37]  (5 s)
+ep 9  ES rmse 0.3310  @1s 0.096 @5s 0.327 @10s 0.486  tau 0.444 kg [8.24 8.25 7.35]  (5 s)
+ep 10  ES rmse 0.3272  @1s 0.096 @5s 0.323 @10s 0.480  tau 0.448 kg [8.24 8.21 7.33]  (6 s)
+ep 11  ES rmse 0.3237  @1s 0.095 @5s 0.319 @10s 0.475  tau 0.451 kg [8.25 8.18 7.3 ]  (6 s)
+ep 12  ES rmse 0.3216  @1s 0.095 @5s 0.317 @10s 0.473  tau 0.451 kg [8.27 8.15 7.29]  (5 s)
+ep 13  ES rmse 0.3195  @1s 0.095 @5s 0.315 @10s 0.470  tau 0.451 kg [8.26 8.12 7.28]  (4 s)
+ep 14  ES rmse 0.3171  @1s 0.094 @5s 0.312 @10s 0.467  tau 0.452 kg [8.27 8.09 7.28]  (4 s)
+ep 15  ES rmse 0.3154  @1s 0.094 @5s 0.311 @10s 0.464  tau 0.450 kg [8.29 8.07 7.27]  (5 s)
+ep 16  ES rmse 0.3144  @1s 0.094 @5s 0.310 @10s 0.463  tau 0.450 kg [8.3  8.05 7.28]  (6 s)
+ep 17  ES rmse 0.3140  @1s 0.093 @5s 0.309 @10s 0.462  tau 0.450 kg [8.3  8.03 7.28]  (7 s)
+ep 18  ES rmse 0.3132  @1s 0.093 @5s 0.308 @10s 0.461  tau 0.450 kg [8.31 8.02 7.28]  (8 s)
+ep 19  ES rmse 0.3128  @1s 0.093 @5s 0.308 @10s 0.460  tau 0.450 kg [8.31 8.01 7.28]  (7 s)
+ep 20  ES rmse 0.3127  @1s 0.093 @5s 0.308 @10s 0.460  tau 0.451 kg [8.32 8.   7.28]  (5 s)
+ep 21  ES rmse 0.3125  @1s 0.093 @5s 0.308 @10s 0.460  tau 0.451 kg [8.32 7.99 7.28]  (6 s)
+ep 22  ES rmse 0.3128  @1s 0.093 @5s 0.308 @10s 0.460  tau 0.451 kg [8.32 7.99 7.28]  (7 s)
+ep 23  ES rmse 0.3122  @1s 0.093 @5s 0.308 @10s 0.459  tau 0.450 kg [8.32 7.98 7.28]  (6 s)
+ep 24  ES rmse 0.3123  @1s 0.093 @5s 0.308 @10s 0.459  tau 0.450 kg [8.33 7.98 7.29]  (6 s)
+ep 25  ES rmse 0.3122  @1s 0.093 @5s 0.308 @10s 0.459  tau 0.451 kg [8.33 7.98 7.28]  (6 s)
+ep 26  ES rmse 0.3122  @1s 0.093 @5s 0.308 @10s 0.459  tau 0.451 kg [8.33 7.98 7.29]  (6 s)
+ep 27  ES rmse 0.3119  @1s 0.092 @5s 0.307 @10s 0.459  tau 0.451 kg [8.33 7.97 7.29]  (6 s)
+ep 28  ES rmse 0.3124  @1s 0.092 @5s 0.308 @10s 0.460  tau 0.452 kg [8.34 7.97 7.29]  (6 s)
+ep 29  ES rmse 0.3117  @1s 0.092 @5s 0.307 @10s 0.459  tau 0.451 kg [8.34 7.97 7.29]  (6 s)
+ep 30  ES rmse 0.3114  @1s 0.092 @5s 0.307 @10s 0.458  tau 0.451 kg [8.33 7.97 7.29]  (6 s)
+ep 31  ES rmse 0.3124  @1s 0.092 @5s 0.308 @10s 0.460  tau 0.452 kg [8.34 7.97 7.28]  (6 s)
+ep 32  ES rmse 0.3117  @1s 0.092 @5s 0.307 @10s 0.459  tau 0.452 kg [8.34 7.96 7.28]  (5 s)
+ep 33  ES rmse 0.3121  @1s 0.092 @5s 0.308 @10s 0.459  tau 0.453 kg [8.34 7.96 7.28]  (6 s)
+ep 34  ES rmse 0.3115  @1s 0.092 @5s 0.307 @10s 0.458  tau 0.450 kg [8.34 7.96 7.28]  (6 s)
+saved; best ES rmse 0.31135931611061096
+       model     H     n      rmse       mae      bias       p95     d_rmse     d_mae    d_bias
+0  oe_lut_s2   1.0  6929  0.099936  0.062280  0.002634  0.172407   0.049896  0.032836  0.001044
+1  oe_lut_s2   3.0  7145  0.214252  0.130823  0.007295  0.367883   0.344893  0.215014  0.012106
+2  oe_lut_s2   5.0  7326  0.291391  0.178117  0.011169  0.524379   0.783238  0.487692  0.031064
+3  oe_lut_s2  10.0  7724  0.416485  0.252962  0.014852  0.802577   2.305518  1.421510  0.093231
+4  oe_lut_s2  30.0  8635  0.602298  0.344310  0.018349  1.214328  10.508813  6.259621  0.372756

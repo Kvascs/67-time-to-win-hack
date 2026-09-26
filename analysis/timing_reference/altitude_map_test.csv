@@ -1,0 +1,4 @@
+,n,abs_offset_median,abs_offset_p90,within_mad_median,within_p95_median,rms,med_abs,p95_abs,bias
+run_offset,21,0.00765,0.08945,0.02098,0.5438,,,,
+status2,2.084e+05,,,,,0.8033,0.0178,2.027,-0.0023
+status0,2.753e+04,,,,,3.802,2.665,6.572,0.1068

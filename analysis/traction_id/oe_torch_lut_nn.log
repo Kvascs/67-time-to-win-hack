@@ -1,0 +1,30 @@
+windows 11798 3237 3 s
+ES rmse before: 0.4036  @1s 0.101 @5s 0.396 @10s 0.603
+C:\MosTransHack\analysis\traction_id\oe_torch.py:194: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:821.)
+  ep, r, rh[9], rh[49], rh[99], float(torch.exp(model.log_tau)), np.round(model.kg.detach().numpy(), 2),
+ep 0  ES rmse 0.3538  @1s 0.096 @5s 0.344 @10s 0.531  tau 0.314 kg [8.24 8.71 7.71]  (9 s)
+ep 1  ES rmse 0.3273  @1s 0.091 @5s 0.318 @10s 0.491  tau 0.323 kg [8.27 8.67 7.7 ]  (8 s)
+ep 2  ES rmse 0.3220  @1s 0.091 @5s 0.314 @10s 0.480  tau 0.329 kg [8.3  8.64 7.68]  (9 s)
+ep 3  ES rmse 0.3170  @1s 0.091 @5s 0.310 @10s 0.471  tau 0.337 kg [8.32 8.61 7.68]  (9 s)
+ep 4  ES rmse 0.3127  @1s 0.090 @5s 0.306 @10s 0.464  tau 0.344 kg [8.35 8.58 7.68]  (9 s)
+ep 5  ES rmse 0.3145  @1s 0.091 @5s 0.309 @10s 0.465  tau 0.351 kg [8.37 8.55 7.67]  (9 s)
+ep 6  ES rmse 0.3118  @1s 0.091 @5s 0.306 @10s 0.460  tau 0.358 kg [8.39 8.52 7.67]  (8 s)
+ep 7  ES rmse 0.3108  @1s 0.091 @5s 0.306 @10s 0.458  tau 0.364 kg [8.42 8.5  7.67]  (7 s)
+ep 8  ES rmse 0.3078  @1s 0.091 @5s 0.304 @10s 0.452  tau 0.370 kg [8.43 8.48 7.67]  (6 s)
+ep 9  ES rmse 0.3062  @1s 0.090 @5s 0.302 @10s 0.450  tau 0.375 kg [8.45 8.46 7.67]  (6 s)
+ep 10  ES rmse 0.3012  @1s 0.089 @5s 0.297 @10s 0.442  tau 0.378 kg [8.46 8.44 7.67]  (8 s)
+ep 11  ES rmse 0.3108  @1s 0.091 @5s 0.307 @10s 0.456  tau 0.383 kg [8.48 8.42 7.67]  (9 s)
+ep 12  ES rmse 0.3022  @1s 0.089 @5s 0.299 @10s 0.442  tau 0.386 kg [8.5  8.41 7.67]  (10 s)
+ep 13  ES rmse 0.2992  @1s 0.089 @5s 0.296 @10s 0.437  tau 0.387 kg [8.51 8.39 7.67]  (10 s)
+ep 14  ES rmse 0.3051  @1s 0.090 @5s 0.302 @10s 0.446  tau 0.392 kg [8.52 8.38 7.67]  (9 s)
+ep 15  ES rmse 0.2994  @1s 0.089 @5s 0.296 @10s 0.438  tau 0.393 kg [8.54 8.37 7.67]  (9 s)
+ep 16  ES rmse 0.3006  @1s 0.089 @5s 0.298 @10s 0.439  tau 0.396 kg [8.55 8.36 7.67]  (12 s)
+ep 17  ES rmse 0.3079  @1s 0.091 @5s 0.305 @10s 0.450  tau 0.397 kg [8.56 8.35 7.67]  (12 s)
+saved; best ES rmse 0.2991514503955841
+       model     H     n      rmse       mae      bias       p95     d_rmse     d_mae    d_bias
+0  oe_lut_nn   1.0  6929  0.098169  0.060857  0.000400  0.168592   0.048964  0.032137 -0.000244
+1  oe_lut_nn   3.0  7145  0.207770  0.125000  0.001949  0.353413   0.335553  0.205885  0.002906
+2  oe_lut_nn   5.0  7326  0.281469  0.170173  0.003925  0.488720   0.757570  0.464844  0.008553
+3  oe_lut_nn  10.0  7724  0.400566  0.243626  0.007960  0.745388   2.215628  1.361426  0.031006
+4  oe_lut_nn  30.0  8635  0.598607  0.345316  0.025356  1.169656  10.313150  6.131116  0.355444

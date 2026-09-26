@@ -1,0 +1,638 @@
+bag,topic,kind,t_rel,dur,detail
+30639_d601d28f,front,stamp_excursion,7.033348083496094e-05,0.21148180961608887,latency offset +2.31s
+30639_d601d28f,rear,stamp_excursion,0.0,0.2115311622619629,latency offset +2.31s
+30639_d601d28f,cmd,stamp_excursion,0.018108367919921875,0.21828031539916992,latency offset +1.73s
+30639_3b3d9eb8,front,startup_burst,3.719329833984375e-05,4.1859166622161865,"36 msgs delivered at once, header span 4.19s"
+30639_3b3d9eb8,front,gap,401.6610562801361,0.8899579048156738,v_before=0.31 v_after=0.00
+30639_3b3d9eb8,front,arrival_gap,401.66335439682007,0.8999824523925781,no new-stamp message in arrival order
+30639_3b3d9eb8,rear,startup_burst,0.0,4.1859166622161865,"36 msgs delivered at once, header span 4.19s"
+30639_3b3d9eb8,rear,gap,372.1518623828888,30.397589921951294,v_before=0.00 v_after=0.00
+30639_3b3d9eb8,rear,gap,417.1512460708618,73.49909281730652,v_before=0.00 v_after=39.05
+30639_3b3d9eb8,rear,arrival_gap,372.16339564323425,30.399935483932495,no new-stamp message in arrival order
+30639_3b3d9eb8,rear,arrival_gap,417.16343903541565,73.49991202354431,no new-stamp message in arrival order
+30639_3b3d9eb8,rear,frozen,369.86363101005554,1.80033278465271,19 identical samples v=4.808 km/h
+30639_3b3d9eb8,cmd,startup_burst,0.007923126220703125,3.3500261306762695,"68 msgs delivered at once, header span 3.35s"
+30639_c31df386,front,gap,9.798927545547485,19.811718463897705,v_before=0.00 v_after=10.69
+30639_c31df386,front,arrival_gap,9.81376600265503,19.80071234703064,no new-stamp message in arrival order
+30639_c31df386,front,stamp_excursion,6.008148193359375e-05,0.5095243453979492,latency offset +2.80s
+30639_c31df386,rear,stamp_excursion,0.0,0.5095505714416504,latency offset +2.80s
+30639_c31df386,cmd,stamp_excursion,0.02344489097595215,0.5528192520141602,latency offset +2.20s
+30639_dce52be4,front,startup_burst,2.4557113647460938e-05,4.095939636230469,"42 msgs delivered at once, header span 4.10s"
+30639_dce52be4,rear,startup_burst,0.0,4.197943449020386,"43 msgs delivered at once, header span 4.20s"
+30639_dce52be4,cmd,startup_burst,0.006480693817138672,3.1499507427215576,"64 msgs delivered at once, header span 3.15s"
+30639_dce52be4,cmd,cmd_jump,142.72026920318604,0.0,+4 -> +0
+30639_dce52be4,cmd,cmd_jump,830.320041179657,0.0,+4 -> +0
+30639_92226df0,front,gap,571.5931067466736,0.47802114486694336,v_before=41.65 v_after=42.91
+30639_92226df0,front,stamp_excursion,5.3882598876953125e-05,0.4270286560058594,latency offset +2.61s
+30639_92226df0,rear,gap,571.5930941104889,0.47802114486694336,v_before=41.67 v_after=42.94
+30639_92226df0,rear,stamp_excursion,0.0,0.42705464363098145,latency offset +2.61s
+30639_92226df0,cmd,stamp_excursion,0.014854907989501953,0.463123083114624,latency offset +2.07s
+30639_92226df0,cmd,cmd_jump,1013.2228424549103,0.0,+4 -> +0
+30639_e4379d7f,front,stamp_excursion,3.743171691894531e-05,0.4077620506286621,latency offset +3.47s
+30639_e4379d7f,rear,stamp_excursion,0.0,0.40776944160461426,latency offset +3.47s
+30639_e4379d7f,cmd,stamp_excursion,0.014173746109008789,0.4772522449493408,latency offset +2.40s
+30639_e4379d7f,cmd,cmd_jump,975.5654494762421,0.0,+4 -> +0
+30639_9c362687,front,startup_burst,3.4332275390625e-05,4.709923267364502,"47 msgs delivered at once, header span 4.71s"
+30639_9c362687,front,gap,799.2496209144592,0.39002490043640137,v_before=17.39 v_after=17.30
+30639_9c362687,front,arrival_gap,1331.7068135738373,1.1084377765655518,no new-stamp message in arrival order
+30639_9c362687,front,stamp_excursion,1331.7068135738373,0.0,latency offset -1.00s
+30639_9c362687,front,stamp_nonmonotonic,1331.7152862548828,0.0,dt_hdr=-1.000
+30639_9c362687,front,negative,91.81521582603455,0.0,v=-0.264 km/h
+30639_9c362687,front,negative,91.91567850112915,0.0,v=-0.249 km/h
+30639_9c362687,front,negative,92.01484942436218,0.0,v=-0.216 km/h
+30639_9c362687,rear,startup_burst,0.0,4.709923267364502,"47 msgs delivered at once, header span 4.71s"
+30639_9c362687,rear,gap,799.2496678829193,0.39002490043640137,v_before=17.37 v_after=17.29
+30639_9c362687,rear,arrival_gap,1331.706800699234,1.1088168621063232,no new-stamp message in arrival order
+30639_9c362687,rear,stamp_excursion,1331.706800699234,0.0,latency offset -1.00s
+30639_9c362687,rear,stamp_nonmonotonic,1331.7152698040009,0.0,dt_hdr=-1.000
+30639_9c362687,rear,negative,91.8151924610138,0.0,v=-0.264 km/h
+30639_9c362687,rear,negative,91.91563749313354,0.0,v=-0.240 km/h
+30639_9c362687,rear,negative,92.01525092124939,0.0,v=-0.216 km/h
+30639_9c362687,cmd,startup_burst,0.005440950393676758,3.7499210834503174,"76 msgs delivered at once, header span 3.75s"
+30639_9c362687,cmd,arrival_gap,1331.6763894557953,1.0579447746276855,no new-stamp message in arrival order
+30639_9c362687,cmd,stamp_excursion,1331.6763894557953,0.0,latency offset -1.01s
+30639_9c362687,cmd,stamp_nonmonotonic,1331.6844828128815,0.0,dt_hdr=-1.000
+30639_9c362687,cmd,cmd_jump,111.08396100997925,0.0,+9 -> +5
+30639_253671cc,front,startup_burst,4.172325134277344e-05,5.406058311462402,"54 msgs delivered at once, header span 5.41s"
+30639_253671cc,front,gap,438.52621626853943,0.39203500747680664,v_before=16.11 v_after=15.82
+30639_253671cc,rear,startup_burst,0.0,5.526047229766846,"55 msgs delivered at once, header span 5.53s"
+30639_253671cc,cmd,startup_burst,0.0065419673919677734,4.150023460388184,"84 msgs delivered at once, header span 4.15s"
+30639_253671cc,cmd,cmd_jump,805.8148725032806,0.0,+4 -> +0
+30639_44226bde,front,startup_burst,3.075599670410156e-05,5.291934967041016,"52 msgs delivered at once, header span 5.29s"
+30639_44226bde,front,gap,721.224641084671,0.35594797134399414,v_before=25.13 v_after=25.38
+30639_44226bde,rear,startup_burst,0.0,5.499892950057983,"54 msgs delivered at once, header span 5.50s"
+30639_44226bde,rear,gap,4.879871845245361,16.697736978530884,v_before=0.00 v_after=4.17
+30639_44226bde,rear,gap,721.2250075340271,0.35594797134399414,v_before=24.87 v_after=25.52
+30639_44226bde,rear,arrival_gap,4.8312225341796875,16.700206756591797,no new-stamp message in arrival order
+30639_44226bde,cmd,startup_burst,0.0032625198364257812,4.150039434432983,"84 msgs delivered at once, header span 4.15s"
+30639_d3c43d69,front,startup_burst,3.361701965332031e-05,4.99998664855957,"51 msgs delivered at once, header span 5.00s"
+30639_d3c43d69,rear,startup_burst,0.0,4.99998664855957,"51 msgs delivered at once, header span 5.00s"
+30639_d3c43d69,cmd,startup_burst,0.004858970642089844,3.7998766899108887,"77 msgs delivered at once, header span 3.80s"
+30639_d3c43d69,cmd,cmd_jump,156.53007698059082,0.0,+4 -> +0
+30639_d3c43d69,cmd,cmd_jump,815.3302848339081,0.0,+5 -> +0
+30618_e3d94878,front,startup_burst,0.013185501098632812,2.8072149753570557,"29 msgs delivered at once, header span 2.81s"
+30618_e3d94878,front,gap,639.7904641628265,0.38592982292175293,v_before=5.83 v_after=5.03
+30618_e3d94878,rear,gap,639.7904465198517,0.38592982292175293,v_before=5.84 v_after=5.03
+30618_e3d94878,rear,stamp_excursion,0.0,0.18216300010681152,latency offset +1.98s
+30618_e3d94878,cmd,startup_burst,0.013279914855957031,2.849853754043579,"58 msgs delivered at once, header span 2.85s"
+30618_b83d854d,front,startup_burst,0.00854635238647461,2.613276958465576,"25 msgs delivered at once, header span 2.61s"
+30618_b83d854d,rear,stamp_excursion,0.0,0.15665149688720703,latency offset +1.89s
+30618_b83d854d,cmd,startup_burst,0.00860285758972168,2.6999337673187256,"55 msgs delivered at once, header span 2.70s"
+30618_b83d854d,cmd,cmd_jump,148.5305154323578,0.0,+4 -> +0
+30618_b83d854d,cmd,cmd_jump,825.2304739952087,0.0,+5 -> +0
+30618_b8044aa0,front,startup_burst,0.010332822799682617,2.5013082027435303,"24 msgs delivered at once, header span 2.50s"
+30618_b8044aa0,rear,stamp_excursion,0.0,0.15406513214111328,latency offset +1.87s
+30618_b8044aa0,cmd,startup_burst,0.010412454605102539,2.4999592304229736,"51 msgs delivered at once, header span 2.50s"
+30618_76e1f9c7,front,startup_burst,0.00785684585571289,2.493313789367676,"26 msgs delivered at once, header span 2.49s"
+30618_76e1f9c7,rear,startup_burst,0.0,3.4910237789154053,"36 msgs delivered at once, header span 3.49s"
+30618_76e1f9c7,cmd,startup_burst,0.007911920547485352,2.600168228149414,"53 msgs delivered at once, header span 2.60s"
+30618_76e1f9c7,cmd,cmd_jump,116.90934157371521,0.0,+6 -> +0
+30618_76e1f9c7,cmd,cmd_jump,887.0592768192291,0.0,+6 -> +0
+30618_2f104a1d,front,startup_burst,0.0046961307525634766,2.6072771549224854,"27 msgs delivered at once, header span 2.61s"
+30618_2f104a1d,rear,startup_burst,0.0,3.6949656009674072,"38 msgs delivered at once, header span 3.69s"
+30618_2f104a1d,cmd,startup_burst,0.004781484603881836,2.6499581336975098,"54 msgs delivered at once, header span 2.65s"
+30618_2f104a1d,cmd,cmd_jump,100.57791066169739,0.0,-12 -> -8
+30618_2f104a1d,cmd,cmd_jump,178.82791757583618,0.0,+4 -> +0
+30618_2dbce472,front,startup_burst,0.01156926155090332,2.5033061504364014,"26 msgs delivered at once, header span 2.50s"
+30618_2dbce472,rear,stamp_excursion,0.0,0.20293617248535156,latency offset +1.89s
+30618_2dbce472,cmd,startup_burst,0.011652469635009766,2.5499510765075684,"52 msgs delivered at once, header span 2.55s"
+30618_2dbce472,cmd,cmd_jump,174.3478877544403,0.0,+7 -> +0
+30618_2dbce472,cmd,cmd_jump,958.9479093551636,0.0,+6 -> +0
+30618_2dbce472,cmd,cmd_jump,1245.2485136985779,0.0,-13 -> -9
+30618_b15eafc3,front,startup_burst,0.0027387142181396484,2.8032219409942627,"28 msgs delivered at once, header span 2.80s"
+30618_b15eafc3,rear,startup_burst,0.0,3.802938938140869,"37 msgs delivered at once, header span 3.80s"
+30618_b15eafc3,cmd,startup_burst,0.0028238296508789062,2.849893808364868,"58 msgs delivered at once, header span 2.85s"
+30618_b15eafc3,cmd,cmd_jump,175.77962231636047,0.0,+4 -> +0
+30618_68d1748a,front,startup_burst,0.011571407318115234,2.601288318634033,"27 msgs delivered at once, header span 2.60s"
+30618_68d1748a,rear,stamp_excursion,0.0,0.1787111759185791,latency offset +1.82s
+30618_68d1748a,cmd,startup_burst,0.011660337448120117,2.6498985290527344,"54 msgs delivered at once, header span 2.65s"
+30618_68d1748a,cmd,cmd_jump,184.47106838226318,0.0,+6 -> +0
+30618_68d1748a,cmd,cmd_jump,794.2202384471893,0.0,+6 -> +0
+30618_b95ca60a,front,startup_burst,0.012074470520019531,2.599275588989258,"27 msgs delivered at once, header span 2.60s"
+30618_b95ca60a,rear,stamp_excursion,0.0,0.19304323196411133,latency offset +1.93s
+30618_b95ca60a,cmd,startup_burst,0.012164115905761719,2.6500039100646973,"54 msgs delivered at once, header span 2.65s"
+30618_b95ca60a,cmd,cmd_jump,105.6566390991211,0.0,+4 -> +0
+30618_095a115b,front,startup_burst,0.01187753677368164,2.473736047744751,"25 msgs delivered at once, header span 2.47s"
+30618_095a115b,rear,stamp_excursion,0.0,0.15179061889648438,latency offset +1.87s
+30618_095a115b,cmd,startup_burst,0.011976480484008789,2.549973249435425,"52 msgs delivered at once, header span 2.55s"
+30618_095a115b,cmd,cmd_jump,168.3416211605072,0.0,+7 -> +0
+30618_095a115b,cmd,cmd_jump,895.5919361114502,0.0,+8 -> +0
+30618_7b4d83f4,front,startup_burst,0.01274418830871582,2.7052416801452637,"28 msgs delivered at once, header span 2.71s"
+30618_7b4d83f4,rear,stamp_excursion,0.0,0.19595670700073242,latency offset +2.04s
+30618_7b4d83f4,cmd,startup_burst,0.012836456298828125,2.799978733062744,"57 msgs delivered at once, header span 2.80s"
+30618_7b4d83f4,cmd,cmd_jump,136.30293226242065,0.0,+5 -> +0
+30618_87afe526,front,startup_burst,0.0026488304138183594,2.601289749145508,"26 msgs delivered at once, header span 2.60s"
+30618_87afe526,rear,startup_burst,0.0,3.6009979248046875,"36 msgs delivered at once, header span 3.60s"
+30618_87afe526,cmd,startup_burst,0.0027077198028564453,2.5999529361724854,"53 msgs delivered at once, header span 2.60s"
+30618_87afe526,cmd,cmd_jump,167.4551272392273,0.0,+5 -> +0
+30618_87afe526,cmd,cmd_jump,795.5054154396057,0.0,+6 -> +0
+30618_0f120b35,front,startup_burst,0.012616634368896484,2.8092117309570312,"29 msgs delivered at once, header span 2.81s"
+30618_0f120b35,rear,stamp_excursion,0.0,0.1806049346923828,latency offset +2.01s
+30618_0f120b35,cmd,startup_burst,0.01267862319946289,2.8501055240631104,"58 msgs delivered at once, header span 2.85s"
+30618_0f120b35,cmd,cmd_jump,240.11038875579834,0.0,+4 -> +0
+30618_0e41eac3,front,startup_burst,0.009043455123901367,2.307363510131836,"24 msgs delivered at once, header span 2.31s"
+30618_0e41eac3,rear,startup_burst,0.0,3.6029891967773438,"37 msgs delivered at once, header span 3.60s"
+30618_0e41eac3,cmd,startup_burst,2.4080276489257812e-05,3.600015640258789,"73 msgs delivered at once, header span 3.60s"
+30618_0e41eac3,cmd,cmd_jump,143.45874047279358,0.0,+7 -> +0
+30618_0e41eac3,cmd,cmd_jump,891.0588004589081,0.0,+8 -> +0
+30618_68847170,front,startup_burst,0.0026810169219970703,2.487302541732788,"26 msgs delivered at once, header span 2.49s"
+30618_68847170,rear,startup_burst,0.0,3.489016532897949,"36 msgs delivered at once, header span 3.49s"
+30618_68847170,cmd,startup_burst,2.6226043701171875e-05,3.599950075149536,"73 msgs delivered at once, header span 3.60s"
+30618_68847170,cmd,cmd_jump,142.79667353630066,0.0,+5 -> +0
+30618_49fe4c54,front,startup_burst,0.009513139724731445,2.3973357677459717,"22 msgs delivered at once, header span 2.40s"
+30618_49fe4c54,rear,stamp_excursion,0.0,0.14000988006591797,latency offset +1.90s
+30618_49fe4c54,cmd,stamp_excursion,4.982948303222656e-05,0.18294787406921387,latency offset +1.82s
+30618_49fe4c54,cmd,cmd_jump,210.48135137557983,0.0,+8 -> +0
+30618_49fe4c54,cmd,cmd_jump,1019.1312873363495,0.0,+7 -> +0
+30618_bc5e53c2,front,stamp_excursion,0.013325929641723633,0.17655563354492188,latency offset +1.61s
+30618_bc5e53c2,rear,stamp_excursion,0.0,0.21817779541015625,latency offset +2.28s
+30618_bc5e53c2,cmd,stamp_excursion,0.013384819030761719,0.2302713394165039,latency offset +1.54s
+30618_0d865417,front,startup_burst,0.011793375015258789,2.4053421020507812,"19 msgs delivered at once, header span 2.41s"
+30618_0d865417,rear,stamp_excursion,0.0,0.17383813858032227,latency offset +1.84s
+30618_0d865417,cmd,startup_burst,0.011852025985717773,2.6500113010406494,"54 msgs delivered at once, header span 2.65s"
+30618_f19a4ac3,front,startup_burst,0.0027031898498535156,2.689262628555298,"28 msgs delivered at once, header span 2.69s"
+30618_f19a4ac3,rear,startup_burst,0.0,3.6909778118133545,"38 msgs delivered at once, header span 3.69s"
+30618_f19a4ac3,cmd,startup_burst,0.0027608871459960938,2.7001399993896484,"55 msgs delivered at once, header span 2.70s"
+30618_f19a4ac3,cmd,cmd_jump,847.095963716507,0.0,+11 -> +7
+30618_ab5921a4,front,startup_burst,0.005278110504150391,2.5992610454559326,"23 msgs delivered at once, header span 2.60s"
+30618_ab5921a4,rear,startup_burst,0.0,4.002877950668335,"34 msgs delivered at once, header span 4.00s"
+30618_ab5921a4,cmd,startup_burst,0.005391120910644531,2.8499958515167236,"58 msgs delivered at once, header span 2.85s"
+30618_ab5921a4,cmd,cmd_jump,93.83407282829285,0.0,+7 -> +0
+30618_ab5921a4,cmd,cmd_jump,692.2344100475311,0.0,+6 -> +0
+30618_073f08d1,front,startup_burst,0.0027713775634765625,2.5053038597106934,"26 msgs delivered at once, header span 2.51s"
+30618_073f08d1,rear,startup_burst,0.0,3.706960439682007,"38 msgs delivered at once, header span 3.71s"
+30618_073f08d1,cmd,startup_burst,0.002840280532836914,2.6499414443969727,"54 msgs delivered at once, header span 2.65s"
+30618_073f08d1,cmd,cmd_jump,191.5795042514801,0.0,+4 -> +0
+30618_0652866c,front,gap,1372.4650304317474,0.9097442626953125,v_before=0.00 v_after=0.00
+30618_0652866c,front,arrival_gap,1372.4369359016418,0.9011342525482178,no new-stamp message in arrival order
+30618_0652866c,front,stamp_excursion,0.005334377288818359,0.18997740745544434,latency offset +1.54s
+30618_0652866c,rear,gap,1372.4650163650513,0.9097442626953125,v_before=0.00 v_after=0.00
+30618_0652866c,rear,arrival_gap,1372.4373400211334,0.9006149768829346,no new-stamp message in arrival order
+30618_0652866c,rear,stamp_excursion,0.0,0.2275071144104004,latency offset +2.18s
+30618_0652866c,cmd,stamp_excursion,0.005446434020996094,0.28738880157470703,latency offset +1.61s
+30618_0652866c,cmd,cmd_jump,186.99111604690552,0.0,+9 -> +0
+30618_0652866c,cmd,cmd_jump,935.5912938117981,0.0,+8 -> +0
+30618_1551d0a9,front,startup_burst,0.0027780532836914062,2.795222282409668,"26 msgs delivered at once, header span 2.80s"
+30618_1551d0a9,front,stamp_excursion,0.24938678741455078,0.999316930770874,latency offset -0.82s
+30618_1551d0a9,rear,startup_burst,0.0,3.7909493446350098,"35 msgs delivered at once, header span 3.79s"
+30618_1551d0a9,rear,stamp_excursion,0.2492992877960205,0.9993119239807129,latency offset -1.28s
+30618_1551d0a9,cmd,startup_burst,0.0028541088104248047,2.7499258518218994,"56 msgs delivered at once, header span 2.75s"
+30618_22c1c589,front,stamp_excursion,0.011943817138671875,0.18675851821899414,latency offset +1.51s
+30618_22c1c589,rear,stamp_excursion,0.0,0.227461576461792,latency offset +2.14s
+30618_22c1c589,cmd,stamp_excursion,0.01200556755065918,0.23516631126403809,latency offset +1.56s
+30618_22c1c589,cmd,cmd_jump,146.01699018478394,0.0,+4 -> +0
+30618_9c09b081,front,startup_burst,0.00925302505493164,2.599277973175049,"24 msgs delivered at once, header span 2.60s"
+30618_9c09b081,rear,stamp_excursion,0.0,0.15946030616760254,latency offset +2.07s
+30618_9c09b081,cmd,startup_burst,0.009359598159790039,2.8000123500823975,"57 msgs delivered at once, header span 2.80s"
+30618_9c09b081,cmd,cmd_jump,162.34123754501343,0.0,+8 -> +0
+30618_9c09b081,cmd,cmd_jump,905.3412754535675,0.0,+7 -> +0
+30618_e2dcf65f,front,startup_burst,0.008809804916381836,2.505307674407959,"25 msgs delivered at once, header span 2.51s"
+30618_e2dcf65f,rear,stamp_excursion,0.0,0.1720867156982422,latency offset +1.91s
+30618_e2dcf65f,cmd,startup_burst,0.008867979049682617,2.599914073944092,"53 msgs delivered at once, header span 2.60s"
+30618_e2dcf65f,cmd,cmd_jump,110.86634612083435,0.0,+5 -> +0
+30618_28538acf,front,startup_burst,0.009616613388061523,2.8052279949188232,"29 msgs delivered at once, header span 2.81s"
+30618_28538acf,front,arrival_gap,166.97242045402527,0.9899806976318359,no new-stamp message in arrival order
+30618_28538acf,front,stamp_excursion,166.34271025657654,2.069507122039795,latency offset -0.31s
+30618_28538acf,rear,arrival_gap,166.97282099723816,0.989506721496582,no new-stamp message in arrival order
+30618_28538acf,rear,stamp_excursion,0.0,0.22467637062072754,latency offset +2.06s
+30618_28538acf,rear,stamp_excursion,166.34265160560608,2.0698747634887695,latency offset -0.31s
+30618_28538acf,cmd,arrival_gap,167.0209677219391,0.9447762966156006,no new-stamp message in arrival order
+30618_28538acf,cmd,stamp_excursion,2.7418136596679688e-05,0.2825279235839844,latency offset +2.11s
+30618_28538acf,cmd,stamp_excursion,165.44623017311096,4.501523017883301,latency offset +0.27s
+30618_28538acf,cmd,cmd_jump,833.7460465431213,0.0,+7 -> +0
+30618_616ec56b,front,startup_burst,0.01018214225769043,2.7272398471832275,"28 msgs delivered at once, header span 2.73s"
+30618_616ec56b,rear,stamp_excursion,0.0,0.16807293891906738,latency offset +2.02s
+30618_616ec56b,cmd,stamp_excursion,2.5510787963867188e-05,0.20743584632873535,latency offset +2.00s
+30618_616ec56b,cmd,cmd_jump,160.09764885902405,0.0,+5 -> +0
+30618_616ec56b,cmd,cmd_jump,790.4475824832916,0.0,+10 -> +6
+30618_8158f0b0,front,startup_burst,0.01199650764465332,2.4993081092834473,"26 msgs delivered at once, header span 2.50s"
+30618_8158f0b0,rear,stamp_excursion,0.0,0.14777231216430664,latency offset +1.88s
+30618_8158f0b0,cmd,stamp_excursion,5.459785461425781e-05,0.18275952339172363,latency offset +1.89s
+30618_8158f0b0,cmd,cmd_jump,115.80686950683594,0.0,+8 -> +0
+30618_8158f0b0,cmd,cmd_jump,794.1072955131531,0.0,+8 -> +0
+30618_79b204dc,front,startup_burst,0.009773492813110352,3.009158134460449,"24 msgs delivered at once, header span 3.01s"
+30618_79b204dc,rear,stamp_excursion,0.0,0.16872048377990723,latency offset +2.10s
+30618_79b204dc,cmd,startup_burst,0.009860754013061523,3.100025177001953,"63 msgs delivered at once, header span 3.10s"
+30618_2161b58b,front,startup_burst,0.008348941802978516,2.7632248401641846,"29 msgs delivered at once, header span 2.76s"
+30618_2161b58b,rear,stamp_excursion,0.0,0.16329669952392578,latency offset +2.12s
+30618_2161b58b,cmd,startup_burst,0.008405923843383789,2.799945116043091,"57 msgs delivered at once, header span 2.80s"
+30618_2161b58b,cmd,cmd_jump,133.6144518852234,0.0,+4 -> +0
+30618_2161b58b,cmd,cmd_jump,663.1145665645599,0.0,+5 -> +0
+30618_4e1e3181,front,startup_burst,0.007965564727783203,3.0011637210845947,"23 msgs delivered at once, header span 3.00s"
+30618_4e1e3181,rear,startup_burst,0.0,3.798940420150757,"28 msgs delivered at once, header span 3.80s"
+30618_4e1e3181,cmd,startup_burst,0.008048057556152344,3.09989333152771,"63 msgs delivered at once, header span 3.10s"
+30618_2255aade,front,startup_burst,0.0047109127044677734,2.7952277660369873,"27 msgs delivered at once, header span 2.80s"
+30618_2255aade,front,arrival_gap,198.8659827709198,1.200343370437622,no new-stamp message in arrival order
+30618_2255aade,front,stamp_excursion,195.86597514152527,0.0,latency offset -1.04s
+30618_2255aade,front,stamp_excursion,195.96624445915222,0.0,latency offset -1.05s
+30618_2255aade,front,stamp_excursion,196.0668785572052,0.0,latency offset -1.04s
+30618_2255aade,front,stamp_excursion,196.26606941223145,0.10001444816589355,latency offset -1.05s
+30618_2255aade,front,stamp_excursion,196.56598258018494,0.0,latency offset -1.05s
+30618_2255aade,front,stamp_excursion,196.6659836769104,0.0,latency offset -1.05s
+30618_2255aade,front,stamp_excursion,196.76626634597778,2.0997164249420166,latency offset -1.05s
+30618_2255aade,front,stamp_nonmonotonic,195.86608862876892,0.0,dt_hdr=-0.992
+30618_2255aade,front,stamp_nonmonotonic,196.06596398353577,0.0,dt_hdr=-0.906
+30618_2255aade,front,stamp_nonmonotonic,196.16671299934387,0.0,dt_hdr=-0.888
+30618_2255aade,front,stamp_nonmonotonic,196.36630725860596,0.0,dt_hdr=-0.988
+30618_2255aade,front,stamp_nonmonotonic,196.5663707256317,0.0,dt_hdr=-1.086
+30618_2255aade,front,stamp_nonmonotonic,196.66618466377258,0.0,dt_hdr=-1.006
+30618_2255aade,rear,startup_burst,0.0,3.7969470024108887,"37 msgs delivered at once, header span 3.80s"
+30618_2255aade,rear,arrival_gap,198.86641144752502,1.1998732089996338,no new-stamp message in arrival order
+30618_2255aade,rear,stamp_excursion,195.86583542823792,0.0,latency offset -1.04s
+30618_2255aade,rear,stamp_excursion,195.96660017967224,0.0,latency offset -1.05s
+30618_2255aade,rear,stamp_excursion,196.06656694412231,0.0,latency offset -1.04s
+30618_2255aade,rear,stamp_excursion,196.26598834991455,0.0,latency offset -1.05s
+30618_2255aade,rear,stamp_excursion,196.36599469184875,0.0,latency offset -1.05s
+30618_2255aade,rear,stamp_excursion,196.5658791065216,0.0,latency offset -1.05s
+30618_2255aade,rear,stamp_excursion,196.66589617729187,0.0,latency offset -1.05s
+30618_2255aade,rear,stamp_excursion,196.76621317863464,2.100198268890381,latency offset -1.05s
+30618_2255aade,rear,stamp_nonmonotonic,195.86598825454712,0.0,dt_hdr=-0.992
+30618_2255aade,rear,stamp_nonmonotonic,196.06654286384583,0.0,dt_hdr=-0.906
+30618_2255aade,rear,stamp_nonmonotonic,196.16655921936035,0.0,dt_hdr=-0.888
+30618_2255aade,rear,stamp_nonmonotonic,196.26672792434692,0.0,dt_hdr=-0.994
+30618_2255aade,rear,stamp_nonmonotonic,196.36621069908142,0.0,dt_hdr=-0.988
+30618_2255aade,rear,stamp_nonmonotonic,196.5662326812744,0.0,dt_hdr=-1.086
+30618_2255aade,rear,stamp_nonmonotonic,196.6660966873169,0.0,dt_hdr=-1.006
+30618_2255aade,cmd,startup_burst,0.004770040512084961,2.899933099746704,"59 msgs delivered at once, header span 2.90s"
+30618_2255aade,cmd,arrival_gap,199.01163983345032,1.050187110900879,no new-stamp message in arrival order
+30618_2255aade,cmd,stamp_excursion,195.81112265586853,0.0,latency offset -1.00s
+30618_2255aade,cmd,stamp_excursion,195.86097192764282,0.0,latency offset -1.00s
+30618_2255aade,cmd,stamp_excursion,195.91113805770874,0.0,latency offset -1.00s
+30618_2255aade,cmd,stamp_excursion,195.96135210990906,0.04973006248474121,latency offset -1.00s
+30618_2255aade,cmd,stamp_excursion,196.0612552165985,0.0,latency offset -1.00s
+30618_2255aade,cmd,stamp_excursion,196.11111617088318,0.0,latency offset -1.00s
+30618_2255aade,cmd,stamp_excursion,196.16097259521484,0.0,latency offset -1.00s
+30618_2255aade,cmd,stamp_excursion,196.21102619171143,0.0,latency offset -1.00s
+30618_2255aade,cmd,stamp_excursion,196.26134824752808,2.750291585922241,latency offset -1.00s
+30618_2255aade,cmd,stamp_nonmonotonic,195.8116648197174,0.0,dt_hdr=-1.000
+30618_2255aade,cmd,stamp_nonmonotonic,195.8610920906067,0.0,dt_hdr=-1.000
+30618_2255aade,cmd,stamp_nonmonotonic,195.9611942768097,0.0,dt_hdr=-0.950
+30618_2255aade,cmd,stamp_nonmonotonic,196.0111813545227,0.0,dt_hdr=-1.000
+30618_2255aade,cmd,stamp_nonmonotonic,196.06137108802795,0.0,dt_hdr=-1.000
+30618_2255aade,cmd,stamp_nonmonotonic,196.11117315292358,0.0,dt_hdr=-1.000
+30618_2255aade,cmd,stamp_nonmonotonic,196.1610062122345,0.0,dt_hdr=-1.000
+30618_2255aade,cmd,stamp_nonmonotonic,196.2110414505005,0.0,dt_hdr=-1.000
+30618_2255aade,cmd,stamp_nonmonotonic,196.3110785484314,0.0,dt_hdr=-0.950
+30618_2255aade,cmd,stamp_nonmonotonic,196.36123156547546,0.0,dt_hdr=-0.950
+30618_2255aade,cmd,stamp_nonmonotonic,196.41162943840027,0.0,dt_hdr=-0.950
+30618_2255aade,cmd,stamp_nonmonotonic,196.46128344535828,0.0,dt_hdr=-1.000
+30618_2255aade,cmd,stamp_nonmonotonic,196.56141996383667,0.0,dt_hdr=-0.950
+30618_2255aade,cmd,stamp_nonmonotonic,196.6108419895172,0.0,dt_hdr=-0.950
+30618_2255aade,cmd,stamp_nonmonotonic,196.66111493110657,0.0,dt_hdr=-0.950
+30618_2255aade,cmd,stamp_nonmonotonic,196.71105074882507,0.0,dt_hdr=-0.950
+30618_2255aade,cmd,stamp_nonmonotonic,196.76077246665955,0.0,dt_hdr=-0.950
+30618_2255aade,cmd,cmd_jump,173.36123633384705,0.0,+7 -> +0
+30618_2255aade,cmd,cmd_jump,195.81112265586853,0.0,-8 -> -14
+30618_2255aade,cmd,cmd_jump,195.8116648197174,0.0,-14 -> -9
+30618_2255aade,cmd,cmd_jump,195.86097192764282,0.0,-9 -> -14
+30618_2255aade,cmd,cmd_jump,195.8610920906067,0.0,-14 -> -9
+30618_2255aade,cmd,cmd_jump,195.91113805770874,0.0,-10 -> -14
+30618_2255aade,cmd,cmd_jump,195.9611942768097,0.0,-14 -> -10
+30618_2255aade,cmd,cmd_jump,195.96135210990906,0.0,-10 -> -14
+30618_2255aade,cmd,cmd_jump,196.0612552165985,0.0,-11 -> -15
+30618_2255aade,cmd,cmd_jump,196.06137108802795,0.0,-15 -> -11
+30618_2255aade,cmd,cmd_jump,196.11111617088318,0.0,-11 -> -15
+30618_2255aade,cmd,cmd_jump,196.41214776039124,0.0,-13 -> -9
+30618_2255aade,cmd,cmd_jump,196.46128344535828,0.0,-8 -> -13
+30618_2255aade,cmd,cmd_jump,196.51206183433533,0.0,-14 -> -7
+30618_2255aade,cmd,cmd_jump,196.56141996383667,0.0,-7 -> -14
+30618_2255aade,cmd,cmd_jump,196.56185364723206,0.0,-14 -> -6
+30618_2255aade,cmd,cmd_jump,196.6108419895172,0.0,-6 -> -14
+30618_2255aade,cmd,cmd_jump,196.61137580871582,0.0,-14 -> -5
+30618_2255aade,cmd,cmd_jump,196.66111493110657,0.0,-5 -> -14
+30618_2255aade,cmd,cmd_jump,196.6620774269104,0.0,-14 -> -4
+30618_2255aade,cmd,cmd_jump,196.71105074882507,0.0,-4 -> -14
+30618_2255aade,cmd,cmd_jump,196.71217966079712,0.0,-14 -> -4
+30618_2255aade,cmd,cmd_jump,196.76077246665955,0.0,-4 -> -14
+30618_2255aade,cmd,cmd_jump,196.7619285583496,0.0,-14 -> -3
+30618_2255aade,cmd,cmd_jump,840.1613352298737,0.0,+6 -> +0
+30618_20096314,front,startup_burst,0.0024106502532958984,2.7892141342163086,"20 msgs delivered at once, header span 2.79s"
+30618_20096314,rear,startup_burst,0.0,3.6969661712646484,"27 msgs delivered at once, header span 3.70s"
+30618_20096314,cmd,startup_burst,2.47955322265625e-05,3.7499876022338867,"76 msgs delivered at once, header span 3.75s"
+30618_7a152380,front,startup_burst,0.008624792098999023,2.595287561416626,"27 msgs delivered at once, header span 2.60s"
+30618_7a152380,rear,stamp_excursion,0.0,0.2062244415283203,latency offset +2.05s
+30618_7a152380,cmd,stamp_excursion,3.147125244140625e-05,0.259718656539917,latency offset +2.06s
+30618_7a152380,cmd,cmd_jump,148.94990873336792,0.0,+7 -> +0
+30618_7a152380,cmd,cmd_jump,863.7503590583801,0.0,+7 -> +0
+30618_2d2fa7be,front,stamp_excursion,0.010481834411621094,0.20520567893981934,latency offset +1.51s
+30618_2d2fa7be,rear,stamp_excursion,0.0,0.2581050395965576,latency offset +2.18s
+30618_2d2fa7be,cmd,stamp_excursion,5.626678466796875e-05,0.32486867904663086,latency offset +2.23s
+30618_2d2fa7be,cmd,cmd_jump,187.35658526420593,0.0,+4 -> +0
+30618_2f2f1175,front,startup_burst,0.008856534957885742,2.6912591457366943,"28 msgs delivered at once, header span 2.69s"
+30618_2f2f1175,rear,stamp_excursion,0.0,0.1731858253479004,latency offset +2.07s
+30618_2f2f1175,cmd,stamp_excursion,2.5987625122070312e-05,0.21612048149108887,latency offset +2.04s
+30618_2f2f1175,cmd,cmd_jump,151.2359173297882,0.0,+8 -> +0
+30618_2f2f1175,cmd,cmd_jump,772.2355411052704,0.0,+7 -> +0
+30618_5036aa78,front,startup_burst,0.00915670394897461,2.5992932319641113,"27 msgs delivered at once, header span 2.60s"
+30618_5036aa78,rear,stamp_excursion,0.0,0.18039608001708984,latency offset +2.00s
+30618_5036aa78,cmd,stamp_excursion,5.2928924560546875e-05,0.2149491310119629,latency offset +2.01s
+30618_e151d6e4,front,startup_burst,0.0020961761474609375,2.2953617572784424,"24 msgs delivered at once, header span 2.30s"
+30618_e151d6e4,rear,startup_burst,0.0,3.2968177795410156,"34 msgs delivered at once, header span 3.30s"
+30618_e151d6e4,cmd,startup_burst,2.1219253540039062e-05,3.300001621246338,"67 msgs delivered at once, header span 3.30s"
+30618_117c2d02,front,gap,99.3100597858429,0.8697593212127686,v_before=0.38 v_after=0.00
+30618_117c2d02,front,arrival_gap,99.3010036945343,0.9001805782318115,no new-stamp message in arrival order
+30618_117c2d02,front,stamp_excursion,0.010686635971069336,0.1649470329284668,latency offset +1.37s
+30618_117c2d02,rear,gap,99.31004929542542,0.8697593212127686,v_before=0.40 v_after=0.00
+30618_117c2d02,rear,arrival_gap,99.30091404914856,0.9001994132995605,no new-stamp message in arrival order
+30618_117c2d02,rear,stamp_excursion,0.0,0.20835590362548828,latency offset +2.17s
+30618_117c2d02,cmd,stamp_excursion,5.340576171875e-05,0.26749587059020996,latency offset +2.04s
+30618_117c2d02,cmd,cmd_jump,148.3960621356964,0.0,+5 -> +0
+30618_74559c73,front,startup_burst,0.00829172134399414,2.799208879470825,"29 msgs delivered at once, header span 2.80s"
+30618_74559c73,rear,startup_burst,0.0,3.894911527633667,"40 msgs delivered at once, header span 3.89s"
+30618_74559c73,cmd,startup_burst,2.5272369384765625e-05,4.0000128746032715,"81 msgs delivered at once, header span 4.00s"
+30618_3e012faf,front,startup_burst,0.0029685497283935547,2.9011759757995605,"30 msgs delivered at once, header span 2.90s"
+30618_3e012faf,front,negative,588.6893336772919,0.0,v=-0.158 km/h
+30618_3e012faf,front,negative,588.7894968986511,0.0,v=-0.354 km/h
+30618_3e012faf,front,negative,588.8884801864624,0.0,v=-0.378 km/h
+30618_3e012faf,front,negative,588.9885313510895,0.0,v=-0.378 km/h
+30618_3e012faf,front,negative,589.0887866020203,0.0,v=-0.350 km/h
+30618_3e012faf,front,negative,589.1884508132935,0.0,v=-0.273 km/h
+30618_3e012faf,rear,startup_burst,0.0,3.9009149074554443,"40 msgs delivered at once, header span 3.90s"
+30618_3e012faf,rear,negative,588.7894413471222,0.0,v=-0.341 km/h
+30618_3e012faf,rear,negative,588.8883531093597,0.0,v=-0.384 km/h
+30618_3e012faf,rear,negative,588.9889833927155,0.0,v=-0.389 km/h
+30618_3e012faf,rear,negative,589.0887362957001,0.0,v=-0.355 km/h
+30618_3e012faf,rear,negative,589.1883637905121,0.0,v=-0.269 km/h
+30618_3e012faf,cmd,startup_burst,2.765655517578125e-05,3.9998626708984375,"81 msgs delivered at once, header span 4.00s"
+30618_3e012faf,cmd,cmd_jump,56.53333139419556,0.0,+8 -> +0
+30618_3e012faf,cmd,cmd_jump,682.4837620258331,0.0,+7 -> +0
+30618_0a83c933,front,stamp_excursion,0.011749982833862305,0.15930724143981934,latency offset +1.58s
+30618_0a83c933,rear,stamp_excursion,0.0,0.19077157974243164,latency offset +2.21s
+30618_0a83c933,cmd,stamp_excursion,5.555152893066406e-05,0.23537206649780273,latency offset +2.10s
+30618_0a83c933,cmd,cmd_jump,130.92845249176025,0.0,+5 -> +0
+30618_81c22fee,front,stamp_excursion,0.007875919342041016,0.14622735977172852,latency offset +1.47s
+30618_81c22fee,rear,stamp_excursion,0.0,0.19102954864501953,latency offset +2.05s
+30618_81c22fee,cmd,stamp_excursion,2.5987625122070312e-05,0.24987435340881348,latency offset +2.03s
+30618_81c22fee,cmd,cmd_jump,127.58820414543152,0.0,+12 -> +0
+30618_81c22fee,cmd,cmd_jump,748.8879075050354,0.0,-13 -> -9
+30618_81c22fee,cmd,cmd_jump,784.3384432792664,0.0,+7 -> +0
+30618_9bbe6faa,front,stamp_excursion,0.006579160690307617,0.16986417770385742,latency offset +1.62s
+30618_9bbe6faa,rear,stamp_excursion,0.0,0.21074986457824707,latency offset +2.18s
+30618_9bbe6faa,cmd,stamp_excursion,2.86102294921875e-05,0.2624697685241699,latency offset +2.21s
+30618_9bbe6faa,cmd,cmd_jump,182.27588844299316,0.0,+4 -> +0
+30618_0259fe53,front,startup_burst,0.008820056915283203,2.501136541366577,"25 msgs delivered at once, header span 2.50s"
+30618_0259fe53,rear,stamp_excursion,0.0,0.21324920654296875,latency offset +2.09s
+30618_0259fe53,cmd,stamp_excursion,3.361701965332031e-05,0.25853705406188965,latency offset +2.03s
+30618_0259fe53,cmd,cmd_jump,117.10458540916443,0.0,+8 -> +0
+30618_0259fe53,cmd,cmd_jump,788.6547977924347,0.0,+7 -> +0
+30618_6236f680,front,stamp_excursion,0.011467456817626953,0.15761566162109375,latency offset +1.55s
+30618_6236f680,rear,stamp_excursion,0.0,0.18962526321411133,latency offset +2.15s
+30618_6236f680,cmd,stamp_excursion,5.269050598144531e-05,0.22739601135253906,latency offset +2.17s
+30618_6236f680,cmd,cmd_jump,113.2952492237091,0.0,+5 -> +0
+30618_3ba2326f,front,startup_burst,0.009482145309448242,2.599282741546631,"25 msgs delivered at once, header span 2.60s"
+30618_3ba2326f,rear,stamp_excursion,0.0,0.16991066932678223,latency offset +2.02s
+30618_3ba2326f,cmd,stamp_excursion,5.6743621826171875e-05,0.21955132484436035,latency offset +2.04s
+30618_3ba2326f,cmd,cmd_jump,109.85740637779236,0.0,+8 -> +0
+30618_3ba2326f,cmd,cmd_jump,866.6570641994476,0.0,+7 -> +0
+30618_21dd3af3,front,stamp_excursion,0.012810707092285156,0.1575756072998047,latency offset +1.43s
+30618_21dd3af3,rear,stamp_excursion,0.0,0.19041085243225098,latency offset +2.00s
+30618_21dd3af3,cmd,stamp_excursion,0.012897729873657227,0.20207929611206055,latency offset +1.51s
+30618_4d487b0d,front,startup_burst,0.002843141555786133,2.497312545776367,"26 msgs delivered at once, header span 2.50s"
+30618_4d487b0d,rear,startup_burst,0.0,3.696972608566284,"38 msgs delivered at once, header span 3.70s"
+30618_4d487b0d,cmd,startup_burst,0.002910614013671875,2.5999155044555664,"53 msgs delivered at once, header span 2.60s"
+30618_4d487b0d,cmd,cmd_jump,135.57250881195068,0.0,+6 -> +0
+30618_4d487b0d,cmd,cmd_jump,739.0726592540741,0.0,+6 -> +0
+30618_6cb3280a,front,startup_burst,0.009450912475585938,2.507293939590454,"26 msgs delivered at once, header span 2.51s"
+30618_6cb3280a,rear,stamp_excursion,0.0,0.2089371681213379,latency offset +1.96s
+30618_6cb3280a,cmd,startup_burst,0.009516239166259766,2.5999083518981934,"53 msgs delivered at once, header span 2.60s"
+30618_6cb3280a,cmd,cmd_jump,192.0151481628418,0.0,+4 -> +0
+30618_3b36e5cd,front,startup_burst,0.012158870697021484,2.9012033939361572,"29 msgs delivered at once, header span 2.90s"
+30618_3b36e5cd,rear,stamp_excursion,0.0,0.2434988021850586,latency offset +2.08s
+30618_3b36e5cd,cmd,startup_burst,0.012250900268554688,2.9999399185180664,"61 msgs delivered at once, header span 3.00s"
+30618_3b36e5cd,cmd,cmd_jump,160.83243989944458,0.0,+7 -> +0
+30618_3b36e5cd,cmd,cmd_jump,872.2829585075378,0.0,+8 -> +0
+30618_748832b9,front,stamp_excursion,0.011649370193481445,0.1720883846282959,latency offset +1.46s
+30618_748832b9,rear,stamp_excursion,0.0,0.2160038948059082,latency offset +2.09s
+30618_748832b9,cmd,stamp_excursion,0.011738061904907227,0.24455761909484863,latency offset +1.64s
+30618_748832b9,cmd,cmd_jump,137.44818758964539,0.0,+4 -> +0
+30618_1cc230fa,front,startup_burst,0.009447097778320312,2.9951610565185547,"31 msgs delivered at once, header span 3.00s"
+30618_1cc230fa,front,gap,569.5390226840973,0.40389013290405273,v_before=34.75 v_after=34.56
+30618_1cc230fa,rear,stamp_excursion,0.0,0.19521522521972656,latency offset +2.01s
+30618_1cc230fa,cmd,startup_burst,0.009511947631835938,2.999985694885254,"61 msgs delivered at once, header span 3.00s"
+30618_1cc230fa,cmd,cmd_jump,918.2724559307098,0.0,+7 -> +0
+30618_98161270,front,startup_burst,0.004933595657348633,2.701244592666626,"28 msgs delivered at once, header span 2.70s"
+30618_98161270,rear,startup_burst,0.0,3.8889095783233643,"40 msgs delivered at once, header span 3.89s"
+30618_98161270,cmd,startup_burst,5.364418029785156e-05,4.049978017807007,"82 msgs delivered at once, header span 4.05s"
+30618_45ff6f99,front,startup_burst,0.0027360916137695312,2.889190673828125,"30 msgs delivered at once, header span 2.89s"
+30618_45ff6f99,rear,startup_burst,0.0,3.788940668106079,"39 msgs delivered at once, header span 3.79s"
+30618_45ff6f99,cmd,startup_burst,2.4318695068359375e-05,3.9499974250793457,"80 msgs delivered at once, header span 3.95s"
+30618_bab2fe58,front,startup_burst,0.006139516830444336,2.5013010501861572,"26 msgs delivered at once, header span 2.50s"
+30618_bab2fe58,rear,startup_burst,0.0,3.604985475540161,"37 msgs delivered at once, header span 3.60s"
+30618_bab2fe58,cmd,startup_burst,5.173683166503906e-05,3.6498796939849854,"74 msgs delivered at once, header span 3.65s"
+30618_2366c74a,front,stamp_excursion,0.011542081832885742,0.20601391792297363,latency offset +1.47s
+30618_2366c74a,rear,stamp_excursion,0.0,0.24345016479492188,latency offset +2.06s
+30618_2366c74a,cmd,stamp_excursion,0.011600494384765625,0.2582120895385742,latency offset +1.54s
+30618_40ffd323,front,startup_burst,0.0026607513427734375,2.499321937561035,"26 msgs delivered at once, header span 2.50s"
+30618_40ffd323,front,arrival_gap,82.9300422668457,1.0932037830352783,no new-stamp message in arrival order
+30618_40ffd323,front,arrival_gap,506.4736626148224,0.990027904510498,no new-stamp message in arrival order
+30618_40ffd323,front,stamp_excursion,84.02324604988098,1.316103458404541,latency offset +0.95s
+30618_40ffd323,front,stamp_excursion,85.54209113121033,0.0,latency offset +1.03s
+30618_40ffd323,front,stamp_excursion,85.64376258850098,0.0,latency offset +1.05s
+30618_40ffd323,front,stamp_excursion,85.74623465538025,0.10146975517272949,latency offset +1.03s
+30618_40ffd323,front,stamp_excursion,85.94843673706055,0.0,latency offset +0.96s
+30618_40ffd323,front,stamp_excursion,86.15253138542175,0.0,latency offset +0.96s
+30618_40ffd323,front,stamp_excursion,86.35469913482666,0.0,latency offset +1.06s
+30618_40ffd323,front,stamp_excursion,503.7734172344208,4.321531772613525,latency offset -0.36s
+30618_40ffd323,front,stamp_nonmonotonic,85.54209113121033,0.0,dt_hdr=-1.073
+30618_40ffd323,front,stamp_nonmonotonic,85.64376258850098,0.0,dt_hdr=-1.088
+30618_40ffd323,front,stamp_nonmonotonic,85.74623465538025,0.0,dt_hdr=-1.087
+30618_40ffd323,front,stamp_nonmonotonic,85.94843673706055,0.0,dt_hdr=-0.993
+30618_40ffd323,front,stamp_nonmonotonic,86.15253138542175,0.0,dt_hdr=-0.991
+30618_40ffd323,front,stamp_nonmonotonic,86.35469913482666,0.0,dt_hdr=-1.093
+30618_40ffd323,rear,startup_burst,0.0,3.601012706756592,"37 msgs delivered at once, header span 3.60s"
+30618_40ffd323,rear,arrival_gap,82.92996668815613,1.0932114124298096,no new-stamp message in arrival order
+30618_40ffd323,rear,arrival_gap,506.4735949039459,0.9900522232055664,no new-stamp message in arrival order
+30618_40ffd323,rear,stamp_excursion,84.02317810058594,1.3160858154296875,latency offset +0.95s
+30618_40ffd323,rear,stamp_excursion,85.54204106330872,0.0,latency offset +1.03s
+30618_40ffd323,rear,stamp_excursion,85.64357662200928,0.0,latency offset +1.05s
+30618_40ffd323,rear,stamp_excursion,85.74617505073547,0.10137486457824707,latency offset +1.03s
+30618_40ffd323,rear,stamp_excursion,85.94833707809448,0.0,latency offset +0.96s
+30618_40ffd323,rear,stamp_excursion,86.15246486663818,0.0,latency offset +0.96s
+30618_40ffd323,rear,stamp_excursion,86.35511207580566,0.0,latency offset +1.06s
+30618_40ffd323,rear,stamp_excursion,503.7737662792206,4.321151256561279,latency offset -0.36s
+30618_40ffd323,rear,stamp_nonmonotonic,85.54204106330872,0.0,dt_hdr=-1.073
+30618_40ffd323,rear,stamp_nonmonotonic,85.64357662200928,0.0,dt_hdr=-1.088
+30618_40ffd323,rear,stamp_nonmonotonic,85.74617505073547,0.0,dt_hdr=-1.087
+30618_40ffd323,rear,stamp_nonmonotonic,85.94833707809448,0.0,dt_hdr=-0.993
+30618_40ffd323,rear,stamp_nonmonotonic,86.15246486663818,0.0,dt_hdr=-0.991
+30618_40ffd323,rear,stamp_nonmonotonic,86.35511207580566,0.0,dt_hdr=-1.093
+30618_40ffd323,cmd,startup_burst,0.002717256546020508,2.5999844074249268,"53 msgs delivered at once, header span 2.60s"
+30618_40ffd323,cmd,arrival_gap,82.97458243370056,1.042593002319336,no new-stamp message in arrival order
+30618_40ffd323,cmd,arrival_gap,506.46890664100647,0.9443421363830566,no new-stamp message in arrival order
+30618_40ffd323,cmd,stamp_excursion,84.0171754360199,1.8242566585540771,latency offset +0.99s
+30618_40ffd323,cmd,stamp_excursion,85.89241743087769,0.0,latency offset +1.01s
+30618_40ffd323,cmd,stamp_excursion,85.94296503067017,0.0,latency offset +1.01s
+30618_40ffd323,cmd,stamp_excursion,85.99420094490051,0.0,latency offset +1.01s
+30618_40ffd323,cmd,stamp_excursion,86.04452967643738,0.0,latency offset +1.01s
+30618_40ffd323,cmd,stamp_excursion,86.09534072875977,0.0,latency offset +1.02s
+30618_40ffd323,cmd,stamp_excursion,86.14638924598694,0.0,latency offset +1.02s
+30618_40ffd323,cmd,stamp_excursion,86.19753408432007,0.0,latency offset +1.02s
+30618_40ffd323,cmd,stamp_excursion,86.24817228317261,0.0,latency offset +1.02s
+30618_40ffd323,cmd,stamp_excursion,86.29874539375305,0.0,latency offset +1.02s
+30618_40ffd323,cmd,stamp_excursion,86.34910368919373,0.0,latency offset +1.02s
+30618_40ffd323,cmd,stamp_excursion,503.67861461639404,2.7902920246124268,latency offset -0.41s
+30618_40ffd323,cmd,stamp_nonmonotonic,85.38441205024719,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,85.43543767929077,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,85.48581719398499,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,85.53688216209412,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,85.58798813819885,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,85.63842511177063,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,85.68927955627441,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,85.74024224281311,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,85.79078125953674,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,85.84143209457397,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,85.89241743087769,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,85.94296503067017,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,85.99420094490051,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,86.04452967643738,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,86.09534072875977,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,86.14638924598694,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,86.19753408432007,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,86.24817228317261,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,86.29874539375305,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,stamp_nonmonotonic,86.34910368919373,0.0,dt_hdr=-1.000
+30618_40ffd323,cmd,cmd_jump,86.02380323410034,0.0,-7 -> -11
+30618_40ffd323,cmd,cmd_jump,86.04452967643738,0.0,-11 -> -7
+30618_40ffd323,cmd,cmd_jump,86.07421493530273,0.0,-7 -> -11
+30618_40ffd323,cmd,cmd_jump,86.09534072875977,0.0,-11 -> -7
+30618_40ffd323,cmd,cmd_jump,86.12378430366516,0.0,-7 -> -12
+30618_40ffd323,cmd,cmd_jump,86.14638924598694,0.0,-12 -> -7
+30618_40ffd323,cmd,cmd_jump,86.17396950721741,0.0,-7 -> -12
+30618_40ffd323,cmd,cmd_jump,86.19753408432007,0.0,-12 -> -7
+30618_40ffd323,cmd,cmd_jump,86.22419166564941,0.0,-7 -> -12
+30618_40ffd323,cmd,cmd_jump,86.24817228317261,0.0,-12 -> -7
+30618_40ffd323,cmd,cmd_jump,86.27467012405396,0.0,-7 -> -13
+30618_40ffd323,cmd,cmd_jump,86.29874539375305,0.0,-13 -> -7
+30618_40ffd323,cmd,cmd_jump,86.32459855079651,0.0,-7 -> -13
+30618_40ffd323,cmd,cmd_jump,86.34910368919373,0.0,-13 -> -7
+30618_40ffd323,cmd,cmd_jump,86.37513780593872,0.0,-7 -> -13
+30618_40ffd323,cmd,cmd_jump,142.1423945426941,0.0,+7 -> +0
+30618_40ffd323,cmd,cmd_jump,777.7800636291504,0.0,-14 -> -10
+30618_40ffd323,cmd,cmd_jump,813.6800625324249,0.0,+7 -> +0
+30618_2cb9ce37,front,stamp_excursion,0.011387825012207031,0.20578265190124512,latency offset +1.64s
+30618_2cb9ce37,rear,stamp_excursion,0.0,0.2604849338531494,latency offset +2.38s
+30618_2cb9ce37,cmd,stamp_excursion,0.01144719123840332,0.2683732509613037,latency offset +1.65s
+30618_af7496f0,front,startup_burst,0.010305166244506836,2.5133016109466553,"26 msgs delivered at once, header span 2.51s"
+30618_af7496f0,front,arrival_gap,142.24666690826416,0.9894185066223145,no new-stamp message in arrival order
+30618_af7496f0,front,stamp_excursion,141.88610863685608,1.6200487613677979,latency offset -0.42s
+30618_af7496f0,rear,arrival_gap,142.24655747413635,0.9894635677337646,no new-stamp message in arrival order
+30618_af7496f0,rear,stamp_excursion,0.0,0.1775529384613037,latency offset +1.94s
+30618_af7496f0,rear,stamp_excursion,141.88600087165833,1.6200745105743408,latency offset -0.42s
+30618_af7496f0,cmd,startup_burst,0.0103607177734375,2.550004243850708,"52 msgs delivered at once, header span 2.55s"
+30618_af7496f0,cmd,arrival_gap,142.2900514602661,0.9446613788604736,no new-stamp message in arrival order
+30618_af7496f0,cmd,stamp_excursion,140.39983701705933,4.455670595169067,latency offset -0.26s
+30639_d927f360,front,startup_burst,0.00019502639770507812,2.195859670639038,"23 msgs delivered at once, header span 2.20s"
+30639_d927f360,rear,gap,276.6427586078644,25.58366823196411,v_before=0.00 v_after=42.22
+30639_d927f360,rear,gap,1059.1684930324554,12.09790325164795,v_before=0.00 v_after=9.32
+30639_d927f360,rear,arrival_gap,276.62562108039856,25.600144863128662,no new-stamp message in arrival order
+30639_d927f360,rear,arrival_gap,1059.2249991893768,12.09965968132019,no new-stamp message in arrival order
+30639_d927f360,cmd,startup_burst,0.0,2.4500317573547363,"50 msgs delivered at once, header span 2.45s"
+30618_437e855c,front,stamp_excursion,0.00023984909057617188,0.3201639652252197,latency offset +1.42s
+30618_437e855c,cmd,stamp_excursion,0.0,0.4326770305633545,latency offset +1.56s
+30618_437e855c,cmd,cmd_jump,777.6176111698151,0.0,+5 -> +0
+30639_584b6e32,front,startup_burst,0.0001704692840576172,2.265998125076294,"24 msgs delivered at once, header span 2.27s"
+30639_584b6e32,rear,gap,1085.0553512573242,16.297868967056274,v_before=0.00 v_after=9.79
+30639_584b6e32,rear,arrival_gap,1085.0347306728363,16.299976110458374,no new-stamp message in arrival order
+30639_584b6e32,cmd,startup_burst,0.0,2.5000290870666504,"51 msgs delivered at once, header span 2.50s"
+30639_584b6e32,cmd,cmd_jump,100.31090950965881,0.0,+7 -> +0
+30639_584b6e32,cmd,cmd_jump,704.162392616272,0.0,+4 -> +0
+30618_d4ba7005,front,startup_burst,0.00019598007202148438,2.601274013519287,"26 msgs delivered at once, header span 2.60s"
+30618_d4ba7005,cmd,startup_burst,0.0,2.949896812438965,"60 msgs delivered at once, header span 2.95s"
+30618_d4ba7005,cmd,cmd_jump,688.0314123630524,0.0,+4 -> +0
+30639_2b4a6347,front,startup_burst,0.0001728534698486328,2.5799684524536133,"27 msgs delivered at once, header span 2.58s"
+30639_2b4a6347,cmd,startup_burst,0.0,2.750089406967163,"56 msgs delivered at once, header span 2.75s"
+30618_dd8e6395,front,stamp_excursion,0.0001723766326904297,0.2042551040649414,latency offset +1.23s
+30618_dd8e6395,cmd,stamp_excursion,0.0,0.3401496410369873,latency offset +1.30s
+30618_dd8e6395,cmd,cmd_jump,132.61575269699097,0.0,+6 -> +0
+30618_dd8e6395,cmd,cmd_jump,777.8179633617401,0.0,+6 -> +0
+30639_4285f2bc,front,startup_burst,0.0001900196075439453,2.3840653896331787,"19 msgs delivered at once, header span 2.38s"
+30639_4285f2bc,front,gap,37.61300563812256,0.4139828681945801,v_before=11.31 v_after=11.50
+30639_4285f2bc,rear,gap,6.914442539215088,47.10539531707764,v_before=0.00 v_after=4.62
+30639_4285f2bc,rear,arrival_gap,6.867177724838257,47.0992534160614,no new-stamp message in arrival order
+30639_4285f2bc,cmd,startup_burst,0.0,2.8498682975769043,"56 msgs delivered at once, header span 2.85s"
+30639_4285f2bc,cmd,cmd_jump,893.8285970687866,0.0,+6 -> +0
+30618_e9a34502,front,stamp_excursion,0.00024390220642089844,0.2476050853729248,latency offset +1.35s
+30618_e9a34502,cmd,stamp_excursion,0.0,0.4010789394378662,latency offset +1.42s
+30618_e9a34502,cmd,cmd_jump,164.52252388000488,0.0,+4 -> +0
+30618_01f73500,front,stamp_excursion,0.0002446174621582031,0.30027031898498535,latency offset +1.49s
+30618_01f73500,rear,stamp_excursion,0.018241167068481445,0.0,latency offset +0.32s
+30618_01f73500,cmd,stamp_excursion,0.0,0.45479893684387207,latency offset +1.60s
+30618_01f73500,cmd,cmd_jump,129.27974724769592,0.0,+4 -> +0
+30618_01f73500,cmd,cmd_jump,804.9301419258118,0.0,+8 -> +0
+30639_0ab96c59,front,gap,26.744126081466675,0.7699952125549316,v_before=0.00 v_after=0.00
+30639_0ab96c59,front,arrival_gap,26.790883779525757,0.6570110321044922,no new-stamp message in arrival order
+30639_0ab96c59,front,stamp_excursion,0.00017833709716796875,0.19390130043029785,latency offset +1.21s
+30639_0ab96c59,rear,gap,26.74430274963379,0.7699952125549316,v_before=0.00 v_after=0.00
+30639_0ab96c59,rear,arrival_gap,26.791963577270508,0.6560802459716797,no new-stamp message in arrival order
+30639_0ab96c59,cmd,stamp_excursion,0.0,0.29010486602783203,latency offset +1.32s
+30639_9f0b519f,front,startup_burst,0.00011587142944335938,0.30606675148010254,"4 msgs delivered at once, header span 0.31s"
+30639_9f0b519f,front,stamp_excursion,0.05407595634460449,0.13594698905944824,latency offset +1.08s
+30639_9f0b519f,rear,gap,506.2363328933716,5.797914743423462,v_before=0.00 v_after=22.07
+30639_9f0b519f,rear,arrival_gap,506.23733282089233,5.799004077911377,no new-stamp message in arrival order
+30639_9f0b519f,cmd,stamp_excursion,0.0,0.30918025970458984,latency offset +1.30s
+30639_9f0b519f,cmd,cmd_jump,680.2170550823212,0.0,+4 -> +0
+30618_33bec73f,front,stamp_excursion,0.0001971721649169922,0.27186012268066406,latency offset +1.44s
+30618_33bec73f,cmd,stamp_excursion,0.0,0.5455019474029541,latency offset +1.53s
+30618_33bec73f,cmd,cmd_jump,159.2052400112152,0.0,+4 -> +0
+30639_50956d6e,front,startup_burst,0.00012636184692382812,2.197998523712158,"17 msgs delivered at once, header span 2.20s"
+30639_50956d6e,cmd,startup_burst,0.0,2.348085880279541,"48 msgs delivered at once, header span 2.35s"
+30639_50956d6e,cmd,cmd_jump,99.42680883407593,0.0,+4 -> +0
+30639_50956d6e,cmd,cmd_jump,701.7398717403412,0.0,+5 -> +0
+30618_dd8d0741,front,stamp_excursion,0.00018858909606933594,0.24085164070129395,latency offset +1.30s
+30618_dd8d0741,cmd,stamp_excursion,0.0,0.4250354766845703,latency offset +1.37s
+30618_dd8d0741,cmd,cmd_jump,154.90940856933594,0.0,+8 -> +0
+30618_dd8d0741,cmd,cmd_jump,831.1088972091675,0.0,+9 -> +0
+30618_dd8d0741,cmd,cmd_jump,1070.9596025943756,0.0,-13 -> -9
+30618_dd8d0741,cmd,cmd_jump,1071.0087161064148,0.0,-9 -> -5
+30639_927002c2,front,startup_burst,0.00011706352233886719,2.5059568881988525,"24 msgs delivered at once, header span 2.51s"
+30639_927002c2,rear,gap,244.47465062141418,20.497730016708374,v_before=0.00 v_after=36.89
+30639_927002c2,rear,gap,916.4363160133362,8.685887575149536,v_before=0.00 v_after=28.19
+30639_927002c2,rear,arrival_gap,244.42044377326965,20.499720335006714,no new-stamp message in arrival order
+30639_927002c2,rear,arrival_gap,916.4202110767365,8.699829816818237,no new-stamp message in arrival order
+30639_927002c2,cmd,startup_burst,0.0,2.5994651317596436,"53 msgs delivered at once, header span 2.60s"
+30618_2050d396,front,stamp_excursion,0.0001895427703857422,0.31502461433410645,latency offset +1.32s
+30618_2050d396,cmd,stamp_excursion,0.0,0.4973433017730713,latency offset +1.47s
+30618_2050d396,cmd,cmd_jump,206.67069053649902,0.0,+5 -> +0
+30639_0be558e2,front,stamp_excursion,0.0005316734313964844,0.18171167373657227,latency offset +1.26s
+30639_0be558e2,cmd,stamp_excursion,0.0,0.37096738815307617,latency offset +1.38s
+30639_0be558e2,cmd,cmd_jump,271.6619391441345,0.0,+7 -> +0
+30639_0be558e2,cmd,cmd_jump,927.3666431903839,0.0,+6 -> +0
+30618_a53d5f6f,front,stamp_excursion,0.0002446174621582031,0.2506556510925293,latency offset +1.34s
+30618_a53d5f6f,cmd,stamp_excursion,0.0,0.46473073959350586,latency offset +1.41s
+30618_a53d5f6f,cmd,cmd_jump,174.02332472801208,0.0,+5 -> +0
+30618_a53d5f6f,cmd,cmd_jump,744.8233346939087,0.0,-14 -> -10
+30618_a53d5f6f,cmd,cmd_jump,784.8232417106628,0.0,+8 -> +0
+30618_67b89902,front,stamp_excursion,0.0002906322479248047,0.2262129783630371,latency offset +1.43s
+30618_67b89902,cmd,stamp_excursion,0.0,0.4037590026855469,latency offset +1.53s
+30618_67b89902,cmd,cmd_jump,113.98767828941345,0.0,+4 -> +0
+30618_67b89902,cmd,cmd_jump,637.7872025966644,0.0,+4 -> +0
+30618_3e9f4952,front,startup_burst,0.00017786026000976562,2.3833320140838623,"25 msgs delivered at once, header span 2.38s"
+30618_3e9f4952,cmd,startup_burst,0.0,2.70000958442688,"55 msgs delivered at once, header span 2.70s"
+30618_3e9f4952,cmd,cmd_jump,224.67815971374512,0.0,+6 -> +0
+30618_3e9f4952,cmd,cmd_jump,815.9274213314056,0.0,+6 -> +0
+30618_082f1d65,front,stamp_excursion,0.00016880035400390625,0.2723844051361084,latency offset +1.32s
+30618_082f1d65,cmd,stamp_excursion,0.0,0.3946237564086914,latency offset +1.48s
+30618_a869780d,front,stamp_excursion,0.0002503395080566406,0.3405418395996094,latency offset +1.54s
+30618_a869780d,cmd,stamp_excursion,0.0,0.45984625816345215,latency offset +1.68s
+30618_a869780d,cmd,cmd_jump,43.08501625061035,0.0,+6 -> +0
+30618_a869780d,cmd,cmd_jump,666.385421037674,0.0,+7 -> +0
+30618_defd0170,front,stamp_excursion,0.0002071857452392578,0.24363303184509277,latency offset +1.52s
+30618_defd0170,cmd,stamp_excursion,0.0,0.39829564094543457,latency offset +1.59s
+30618_defd0170,cmd,cmd_jump,156.073077917099,0.0,+5 -> +0
+30618_0686195f,front,stamp_excursion,0.00017714500427246094,0.2794215679168701,latency offset +1.44s
+30618_0686195f,rear,stamp_excursion,0.018725156784057617,0.0,latency offset +0.30s
+30618_0686195f,cmd,stamp_excursion,0.0,0.4068150520324707,latency offset +1.53s
+30618_0686195f,cmd,cmd_jump,136.63408160209656,0.0,+7 -> +0
+30618_0686195f,cmd,cmd_jump,796.5331010818481,0.0,-14 -> -10
+30618_0686195f,cmd,cmd_jump,830.4337482452393,0.0,+9 -> +0
+30618_88548b02,front,stamp_excursion,0.0002467632293701172,0.2730858325958252,latency offset +1.38s
+30618_88548b02,cmd,stamp_excursion,0.0,0.4598121643066406,latency offset +1.42s
+30618_88548b02,cmd,cmd_jump,126.7209198474884,0.0,+4 -> +0
+30618_27e994fc,front,gap,1606.855761051178,0.9597177505493164,v_before=0.00 v_after=0.00
+30618_27e994fc,front,arrival_gap,1606.8907341957092,0.9001345634460449,no new-stamp message in arrival order
+30618_27e994fc,front,stamp_excursion,0.00018858909606933594,0.33486104011535645,latency offset +1.42s
+30618_27e994fc,rear,gap,1606.8562443256378,0.9597177505493164,v_before=0.00 v_after=0.00
+30618_27e994fc,rear,arrival_gap,1606.8910727500916,0.9001114368438721,no new-stamp message in arrival order
+30618_27e994fc,cmd,stamp_excursion,0.0,0.5326111316680908,latency offset +1.56s
+30618_27e994fc,cmd,cmd_jump,174.02623510360718,0.0,+4 -> +0
+30618_27e994fc,cmd,cmd_jump,802.9757964611053,0.0,+10 -> +0

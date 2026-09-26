@@ -1,0 +1,42 @@
+                       subset    n_s    rms   bias  |r|_q0.5  |r|_q0.9  |r|_q0.95  |r|_q0.99  |r|_q0.999
+0                clean_manual  55938  0.098  0.001     0.044     0.129      0.168      0.284       1.039
+1               auto_episodes   1227  1.075  0.776     0.932     1.752      2.015      2.277       2.512
+2  not_clean(slip/slide/GNSS)   2807  0.190 -0.004     0.058     0.177      0.239      0.551       2.413
+{
+ "T1.0_thr0.25": {
+  "false_alarm_frac_clean": 0.007725476104922745,
+  "episodes": 59,
+  "missed": 1,
+  "det_delay_median": 0.0,
+  "det_delay_p90": 1.4800000000000006
+ },
+ "T1.0_thr0.3": {
+  "false_alarm_frac_clean": 0.005160149664898647,
+  "episodes": 59,
+  "missed": 1,
+  "det_delay_median": 0.0,
+  "det_delay_p90": 1.7400000000000013
+ },
+ "T2.0_thr0.25": {
+  "false_alarm_frac_clean": 0.00719274629368429,
+  "episodes": 59,
+  "missed": 1,
+  "det_delay_median": 0.0,
+  "det_delay_p90": 1.7800000000000005
+ },
+ "T2.0_thr0.3": {
+  "false_alarm_frac_clean": 0.004883952497662605,
+  "episodes": 59,
+  "missed": 1,
+  "det_delay_median": 0.0,
+  "det_delay_p90": 2.3300000000000005
+ },
+ "T3.0_thr0.2": {
+  "false_alarm_frac_clean": 0.011890779662592534,
+  "episodes": 59,
+  "missed": 1,
+  "det_delay_median": 0.0,
+  "det_delay_p90": 1.710000000000001
+ }
+}
+CHAIN_DONE

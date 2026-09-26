@@ -1,0 +1,12 @@
+OE data: residuals 46238 prep 19 s
+initial rmse per residual 0.3393
+`xtol` termination condition is satisfied.
+Function evaluations 55, initial cost 1.7597e+03, final cost 1.5916e+03, first-order optimality 3.06e+01.
+OE fit 493 s, cost 2661.002 -> 1591.600
+{'c0': np.float64(0.0642), 'c1': np.float64(-0.0063), 'c2': np.float64(-0.0), 'b0': np.float64(0.2198), 'b1': np.float64(0.1089), 'h0': np.float64(0.6988), 'v_h': np.float64(7.4523), 'A_max': np.float64(1.1239), 'P_max': np.float64(6.5103), 'x1': np.float64(0.0709), 'x3': np.float64(0.312), 'x5': np.float64(0.5454), 'x7': np.float64(0.7673), 'x10': np.float64(0.8921), 'kg_brake': np.float64(9.1304), 'kg_coast': np.float64(6.4464), 'kg_trac': np.float64(7.2602), 'tau': np.float64(0.3436)}
+           model     H     n      rmse       mae      bias       p95     d_rmse     d_mae    d_bias   onestep
+0  physics_sc_oe   1.0  6929  0.100850  0.065423  0.001651  0.167670   0.050260  0.034188  0.000407  0.113278
+1  physics_sc_oe   3.0  7145  0.225457  0.144996  0.008120  0.383842   0.358990  0.236343  0.012384  0.113278
+2  physics_sc_oe   5.0  7326  0.311822  0.200993  0.014454  0.553956   0.832028  0.548160  0.038214  0.113278
+3  physics_sc_oe  10.0  7724  0.460019  0.295682  0.029237  0.844213   2.526161  1.646967  0.161002  0.113278
+4  physics_sc_oe  30.0  8635  0.723346  0.455263  0.081053  1.377407  12.481718  8.134951  1.486087  0.113278

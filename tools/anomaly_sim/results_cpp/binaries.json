@@ -1,0 +1,22 @@
+{
+ "tbo_replay_snapshot.exe": {
+  "what": "copy of C:/MosTransHack/build_core/tbo_replay.exe (built 2026-09-25 20:43:17) - the estimator under test; source snapshot in bin/snapshot_src, maps/config in bin/snapshot_pkg",
+  "sha256": "fb861fa3182198b9110ab12b7b26e963ccc143031f982f1f37a33c8921b2817b"
+ },
+ "tbo_replay_orig_rebuild.exe": {
+  "what": "g++ -O3 rebuild of bin/src_orig (= snapshot_src); outputs verified bit-identical to the snapshot on 3 runs",
+  "sha256": "dd2b7681338809538fb620cb20a1d7a0376774e0c981ad15170de78c72a805ef"
+ },
+ "tbo_replay_patched.exe": {
+  "what": "bin/src_patched with fix_* prototypes (all default off), used by fix_all and fixA..fixG; fix_cusum_skip_bad had one mode (=1)",
+  "sha256": "bccbc2fa74a6f1a9f59ef9ae3fb9a5d928ba30e1245a4c0bc4a27f618a139a43"
+ },
+ "tbo_replay_patched2.exe": {
+  "what": "final bin/src_patched (adds fix_stuck_reset and fix_cusum_skip_bad=2), used by rec_all and diagnostics; with all fix_* off it is bit-identical to the snapshot, with the fix_all toggles identical to tbo_replay_patched.exe",
+  "sha256": "f729cee810ceed6f7d006ab9cce12b72c4a30582040a023b4b17050cc9080214"
+ },
+ "patch": {
+  "file": "results_cpp/fix_prototypes.patch",
+  "what": "diff -ru bin/src_orig bin/src_patched"
+ }
+}

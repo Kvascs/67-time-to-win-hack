@@ -1,0 +1,397 @@
+# Robustness scenario suite for the tram backup-odometry estimator ("Резервная одометрия по модели").
+#
+# Every scenario removes all GNSS messages received later than `gnss_keep_s` after the start of the
+# recording (the jury guarantees GNSS only for "the first few seconds").  Events are never placed in
+# the first 10 s (t_min) so the initial alignment window stays clean.
+#
+# Random draws are deterministic: rng = f(scenario seed, bag name, injector index).  Changing a seed
+# gives a new realisation; the same (seed, bag) always gives byte-identical output.
+#
+# Parameter syntax: scalar = fixed, [lo, hi] = uniform, {a: w1, b: w2} = weighted choice.
+# Magnitudes were calibrated against natural anomalies found in the dataset (out/natural/, characterize.py):
+#   * traction slip humps +30..+100 % for 1-3 s (30639_50956d6e, 30618_33bec73f),
+#   * braking slides -20..-60 % with WSP double dips (30618_2050d396), both bogies (30618_68d1748a),
+#   * single-sensor silence 5-73 s starting at standstill (30639 rear sensor, 8 bags),
+#   * whole-bus stall ~1 s followed by a slow queue drain (30618_28538acf, _af7496f0, _40ffd323),
+#   * isolated +1 s header-stamp glitches on all vehicle topics (30618_2255aade, 30639_9c362687).
+version: 1
+defaults:
+  gnss_keep_s: 5.0
+
+scenarios:
+  - name: S00_baseline_gnss_cut
+    seed: 1000
+    tags: [baseline, gnss]
+    description: >
+      Clean vehicle inputs; GNSS only during the first 5 s. Reference for all other scenarios
+      (accuracy criteria 1-2 under the jury's GNSS condition).
+    injectors: []
+
+  - name: S01_slip_single_bogie
+    seed: 1001
+    tags: [slip, traction, criterion3]
+    description: >
+      3-6 traction-slip events on ONE bogie: low-adhesion patch + anti-slip control (cutoff saw-tooth
+      or creep plateau); the wheel over-reads by ~5-30 % for 1-10 s. Front/rear mismatch reveals it.
+    injectors:
+      - type: slip
+        count: [3, 6]
+        bogie: {front: 0.5, rear: 0.5}
+        peak_rel: [0.05, 0.30]
+        duration: [1.0, 10.0]
+
+  - name: S02_slip_both_bogies
+    seed: 1002
+    tags: [slip, traction, criterion3, hard]
+    description: >
+      Slip on BOTH bogies at once (wet rail) or with a spatial lag (contamination patch passed first by
+      the front, then by the rear bogie). Front/rear consistency no longer reveals the fault; only the
+      notch->acceleration model / acceleration plausibility can.
+    injectors:
+      - type: slip
+        count: [3, 6]
+        bogie: both
+        peak_rel: [0.08, 0.30]
+        duration: [2.0, 10.0]
+        both_mode: {simultaneous: 0.6, spatial: 0.4}
+
+  - name: S03_slip_creep_plateau
+    seed: 1003
+    tags: [slip, traction, criterion3, hard]
+    description: >
+      Modern slip-regulating traction control: both or one wheel held 5-15 % above vehicle speed for
+      4-10 s as a smooth plateau (no tell-tale acceleration spike). Hardest slip case for detection.
+    injectors:
+      - type: slip
+        count: [4, 8]
+        bogie: {both: 0.5, front: 0.25, rear: 0.25}
+        controller: creep
+        peak_rel: [0.05, 0.15]
+        duration: [4.0, 10.0]
+
+  - name: S04_slide_braking_wsp
+    seed: 1004
+    tags: [slide, braking, criterion3]
+    description: >
+      Braking slides with wheel-slide-protection cycling: wheel under-reads by 10-50 % for 0.5-3 s,
+      one or both bogies, no lock.
+    injectors:
+      - type: slide
+        count: [3, 6]
+        lock_prob: 0.0
+        depth_rel: [0.10, 0.50]
+        duration: [0.5, 3.0]
+
+  - name: S05_slide_wheel_lock
+    seed: 1005
+    tags: [slide, lock, braking, criterion3, hard]
+    description: >
+      Wheel lock while braking: the wheel reads ~0 for 0.5-3 s although the tram still moves
+      (a naive estimator declares a stop and loses distance). 40 % of events lock both bogies.
+    injectors:
+      - type: slide
+        count: [3, 5]
+        lock_prob: 1.0
+        lock_duration: [0.5, 3.0]
+        bogie: {front: 0.3, rear: 0.3, both: 0.4}
+
+  - name: S06_dropout_short
+    seed: 1006
+    tags: [dropout, criterion3]
+    description: >
+      8-15 short gaps of 0.2-2 s on one wheel sensor, both wheel sensors, the controller or all vehicle
+      topics, placed while moving.
+    injectors:
+      - type: dropout
+        count: [8, 15]
+        duration: [0.2, 2.0]
+        min_gap: 2.0
+        topics: {front: 0.25, rear: 0.25, wheels: 0.3, cmd: 0.1, vehicle: 0.1}
+
+  - name: S07_dropout_long
+    seed: 1007
+    tags: [dropout, criterion3, hard]
+    description: >
+      Long gaps while moving: both wheel sensors silent for 3-10 s (pure model-based dead reckoning),
+      plus the natural pattern of one sensor silent for 20-75 s starting shortly before a departure.
+    injectors:
+      - type: dropout
+        count: [2, 4]
+        duration: [3.0, 10.0]
+        topics: {wheels: 0.7, vehicle: 0.3}
+        when: motion
+        min_speed: 2.0
+      - type: dropout
+        count: 1
+        duration: [20.0, 75.0]
+        topics: {front: 0.5, rear: 0.5}
+        when: departure
+        lead: 5.0
+
+  - name: S08_stall_burst
+    seed: 1008
+    tags: [dropout, timing, latency, criterion3, criterion4]
+    description: >
+      Bus stalls of 0.5-2 s after which the queued messages are delivered late and drain at 0.9x the
+      nominal period (latency up to 2 s decaying over ~10-20 s) - the exact pattern of real bags.
+      Tests latency handling and use of header stamps vs arrival time.
+    injectors:
+      - type: dropout
+        mode: stall
+        count: [3, 6]
+        duration: [0.5, 2.0]
+        topics: {vehicle: 0.6, wheels: 0.4}
+
+  - name: S09_outliers_spikes
+    seed: 1009
+    tags: [outliers, criterion3]
+    description: >
+      ~1 % of wheel samples corrupted in bursts of 1-3: additive spikes of 5-60 km/h, spurious zeros
+      while moving, sign flips.
+    injectors:
+      - type: outliers
+        rate: 0.01
+        burst: [1, 3]
+        kinds: {spike: 0.6, zero: 0.3, negative: 0.1}
+
+  - name: S10_invalid_values
+    seed: 1010
+    tags: [outliers, invalid, criterion3]
+    description: >
+      NaN, +-inf, absurd codes (6553.5, 1e6, 1e300, -3.4e38...) and negative speeds on the wheels;
+      out-of-range / jumping codes on the controller (127, -128, 100, +-16). The node must not crash.
+    injectors:
+      - type: outliers
+        rate: 0.005
+        kinds: {nan: 0.3, inf: 0.2, absurd: 0.3, negative: 0.2}
+      - type: outliers
+        topics: cmd
+        rate: 0.003
+        kinds: {absurd: 0.5, spike: 0.5}
+
+  - name: S11_frozen_sensor
+    seed: 1011
+    tags: [frozen, criterion3]
+    description: >
+      Stuck sensor while moving: keeps publishing its last value (70 %) or 0 (30 %) with fresh stamps
+      for 2-20 s; one wheel sensor or both.
+    injectors:
+      - type: frozen
+        count: [2, 4]
+        duration: [2.0, 20.0]
+        when: motion
+        topics: {front: 0.4, rear: 0.4, wheels: 0.2}
+        mode: {hold: 0.7, zero: 0.3}
+
+  - name: S12_noise_increase
+    seed: 1012
+    tags: [noise, criterion3]
+    description: >
+      Degraded sensor: 1-3 km/h white noise + up to 3 % proportional + coloured (AR1, 0.5-2 s) noise
+      on one or both wheel sensors for 1-3 minutes, 2-3 times per run.
+    injectors:
+      - type: noise
+        count: [2, 3]
+        duration: [60.0, 180.0]
+        topics: {front: 0.4, rear: 0.4, wheels: 0.2}
+        sigma_kmh: [1.0, 3.0]
+        rel_sigma: [0.0, 0.03]
+        ar_sigma_kmh: [0.0, 1.0]
+        ar_tau: [0.5, 2.0]
+
+  - name: S13_timing_jitter_dup_reorder
+    seed: 1013
+    tags: [timing, criterion3, criterion4]
+    description: >
+      Header-stamp jitter (20 ms + 1 % tail of 50-300 ms), arrival jitter 10 ms, 3 % duplicated
+      messages and 1 % out-of-order messages delivered 0.15-0.6 s late on all vehicle topics.
+    injectors:
+      - type: stamp_jitter
+        sigma_ms: 20.0
+        tail_prob: 0.01
+        tail_ms: [50.0, 300.0]
+        arrival_sigma_ms: 10.0
+      - type: duplicates
+        rate: 0.03
+      - type: reorder
+        rate: 0.01
+        delay: [0.15, 0.6]
+
+  - name: S14_stamp_faults
+    seed: 1014
+    tags: [timing, stamps, criterion3]
+    description: >
+      Zero header stamps (0.5 % random + one 2-5 s window), +-1 s stamp glitches on all vehicle topics,
+      and a 20-60 s header-clock offset (+-1 s) drifting at up to 0.1 s/s (as around the 1 s bus gaps of
+      30618_28538acf / _af7496f0) and ending in a step. Output stamps must stay sane (the judge matches
+      by stamp).
+    injectors:
+      - type: zero_stamps
+        rate: 0.005
+        count: 1
+        duration: [2.0, 5.0]
+      - type: stamp_glitch
+        count: [3, 6]
+      - type: clock_offset
+        count: 1
+        duration: [20.0, 60.0]
+        offset_s: [-1.0, 1.0]
+        drift: [-0.1, 0.1]
+
+  - name: S15_wheel_wear_scale
+    seed: 1015
+    tags: [scale, calibration, criterion2]
+    description: >
+      Wheel-diameter errors: front scale drifts linearly to -1..-2 % over the run, rear has a constant
+      +0.5..+2 %. Tests online scale adaptation; position drift grows linearly with distance otherwise.
+    injectors:
+      - type: scale_drift
+        topics: front
+        start: 0.0
+        end: [-0.02, -0.01]
+      - type: scale_drift
+        topics: rear
+        profile: constant
+        end: [0.005, 0.02]
+
+  - name: S16_notch_faults
+    seed: 1016
+    tags: [controller, criterion3]
+    description: >
+      Controller faults: stuck notch, spurious jumps, invalid codes, +-1..2 encoder offset (4-8 events)
+      plus 3-5 controller dropouts of 0.5-5 s. The model part must not be trusted blindly.
+    injectors:
+      - type: notch_fault
+        count: [4, 8]
+        duration: [0.5, 5.0]
+      - type: dropout
+        topics: cmd
+        count: [3, 5]
+        duration: [0.5, 5.0]
+
+  - name: S17_combined_moderate
+    seed: 1017
+    tags: [combined, criterion3]
+    description: >
+      A realistic bad day: a few slips/slides (30 % locks), short dropouts, sparse outliers, mild stamp
+      jitter, 1 % duplicates, +-1 % wheel-scale error.
+    injectors:
+      - type: scale_drift
+        end: [-0.01, 0.01]
+      - type: slip
+        count: [2, 3]
+      - type: slide
+        count: [2, 3]
+        lock_prob: 0.3
+      - type: dropout
+        count: [3, 5]
+        duration: [0.2, 3.0]
+      - type: outliers
+        rate: 0.003
+      - type: stamp_jitter
+        sigma_ms: 10.0
+        tail_prob: 0.002
+      - type: duplicates
+        rate: 0.01
+
+  - name: S18_combined_severe
+    seed: 1018
+    tags: [combined, stress, criterion3, criterion4]
+    description: >
+      Stress test - everything at high intensity and GNSS only for 3 s. Success = no crash, no NaN
+      output, bounded error, recovery after each fault.
+    gnss_keep_s: 3.0
+    injectors:
+      - type: scale_drift
+        end: [-0.02, 0.02]
+      - type: slip
+        count: [5, 8]
+        bogie: {both: 0.6, front: 0.2, rear: 0.2}
+      - type: slide
+        count: [4, 6]
+        lock_prob: 0.5
+      - type: noise
+        count: 2
+        duration: [60.0, 120.0]
+        sigma_kmh: [1.0, 2.5]
+      - type: frozen
+        count: 2
+      - type: notch_fault
+        count: [3, 5]
+      - type: outliers
+        rate: 0.02
+        kinds: {spike: 0.35, zero: 0.2, negative: 0.1, nan: 0.15, inf: 0.1, absurd: 0.1}
+      - type: dropout
+        count: [8, 12]
+        duration: [0.2, 10.0]
+      - type: dropout
+        mode: stall
+        count: [2, 4]
+        duration: [0.5, 2.0]
+        topics: vehicle
+      - type: duplicates
+        rate: 0.05
+      - type: reorder
+        rate: 0.02
+      - type: stamp_jitter
+        sigma_ms: 25.0
+        tail_prob: 0.02
+      - type: zero_stamps
+        rate: 0.005
+      - type: stamp_glitch
+        count: [3, 5]
+
+  - name: S19_jury_style_simple
+    seed: 1019
+    tags: [simple, criterion3]
+    description: >
+      The kind of synthetic test a jury script would do: rectangular x1.2 over-read on both wheels for
+      5 s (3x), rectangular -30 % under-read for 2 s (2x), both wheels zeroed for 3 s (1x), both wheel
+      topics cut for 5 s (2x).
+    injectors:
+      - type: slip
+        model: step
+        count: 3
+        bogie: both
+        peak_rel: 0.2
+        duration: 5.0
+        min_hold: 0.5
+      - type: slide
+        model: step
+        count: 2
+        bogie: both
+        lock_prob: 0.0
+        depth_rel: 0.3
+        duration: 2.0
+      - type: frozen
+        count: 1
+        topics: wheels
+        mode: zero
+        duration: 3.0
+      - type: dropout
+        count: 2
+        topics: wheels
+        duration: 5.0
+
+  - name: S20_natural_magnitude_slip_slide
+    seed: 1020
+    tags: [slip, slide, natural, criterion3, hard]
+    description: >
+      Magnitudes as observed in the real bags rather than the 5-30 % design range: low-speed (1-8 m/s)
+      traction slips (requested +30..+90 %, achieved p5/p50/p95 +17/+39/+64 %) lasting 1.5-6 s with
+      cutoff cycles (30618_33bec73f, 30639_50956d6e), braking slides of -30..-70 % and locks
+      (30618_2050d396, 30618_40ffd323), one or both bogies.
+    injectors:
+      - type: slip
+        count: [3, 5]
+        peak_rel: [0.3, 0.9]
+        duration: [1.5, 6.0]
+        max_speed: 8.0
+        controller: cutoff
+        rho: [0.35, 0.65]
+        bogie: {front: 0.3, rear: 0.4, both: 0.3}
+      - type: slide
+        count: [2, 4]
+        depth_rel: [0.3, 0.7]
+        lock_prob: 0.3
+        bogie: {front: 0.3, rear: 0.4, both: 0.3}

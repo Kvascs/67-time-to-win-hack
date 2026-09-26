@@ -1,0 +1,54 @@
+{
+  "source": "GNSS master antenna RTK (status==2) traces, 30618 runs, iterative lateral-median centerline, 1 m resampling",
+  "local_tm": "+proj=tmerc +lat_0=55.80 +lon_0=37.47 +k=1 +x_0=0 +y_0=0 +ellps=WGS84",
+  "altitude": "NavSatFix altitude (WGS84 ellipsoidal per ROS spec): median across 30618 runs of per-run 1 m-bin medians, median(9)+gaussian(5 m); grade from gaussian(10 m), clipped to +-8 %",
+  "antenna": "polyline = path of /sensing/gnss/master antenna (rover is ~12.2 m ahead along the car axis)",
+  "edges": {
+    "AB": {
+      "length_m": 5520.0,
+      "s_odo_total": 5513.276091160012,
+      "n_landmarks": {
+        "stop": 23,
+        "up": 18,
+        "dn": 15
+      },
+      "start_latlon": [
+        55.81039512771211,
+        37.4622933582746
+      ],
+      "end_latlon": [
+        55.79932655847814,
+        37.38903692743448
+      ],
+      "h_range": [
+        147.8565430185111,
+        176.7337341569298
+      ],
+      "max_abs_grade": 0.04083789029138529,
+      "p99_abs_grade": 0.039662184071110586
+    },
+    "BA": {
+      "length_m": 5407.0,
+      "s_odo_total": 5403.7505616887165,
+      "n_landmarks": {
+        "stop": 22,
+        "up": 11,
+        "dn": 9
+      },
+      "start_latlon": [
+        55.79952095451201,
+        37.38895321277311
+      ],
+      "end_latlon": [
+        55.810384655994966,
+        37.46228956187758
+      ],
+      "h_range": [
+        147.85228434003153,
+        176.70537081063745
+      ],
+      "max_abs_grade": 0.040537749771559106,
+      "p99_abs_grade": 0.03908089029879691
+    }
+  }
+}

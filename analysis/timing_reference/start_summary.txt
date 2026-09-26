@@ -1,0 +1,21 @@
+bags: 97, with GNSS: 77, without: 20
+first master fix header stamp rel. to bag start: median -2.54 s [min -3.75, max -2.15]
+first wheel header stamp rel. to bag start: median -2.57 s
+GNSS kept for bag time < t0+1s -> master fixes: median 35 (min 31.0), header span median 3.40 s, rover fixes median 36
+GNSS kept for bag time < t0+2s -> master fixes: median 45 (min 39.0), header span median 4.40 s, rover fixes median 46
+GNSS kept for bag time < t0+3s -> master fixes: median 55 (min 39.0), header span median 5.40 s, rover fixes median 56
+GNSS kept for bag time < t0+5s -> master fixes: median 75 (min 39.0), header span median 7.40 s, rover fixes median 76
+first fix status: {2.0: 63, 0.0: 14}
+moving at first wheel sample: 0 of 97
+start moving (>0.5 m/s for 1 s) within   2 s of first wheel stamp: 0 of 97
+start moving (>0.5 m/s for 1 s) within   5 s of first wheel stamp: 0 of 97
+start moving (>0.5 m/s for 1 s) within  10 s of first wheel stamp: 36 of 97
+start moving (>0.5 m/s for 1 s) within  30 s of first wheel stamp: 77 of 97
+start moving (>0.5 m/s for 1 s) within  60 s of first wheel stamp: 86 of 97
+first motion rel. to first wheel stamp: median 11.1 s, p10 7.5, p90 44.8
+GNSS speed max in first 5 s (hdr): median 0.012 m/s; bags with >0.5 m/s: 0
+start place: {'west_terminal': 37, 'east_terminal': 36, 'en_route': 2, 'depot': 2}
+facing at start: {'east': 64, 'west': 3}
+init heading (baseline, bag<t0+3s) std within window: median 0.012 deg, p90 0.027
+init baseline heading - course over ground at first motion: median -0.43 deg, |.| p50 0.71, p90 3.65, max 11.76 (n=60)
+baseline - course at the same instant (mounting + track curvature): median 0.77 deg, |.| p90 6.63

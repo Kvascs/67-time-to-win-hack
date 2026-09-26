@@ -1,0 +1,37 @@
+{
+ "type": "physics",
+ "form": "dem",
+ "params": {
+  "c0": 0.009386,
+  "c1": 0.008003,
+  "c2": -0.000294,
+  "b0": 0.192989,
+  "b1": 0.097982,
+  "h0": 0.499035,
+  "v_h": 2.272585,
+  "A_max": 0.985119,
+  "P_max": 7.020118,
+  "x1": 0.143308,
+  "x3": 0.315856,
+  "x5": 0.524578,
+  "x7": 0.82599,
+  "x10": 0.984536
+ },
+ "x_knots": [
+  1.0,
+  3.0,
+  5.0,
+  7.0,
+  10.0,
+  15.0
+ ],
+ "kg": [
+  8.194731508277155,
+  8.763529825723326,
+  7.732197611068254
+ ],
+ "delay": 0.0,
+ "tau_up": 0.3,
+ "tau_dn": 0.3,
+ "doc": "Model family (a): physics-parametric static map F(notch, v) + the same dead time / lag / grade term.\n\nPer unit mass [m/s^2], flat track, steady state (running resistance included):\n  resistance     R(v)   = c0 + c1 v + c2 v^2                                  (Davis A + Bv + Cv^2)\n  coast   u = 0: F = -R(v)\n  brake   u < 0: F = -(b0 + b1 |u|) * h(v) - R(v),  h(v) = h0 + (1 - h0) * min(v, v_h) / v_h\n                 (electrodynamic brake with reduced effect at very low speed / blending)\n  traction u > 0: F = min(x(u) * A_max, P_max / v) - R(v)        ('demand' form, variant 'dem')\n              or F = x(u) * min(A_max, P_max / v) - R(v)          ('scaled' form, variant 'sc')\n                 x(u): monotone piecewise-linear demand fraction, knots u = 1,3,5,7,10,15 (x(15)=1)\nDynamics (delay, tau_up, tau_dn) and grade coefficients kg[3] are shared with the LUT model.\nThe parameters are fitted by support-weighted least squares projection onto the data-fitted LUT\n(the LUT is the unconstrained least-squares estimate of the same static map), then scored on val.\n"
+}

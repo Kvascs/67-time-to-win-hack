@@ -1,0 +1,8101 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-09-25T14:54:06Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 1991091586,
+  "lat": 55.7930421,
+  "lon": 37.3856611,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "50"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091596,
+  "lat": 55.7934182,
+  "lon": 37.3841038,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "43"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091601,
+  "lat": 55.7934386,
+  "lon": 37.3843238,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "25"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091609,
+  "lat": 55.7935736,
+  "lon": 37.3837435,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "42"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091613,
+  "lat": 55.7936881,
+  "lon": 37.3836885,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "41"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091620,
+  "lat": 55.7938241,
+  "lon": 37.3844336,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "21"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091633,
+  "lat": 55.7940127,
+  "lon": 37.3834532,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "12"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091640,
+  "lat": 55.7940656,
+  "lon": 37.3833695,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "11"
+  }
+},
+{
+  "type": "node",
+  "id": 1991114324,
+  "lat": 55.7933735,
+  "lon": 37.3842890,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "44"
+  }
+},
+{
+  "type": "node",
+  "id": 1991114331,
+  "lat": 55.7934027,
+  "lon": 37.3845549,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "27"
+  }
+},
+{
+  "type": "node",
+  "id": 1991114332,
+  "lat": 55.7934551,
+  "lon": 37.3847579,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "28"
+  }
+},
+{
+  "type": "node",
+  "id": 1991114335,
+  "lat": 55.7935019,
+  "lon": 37.3845656,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "26"
+  }
+},
+{
+  "type": "node",
+  "id": 1991114342,
+  "lat": 55.7937586,
+  "lon": 37.3845797,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "23"
+  }
+},
+{
+  "type": "node",
+  "id": 1991114355,
+  "lat": 55.7938004,
+  "lon": 37.3837889,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "19"
+  }
+},
+{
+  "type": "node",
+  "id": 1991114356,
+  "lat": 55.7938094,
+  "lon": 37.3847780,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "24"
+  }
+},
+{
+  "type": "node",
+  "id": 1991114358,
+  "lat": 55.7938660,
+  "lon": 37.3846018,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "22"
+  }
+},
+{
+  "type": "node",
+  "id": 1991114359,
+  "lat": 55.7939191,
+  "lon": 37.3836001,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "18"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122885,
+  "lat": 55.7930729,
+  "lon": 37.3859324,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "39"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122887,
+  "lat": 55.7930885,
+  "lon": 37.3854689,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "49"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122890,
+  "lat": 55.7931270,
+  "lon": 37.3857617,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "37"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122892,
+  "lat": 55.7931272,
+  "lon": 37.3861407,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "40"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122894,
+  "lat": 55.7931485,
+  "lon": 37.3852204,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "48"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122898,
+  "lat": 55.7931738,
+  "lon": 37.3859423,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "38"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122900,
+  "lat": 55.7931794,
+  "lon": 37.3854785,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "35"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122903,
+  "lat": 55.7932005,
+  "lon": 37.3850054,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "47"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122906,
+  "lat": 55.7932403,
+  "lon": 37.3853108,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "33"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122908,
+  "lat": 55.7932383,
+  "lon": 37.3856916,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "36"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122912,
+  "lat": 55.7932613,
+  "lon": 37.3847536,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "46"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122915,
+  "lat": 55.7932837,
+  "lon": 37.3854824,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "34"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122916,
+  "lat": 55.7932840,
+  "lon": 37.3850018,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "31"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122921,
+  "lat": 55.7933097,
+  "lon": 37.3845533,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "45"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122927,
+  "lat": 55.7933374,
+  "lon": 37.3848275,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "29"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122928,
+  "lat": 55.7933440,
+  "lon": 37.3852266,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "32"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122929,
+  "lat": 55.7933905,
+  "lon": 37.3850327,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "30"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122935,
+  "lat": 55.7934869,
+  "lon": 37.3868529,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "72"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122936,
+  "lat": 55.7935305,
+  "lon": 37.3870327,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "71"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122946,
+  "lat": 55.7936349,
+  "lon": 37.3868384,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "73"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122948,
+  "lat": 55.7936889,
+  "lon": 37.3870506,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "70"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122949,
+  "lat": 55.7937018,
+  "lon": 37.3872247,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "51"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122955,
+  "lat": 55.7938291,
+  "lon": 37.3868505,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "74"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122957,
+  "lat": 55.7938746,
+  "lon": 37.3872243,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "52"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122958,
+  "lat": 55.7938768,
+  "lon": 37.3870324,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "69"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122964,
+  "lat": 55.7939790,
+  "lon": 37.3868673,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "75"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122966,
+  "lat": 55.7940255,
+  "lon": 37.3870570,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "68"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122969,
+  "lat": 55.7940548,
+  "lon": 37.3872238,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "53"
+  }
+},
+{
+  "type": "node",
+  "id": 10580778518,
+  "lat": 55.7937948,
+  "lon": 37.3843326,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "20"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091643,
+  "lat": 55.7943027,
+  "lon": 37.3835372,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "14"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091646,
+  "lat": 55.7941492,
+  "lon": 37.3832975,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "10"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091649,
+  "lat": 55.7941524,
+  "lon": 37.3832322,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "9"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091658,
+  "lat": 55.7942599,
+  "lon": 37.3831406,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "8"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091660,
+  "lat": 55.7942308,
+  "lon": 37.3831082,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "7"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091661,
+  "lat": 55.7942713,
+  "lon": 37.3837655,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "15"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091670,
+  "lat": 55.7943505,
+  "lon": 37.3830146,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "6"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091688,
+  "lat": 55.7944020,
+  "lon": 37.3834405,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "13"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091719,
+  "lat": 55.7944934,
+  "lon": 37.3824510,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "4"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091733,
+  "lat": 55.7945949,
+  "lon": 37.3868105,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "64"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091765,
+  "lat": 55.7947976,
+  "lon": 37.3870186,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "59"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091766,
+  "lat": 55.7947986,
+  "lon": 37.3865544,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "62"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091786,
+  "lat": 55.7948510,
+  "lon": 37.3823620,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091795,
+  "lat": 55.7949483,
+  "lon": 37.3826306,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "2"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091808,
+  "lat": 55.7948877,
+  "lon": 37.3869579,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "58"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091823,
+  "lat": 55.7949844,
+  "lon": 37.3826955,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "3"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091850,
+  "lat": 55.7950647,
+  "lon": 37.3866782,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "61"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091851,
+  "lat": 55.7951099,
+  "lon": 37.3866066,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "82"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091855,
+  "lat": 55.7953099,
+  "lon": 37.3863847,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "83"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091862,
+  "lat": 55.7954808,
+  "lon": 37.3835943,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "107"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091896,
+  "lat": 55.7957463,
+  "lon": 37.3856937,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "91"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091901,
+  "lat": 55.7958861,
+  "lon": 37.3853799,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "90"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091906,
+  "lat": 55.7959515,
+  "lon": 37.3846221,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "102"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091912,
+  "lat": 55.7960127,
+  "lon": 37.3851798,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "89"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091956,
+  "lat": 55.7963259,
+  "lon": 37.3846793,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "108"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091976,
+  "lat": 55.7963748,
+  "lon": 37.3846014,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "109"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091978,
+  "lat": 55.7965340,
+  "lon": 37.3842398,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "110"
+  }
+},
+{
+  "type": "node",
+  "id": 1991091979,
+  "lat": 55.7965492,
+  "lon": 37.3843306,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "111"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109149,
+  "lat": 55.7943016,
+  "lon": 37.3842303,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "16"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109174,
+  "lat": 55.7945772,
+  "lon": 37.3849664,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "17"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109187,
+  "lat": 55.7952180,
+  "lon": 37.3857827,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "101"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109189,
+  "lat": 55.7952163,
+  "lon": 37.3864386,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "84"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109193,
+  "lat": 55.7952616,
+  "lon": 37.3862611,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "100"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109203,
+  "lat": 55.7953056,
+  "lon": 37.3860889,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "99"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109209,
+  "lat": 55.7953368,
+  "lon": 37.3862481,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "85"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109220,
+  "lat": 55.7953817,
+  "lon": 37.3860742,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "98"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109229,
+  "lat": 55.7954231,
+  "lon": 37.3859137,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "97"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109242,
+  "lat": 55.7954601,
+  "lon": 37.3860533,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "86"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109249,
+  "lat": 55.7955053,
+  "lon": 37.3858765,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "96"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109259,
+  "lat": 55.7955398,
+  "lon": 37.3857414,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "95"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109271,
+  "lat": 55.7955781,
+  "lon": 37.3858667,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "87"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109285,
+  "lat": 55.7956279,
+  "lon": 37.3856781,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "94"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109289,
+  "lat": 55.7956634,
+  "lon": 37.3855438,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "93"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109307,
+  "lat": 55.7957321,
+  "lon": 37.3856234,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "88"
+  }
+},
+{
+  "type": "node",
+  "id": 1991109316,
+  "lat": 55.7957758,
+  "lon": 37.3854520,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "92"
+  }
+},
+{
+  "type": "node",
+  "id": 1991114362,
+  "lat": 55.7944616,
+  "lon": 37.3867509,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "78"
+  }
+},
+{
+  "type": "node",
+  "id": 1991114364,
+  "lat": 55.7945294,
+  "lon": 37.3869821,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "65"
+  }
+},
+{
+  "type": "node",
+  "id": 1991114366,
+  "lat": 55.7945543,
+  "lon": 37.3866494,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "79"
+  }
+},
+{
+  "type": "node",
+  "id": 1991114373,
+  "lat": 55.7946612,
+  "lon": 37.3864709,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "80"
+  }
+},
+{
+  "type": "node",
+  "id": 1991114376,
+  "lat": 55.7947136,
+  "lon": 37.3866701,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "63"
+  }
+},
+{
+  "type": "node",
+  "id": 1991114379,
+  "lat": 55.7947427,
+  "lon": 37.3863437,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "81"
+  }
+},
+{
+  "type": "node",
+  "id": 1991114388,
+  "lat": 55.7949911,
+  "lon": 37.3867944,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "60"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122975,
+  "lat": 55.7941620,
+  "lon": 37.3868318,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "76"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122976,
+  "lat": 55.7941949,
+  "lon": 37.3872234,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "54"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122977,
+  "lat": 55.7942201,
+  "lon": 37.3870566,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "67"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122982,
+  "lat": 55.7943105,
+  "lon": 37.3868506,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "77"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122984,
+  "lat": 55.7943650,
+  "lon": 37.3870630,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "66"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122985,
+  "lat": 55.7943714,
+  "lon": 37.3872230,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "55"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122988,
+  "lat": 55.7945224,
+  "lon": 37.3872226,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "56"
+  }
+},
+{
+  "type": "node",
+  "id": 1991122989,
+  "lat": 55.7946668,
+  "lon": 37.3872222,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "57"
+  }
+},
+{
+  "type": "node",
+  "id": 1993465900,
+  "lat": 55.7995175,
+  "lon": 37.3880271,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "right",
+    "ref": "93c2"
+  }
+},
+{
+  "type": "node",
+  "id": 1993465902,
+  "lat": 55.7995883,
+  "lon": 37.3881332,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "right",
+    "ref": "93c1"
+  }
+},
+{
+  "type": "node",
+  "id": 1993465905,
+  "lat": 55.7996316,
+  "lon": 37.3882783,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "213"
+  }
+},
+{
+  "type": "node",
+  "id": 10583927385,
+  "lat": 55.7957140,
+  "lon": 37.3840534,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "104"
+  }
+},
+{
+  "type": "node",
+  "id": 10583927386,
+  "lat": 55.7957812,
+  "lon": 37.3842829,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "103"
+  }
+},
+{
+  "type": "node",
+  "id": 10583927391,
+  "lat": 55.7953877,
+  "lon": 37.3834138,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "106"
+  }
+},
+{
+  "type": "node",
+  "id": 10583927392,
+  "lat": 55.7952662,
+  "lon": 37.3832568,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "105"
+  }
+},
+{
+  "type": "node",
+  "id": 11622443707,
+  "lat": 55.7946746,
+  "lon": 37.3832726,
+  "tags": {
+    "railway": "switch",
+    "railway:switch": "default",
+    "ref": "5"
+  }
+},
+{
+  "type": "node",
+  "id": 376430265,
+  "lat": 55.8002310,
+  "lon": 37.3901762,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "96c"
+  }
+},
+{
+  "type": "node",
+  "id": 946193043,
+  "lat": 55.8001336,
+  "lon": 37.3919510,
+  "tags": {
+    "name": "Улица Кулакова",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1993465884,
+  "lat": 55.7992925,
+  "lon": 37.3885913,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "214"
+  }
+},
+{
+  "type": "node",
+  "id": 1993465889,
+  "lat": 55.7993341,
+  "lon": 37.3887455,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "215"
+  }
+},
+{
+  "type": "node",
+  "id": 1993465892,
+  "lat": 55.7993552,
+  "lon": 37.3886780,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "right",
+    "ref": "213с"
+  }
+},
+{
+  "type": "node",
+  "id": 1993465916,
+  "lat": 55.7999311,
+  "lon": 37.3897499,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "right",
+    "ref": "215с"
+  }
+},
+{
+  "type": "node",
+  "id": 1993465921,
+  "lat": 55.8000084,
+  "lon": 37.3897292,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "right",
+    "ref": "94"
+  }
+},
+{
+  "type": "node",
+  "id": 1993465924,
+  "lat": 55.8001159,
+  "lon": 37.3899133,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "right",
+    "ref": "93"
+  }
+},
+{
+  "type": "node",
+  "id": 2925512842,
+  "lat": 55.8002466,
+  "lon": 37.3901364,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "right",
+    "ref": "96"
+  }
+},
+{
+  "type": "node",
+  "id": 4804489799,
+  "lat": 55.8003325,
+  "lon": 37.3903595,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "right",
+    "ref": "92"
+  }
+},
+{
+  "type": "node",
+  "id": 4804489804,
+  "lat": 55.8003539,
+  "lon": 37.3903287,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "right",
+    "ref": "92c"
+  }
+},
+{
+  "type": "node",
+  "id": 4804489829,
+  "lat": 55.8000632,
+  "lon": 37.3898939,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "right",
+    "ref": "214с"
+  }
+},
+{
+  "type": "node",
+  "id": 8299188701,
+  "lat": 55.8000890,
+  "lon": 37.3923371,
+  "tags": {
+    "name": "Улица Кулакова",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 946193034,
+  "lat": 55.7993979,
+  "lon": 37.3953969,
+  "tags": {
+    "name": "Таллинская улица, 6",
+    "old_name": "Универсам",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8299188700,
+  "lat": 55.7993609,
+  "lon": 37.3957285,
+  "tags": {
+    "name": "Таллинская улица, 6",
+    "old_name": "Универсам",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 946177842,
+  "lat": 55.7991552,
+  "lon": 37.4016298,
+  "tags": {
+    "name": "Школа имени Марины Цветаевой",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5894578522,
+  "lat": 55.7992404,
+  "lon": 37.4022747,
+  "tags": {
+    "name": "Школа имени Марины Цветаевой",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 943820345,
+  "lat": 55.7940982,
+  "lon": 37.4543868,
+  "tags": {
+    "name": "Улица Рогова",
+    "old_name": "Улица Рогова — Стадион «Октябрь»",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 944176922,
+  "lat": 55.7943180,
+  "lon": 37.4544357,
+  "tags": {
+    "name": "Улица Рогова",
+    "old_name": "Улица Рогова — Стадион «Октябрь»",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 250559604,
+  "lat": 55.8015705,
+  "lon": 37.3913237,
+  "tags": {
+    "name": "Таллинская улица",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8299188702,
+  "lat": 55.8013519,
+  "lon": 37.3912310,
+  "tags": {
+    "name": "Таллинская улица",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8299188703,
+  "lat": 55.8050607,
+  "lon": 37.3937493,
+  "tags": {
+    "name": "Строгинский бульвар",
+    "name:en": "Stroginskiy Boulevard",
+    "name:ru": "Строгинский бульвар",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8299188704,
+  "lat": 55.8048858,
+  "lon": 37.3935829,
+  "tags": {
+    "name": "Строгинский бульвар",
+    "name:en": "Stroginskiy Boulevard",
+    "name:ru": "Строгинский бульвар",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5410052529,
+  "lat": 55.8042972,
+  "lon": 37.4006705,
+  "tags": {
+    "layer": "-3",
+    "railway": "switch",
+    "ref": "1"
+  }
+},
+{
+  "type": "node",
+  "id": 5410052530,
+  "lat": 55.8041723,
+  "lon": 37.4005856,
+  "tags": {
+    "layer": "-3",
+    "railway": "switch",
+    "ref": "2"
+  }
+},
+{
+  "type": "node",
+  "id": 5410052533,
+  "lat": 55.8045238,
+  "lon": 37.3993875,
+  "tags": {
+    "layer": "-3",
+    "railway": "switch",
+    "ref": "5"
+  }
+},
+{
+  "type": "node",
+  "id": 5410052534,
+  "lat": 55.8043742,
+  "lon": 37.3998949,
+  "tags": {
+    "layer": "-3",
+    "railway": "switch",
+    "ref": "4"
+  }
+},
+{
+  "type": "node",
+  "id": 5410052535,
+  "lat": 55.8044080,
+  "lon": 37.3999208,
+  "tags": {
+    "layer": "-3",
+    "railway": "switch",
+    "ref": "3"
+  }
+},
+{
+  "type": "node",
+  "id": 5410052537,
+  "lat": 55.8044903,
+  "lon": 37.3993602,
+  "tags": {
+    "layer": "-3",
+    "railway": "switch",
+    "ref": "6"
+  }
+},
+{
+  "type": "node",
+  "id": 5241762248,
+  "lat": 55.8015203,
+  "lon": 37.4077678,
+  "tags": {
+    "alt_name": "Станция метро «Строгино»",
+    "name": "Метро «Строгино»",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 250559401,
+  "lat": 55.8080962,
+  "lon": 37.3958148,
+  "tags": {
+    "name": "Мякининский проезд",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 638952062,
+  "lat": 55.8115390,
+  "lon": 37.3981538,
+  "tags": {
+    "name": "Школа имени Алексея Маресьева",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 944656875,
+  "lat": 55.8078027,
+  "lon": 37.3955606,
+  "tags": {
+    "name": "Мякининский проезд",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 944656877,
+  "lat": 55.8112790,
+  "lon": 37.3979200,
+  "tags": {
+    "name": "Школа имени Алексея Маресьева",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 638952859,
+  "lat": 55.8100640,
+  "lon": 37.4041278,
+  "tags": {
+    "name": "Культурный центр «Строгино»",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8299188699,
+  "lat": 55.8098751,
+  "lon": 37.4044745,
+  "tags": {
+    "name": "Культурный центр «Строгино»",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 251644543,
+  "lat": 55.8055397,
+  "lon": 37.4111884,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "91c"
+  }
+},
+{
+  "type": "node",
+  "id": 944656876,
+  "lat": 55.8052499,
+  "lon": 37.4135639,
+  "tags": {
+    "name": "Улица Маршала Катукова",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 946193045,
+  "lat": 55.8052728,
+  "lon": 37.4131108,
+  "tags": {
+    "name": "Улица Маршала Катукова",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 946193053,
+  "lat": 55.8020600,
+  "lon": 37.4081926,
+  "tags": {
+    "alt_name": "Станция метро «Строгино»",
+    "name": "Метро «Строгино»",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3281125841,
+  "lat": 55.8052610,
+  "lon": 37.4103827,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "219"
+  }
+},
+{
+  "type": "node",
+  "id": 4804489751,
+  "lat": 55.8055667,
+  "lon": 37.4112508,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "91"
+  }
+},
+{
+  "type": "node",
+  "id": 4804489759,
+  "lat": 55.8052410,
+  "lon": 37.4103284,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "219c"
+  }
+},
+{
+  "type": "node",
+  "id": 7079933316,
+  "lat": 55.8058906,
+  "lon": 37.4102641,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "right",
+    "ref": "218c"
+  }
+},
+{
+  "type": "node",
+  "id": 7079933317,
+  "lat": 55.8058779,
+  "lon": 37.4102257,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "right",
+    "ref": "218"
+  }
+},
+{
+  "type": "node",
+  "id": 638922972,
+  "lat": 55.8043507,
+  "lon": 37.4202366,
+  "tags": {
+    "alt_name": "Улица Исаковского, дом 33",
+    "name": "Улица Исаковского, 33",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "shelter": "no",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5891405076,
+  "lat": 55.8043569,
+  "lon": 37.4198942,
+  "tags": {
+    "alt_name": "Улица Исаковского, дом 33",
+    "name": "Улица Исаковского, 33",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "shelter": "no",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 638968949,
+  "lat": 55.8074262,
+  "lon": 37.4079594,
+  "tags": {
+    "name": "Музыкальная школа имени Майкапара",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6398564169,
+  "lat": 55.8072462,
+  "lon": 37.4083027,
+  "tags": {
+    "name": "Музыкальная школа имени Майкапара",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 302911623,
+  "lat": 55.8055189,
+  "lon": 37.4522838,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "90c"
+  }
+},
+{
+  "type": "node",
+  "id": 943820342,
+  "lat": 55.8056539,
+  "lon": 37.4535993,
+  "tags": {
+    "name": "Детская поликлиника",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 943820347,
+  "lat": 55.8013013,
+  "lon": 37.4502931,
+  "tags": {
+    "bin": "yes",
+    "name": "Улица Академика Зильбера",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 944176905,
+  "lat": 55.8011484,
+  "lon": 37.4503483,
+  "tags": {
+    "name": "Улица Академика Зильбера",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 944176914,
+  "lat": 55.8055914,
+  "lon": 37.4532373,
+  "tags": {
+    "name": "Детская поликлиника",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4116126219,
+  "lat": 55.8055505,
+  "lon": 37.4522858,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "90"
+  }
+},
+{
+  "type": "node",
+  "id": 4804489741,
+  "lat": 55.8054708,
+  "lon": 37.4510190,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "right",
+    "ref": "208c"
+  }
+},
+{
+  "type": "node",
+  "id": 7079978003,
+  "lat": 55.8054321,
+  "lon": 37.4510081,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "right",
+    "ref": "208"
+  }
+},
+{
+  "type": "node",
+  "id": 11077671439,
+  "lat": 55.8051065,
+  "lon": 37.4513594,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "209"
+  }
+},
+{
+  "type": "node",
+  "id": 11077671442,
+  "lat": 55.8051254,
+  "lon": 37.4513150,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "209c"
+  }
+},
+{
+  "type": "node",
+  "id": 711057604,
+  "lat": 55.8068443,
+  "lon": 37.4581526,
+  "tags": {
+    "bench": "no",
+    "name": "Медицинский центр имени Бурназяна",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "shelter": "no",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 250955090,
+  "lat": 55.8101819,
+  "lon": 37.4619005,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "right",
+    "ref": "89"
+  }
+},
+{
+  "type": "node",
+  "id": 250955098,
+  "lat": 55.8095070,
+  "lon": 37.4613823,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "88"
+  }
+},
+{
+  "type": "node",
+  "id": 303302468,
+  "lat": 55.8099877,
+  "lon": 37.4631335,
+  "tags": {
+    "alt_name": "Станция метро «Щукинская»",
+    "bench": "no",
+    "name": "Метро «Щукинская»",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "shelter": "no",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 944176912,
+  "lat": 55.8100039,
+  "lon": 37.4613730,
+  "tags": {
+    "alt_name": "Станция метро «Щукинская»",
+    "bench": "yes",
+    "name": "Метро «Щукинская»",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "shelter": "yes",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 946177826,
+  "lat": 55.8099037,
+  "lon": 37.4622295,
+  "tags": {
+    "alt_name": "Станция метро «Щукинская»",
+    "name": "Метро «Щукинская»",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1519219828,
+  "lat": 55.8117321,
+  "lon": 37.4630836,
+  "tags": {
+    "railway": "switch"
+  }
+},
+{
+  "type": "node",
+  "id": 4116126238,
+  "lat": 55.8095334,
+  "lon": 37.4613324,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "88c"
+  }
+},
+{
+  "type": "node",
+  "id": 4116126244,
+  "lat": 55.8107418,
+  "lon": 37.4618102,
+  "tags": {
+    "railway": "switch",
+    "ref": "89c"
+  }
+},
+{
+  "type": "node",
+  "id": 4116126260,
+  "lat": 55.8104053,
+  "lon": 37.4613296,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "229"
+  }
+},
+{
+  "type": "node",
+  "id": 5139143240,
+  "lat": 55.8100011,
+  "lon": 37.4616021,
+  "tags": {
+    "alt_name": "Станция метро «Щукинская»",
+    "bench": "no",
+    "name": "Метро «Щукинская»",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "shelter": "no",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 945438226,
+  "lat": 55.8102117,
+  "lon": 37.4697611,
+  "tags": {
+    "name": "Диспансер",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 946177823,
+  "lat": 55.8101418,
+  "lon": 37.4689969,
+  "tags": {
+    "name": "Диспансер",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1519219786,
+  "lat": 55.8126823,
+  "lon": 37.4717441,
+  "tags": {
+    "railway": "switch"
+  }
+},
+{
+  "type": "node",
+  "id": 1519219835,
+  "lat": 55.8123213,
+  "lon": 37.4708256,
+  "tags": {
+    "railway": "switch"
+  }
+},
+{
+  "type": "node",
+  "id": 6162356566,
+  "lat": 55.8103108,
+  "lon": 37.4743843,
+  "tags": {
+    "name": "Покровское-Стрешнево",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6847312881,
+  "lat": 55.8103624,
+  "lon": 37.4747000,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "207c"
+  }
+},
+{
+  "type": "node",
+  "id": 6847337288,
+  "lat": 55.8103231,
+  "lon": 37.4747072,
+  "tags": {
+    "railway": "switch",
+    "railway:turnout_side": "left",
+    "ref": "207"
+  }
+},
+{
+  "type": "node",
+  "id": 899715451,
+  "lat": 55.8147262,
+  "lon": 37.4681554,
+  "tags": {
+    "name": "Покровское-Глебово",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 943034256,
+  "lat": 55.8142230,
+  "lon": 37.4698516,
+  "tags": {
+    "name": "Покровское-Глебово",
+    "public_transport": "stop_position",
+    "railway": "tram_stop",
+    "tram": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 188482813,
+  "center": {
+    "lat": 55.7933424,
+    "lon": 37.3864430
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "name": "Обгонный путь",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "45",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485350,
+  "center": {
+    "lat": 55.7937464,
+    "lon": 37.3836718
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485353,
+  "center": {
+    "lat": 55.7937397,
+    "lon": 37.3841843
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485354,
+  "center": {
+    "lat": 55.7937865,
+    "lon": 37.3841113
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485355,
+  "center": {
+    "lat": 55.7933861,
+    "lon": 37.3844220
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485958,
+  "center": {
+    "lat": 55.7933140,
+    "lon": 37.3851142
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485959,
+  "center": {
+    "lat": 55.7932089,
+    "lon": 37.3855851
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485960,
+  "center": {
+    "lat": 55.7936546,
+    "lon": 37.3862697
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "35",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485961,
+  "center": {
+    "lat": 55.7934289,
+    "lon": 37.3846564
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485962,
+  "center": {
+    "lat": 55.7935576,
+    "lon": 37.3863620
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "38",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485967,
+  "center": {
+    "lat": 55.7933639,
+    "lon": 37.3849301
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485969,
+  "center": {
+    "lat": 55.7934702,
+    "lon": 37.3844447
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485970,
+  "center": {
+    "lat": 55.7936313,
+    "lon": 37.3861749
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "34",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485974,
+  "center": {
+    "lat": 55.7940023,
+    "lon": 37.3869622
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485975,
+  "center": {
+    "lat": 55.7936619,
+    "lon": 37.3869445
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485982,
+  "center": {
+    "lat": 55.7937840,
+    "lon": 37.3846789
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485985,
+  "center": {
+    "lat": 55.7931504,
+    "lon": 37.3858520
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485990,
+  "center": {
+    "lat": 55.7938530,
+    "lon": 37.3869415
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485991,
+  "center": {
+    "lat": 55.7932620,
+    "lon": 37.3853966
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485992,
+  "center": {
+    "lat": 55.7938451,
+    "lon": 37.3845177
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485993,
+  "center": {
+    "lat": 55.7935087,
+    "lon": 37.3869428
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485995,
+  "center": {
+    "lat": 55.7935337,
+    "lon": 37.3862711
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "37",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485996,
+  "center": {
+    "lat": 55.7931000,
+    "lon": 37.3860366
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485999,
+  "center": {
+    "lat": 55.7936097,
+    "lon": 37.3860890
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "33",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486000,
+  "center": {
+    "lat": 55.7935043,
+    "lon": 37.3861645
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "36",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486002,
+  "center": {
+    "lat": 55.7933809,
+    "lon": 37.3863001
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "39",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486005,
+  "center": {
+    "lat": 55.7936162,
+    "lon": 37.3871287
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486006,
+  "center": {
+    "lat": 55.7931073,
+    "lon": 37.3856153
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486008,
+  "center": {
+    "lat": 55.7932184,
+    "lon": 37.3851581
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486009,
+  "center": {
+    "lat": 55.7932708,
+    "lon": 37.3848777
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486010,
+  "center": {
+    "lat": 55.7934266,
+    "lon": 37.3842138
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486012,
+  "center": {
+    "lat": 55.7933218,
+    "lon": 37.3846904
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486013,
+  "center": {
+    "lat": 55.7931637,
+    "lon": 37.3853494
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486014,
+  "center": {
+    "lat": 55.7930556,
+    "lon": 37.3857967
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486015,
+  "center": {
+    "lat": 55.7937818,
+    "lon": 37.3871374
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486016,
+  "center": {
+    "lat": 55.7939658,
+    "lon": 37.3871281
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486024,
+  "center": {
+    "lat": 55.7934044,
+    "lon": 37.3863903
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "40",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486025,
+  "center": {
+    "lat": 55.7934314,
+    "lon": 37.3864965
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "41",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486026,
+  "center": {
+    "lat": 55.7932799,
+    "lon": 37.3863927
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "42",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486027,
+  "center": {
+    "lat": 55.7933070,
+    "lon": 37.3864968
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "43",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486028,
+  "center": {
+    "lat": 55.7933288,
+    "lon": 37.3865867
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "44",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288452,
+  "center": {
+    "lat": 55.7934654,
+    "lon": 37.3844559
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288454,
+  "center": {
+    "lat": 55.7938109,
+    "lon": 37.3835148
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482742,
+  "center": {
+    "lat": 55.7943743,
+    "lon": 37.3831374
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482780,
+  "center": {
+    "lat": 55.7941074,
+    "lon": 37.3833335
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482803,
+  "center": {
+    "lat": 55.7941577,
+    "lon": 37.3834688
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485344,
+  "center": {
+    "lat": 55.7939583,
+    "lon": 37.3857544
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "25",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485345,
+  "center": {
+    "lat": 55.7942353,
+    "lon": 37.3856244
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "19",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485346,
+  "center": {
+    "lat": 55.7940281,
+    "lon": 37.3856075
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "22",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485348,
+  "center": {
+    "lat": 55.7943044,
+    "lon": 37.3854727
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "16",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485349,
+  "center": {
+    "lat": 55.7940484,
+    "lon": 37.3856880
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "23",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485351,
+  "center": {
+    "lat": 55.7942099,
+    "lon": 37.3855253
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "18",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485352,
+  "center": {
+    "lat": 55.7939322,
+    "lon": 37.3856529
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "24",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485956,
+  "center": {
+    "lat": 55.7940220,
+    "lon": 37.3839599
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485964,
+  "center": {
+    "lat": 55.7937820,
+    "lon": 37.3861416
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "32",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485972,
+  "center": {
+    "lat": 55.7938505,
+    "lon": 37.3859416
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "28",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485976,
+  "center": {
+    "lat": 55.7938777,
+    "lon": 37.3860478
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "29",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485997,
+  "center": {
+    "lat": 55.7937530,
+    "lon": 37.3860292
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "31",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486003,
+  "center": {
+    "lat": 55.7937230,
+    "lon": 37.3859168
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "30",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486011,
+  "center": {
+    "lat": 55.7941102,
+    "lon": 37.3871402
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486018,
+  "center": {
+    "lat": 55.7942834,
+    "lon": 37.3853886
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "15",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486019,
+  "center": {
+    "lat": 55.7943323,
+    "lon": 37.3855781
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "17",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486020,
+  "center": {
+    "lat": 55.7942615,
+    "lon": 37.3857241
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "20",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486021,
+  "center": {
+    "lat": 55.7939964,
+    "lon": 37.3854866
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "21",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486022,
+  "center": {
+    "lat": 55.7939922,
+    "lon": 37.3858700
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "26",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486023,
+  "center": {
+    "lat": 55.7938240,
+    "lon": 37.3858391
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "27",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188726176,
+  "center": {
+    "lat": 55.7994700,
+    "lon": 37.3884086
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "7А",
+    "service": "siding",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188726179,
+  "center": {
+    "lat": 55.7998821,
+    "lon": 37.3890818
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "1",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188726184,
+  "center": {
+    "lat": 55.7997984,
+    "lon": 37.3889312
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "2",
+    "service": "siding",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188726185,
+  "center": {
+    "lat": 55.7998738,
+    "lon": 37.3890958
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "3",
+    "service": "siding",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 236632737,
+  "center": {
+    "lat": 55.7996660,
+    "lon": 37.3941486
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 488091027,
+  "center": {
+    "lat": 55.7996594,
+    "lon": 37.3943452
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1135283430,
+  "center": {
+    "lat": 55.7951575,
+    "lon": 37.3857288
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1199696832,
+  "center": {
+    "lat": 55.7993788,
+    "lon": 37.3882882
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "7",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288453,
+  "center": {
+    "lat": 55.7940950,
+    "lon": 37.3829197
+  },
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "Б",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288455,
+  "center": {
+    "lat": 55.7941401,
+    "lon": 37.3830100
+  },
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "А",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795477,
+  "center": {
+    "lat": 55.8005227,
+    "lon": 37.3905914
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795478,
+  "center": {
+    "lat": 55.8004860,
+    "lon": 37.3904601
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "20",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795483,
+  "center": {
+    "lat": 55.7988031,
+    "lon": 37.3876443
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795484,
+  "center": {
+    "lat": 55.7988331,
+    "lon": 37.3876109
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482727,
+  "center": {
+    "lat": 55.7948451,
+    "lon": 37.3830083
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "name": "Оборотный путь",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482730,
+  "center": {
+    "lat": 55.7949317,
+    "lon": 37.3866400
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482732,
+  "center": {
+    "lat": 55.7945987,
+    "lon": 37.3824768
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482736,
+  "center": {
+    "lat": 55.7960030,
+    "lon": 37.3849010
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482738,
+  "center": {
+    "lat": 55.7961472,
+    "lon": 37.3843480
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482740,
+  "center": {
+    "lat": 55.7956371,
+    "lon": 37.3836955
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482744,
+  "center": {
+    "lat": 55.7954604,
+    "lon": 37.3858489
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482746,
+  "center": {
+    "lat": 55.7950077,
+    "lon": 37.3831151
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482748,
+  "center": {
+    "lat": 55.7972104,
+    "lon": 37.3836965
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482750,
+  "center": {
+    "lat": 55.7947707,
+    "lon": 37.3864490
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482753,
+  "center": {
+    "lat": 55.7951676,
+    "lon": 37.3858662
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "14",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482755,
+  "center": {
+    "lat": 55.7951053,
+    "lon": 37.3842569
+  },
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "5",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482756,
+  "center": {
+    "lat": 55.7948263,
+    "lon": 37.3847032
+  },
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "12",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482758,
+  "center": {
+    "lat": 55.7947813,
+    "lon": 37.3847752
+  },
+  "tags": {
+    "covered": "yes",
+    "electrified": "no",
+    "gauge": "1524",
+    "name": "Покрасочная камера",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "13",
+    "service": "yard",
+    "usage": "main"
+  }
+},
+{
+  "type": "way",
+  "id": 188482760,
+  "center": {
+    "lat": 55.7949831,
+    "lon": 37.3844524
+  },
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "8",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482761,
+  "center": {
+    "lat": 55.7950171,
+    "lon": 37.3843980
+  },
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "7",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482764,
+  "center": {
+    "lat": 55.7953443,
+    "lon": 37.3843085
+  },
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "railway": "tram",
+    "railway:track_ref": "2",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482767,
+  "center": {
+    "lat": 55.7956207,
+    "lon": 37.3857053
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482768,
+  "center": {
+    "lat": 55.7958162,
+    "lon": 37.3855368
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482770,
+  "center": {
+    "lat": 55.7948639,
+    "lon": 37.3846431
+  },
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "11",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482771,
+  "center": {
+    "lat": 55.7964544,
+    "lon": 37.3844206
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482773,
+  "center": {
+    "lat": 55.7952099,
+    "lon": 37.3864957
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482776,
+  "center": {
+    "lat": 55.7950640,
+    "lon": 37.3843229
+  },
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "6",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482778,
+  "center": {
+    "lat": 55.7953799,
+    "lon": 37.3860809
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482781,
+  "center": {
+    "lat": 55.7957024,
+    "lon": 37.3850476
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "railway": "tram",
+    "railway:track_ref": "1",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482785,
+  "center": {
+    "lat": 55.7949046,
+    "lon": 37.3845780
+  },
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "10",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482786,
+  "center": {
+    "lat": 55.7951424,
+    "lon": 37.3841975
+  },
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "4",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482791,
+  "center": {
+    "lat": 55.7942907,
+    "lon": 37.3830614
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482795,
+  "center": {
+    "lat": 55.7956564,
+    "lon": 37.3838774
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "name": "Погрузочная эстакада",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482798,
+  "center": {
+    "lat": 55.7945667,
+    "lon": 37.3833151
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "5",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482800,
+  "center": {
+    "lat": 55.7942061,
+    "lon": 37.3831864
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482801,
+  "center": {
+    "lat": 55.7945006,
+    "lon": 37.3833914
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "6",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482806,
+  "center": {
+    "lat": 55.7942756,
+    "lon": 37.3833677
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482807,
+  "center": {
+    "lat": 55.7945851,
+    "lon": 37.3832593
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "4",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482809,
+  "center": {
+    "lat": 55.7944056,
+    "lon": 37.3835173
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "8",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482811,
+  "center": {
+    "lat": 55.7944788,
+    "lon": 37.3834451
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "7",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188482814,
+  "center": {
+    "lat": 55.7947208,
+    "lon": 37.3824964
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188484678,
+  "center": {
+    "lat": 55.7947619,
+    "lon": 37.3853895
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "name": "Калашный ряд",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188484679,
+  "center": {
+    "lat": 55.7946397,
+    "lon": 37.3849975
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "name": "Калашный ряд",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188484681,
+  "center": {
+    "lat": 55.7957540,
+    "lon": 37.3855377
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188484685,
+  "center": {
+    "lat": 55.7952609,
+    "lon": 37.3862637
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188484687,
+  "center": {
+    "lat": 55.7947598,
+    "lon": 37.3850065
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188484689,
+  "center": {
+    "lat": 55.7955000,
+    "lon": 37.3858974
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188484692,
+  "center": {
+    "lat": 55.7942914,
+    "lon": 37.3839979
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188484694,
+  "center": {
+    "lat": 55.7949427,
+    "lon": 37.3845170
+  },
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "9",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188484697,
+  "center": {
+    "lat": 55.7952654,
+    "lon": 37.3842942
+  },
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "railway": "tram",
+    "railway:track_ref": "3",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485955,
+  "center": {
+    "lat": 55.7948523,
+    "lon": 37.3867585
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485971,
+  "center": {
+    "lat": 55.7941910,
+    "lon": 37.3869442
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485977,
+  "center": {
+    "lat": 55.7943377,
+    "lon": 37.3869568
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485980,
+  "center": {
+    "lat": 55.7946874,
+    "lon": 37.3865705
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485986,
+  "center": {
+    "lat": 55.7945746,
+    "lon": 37.3867300
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188485998,
+  "center": {
+    "lat": 55.7944955,
+    "lon": 37.3868665
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486001,
+  "center": {
+    "lat": 55.7944437,
+    "lon": 37.3871428
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486004,
+  "center": {
+    "lat": 55.7947772,
+    "lon": 37.3870900
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486007,
+  "center": {
+    "lat": 55.7942957,
+    "lon": 37.3871398
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188486017,
+  "center": {
+    "lat": 55.7946635,
+    "lon": 37.3870299
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188726180,
+  "center": {
+    "lat": 55.7995746,
+    "lon": 37.3881527
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "siding",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 551684789,
+  "center": {
+    "lat": 55.7972164,
+    "lon": 37.3836424
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1135410114,
+  "center": {
+    "lat": 55.7949547,
+    "lon": 37.3852366
+  },
+  "tags": {
+    "covered": "yes",
+    "electrified": "no",
+    "gauge": "1524",
+    "name": "Покрасочная камера",
+    "railway": "tram",
+    "railway:track_ref": "14",
+    "service": "yard",
+    "usage": "main"
+  }
+},
+{
+  "type": "way",
+  "id": 1135410115,
+  "center": {
+    "lat": 55.7957476,
+    "lon": 37.3841682
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1135410116,
+  "center": {
+    "lat": 55.7953269,
+    "lon": 37.3833353
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288434,
+  "center": {
+    "lat": 55.7954889,
+    "lon": 37.3844498
+  },
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "railway": "tram",
+    "railway:track_ref": "1",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288435,
+  "center": {
+    "lat": 55.7956628,
+    "lon": 37.3850803
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "railway": "tram",
+    "railway:track_ref": "2",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288436,
+  "center": {
+    "lat": 55.7956040,
+    "lon": 37.3851599
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "railway": "tram",
+    "railway:track_ref": "3",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288437,
+  "center": {
+    "lat": 55.7955669,
+    "lon": 37.3851912
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "4",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288438,
+  "center": {
+    "lat": 55.7955278,
+    "lon": 37.3852882
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "5",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288439,
+  "center": {
+    "lat": 55.7954838,
+    "lon": 37.3853527
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "6",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288440,
+  "center": {
+    "lat": 55.7954418,
+    "lon": 37.3853929
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "7",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288441,
+  "center": {
+    "lat": 55.7954048,
+    "lon": 37.3854862
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "8",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288442,
+  "center": {
+    "lat": 55.7952073,
+    "lon": 37.3857527
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "13",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288443,
+  "center": {
+    "lat": 55.7952444,
+    "lon": 37.3857178
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "12",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288444,
+  "center": {
+    "lat": 55.7952842,
+    "lon": 37.3856798
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "11",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288445,
+  "center": {
+    "lat": 55.7953267,
+    "lon": 37.3855679
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "10",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288446,
+  "center": {
+    "lat": 55.7953621,
+    "lon": 37.3855367
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "9",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288447,
+  "center": {
+    "lat": 55.7945115,
+    "lon": 37.3836575
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "9",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288448,
+  "center": {
+    "lat": 55.7944929,
+    "lon": 37.3836872
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "10",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288449,
+  "center": {
+    "lat": 55.7944223,
+    "lon": 37.3837690
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "11",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288450,
+  "center": {
+    "lat": 55.7944040,
+    "lon": 37.3837984
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "12",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250288451,
+  "center": {
+    "lat": 55.7943650,
+    "lon": 37.3839497
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "13",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250716712,
+  "center": {
+    "lat": 55.7964620,
+    "lon": 37.3844660
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1250716713,
+  "center": {
+    "lat": 55.7963503,
+    "lon": 37.3846403
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "railway": "tram",
+    "service": "yard",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795485,
+  "center": {
+    "lat": 55.7979747,
+    "lon": 37.3853451
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "up_4.7%",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795486,
+  "center": {
+    "lat": 55.7980065,
+    "lon": 37.3853060
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "down_4.7%",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795487,
+  "center": {
+    "lat": 55.7975713,
+    "lon": 37.3841036
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795488,
+  "center": {
+    "lat": 55.7975368,
+    "lon": 37.3841439
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795489,
+  "center": {
+    "lat": 55.7967922,
+    "lon": 37.3839466
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795490,
+  "center": {
+    "lat": 55.7967630,
+    "lon": 37.3838810
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 81235665,
+  "center": {
+    "lat": 55.8002817,
+    "lon": 37.3902679
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188726177,
+  "center": {
+    "lat": 55.7997092,
+    "lon": 37.3892860
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "4",
+    "service": "siding",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188726178,
+  "center": {
+    "lat": 55.7996326,
+    "lon": 37.3892477
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "5",
+    "service": "siding",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 188726183,
+  "center": {
+    "lat": 55.7996779,
+    "lon": 37.3892426
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "6",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 488091029,
+  "center": {
+    "lat": 55.8001471,
+    "lon": 37.3900350
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 893134595,
+  "center": {
+    "lat": 55.8002162,
+    "lon": 37.3917332
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 893134596,
+  "center": {
+    "lat": 55.8002254,
+    "lon": 37.3915327
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1232873046,
+  "center": {
+    "lat": 55.7993239,
+    "lon": 37.3886347
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "10",
+    "oneway": "yes",
+    "railway": "tram",
+    "service": "siding",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665910,
+  "center": {
+    "lat": 55.8003470,
+    "lon": 37.3907369
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665911,
+  "center": {
+    "lat": 55.8003718,
+    "lon": 37.3907290
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795479,
+  "center": {
+    "lat": 55.8000636,
+    "lon": 37.3900484
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795480,
+  "center": {
+    "lat": 55.8000794,
+    "lon": 37.3900021
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795481,
+  "center": {
+    "lat": 55.7996103,
+    "lon": 37.3894061
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795482,
+  "center": {
+    "lat": 55.7995887,
+    "lon": 37.3894474
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665902,
+  "center": {
+    "lat": 55.8017246,
+    "lon": 37.4079771
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665903,
+  "center": {
+    "lat": 55.8017346,
+    "lon": 37.4079245
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665906,
+  "center": {
+    "lat": 55.7992157,
+    "lon": 37.4023186
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665907,
+  "center": {
+    "lat": 55.7992460,
+    "lon": 37.4023068
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665908,
+  "center": {
+    "lat": 55.7990643,
+    "lon": 37.3980653
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "30",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665909,
+  "center": {
+    "lat": 55.7990956,
+    "lon": 37.3980633
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "30",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665904,
+  "center": {
+    "lat": 55.7999867,
+    "lon": 37.4059608
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "30",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665905,
+  "center": {
+    "lat": 55.7999668,
+    "lon": 37.4059914
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "30",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 157471682,
+  "center": {
+    "lat": 55.7896686,
+    "lon": 37.4545518
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 409746400,
+  "center": {
+    "lat": 55.7917261,
+    "lon": 37.4542717
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615391,
+  "center": {
+    "lat": 55.8010362,
+    "lon": 37.4503445
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615392,
+  "center": {
+    "lat": 55.8010374,
+    "lon": 37.4503986
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615399,
+  "center": {
+    "lat": 55.7949629,
+    "lon": 37.4539493
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "30",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615400,
+  "center": {
+    "lat": 55.7949682,
+    "lon": 37.4540013
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "30",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615393,
+  "center": {
+    "lat": 55.7985674,
+    "lon": 37.4505382
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "30",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615394,
+  "center": {
+    "lat": 55.7985755,
+    "lon": 37.4505836
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "30",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615395,
+  "center": {
+    "lat": 55.7975011,
+    "lon": 37.4514931
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "down_3.9%",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615396,
+  "center": {
+    "lat": 55.7975184,
+    "lon": 37.4515327
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "up_3.9%",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615397,
+  "center": {
+    "lat": 55.7963824,
+    "lon": 37.4529074
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "down_3.8%",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615398,
+  "center": {
+    "lat": 55.7963671,
+    "lon": 37.4528598
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "up_3.8%",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 893134593,
+  "center": {
+    "lat": 55.8010324,
+    "lon": 37.3910271
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 893134594,
+  "center": {
+    "lat": 55.8011480,
+    "lon": 37.3910537
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 154928456,
+  "center": {
+    "lat": 55.8066540,
+    "lon": 37.3947773
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 154928461,
+  "center": {
+    "lat": 55.8065398,
+    "lon": 37.3947551
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 81042057,
+  "center": {
+    "lat": 55.8085023,
+    "lon": 37.4064078
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795470,
+  "center": {
+    "lat": 55.8114709,
+    "lon": 37.4017263
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "down_4.1%",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795471,
+  "center": {
+    "lat": 55.8085179,
+    "lon": 37.4064492
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795472,
+  "center": {
+    "lat": 55.8114939,
+    "lon": 37.4017588
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "up_4.1%",
+    "maxspeed": "30",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795473,
+  "center": {
+    "lat": 55.8119898,
+    "lon": 37.4001935
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "up_4.1%",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795474,
+  "center": {
+    "lat": 55.8119632,
+    "lon": 37.4001753
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "down_4.1%",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795475,
+  "center": {
+    "lat": 55.8119686,
+    "lon": 37.3988672
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304795476,
+  "center": {
+    "lat": 55.8119502,
+    "lon": 37.3988836
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 758126190,
+  "center": {
+    "lat": 55.8055758,
+    "lon": 37.4103412
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 758126191,
+  "center": {
+    "lat": 55.8055595,
+    "lon": 37.4102959
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "10",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665896,
+  "center": {
+    "lat": 55.8057287,
+    "lon": 37.4107574
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665897,
+  "center": {
+    "lat": 55.8057088,
+    "lon": 37.4107070
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665898,
+  "center": {
+    "lat": 55.8054075,
+    "lon": 37.4107896
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "10",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665899,
+  "center": {
+    "lat": 55.8054041,
+    "lon": 37.4107855
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "10",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665900,
+  "center": {
+    "lat": 55.8041003,
+    "lon": 37.4096035
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "down_4%",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665901,
+  "center": {
+    "lat": 55.8040958,
+    "lon": 37.4095480
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "up_4%",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 37033499,
+  "center": {
+    "lat": 55.8046301,
+    "lon": 37.4190406
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 547764619,
+  "center": {
+    "lat": 55.8046584,
+    "lon": 37.4190716
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665892,
+  "center": {
+    "lat": 55.8044579,
+    "lon": 37.4332783
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665893,
+  "center": {
+    "lat": 55.8044261,
+    "lon": 37.4332933
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665894,
+  "center": {
+    "lat": 55.8038499,
+    "lon": 37.4280262
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "30",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665895,
+  "center": {
+    "lat": 55.8038202,
+    "lon": 37.4280380
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "30",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665890,
+  "center": {
+    "lat": 55.8050092,
+    "lon": 37.4389593
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "down_3.4%",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665891,
+  "center": {
+    "lat": 55.8049801,
+    "lon": 37.4389638
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "up_3.4%",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 37033500,
+  "center": {
+    "lat": 55.8052108,
+    "lon": 37.4451045
+  },
+  "tags": {
+    "bridge": "yes",
+    "bridge:name": "Строгинский мост",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "layer": "1",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600",
+    "year_of_construction": "1981"
+  }
+},
+{
+  "type": "way",
+  "id": 488091025,
+  "center": {
+    "lat": 55.8052399,
+    "lon": 37.4451017
+  },
+  "tags": {
+    "bridge": "yes",
+    "bridge:name": "Строгинский мост",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600",
+    "year_of_construction": "1981"
+  }
+},
+{
+  "type": "way",
+  "id": 81005978,
+  "center": {
+    "lat": 55.8055090,
+    "lon": 37.4521709
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 154928457,
+  "center": {
+    "lat": 55.8055107,
+    "lon": 37.4516524
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 448224395,
+  "center": {
+    "lat": 55.8055248,
+    "lon": 37.4521720
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "10",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 448224396,
+  "center": {
+    "lat": 55.8054656,
+    "lon": 37.4515331
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1197007984,
+  "center": {
+    "lat": 55.8054111,
+    "lon": 37.4520070
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615386,
+  "center": {
+    "lat": 55.8048103,
+    "lon": 37.4512592
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615387,
+  "center": {
+    "lat": 55.8051495,
+    "lon": 37.4514406
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615388,
+  "center": {
+    "lat": 55.8035796,
+    "lon": 37.4504837
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "down_3.6%",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615389,
+  "center": {
+    "lat": 55.8045594,
+    "lon": 37.4508347
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615390,
+  "center": {
+    "lat": 55.8035774,
+    "lon": 37.4504287
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "up_3.6%",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665888,
+  "center": {
+    "lat": 55.8054468,
+    "lon": 37.4503503
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304665889,
+  "center": {
+    "lat": 55.8054116,
+    "lon": 37.4503464
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 81005971,
+  "center": {
+    "lat": 55.8062482,
+    "lon": 37.4561999
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "30",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 448224394,
+  "center": {
+    "lat": 55.8061292,
+    "lon": 37.4559703
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "30",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615382,
+  "center": {
+    "lat": 55.8067002,
+    "lon": 37.4579459
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "30",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 409746401,
+  "center": {
+    "lat": 55.8081888,
+    "lon": 37.4597425
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615383,
+  "center": {
+    "lat": 55.8081670,
+    "lon": 37.4597849
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615384,
+  "center": {
+    "lat": 55.8056265,
+    "lon": 37.4532437
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615385,
+  "center": {
+    "lat": 55.8055942,
+    "lon": 37.4532480
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1499528660,
+  "center": {
+    "lat": 55.8152963,
+    "lon": 37.4660405
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1499528661,
+  "center": {
+    "lat": 55.8153219,
+    "lon": 37.4660661
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304432988,
+  "center": {
+    "lat": 55.8125502,
+    "lon": 37.4738886
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304432989,
+  "center": {
+    "lat": 55.8125685,
+    "lon": 37.4739328
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615372,
+  "center": {
+    "lat": 55.8102968,
+    "lon": 37.4725472
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615373,
+  "center": {
+    "lat": 55.8102565,
+    "lon": 37.4725523
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615378,
+  "center": {
+    "lat": 55.8100704,
+    "lon": 37.4655128
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "down_3.3%",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615379,
+  "center": {
+    "lat": 55.8100270,
+    "lon": 37.4655247
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "incline": "up_3.3%",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 81130827,
+  "center": {
+    "lat": 55.8099480,
+    "lon": 37.4632892
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 236632725,
+  "center": {
+    "lat": 55.8097540,
+    "lon": 37.4614922
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "10",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 236632736,
+  "center": {
+    "lat": 55.8103714,
+    "lon": 37.4619260
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "2",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 409746402,
+  "center": {
+    "lat": 55.8104623,
+    "lon": 37.4620791
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "1",
+    "service": "siding",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 409746404,
+  "center": {
+    "lat": 55.8102229,
+    "lon": 37.4613769
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "railway": "tram",
+    "railway:track_ref": "3А",
+    "service": "siding",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 448224397,
+  "center": {
+    "lat": 55.8097686,
+    "lon": 37.4613669
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "3",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 449219622,
+  "center": {
+    "lat": 55.8099948,
+    "lon": 37.4632681
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1232873047,
+  "center": {
+    "lat": 55.8103728,
+    "lon": 37.4615674
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "railway:track_ref": "3",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615380,
+  "center": {
+    "lat": 55.8097135,
+    "lon": 37.4619468
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "20",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615381,
+  "center": {
+    "lat": 55.8097511,
+    "lon": 37.4619080
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "20",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 29463144,
+  "center": {
+    "lat": 55.8131138,
+    "lon": 37.4731854
+  },
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "layer": "1",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 409754689,
+  "center": {
+    "lat": 55.8130948,
+    "lon": 37.4731283
+  },
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304432990,
+  "center": {
+    "lat": 55.8134542,
+    "lon": 37.4725689
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304432991,
+  "center": {
+    "lat": 55.8134734,
+    "lon": 37.4726081
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615374,
+  "center": {
+    "lat": 55.8101562,
+    "lon": 37.4693922
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615375,
+  "center": {
+    "lat": 55.8101985,
+    "lon": 37.4693873
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "25",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615376,
+  "center": {
+    "lat": 55.8101429,
+    "lon": 37.4676766
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304615377,
+  "center": {
+    "lat": 55.8101002,
+    "lon": 37.4676846
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "60",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 29463145,
+  "center": {
+    "lat": 55.8118965,
+    "lon": 37.4747366
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "20",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 409754691,
+  "center": {
+    "lat": 55.8118892,
+    "lon": 37.4746961
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "20",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 731062606,
+  "center": {
+    "lat": 55.8104788,
+    "lon": 37.4749202
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "10",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 749733427,
+  "center": {
+    "lat": 55.8104976,
+    "lon": 37.4748923
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "10",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304432984,
+  "center": {
+    "lat": 55.8103748,
+    "lon": 37.4751266
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "way",
+  "id": 1304432985,
+  "center": {
+    "lat": 55.8103352,
+    "lon": 37.4751385
+  },
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1524",
+    "maxspeed": "15",
+    "oneway": "yes",
+    "railway": "tram",
+    "usage": "main",
+    "voltage": "600"
+  }
+},
+{
+  "type": "relation",
+  "id": 1223431,
+  "center": {
+    "lat": 55.8194970,
+    "lon": 37.4606219
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "bicycle": "yes",
+    "blind": "limited",
+    "charge:all-in-one": "90 RUB",
+    "charge:cards": "83 RUB",
+    "charge:sbp": "83 RUB",
+    "charge:troika": "75 RUB",
+    "charge:troika_qr": "75 RUB",
+    "check_date": "2023-05-11",
+    "colour": "black",
+    "deaf": "yes",
+    "fee": "yes",
+    "fine:ticketless": "5000 RUB",
+    "from": "Михалково",
+    "name": "Трамвай 30: Михалково => Улица Кулакова",
+    "name:uk": "Трамвай 30: Михалкове => Вулиця Кулакова",
+    "network": "Московский транспорт",
+    "operator": "ГУП «Московский метрополитен»",
+    "payment:cards": "yes",
+    "payment:cash": "no",
+    "payment:contactless": "yes",
+    "payment:maestro": "no",
+    "payment:mastercard": "no",
+    "payment:mir": "yes",
+    "payment:nfc": "yes",
+    "payment:podorozhnik": "no",
+    "payment:sbp": "yes",
+    "payment:social_cards": "yes",
+    "payment:strelka": "no",
+    "payment:troika": "yes",
+    "payment:visa": "no",
+    "public_transport:version": "2",
+    "ref": "30",
+    "route": "tram",
+    "source": "Реестр маршрутов города Москвы",
+    "to": "Улица Кулакова",
+    "tram_class:length": "4;5",
+    "type": "route",
+    "website": "https://transport.mos.ru/transport/schedule/route/322",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "relation",
+  "id": 1224819,
+  "center": {
+    "lat": 55.8194918,
+    "lon": 37.4603852
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "bicycle": "yes",
+    "blind": "limited",
+    "charge:all-in-one": "90 RUB",
+    "charge:cards": "83 RUB",
+    "charge:sbp": "83 RUB",
+    "charge:troika": "75 RUB",
+    "charge:troika_qr": "75 RUB",
+    "check_date": "2023-05-11",
+    "colour": "black",
+    "deaf": "yes",
+    "fee": "yes",
+    "fine:ticketless": "5000 RUB",
+    "from": "Улица Кулакова",
+    "name": "Трамвай 30: Улица Кулакова => Михалково",
+    "name:uk": "Трамвай 30: Вулиця Кулакова => Михалкове",
+    "network": "Московский транспорт",
+    "operator": "ГУП «Московский метрополитен»",
+    "payment:cards": "yes",
+    "payment:cash": "no",
+    "payment:contactless": "yes",
+    "payment:maestro": "no",
+    "payment:mastercard": "no",
+    "payment:mir": "yes",
+    "payment:nfc": "yes",
+    "payment:podorozhnik": "no",
+    "payment:sbp": "yes",
+    "payment:social_cards": "yes",
+    "payment:strelka": "no",
+    "payment:troika": "yes",
+    "payment:visa": "no",
+    "public_transport:version": "2",
+    "ref": "30",
+    "route": "tram",
+    "source": "Реестр маршрутов города Москвы",
+    "to": "Михалково",
+    "tram_class:length": "4;5",
+    "type": "route",
+    "website": "https://transport.mos.ru/transport/schedule/route/322",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "relation",
+  "id": 1224026,
+  "center": {
+    "lat": 55.8045989,
+    "lon": 37.4267440
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "bicycle": "yes",
+    "blind": "limited",
+    "charge:all-in-one": "90 RUB",
+    "charge:cards": "83 RUB",
+    "charge:sbp": "83 RUB",
+    "charge:troika": "75 RUB",
+    "charge:troika_qr": "75 RUB",
+    "check_date": "2023-05-11",
+    "colour": "black",
+    "deaf": "yes",
+    "fee": "yes",
+    "fine:ticketless": "5000 RUB",
+    "from": "Метро «Щукинская»",
+    "name": "Трамвай 10: Метро «Щукинская» => Улица Кулакова",
+    "name:uk": "Трамвай 10: Метро «Щукінська» Вулиця Кулакова",
+    "network": "Московский транспорт",
+    "operator": "ГУП «Московский метрополитен»",
+    "payment:cards": "yes",
+    "payment:cash": "no",
+    "payment:contactless": "yes",
+    "payment:maestro": "no",
+    "payment:mastercard": "no",
+    "payment:mir": "yes",
+    "payment:nfc": "yes",
+    "payment:podorozhnik": "no",
+    "payment:sbp": "yes",
+    "payment:social_cards": "yes",
+    "payment:strelka": "no",
+    "payment:troika": "yes",
+    "payment:visa": "no",
+    "public_transport:version": "2",
+    "ref": "10",
+    "route": "tram",
+    "source": "Реестр маршрутов города Москвы",
+    "to": "Улица Кулакова",
+    "tram_class:length": "4;5",
+    "type": "route",
+    "website": "https://transport.mos.ru/transport/schedule/route/306",
+    "wheelchair": "yes",
+    "wikidata": "Q122585351"
+  }
+},
+{
+  "type": "relation",
+  "id": 1224136,
+  "center": {
+    "lat": 55.8044656,
+    "lon": 37.4266327
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "bicycle": "yes",
+    "blind": "limited",
+    "charge:all-in-one": "90 RUB",
+    "charge:cards": "83 RUB",
+    "charge:sbp": "83 RUB",
+    "charge:troika": "75 RUB",
+    "charge:troika_qr": "75 RUB",
+    "check_date": "2023-05-11",
+    "colour": "black",
+    "deaf": "yes",
+    "fee": "yes",
+    "fine:ticketless": "5000 RUB",
+    "from": "Улица Кулакова",
+    "name": "Трамвай 10: Улица Кулакова => Метро «Щукинская»",
+    "name:uk": "Трамвай 10: Вулиця Кулакова => Метро «Щукінська»",
+    "network": "Московский транспорт",
+    "operator": "ГУП «Московский метрополитен»",
+    "payment:cards": "yes",
+    "payment:cash": "no",
+    "payment:contactless": "yes",
+    "payment:maestro": "no",
+    "payment:mastercard": "no",
+    "payment:mir": "yes",
+    "payment:nfc": "yes",
+    "payment:podorozhnik": "no",
+    "payment:sbp": "yes",
+    "payment:social_cards": "yes",
+    "payment:strelka": "no",
+    "payment:troika": "yes",
+    "payment:visa": "no",
+    "public_transport:version": "2",
+    "ref": "10",
+    "route": "tram",
+    "source": "Реестр маршрутов города Москвы",
+    "to": "Метро «Щукинская»",
+    "tram_class:length": "4;5",
+    "type": "route",
+    "website": "https://transport.mos.ru/transport/schedule/route/306",
+    "wheelchair": "yes",
+    "wikidata": "Q122585351"
+  }
+},
+{
+  "type": "relation",
+  "id": 3184022,
+  "center": {
+    "lat": 55.7954661,
+    "lon": 37.4801461
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "bicycle": "yes",
+    "blind": "limited",
+    "charge:all-in-one": "90 RUB",
+    "charge:cards": "83 RUB",
+    "charge:sbp": "83 RUB",
+    "charge:troika": "75 RUB",
+    "charge:troika_qr": "75 RUB",
+    "check_date": "2023-05-11",
+    "colour": "black",
+    "deaf": "yes",
+    "fee": "yes",
+    "fine:ticketless": "5000 RUB",
+    "from": "Метро «Сокол»",
+    "name": "Трамвай 28: Метро «Сокол» => Проспект Маршала Жукова",
+    "name:uk": "Трамвай 28: Метро «Сокіл» Проспект Маршала Жукова",
+    "network": "Московский транспорт",
+    "operator": "ГУП «Московский метрополитен»",
+    "payment:cards": "yes",
+    "payment:cash": "no",
+    "payment:contactless": "yes",
+    "payment:maestro": "no",
+    "payment:mastercard": "no",
+    "payment:mir": "yes",
+    "payment:nfc": "yes",
+    "payment:podorozhnik": "no",
+    "payment:sbp": "yes",
+    "payment:social_cards": "yes",
+    "payment:strelka": "no",
+    "payment:troika": "yes",
+    "payment:visa": "no",
+    "public_transport:version": "2",
+    "ref": "28",
+    "route": "tram",
+    "source": "Реестр маршрутов города Москвы",
+    "to": "Проспект Маршала Жукова",
+    "tram_class:length": "4;5",
+    "type": "route",
+    "website": "https://transport.mos.ru/transport/schedule/route/264",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "relation",
+  "id": 3184023,
+  "center": {
+    "lat": 55.7953882,
+    "lon": 37.4795718
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "bicycle": "yes",
+    "blind": "limited",
+    "charge:all-in-one": "90 RUB",
+    "charge:cards": "83 RUB",
+    "charge:sbp": "83 RUB",
+    "charge:troika": "75 RUB",
+    "charge:troika_qr": "75 RUB",
+    "check_date": "2023-05-11",
+    "colour": "black",
+    "deaf": "yes",
+    "fee": "yes",
+    "fine:ticketless": "5000 RUB",
+    "from": "Проспект Маршала Жукова",
+    "name": "Трамвай 28: Проспект Маршала Жукова => Метро «Сокол»",
+    "name:uk": "Трамвай 28: Проспект Маршала Жукова => Метро «Сокіл»",
+    "network": "Московский транспорт",
+    "operator": "ГУП «Московский метрополитен»",
+    "payment:cards": "yes",
+    "payment:cash": "no",
+    "payment:contactless": "yes",
+    "payment:maestro": "no",
+    "payment:mastercard": "no",
+    "payment:mir": "yes",
+    "payment:nfc": "yes",
+    "payment:podorozhnik": "no",
+    "payment:sbp": "yes",
+    "payment:social_cards": "yes",
+    "payment:strelka": "no",
+    "payment:troika": "yes",
+    "payment:visa": "no",
+    "public_transport:version": "2",
+    "ref": "28",
+    "route": "tram",
+    "source": "Реестр маршрутов города Москвы",
+    "to": "Метро «Сокол»",
+    "tram_class:length": "4;5",
+    "type": "route",
+    "website": "https://transport.mos.ru/transport/schedule/route/264",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "relation",
+  "id": 3375723,
+  "center": {
+    "lat": 55.7995310,
+    "lon": 37.4769817
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "bicycle": "yes",
+    "blind": "limited",
+    "charge:all-in-one": "90 RUB",
+    "charge:cards": "83 RUB",
+    "charge:sbp": "83 RUB",
+    "charge:troika": "75 RUB",
+    "charge:troika_qr": "75 RUB",
+    "check_date": "2023-05-11",
+    "colour": "black",
+    "deaf": "yes",
+    "fee": "yes",
+    "fine:ticketless": "5000 RUB",
+    "from": "Метро «Войковская»",
+    "name": "Трамвай 31: Метро «Войковская» => Проспект Маршала Жукова",
+    "name:uk": "Трамвай 31: Метро «Войківська» Проспект Маршала Жукова",
+    "network": "Московский транспорт",
+    "operator": "ГУП «Московский метрополитен»",
+    "payment:cards": "yes",
+    "payment:cash": "no",
+    "payment:contactless": "yes",
+    "payment:maestro": "no",
+    "payment:mastercard": "no",
+    "payment:mir": "yes",
+    "payment:nfc": "yes",
+    "payment:podorozhnik": "no",
+    "payment:sbp": "yes",
+    "payment:social_cards": "yes",
+    "payment:strelka": "no",
+    "payment:troika": "yes",
+    "payment:visa": "no",
+    "public_transport:version": "2",
+    "ref": "31",
+    "route": "tram",
+    "source": "Реестр маршрутов города Москвы",
+    "to": "Проспект Маршала Жукова",
+    "tram_class:length": "4",
+    "type": "route",
+    "website": "https://transport.mos.ru/transport/schedule/route/329",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "relation",
+  "id": 3375724,
+  "center": {
+    "lat": 55.7992907,
+    "lon": 37.4770570
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "bicycle": "yes",
+    "blind": "limited",
+    "charge:all-in-one": "90 RUB",
+    "charge:cards": "83 RUB",
+    "charge:sbp": "83 RUB",
+    "charge:troika": "75 RUB",
+    "charge:troika_qr": "75 RUB",
+    "check_date": "2023-05-11",
+    "colour": "black",
+    "deaf": "yes",
+    "fee": "yes",
+    "fine:ticketless": "5000 RUB",
+    "from": "Проспект Маршала Жукова",
+    "name": "Трамвай 31: Проспект Маршала Жукова => Метро «Войковская»",
+    "name:uk": "Трамвай 31: Проспект Маршала Жукова => Метро «Войківська»",
+    "network": "Московский транспорт",
+    "operator": "ГУП «Московский метрополитен»",
+    "payment:cards": "yes",
+    "payment:cash": "no",
+    "payment:contactless": "yes",
+    "payment:maestro": "no",
+    "payment:mastercard": "no",
+    "payment:mir": "yes",
+    "payment:nfc": "yes",
+    "payment:podorozhnik": "no",
+    "payment:sbp": "yes",
+    "payment:social_cards": "yes",
+    "payment:strelka": "no",
+    "payment:troika": "yes",
+    "payment:visa": "no",
+    "public_transport:version": "2",
+    "ref": "31",
+    "route": "tram",
+    "source": "Реестр маршрутов города Москвы",
+    "to": "Метро «Войковская»",
+    "tram_class:length": "4",
+    "type": "route",
+    "website": "https://transport.mos.ru/transport/schedule/route/329",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "relation",
+  "id": 1223129,
+  "center": {
+    "lat": 55.8068542,
+    "lon": 37.4506483
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "bicycle": "yes",
+    "blind": "limited",
+    "charge:all-in-one": "90 RUB",
+    "charge:cards": "83 RUB",
+    "charge:sbp": "83 RUB",
+    "charge:troika": "75 RUB",
+    "charge:troika_qr": "75 RUB",
+    "check_date": "2023-05-11",
+    "colour": "black",
+    "deaf": "yes",
+    "fee": "yes",
+    "fine:ticketless": "5000 RUB",
+    "from": "Метро «Сокол»",
+    "name": "Трамвай 15: Метро «Сокол» => Таллинская улица",
+    "name:uk": "Трамвай 15: Метро «Сокіл» => Талліннська вулиця",
+    "network": "Московский транспорт",
+    "operator": "ГУП «Московский метрополитен»",
+    "payment:cards": "yes",
+    "payment:cash": "no",
+    "payment:contactless": "yes",
+    "payment:maestro": "no",
+    "payment:mastercard": "no",
+    "payment:mir": "yes",
+    "payment:nfc": "yes",
+    "payment:podorozhnik": "no",
+    "payment:sbp": "yes",
+    "payment:social_cards": "yes",
+    "payment:strelka": "no",
+    "payment:troika": "yes",
+    "payment:visa": "no",
+    "public_transport:version": "2",
+    "ref": "15",
+    "route": "tram",
+    "source": "Реестр маршрутов города Москвы",
+    "to": "Таллинская улица",
+    "tram_class:length": "4;5",
+    "type": "route",
+    "website": "https://transport.mos.ru/transport/schedule/route/310",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "relation",
+  "id": 1224820,
+  "center": {
+    "lat": 55.8066046,
+    "lon": 37.4499256
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "bicycle": "yes",
+    "blind": "limited",
+    "charge:all-in-one": "90 RUB",
+    "charge:cards": "83 RUB",
+    "charge:sbp": "83 RUB",
+    "charge:troika": "75 RUB",
+    "charge:troika_qr": "75 RUB",
+    "check_date": "2023-05-11",
+    "colour": "black",
+    "deaf": "yes",
+    "fee": "yes",
+    "fine:ticketless": "5000 RUB",
+    "from": "Таллинская улица",
+    "name": "Трамвай 15: Таллинская улица => Метро «Сокол»",
+    "name:uk": "Трамвай 15: Талліннська вулиця => Метро «Сокіл»",
+    "network": "Московский транспорт",
+    "operator": "ГУП «Московский метрополитен»",
+    "payment:cards": "yes",
+    "payment:cash": "no",
+    "payment:contactless": "yes",
+    "payment:maestro": "no",
+    "payment:mastercard": "no",
+    "payment:mir": "yes",
+    "payment:nfc": "yes",
+    "payment:podorozhnik": "no",
+    "payment:sbp": "yes",
+    "payment:social_cards": "yes",
+    "payment:strelka": "no",
+    "payment:troika": "yes",
+    "payment:visa": "no",
+    "public_transport:version": "2",
+    "ref": "15",
+    "route": "tram",
+    "source": "Реестр маршрутов города Москвы",
+    "to": "Метро «Сокол»",
+    "tram_class:length": "4;5",
+    "type": "route",
+    "website": "https://transport.mos.ru/transport/schedule/route/310",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "relation",
+  "id": 1225388,
+  "center": {
+    "lat": 55.8318792,
+    "lon": 37.4583069
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "bicycle": "yes",
+    "blind": "limited",
+    "charge:all-in-one": "90 RUB",
+    "charge:cards": "83 RUB",
+    "charge:sbp": "83 RUB",
+    "charge:troika": "75 RUB",
+    "charge:troika_qr": "75 RUB",
+    "check_date": "2023-05-11",
+    "colour": "black",
+    "deaf": "yes",
+    "fee": "yes",
+    "fine:ticketless": "5000 RUB",
+    "from": "Метро «Сокол»",
+    "name": "Трамвай 6: Метро «Сокол» => Братцево",
+    "name:uk": "Трамвай 6: Метро «Сокіл» => Братцеве",
+    "network": "Московский транспорт",
+    "operator": "ГУП «Московский метрополитен»",
+    "payment:cards": "yes",
+    "payment:cash": "no",
+    "payment:contactless": "yes",
+    "payment:maestro": "no",
+    "payment:mastercard": "no",
+    "payment:mir": "yes",
+    "payment:nfc": "yes",
+    "payment:podorozhnik": "no",
+    "payment:sbp": "yes",
+    "payment:social_cards": "yes",
+    "payment:strelka": "no",
+    "payment:troika": "yes",
+    "payment:visa": "no",
+    "public_transport:version": "2",
+    "ref": "6",
+    "route": "tram",
+    "source": "Реестр маршрутов города Москвы",
+    "to": "Братцево",
+    "tram_class:length": "4;5",
+    "type": "route",
+    "website": "https://transport.mos.ru/transport/schedule/route/331",
+    "wheelchair": "yes",
+    "wikidata": "Q122585347"
+  }
+},
+{
+  "type": "relation",
+  "id": 1244690,
+  "center": {
+    "lat": 55.8319944,
+    "lon": 37.4582883
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "bicycle": "yes",
+    "blind": "limited",
+    "charge:all-in-one": "90 RUB",
+    "charge:cards": "83 RUB",
+    "charge:sbp": "83 RUB",
+    "charge:troika": "75 RUB",
+    "charge:troika_qr": "75 RUB",
+    "check_date": "2023-05-11",
+    "colour": "black",
+    "deaf": "yes",
+    "fee": "yes",
+    "fine:ticketless": "5000 RUB",
+    "from": "Братцево",
+    "name": "Трамвай 6: Братцево => Метро «Сокол»",
+    "name:uk": "Трамвай 6: Братцево => Метро «Сокіл»",
+    "network": "Московский транспорт",
+    "operator": "ГУП «Московский метрополитен»",
+    "payment:cards": "yes",
+    "payment:cash": "no",
+    "payment:contactless": "yes",
+    "payment:maestro": "no",
+    "payment:mastercard": "no",
+    "payment:mir": "yes",
+    "payment:nfc": "yes",
+    "payment:podorozhnik": "no",
+    "payment:sbp": "yes",
+    "payment:social_cards": "yes",
+    "payment:strelka": "no",
+    "payment:troika": "yes",
+    "payment:visa": "no",
+    "public_transport:version": "2",
+    "ref": "6",
+    "route": "tram",
+    "source": "Реестр маршрутов города Москвы",
+    "to": "Метро «Сокол»",
+    "tram_class:length": "4;5",
+    "type": "route",
+    "website": "https://transport.mos.ru/transport/schedule/route/331",
+    "wheelchair": "yes",
+    "wikidata": "Q122585347"
+  }
+},
+{
+  "type": "relation",
+  "id": 1216232,
+  "center": {
+    "lat": 55.8068542,
+    "lon": 37.4263284
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "bicycle": "yes",
+    "blind": "limited",
+    "charge:all-in-one": "90 RUB",
+    "charge:cards": "83 RUB",
+    "charge:sbp": "83 RUB",
+    "charge:troika": "75 RUB",
+    "charge:troika_qr": "75 RUB",
+    "check_date": "2023-05-11",
+    "colour": "black",
+    "deaf": "yes",
+    "fee": "yes",
+    "fine:ticketless": "5000 RUB",
+    "from": "Метро «Щукинская»",
+    "name": "Трамвай 21: Метро «Щукинская» => Таллинская улица",
+    "name:uk": "Трамвай 21: Метро «Щукинська» => Талліннська вулиця",
+    "network": "Московский транспорт",
+    "operator": "ГУП «Московский метрополитен»",
+    "payment:cards": "yes",
+    "payment:cash": "no",
+    "payment:contactless": "yes",
+    "payment:maestro": "no",
+    "payment:mastercard": "no",
+    "payment:mir": "yes",
+    "payment:nfc": "yes",
+    "payment:podorozhnik": "no",
+    "payment:sbp": "yes",
+    "payment:social_cards": "yes",
+    "payment:strelka": "no",
+    "payment:troika": "yes",
+    "payment:visa": "no",
+    "public_transport:version": "2",
+    "ref": "21",
+    "route": "tram",
+    "source": "Реестр маршрутов города Москвы",
+    "to": "Таллинская улица",
+    "tram_class:length": "5",
+    "type": "route",
+    "website": "https://transport.mos.ru/transport/schedule/route/315",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "relation",
+  "id": 1224178,
+  "center": {
+    "lat": 55.8066046,
+    "lon": 37.4263765
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "bicycle": "yes",
+    "blind": "limited",
+    "charge:all-in-one": "90 RUB",
+    "charge:cards": "83 RUB",
+    "charge:sbp": "83 RUB",
+    "charge:troika": "75 RUB",
+    "charge:troika_qr": "75 RUB",
+    "check_date": "2023-05-11",
+    "colour": "black",
+    "deaf": "yes",
+    "fee": "yes",
+    "fine:ticketless": "5000 RUB",
+    "from": "Таллинская улица",
+    "name": "Трамвай 21: Таллинская улица => Метро «Щукинская»",
+    "name:uk": "Трамвай 21: Талліннська вулиця => Метро «Щукінська»",
+    "network": "Московский транспорт",
+    "operator": "ГУП «Московский метрополитен»",
+    "payment:cards": "yes",
+    "payment:cash": "no",
+    "payment:contactless": "yes",
+    "payment:maestro": "no",
+    "payment:mastercard": "no",
+    "payment:mir": "yes",
+    "payment:nfc": "yes",
+    "payment:podorozhnik": "no",
+    "payment:sbp": "yes",
+    "payment:social_cards": "yes",
+    "payment:strelka": "no",
+    "payment:troika": "yes",
+    "payment:visa": "no",
+    "public_transport:version": "2",
+    "ref": "21",
+    "route": "tram",
+    "source": "Реестр маршрутов города Москвы",
+    "to": "Метро «Щукинская»",
+    "tram_class:length": "5",
+    "type": "route",
+    "website": "https://transport.mos.ru/transport/schedule/route/315",
+    "wheelchair": "yes"
+  }
+}
+
+  ]
+}

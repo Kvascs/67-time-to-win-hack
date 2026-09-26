@@ -1,0 +1,2482 @@
+{
+ "generated_from": "C:\\MosTransHack\\tools\\anomaly_sim\\results_cpp",
+ "rec_params_variant": "rec_safe",
+ "rec_code_variant": "rec_all_safe",
+ "root_causes": [
+  {
+   "id": "RC1",
+   "severity": "critical",
+   "title": "Estimator freezes forever after any >max_future_s (2 s) silence of all vehicle stamps",
+   "mechanism": "acceptStamp() rejects stamp > latest_ + max_future_s; a rejected stamp never advances latest_, so after a gap (all topics silent, or a zero-stamp window) every later message is rejected. The node/replay still publishes query(t) at each input stamp: a model extrapolation from the frozen committed state (all dropout flags set, speed drifting, up to 4000 integration steps per output).",
+   "code": "estimator.cpp Estimator::acceptStamp (lines 132-148); tbo_replay.cpp main loop / tbo_node.cpp afterInput() publish even when the input was rejected",
+   "evidence": {
+    "base": {
+     "X18_drop_vehicle_5": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 27.7954,
+      "err_in_max_max": 89.3182,
+      "err_after_max_p90": 26.5862,
+      "rec_gnss_p90": null,
+      "det_rate": null,
+      "ds_growth_abs_p90": 843.5521,
+      "ds_growth_abs_max": 3165.365,
+      "dv_vs_clean_max": 97.2277,
+      "n_diverged": 7.0,
+      "rejected_stamps_max": 48842.0,
+      "proc_us_p99_max": 25724.228
+     },
+     "S14_stamp_faults": {
+      "n_windows": 72.0,
+      "err_in_max_p90": 13.236,
+      "err_in_max_max": 27.2116,
+      "err_after_max_p90": 7.2808,
+      "rec_gnss_p90": 2.1604,
+      "det_rate": null,
+      "ds_growth_abs_p90": 76.9549,
+      "ds_growth_abs_max": 486.1334,
+      "dv_vs_clean_max": 27.2266,
+      "n_diverged": 7.0,
+      "rejected_stamps_max": 37659.0,
+      "proc_us_p99_max": 35007.552
+     },
+     "S07_dropout_long": {
+      "n_windows": 28.0,
+      "err_in_max_p90": 3.3214,
+      "err_in_max_max": 12.288,
+      "err_after_max_p90": 4.3349,
+      "rec_gnss_p90": 0.2732,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 102.5614,
+      "ds_growth_abs_max": 285.9538,
+      "dv_vs_clean_max": 13.9556,
+      "n_diverged": 4.0,
+      "rejected_stamps_max": 18155.0,
+      "proc_us_p99_max": 15041.688
+     },
+     "S17_combined_moderate": {
+      "n_windows": 535.0,
+      "err_in_max_p90": 1.9606,
+      "err_in_max_max": 11.95,
+      "err_after_max_p90": 3.976,
+      "rec_gnss_p90": 8.2857,
+      "det_rate": 0.8468,
+      "ds_growth_abs_p90": 12.2404,
+      "ds_growth_abs_max": 251.7892,
+      "dv_vs_clean_max": 13.1873,
+      "n_diverged": 2.0,
+      "rejected_stamps_max": 30214.0,
+      "proc_us_p99_max": 38122.076
+     },
+     "S18_combined_severe": {
+      "n_windows": 3411.0,
+      "err_in_max_p90": 2.3739,
+      "err_in_max_max": 66.1018,
+      "err_after_max_p90": 2.1436,
+      "rec_gnss_p90": 2.7138,
+      "det_rate": 0.9251,
+      "ds_growth_abs_p90": 2.6349,
+      "ds_growth_abs_max": 348.2114,
+      "dv_vs_clean_max": 66.1241,
+      "n_diverged": 7.0,
+      "rejected_stamps_max": 11317.0,
+      "proc_us_p99_max": 10632.367
+     }
+    },
+    "mf20": {
+     "X18_drop_vehicle_5": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 3.0123,
+      "err_in_max_max": 3.9929,
+      "err_after_max_p90": 0.1405,
+      "rec_gnss_p90": 0.5315,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.1724,
+      "ds_growth_abs_max": 1.7468,
+      "dv_vs_clean_max": 3.9596,
+      "n_diverged": 0.0,
+      "rejected_stamps_max": 0.0,
+      "proc_us_p99_max": 1731.07
+     },
+     "S14_stamp_faults": {
+      "n_windows": 72.0,
+      "err_in_max_p90": 2.3168,
+      "err_in_max_max": 2.7035,
+      "err_after_max_p90": 0.603,
+      "rec_gnss_p90": 1.6544,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.8646,
+      "ds_growth_abs_max": 17.8595,
+      "dv_vs_clean_max": 2.7567,
+      "n_diverged": 0.0,
+      "rejected_stamps_max": 436.0,
+      "proc_us_p99_max": 1409.565
+     },
+     "S07_dropout_long": {
+      "n_windows": 28.0,
+      "err_in_max_p90": 1.3119,
+      "err_in_max_max": 12.288,
+      "err_after_max_p90": 0.1223,
+      "rec_gnss_p90": 0.2555,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.9194,
+      "ds_growth_abs_max": 218.2807,
+      "dv_vs_clean_max": 12.2692,
+      "n_diverged": 2.0,
+      "rejected_stamps_max": 0.0,
+      "proc_us_p99_max": 1422.119
+     },
+     "S17_combined_moderate": {
+      "n_windows": 535.0,
+      "err_in_max_p90": 0.11,
+      "err_in_max_max": 2.671,
+      "err_after_max_p90": 0.1349,
+      "rec_gnss_p90": 8.2821,
+      "det_rate": 0.9787,
+      "ds_growth_abs_p90": 0.4632,
+      "ds_growth_abs_max": 9.3513,
+      "dv_vs_clean_max": 4.2777,
+      "n_diverged": 0.0,
+      "rejected_stamps_max": 0.0,
+      "proc_us_p99_max": 1607.356
+     },
+     "S18_combined_severe": {
+      "n_windows": 3411.0,
+      "err_in_max_p90": 1.1294,
+      "err_in_max_max": 66.1018,
+      "err_after_max_p90": 0.955,
+      "rec_gnss_p90": 2.7809,
+      "det_rate": 0.9625,
+      "ds_growth_abs_p90": 1.0705,
+      "ds_growth_abs_max": 348.2114,
+      "dv_vs_clean_max": 66.1241,
+      "n_diverged": 7.0,
+      "rejected_stamps_max": 287.0,
+      "proc_us_p99_max": 2043.596
+     }
+    },
+    "rec_safe": {
+     "X18_drop_vehicle_5": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.9547,
+      "err_in_max_max": 3.6612,
+      "err_after_max_p90": 0.1462,
+      "rec_gnss_p90": 0.5315,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.0124,
+      "ds_growth_abs_max": 1.7137,
+      "dv_vs_clean_max": 3.6276,
+      "n_diverged": 0.0,
+      "rejected_stamps_max": 0.0,
+      "proc_us_p99_max": 2616.532
+     },
+     "S14_stamp_faults": {
+      "n_windows": 72.0,
+      "err_in_max_p90": 2.3149,
+      "err_in_max_max": 2.7094,
+      "err_after_max_p90": 0.6055,
+      "rec_gnss_p90": 1.6544,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.8291,
+      "ds_growth_abs_max": 17.9873,
+      "dv_vs_clean_max": 2.7642,
+      "n_diverged": 0.0,
+      "rejected_stamps_max": 436.0,
+      "proc_us_p99_max": 210.215
+     },
+     "S07_dropout_long": {
+      "n_windows": 28.0,
+      "err_in_max_p90": 1.2782,
+      "err_in_max_max": 12.288,
+      "err_after_max_p90": 0.1237,
+      "rec_gnss_p90": 0.2555,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.8788,
+      "ds_growth_abs_max": 221.8563,
+      "dv_vs_clean_max": 12.2676,
+      "n_diverged": 2.0,
+      "rejected_stamps_max": 0.0,
+      "proc_us_p99_max": 1355.718
+     },
+     "S17_combined_moderate": {
+      "n_windows": 535.0,
+      "err_in_max_p90": 0.1127,
+      "err_in_max_max": 2.657,
+      "err_after_max_p90": 0.1364,
+      "rec_gnss_p90": 8.2772,
+      "det_rate": 0.9787,
+      "ds_growth_abs_p90": 0.5018,
+      "ds_growth_abs_max": 11.7055,
+      "dv_vs_clean_max": 4.0526,
+      "n_diverged": 0.0,
+      "rejected_stamps_max": 0.0,
+      "proc_us_p99_max": 174.56
+     },
+     "S18_combined_severe": {
+      "n_windows": 3411.0,
+      "err_in_max_p90": 0.7763,
+      "err_in_max_max": 33.2539,
+      "err_after_max_p90": 0.7033,
+      "rec_gnss_p90": 2.869,
+      "det_rate": 0.9671,
+      "ds_growth_abs_p90": 0.7744,
+      "ds_growth_abs_max": 261.0638,
+      "dv_vs_clean_max": 33.2447,
+      "n_diverged": 7.0,
+      "rejected_stamps_max": 287.0,
+      "proc_us_p99_max": 668.976
+     }
+    },
+    "fixG_future": {
+     "X18_drop_vehicle_5": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 3.025,
+      "err_in_max_max": 3.9992,
+      "err_after_max_p90": 0.1405,
+      "rec_gnss_p90": 0.5315,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.108,
+      "ds_growth_abs_max": 1.7108,
+      "dv_vs_clean_max": 3.9762,
+      "n_diverged": 0.0,
+      "rejected_stamps_max": 7.0,
+      "proc_us_p99_max": 190.016
+     },
+     "S14_stamp_faults": {
+      "n_windows": 72.0,
+      "err_in_max_p90": 2.3168,
+      "err_in_max_max": 2.7067,
+      "err_after_max_p90": 0.603,
+      "rec_gnss_p90": 1.6544,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.8646,
+      "ds_growth_abs_max": 17.8595,
+      "dv_vs_clean_max": 2.7637,
+      "n_diverged": 0.0,
+      "rejected_stamps_max": 437.0,
+      "proc_us_p99_max": 406.2
+     },
+     "S07_dropout_long": {
+      "n_windows": 28.0,
+      "err_in_max_p90": 1.3136,
+      "err_in_max_max": 12.288,
+      "err_after_max_p90": 0.1223,
+      "rec_gnss_p90": 0.2555,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.9194,
+      "ds_growth_abs_max": 218.2807,
+      "dv_vs_clean_max": 12.2692,
+      "n_diverged": 2.0,
+      "rejected_stamps_max": 4.0,
+      "proc_us_p99_max": 392.06
+     },
+     "S17_combined_moderate": {
+      "n_windows": 535.0,
+      "err_in_max_p90": 0.11,
+      "err_in_max_max": 2.671,
+      "err_after_max_p90": 0.1349,
+      "rec_gnss_p90": 8.2821,
+      "det_rate": 0.9787,
+      "ds_growth_abs_p90": 0.4658,
+      "ds_growth_abs_max": 9.3513,
+      "dv_vs_clean_max": 4.2777,
+      "n_diverged": 0.0,
+      "rejected_stamps_max": 5.0,
+      "proc_us_p99_max": 342.94
+     },
+     "S18_combined_severe": {
+      "n_windows": 3411.0,
+      "err_in_max_p90": 1.106,
+      "err_in_max_max": 66.1018,
+      "err_after_max_p90": 0.946,
+      "rec_gnss_p90": 2.7809,
+      "det_rate": 0.9625,
+      "ds_growth_abs_p90": 1.0,
+      "ds_growth_abs_max": 348.2114,
+      "dv_vs_clean_max": 66.1241,
+      "n_diverged": 7.0,
+      "rejected_stamps_max": 288.0,
+      "proc_us_p99_max": 381.318
+     }
+    },
+    "rec_all_safe": {
+     "X18_drop_vehicle_5": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.9547,
+      "err_in_max_max": 3.6612,
+      "err_after_max_p90": 0.1462,
+      "rec_gnss_p90": 0.5315,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.0124,
+      "ds_growth_abs_max": 1.7137,
+      "dv_vs_clean_max": 3.6276,
+      "n_diverged": 0.0,
+      "rejected_stamps_max": 0.0,
+      "proc_us_p99_max": 197.96
+     },
+     "S14_stamp_faults": {
+      "n_windows": 72.0,
+      "err_in_max_p90": 2.2946,
+      "err_in_max_max": 2.7094,
+      "err_after_max_p90": 0.6055,
+      "rec_gnss_p90": 1.6544,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.829,
+      "ds_growth_abs_max": 19.2298,
+      "dv_vs_clean_max": 2.7642,
+      "n_diverged": 0.0,
+      "rejected_stamps_max": 436.0,
+      "proc_us_p99_max": 174.7
+     },
+     "S07_dropout_long": {
+      "n_windows": 28.0,
+      "err_in_max_p90": 0.8514,
+      "err_in_max_max": 6.1272,
+      "err_after_max_p90": 0.1237,
+      "rec_gnss_p90": 0.2555,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.6179,
+      "ds_growth_abs_max": 4.0216,
+      "dv_vs_clean_max": 6.1369,
+      "n_diverged": 1.0,
+      "rejected_stamps_max": 0.0,
+      "proc_us_p99_max": 204.7
+     },
+     "S17_combined_moderate": {
+      "n_windows": 535.0,
+      "err_in_max_p90": 0.1097,
+      "err_in_max_max": 8.756,
+      "err_after_max_p90": 0.1365,
+      "rec_gnss_p90": 8.0041,
+      "det_rate": 0.9745,
+      "ds_growth_abs_p90": 0.4789,
+      "ds_growth_abs_max": 62.0743,
+      "dv_vs_clean_max": 8.7822,
+      "n_diverged": 1.0,
+      "rejected_stamps_max": 0.0,
+      "proc_us_p99_max": 168.796
+     },
+     "S18_combined_severe": {
+      "n_windows": 3411.0,
+      "err_in_max_p90": 0.5526,
+      "err_in_max_max": 7.7295,
+      "err_after_max_p90": 0.5816,
+      "rec_gnss_p90": 2.1766,
+      "det_rate": 0.9671,
+      "ds_growth_abs_p90": 0.3876,
+      "ds_growth_abs_max": 37.1257,
+      "dv_vs_clean_max": 7.7309,
+      "n_diverged": 3.0,
+      "rejected_stamps_max": 287.0,
+      "proc_us_p99_max": 387.236
+     }
+    }
+   },
+   "example_run": {
+    "stderr": "inputs=49290 outputs=46064 invalid_wheel=401 late=455 rejected=11317 merged=0 resets=0 max_buffer=24 map_matched=1",
+    "v_out_max": 27.8743,
+    "n_absurd_v": 0.0
+   },
+   "param_fix": {
+    "max_future_s": 20
+   },
+   "code_fix": "accept a forward jump when a second message confirms the new time base within 1 s (fix_future_confirm); do not publish for a rejected input"
+  },
+  {
+   "id": "RC2",
+   "severity": "critical",
+   "title": "Frozen (stuck) bogie under braking -> the frozen wheel is trusted, the good one rejected, then no recovery at the stop",
+   "mechanism": "Stuck test compares against the filter speed vc, which the frozen wheel itself holds constant (circular). Under a braking notch an under-reading bogie looks like a plausible slide, so the IMM selects \"other bogie bad\"; d absorbs the missing deceleration (positive clamp disturbance_max_free=2.0 when notch<=0). After the stop the lock-up guard (never re-anchor to ~0 wheels while the model moves) has no time limit -> phantom motion for the whole dwell.",
+   "code": "estimator.cpp wheelUpdate stuck test (lines 409-421); IMM clamp d_max_pos (line 531); recovery guard (line 607)",
+   "evidence": {
+    "base": {
+     "X20_frozen_front_hold10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 5.5472,
+      "err_in_max_max": 7.175,
+      "err_after_max_p90": 8.5324,
+      "rec_gnss_p90": 11.6244,
+      "det_rate": 0.0588,
+      "ds_growth_abs_p90": 66.1886,
+      "ds_growth_abs_max": 580.1265,
+      "dv_vs_clean_max": 33.0196,
+      "n_diverged": 5.0
+     },
+     "X19_frozen_wheels_hold5": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 3.7789,
+      "err_in_max_max": 4.0535,
+      "err_after_max_p90": 8.5208,
+      "rec_gnss_p90": 10.1821,
+      "det_rate": 0.0,
+      "ds_growth_abs_p90": 67.5127,
+      "ds_growth_abs_max": 86.6148,
+      "dv_vs_clean_max": 10.226,
+      "n_diverged": 6.0
+     },
+     "S11_frozen_sensor": {
+      "n_windows": 22.0,
+      "err_in_max_p90": 6.6826,
+      "err_in_max_max": 9.8802,
+      "err_after_max_p90": 7.401,
+      "rec_gnss_p90": 8.7168,
+      "det_rate": 0.3684,
+      "ds_growth_abs_p90": 107.332,
+      "ds_growth_abs_max": 138.2076,
+      "dv_vs_clean_max": 17.9458,
+      "n_diverged": 5.0
+     },
+     "X21_frozen_wheels_zero3": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.3193,
+      "err_in_max_max": 0.7146,
+      "err_after_max_p90": 0.152,
+      "rec_gnss_p90": 8.3323,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.1069,
+      "ds_growth_abs_max": 0.1614,
+      "dv_vs_clean_max": 0.7205,
+      "n_diverged": 0.0
+     }
+    },
+    "mf20_stuck0": {
+     "X20_frozen_front_hold10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 7.122,
+      "err_in_max_max": 7.7855,
+      "err_after_max_p90": 7.291,
+      "rec_gnss_p90": 1.1916,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 8.5484,
+      "ds_growth_abs_max": 14.1742,
+      "dv_vs_clean_max": 8.2709,
+      "n_diverged": 3.0
+     },
+     "X19_frozen_wheels_hold5": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 3.1958,
+      "err_in_max_max": 3.947,
+      "err_after_max_p90": 0.1409,
+      "rec_gnss_p90": 0.4716,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 3.3551,
+      "ds_growth_abs_max": 4.0398,
+      "dv_vs_clean_max": 3.9669,
+      "n_diverged": 0.0
+     },
+     "S11_frozen_sensor": {
+      "n_windows": 22.0,
+      "err_in_max_p90": 5.8578,
+      "err_in_max_max": 10.6887,
+      "err_after_max_p90": 0.1264,
+      "rec_gnss_p90": 0.546,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 5.0039,
+      "ds_growth_abs_max": 10.2671,
+      "dv_vs_clean_max": 10.7031,
+      "n_diverged": 4.0
+     },
+     "X21_frozen_wheels_zero3": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.3193,
+      "err_in_max_max": 0.7146,
+      "err_after_max_p90": 0.152,
+      "rec_gnss_p90": 8.3323,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.1069,
+      "ds_growth_abs_max": 0.1614,
+      "dv_vs_clean_max": 0.7205,
+      "n_diverged": 0.0
+     }
+    },
+    "mf20_stuck0_t0.8": {
+     "X20_frozen_front_hold10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 3.633,
+      "err_in_max_max": 7.044,
+      "err_after_max_p90": 0.1236,
+      "rec_gnss_p90": 0.2989,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 3.2491,
+      "ds_growth_abs_max": 7.1938,
+      "dv_vs_clean_max": 7.0476,
+      "n_diverged": 2.0
+     },
+     "X19_frozen_wheels_hold5": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.6167,
+      "err_in_max_max": 3.6442,
+      "err_after_max_p90": 0.143,
+      "rec_gnss_p90": 0.2716,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 1.5941,
+      "ds_growth_abs_max": 3.1421,
+      "dv_vs_clean_max": 3.6535,
+      "n_diverged": 0.0
+     },
+     "S11_frozen_sensor": {
+      "n_windows": 22.0,
+      "err_in_max_p90": 4.2758,
+      "err_in_max_max": 9.0207,
+      "err_after_max_p90": 0.1264,
+      "rec_gnss_p90": 0.3146,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.2092,
+      "ds_growth_abs_max": 7.2911,
+      "dv_vs_clean_max": 9.0328,
+      "n_diverged": 2.0
+     },
+     "X21_frozen_wheels_zero3": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.3193,
+      "err_in_max_max": 0.7146,
+      "err_after_max_p90": 0.152,
+      "rec_gnss_p90": 8.3323,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.1069,
+      "ds_growth_abs_max": 0.1614,
+      "dv_vs_clean_max": 0.7205,
+      "n_diverged": 0.0
+     }
+    },
+    "fixF_frozen": {
+     "X20_frozen_front_hold10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 7.122,
+      "err_in_max_max": 7.7855,
+      "err_after_max_p90": 7.291,
+      "rec_gnss_p90": 1.1916,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 8.5484,
+      "ds_growth_abs_max": 14.1742,
+      "dv_vs_clean_max": 8.2709,
+      "n_diverged": 3.0
+     },
+     "X19_frozen_wheels_hold5": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 3.1958,
+      "err_in_max_max": 3.947,
+      "err_after_max_p90": 0.1409,
+      "rec_gnss_p90": 0.4716,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 3.3551,
+      "ds_growth_abs_max": 4.0398,
+      "dv_vs_clean_max": 3.9669,
+      "n_diverged": 0.0
+     },
+     "S11_frozen_sensor": {
+      "n_windows": 22.0,
+      "err_in_max_p90": 6.3333,
+      "err_in_max_max": 10.6887,
+      "err_after_max_p90": 0.1264,
+      "rec_gnss_p90": 0.546,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 5.0039,
+      "ds_growth_abs_max": 27.9967,
+      "dv_vs_clean_max": 10.7031,
+      "n_diverged": 5.0
+     },
+     "X21_frozen_wheels_zero3": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.3193,
+      "err_in_max_max": 0.7146,
+      "err_after_max_p90": 0.152,
+      "rec_gnss_p90": 8.3323,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.1069,
+      "ds_growth_abs_max": 0.1614,
+      "dv_vs_clean_max": 0.7205,
+      "n_diverged": 0.0
+     }
+    },
+    "rec_safe": {
+     "X20_frozen_front_hold10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.6587,
+      "err_in_max_max": 6.4753,
+      "err_after_max_p90": 0.1878,
+      "rec_gnss_p90": 0.1931,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.1526,
+      "ds_growth_abs_max": 2.944,
+      "dv_vs_clean_max": 6.4807,
+      "n_diverged": 1.0
+     },
+     "X19_frozen_wheels_hold5": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 1.8702,
+      "err_in_max_max": 2.8645,
+      "err_after_max_p90": 0.143,
+      "rec_gnss_p90": 0.2716,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 1.5558,
+      "ds_growth_abs_max": 2.9269,
+      "dv_vs_clean_max": 2.8703,
+      "n_diverged": 0.0
+     },
+     "S11_frozen_sensor": {
+      "n_windows": 22.0,
+      "err_in_max_p90": 2.8376,
+      "err_in_max_max": 5.8365,
+      "err_after_max_p90": 0.1264,
+      "rec_gnss_p90": 0.2863,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.2336,
+      "ds_growth_abs_max": 7.2221,
+      "dv_vs_clean_max": 5.8473,
+      "n_diverged": 2.0
+     },
+     "X21_frozen_wheels_zero3": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.3749,
+      "err_in_max_max": 0.6903,
+      "err_after_max_p90": 0.152,
+      "rec_gnss_p90": 8.3323,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.1095,
+      "ds_growth_abs_max": 0.125,
+      "dv_vs_clean_max": 0.6908,
+      "n_diverged": 0.0
+     }
+    },
+    "rec_all_safe": {
+     "X20_frozen_front_hold10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.4881,
+      "err_in_max_max": 6.4753,
+      "err_after_max_p90": 0.1878,
+      "rec_gnss_p90": 0.1931,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.1301,
+      "ds_growth_abs_max": 2.944,
+      "dv_vs_clean_max": 6.4807,
+      "n_diverged": 1.0
+     },
+     "X19_frozen_wheels_hold5": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 1.8702,
+      "err_in_max_max": 2.8645,
+      "err_after_max_p90": 0.143,
+      "rec_gnss_p90": 0.2716,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 1.5558,
+      "ds_growth_abs_max": 2.9269,
+      "dv_vs_clean_max": 2.8703,
+      "n_diverged": 0.0
+     },
+     "S11_frozen_sensor": {
+      "n_windows": 22.0,
+      "err_in_max_p90": 4.8132,
+      "err_in_max_max": 6.384,
+      "err_after_max_p90": 0.1264,
+      "rec_gnss_p90": 0.2293,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.2258,
+      "ds_growth_abs_max": 28.9147,
+      "dv_vs_clean_max": 6.3903,
+      "n_diverged": 3.0
+     },
+     "X21_frozen_wheels_zero3": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.3749,
+      "err_in_max_max": 0.6902,
+      "err_after_max_p90": 0.152,
+      "rec_gnss_p90": 8.3323,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.1128,
+      "ds_growth_abs_max": 0.1643,
+      "dv_vs_clean_max": 0.6907,
+      "n_diverged": 0.0
+     }
+    }
+   },
+   "param_fix": {
+    "stuck_min_change": 0
+   },
+   "code_fix": "stuck test against the other bogie / model speed change (param stuck_min_change=0 is equivalent: no natural identical run >= 0.5 s while moving except one dying sensor, diagnostics/natural_wheel_stats.json); time-limit the lock-up guard (fix_lockup_guard_s=4)"
+  },
+  {
+   "id": "RC3",
+   "severity": "major",
+   "title": "Heavy bogie noise -> model-only lock-out and disturbance runaway",
+   "mechanism": "With sigma >= ~1 km/h both bogies drift out of the gates, the IMM settles in \"both bad\"; its recovery needs |front-rear| < recover_agree (0.35 m/s) on every sample for recover_time_s (3 s) - never true under noise. Meanwhile d (learnt from the noisy wheels, allowed up to +2.0 when the controller is flagged) is integrated open-loop.",
+   "code": "estimator.cpp wheelUpdate recovery (lines 589-617), clampState in the IMM update (line 554)",
+   "evidence": {
+    "base": {
+     "S12_noise_increase": {
+      "n_windows": 15.0,
+      "err_in_max_p90": 4.8192,
+      "err_in_max_max": 14.9774,
+      "err_after_max_p90": 0.1467,
+      "rec_gnss_p90": 6.601,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.5068,
+      "ds_growth_abs_max": 19.3941,
+      "dv_vs_clean_max": 15.0293,
+      "n_diverged": 2.0
+     },
+     "X27_noise_both_0p3": {
+      "n_windows": 14.0,
+      "err_in_max_p90": 0.2817,
+      "err_in_max_max": 0.3131,
+      "err_after_max_p90": 0.145,
+      "rec_gnss_p90": 0.084,
+      "det_rate": null,
+      "ds_growth_abs_p90": 0.2387,
+      "ds_growth_abs_max": 0.6138,
+      "dv_vs_clean_max": 0.3397,
+      "n_diverged": 0.0
+     },
+     "X28_noise_both_0p6": {
+      "n_windows": 14.0,
+      "err_in_max_p90": 0.9576,
+      "err_in_max_max": 1.0903,
+      "err_after_max_p90": 0.1179,
+      "rec_gnss_p90": 0.8215,
+      "det_rate": null,
+      "ds_growth_abs_p90": 0.428,
+      "ds_growth_abs_max": 0.6058,
+      "dv_vs_clean_max": 1.1051,
+      "n_diverged": 0.0
+     },
+     "X29_noise_both_1p2": {
+      "n_windows": 14.0,
+      "err_in_max_p90": 8.2556,
+      "err_in_max_max": 13.177,
+      "err_after_max_p90": 3.586,
+      "rec_gnss_p90": 8.032,
+      "det_rate": null,
+      "ds_growth_abs_p90": 68.0011,
+      "ds_growth_abs_max": 92.3471,
+      "dv_vs_clean_max": 13.1635,
+      "n_diverged": 7.0
+     },
+     "S18_combined_severe": {
+      "n_windows": 3411.0,
+      "err_in_max_p90": 2.3739,
+      "err_in_max_max": 66.1018,
+      "err_after_max_p90": 2.1436,
+      "rec_gnss_p90": 2.7138,
+      "det_rate": 0.9251,
+      "ds_growth_abs_p90": 2.6349,
+      "ds_growth_abs_max": 348.2114,
+      "dv_vs_clean_max": 66.1241,
+      "n_diverged": 7.0
+     }
+    },
+    "mf20": {
+     "S18_combined_severe": {
+      "n_windows": 3411.0,
+      "err_in_max_p90": 1.1294,
+      "err_in_max_max": 66.1018,
+      "err_after_max_p90": 0.955,
+      "rec_gnss_p90": 2.7809,
+      "det_rate": 0.9625,
+      "ds_growth_abs_p90": 1.0705,
+      "ds_growth_abs_max": 348.2114,
+      "dv_vs_clean_max": 66.1241,
+      "n_diverged": 7.0
+     }
+    },
+    "mf20_rman0.01": {
+     "S12_noise_increase": {
+      "n_windows": 15.0,
+      "err_in_max_p90": 3.6661,
+      "err_in_max_max": 11.9547,
+      "err_after_max_p90": 0.1432,
+      "rec_gnss_p90": 6.601,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.3012,
+      "ds_growth_abs_max": 21.2926,
+      "dv_vs_clean_max": 11.956,
+      "n_diverged": 2.0
+     },
+     "S18_combined_severe": {
+      "n_windows": 3411.0,
+      "err_in_max_p90": 0.8719,
+      "err_in_max_max": 33.2343,
+      "err_after_max_p90": 0.7861,
+      "rec_gnss_p90": 2.859,
+      "det_rate": 0.9658,
+      "ds_growth_abs_p90": 0.8468,
+      "ds_growth_abs_max": 261.0016,
+      "dv_vs_clean_max": 33.225,
+      "n_diverged": 7.0
+     }
+    },
+    "mf20_dmf0.8": {
+     "S12_noise_increase": {
+      "n_windows": 15.0,
+      "err_in_max_p90": 3.3684,
+      "err_in_max_max": 8.7471,
+      "err_after_max_p90": 0.1467,
+      "rec_gnss_p90": 6.601,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.5807,
+      "ds_growth_abs_max": 16.1972,
+      "dv_vs_clean_max": 8.7274,
+      "n_diverged": 2.0
+     },
+     "S18_combined_severe": {
+      "n_windows": 3411.0,
+      "err_in_max_p90": 0.7907,
+      "err_in_max_max": 12.4699,
+      "err_after_max_p90": 0.6955,
+      "rec_gnss_p90": 2.7797,
+      "det_rate": 0.9625,
+      "ds_growth_abs_p90": 0.7119,
+      "ds_growth_abs_max": 103.3798,
+      "dv_vs_clean_max": 12.5109,
+      "n_diverged": 6.0
+     }
+    },
+    "mf20_ragree1.0": {
+     "S12_noise_increase": {
+      "n_windows": 15.0,
+      "err_in_max_p90": 4.4194,
+      "err_in_max_max": 7.8552,
+      "err_after_max_p90": 0.1467,
+      "rec_gnss_p90": 6.601,
+      "det_rate": null,
+      "ds_growth_abs_p90": 12.5733,
+      "ds_growth_abs_max": 51.8408,
+      "dv_vs_clean_max": 7.8883,
+      "n_diverged": 2.0
+     },
+     "S18_combined_severe": {
+      "n_windows": 3411.0,
+      "err_in_max_p90": 1.1294,
+      "err_in_max_max": 66.1018,
+      "err_after_max_p90": 0.955,
+      "rec_gnss_p90": 2.7809,
+      "det_rate": 0.9625,
+      "ds_growth_abs_p90": 1.0705,
+      "ds_growth_abs_max": 348.2114,
+      "dv_vs_clean_max": 66.1241,
+      "n_diverged": 7.0
+     }
+    },
+    "fixD_noise": {
+     "S12_noise_increase": {
+      "n_windows": 15.0,
+      "err_in_max_p90": 3.2883,
+      "err_in_max_max": 5.806,
+      "err_after_max_p90": 0.1467,
+      "rec_gnss_p90": 6.601,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.3327,
+      "ds_growth_abs_max": 23.8876,
+      "dv_vs_clean_max": 5.8116,
+      "n_diverged": 2.0
+     },
+     "X27_noise_both_0p3": {
+      "n_windows": 14.0,
+      "err_in_max_p90": 0.2817,
+      "err_in_max_max": 0.3131,
+      "err_after_max_p90": 0.145,
+      "rec_gnss_p90": 0.084,
+      "det_rate": null,
+      "ds_growth_abs_p90": 0.2387,
+      "ds_growth_abs_max": 0.6138,
+      "dv_vs_clean_max": 0.3397,
+      "n_diverged": 0.0
+     },
+     "X28_noise_both_0p6": {
+      "n_windows": 14.0,
+      "err_in_max_p90": 0.6621,
+      "err_in_max_max": 0.7421,
+      "err_after_max_p90": 0.1179,
+      "rec_gnss_p90": 0.8153,
+      "det_rate": null,
+      "ds_growth_abs_p90": 0.435,
+      "ds_growth_abs_max": 0.6993,
+      "dv_vs_clean_max": 0.893,
+      "n_diverged": 0.0
+     },
+     "X29_noise_both_1p2": {
+      "n_windows": 14.0,
+      "err_in_max_p90": 6.0431,
+      "err_in_max_max": 7.618,
+      "err_after_max_p90": 1.7824,
+      "rec_gnss_p90": 7.0166,
+      "det_rate": null,
+      "ds_growth_abs_p90": 44.8893,
+      "ds_growth_abs_max": 73.4207,
+      "dv_vs_clean_max": 7.6699,
+      "n_diverged": 6.0
+     },
+     "S18_combined_severe": {
+      "n_windows": 3411.0,
+      "err_in_max_p90": 0.6465,
+      "err_in_max_max": 15.8576,
+      "err_after_max_p90": 0.6326,
+      "rec_gnss_p90": 2.7239,
+      "det_rate": 0.9625,
+      "ds_growth_abs_p90": 0.5351,
+      "ds_growth_abs_max": 99.4363,
+      "dv_vs_clean_max": 15.9002,
+      "n_diverged": 6.0
+     }
+    },
+    "rec_safe": {
+     "S12_noise_increase": {
+      "n_windows": 15.0,
+      "err_in_max_p90": 3.6661,
+      "err_in_max_max": 11.9547,
+      "err_after_max_p90": 0.1432,
+      "rec_gnss_p90": 6.601,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.3012,
+      "ds_growth_abs_max": 21.2926,
+      "dv_vs_clean_max": 11.956,
+      "n_diverged": 2.0
+     },
+     "X27_noise_both_0p3": {
+      "n_windows": 14.0,
+      "err_in_max_p90": 0.2754,
+      "err_in_max_max": 0.3133,
+      "err_after_max_p90": 0.145,
+      "rec_gnss_p90": 0.084,
+      "det_rate": null,
+      "ds_growth_abs_p90": 0.2509,
+      "ds_growth_abs_max": 0.5763,
+      "dv_vs_clean_max": 0.3445,
+      "n_diverged": 0.0
+     },
+     "X28_noise_both_0p6": {
+      "n_windows": 14.0,
+      "err_in_max_p90": 1.0696,
+      "err_in_max_max": 1.9689,
+      "err_after_max_p90": 0.1178,
+      "rec_gnss_p90": 0.8215,
+      "det_rate": null,
+      "ds_growth_abs_p90": 0.4375,
+      "ds_growth_abs_max": 0.7006,
+      "dv_vs_clean_max": 2.016,
+      "n_diverged": 0.0
+     },
+     "X29_noise_both_1p2": {
+      "n_windows": 14.0,
+      "err_in_max_p90": 7.2501,
+      "err_in_max_max": 15.3877,
+      "err_after_max_p90": 1.6928,
+      "rec_gnss_p90": 8.032,
+      "det_rate": null,
+      "ds_growth_abs_p90": 15.8107,
+      "ds_growth_abs_max": 108.6526,
+      "dv_vs_clean_max": 15.4631,
+      "n_diverged": 5.0
+     },
+     "S18_combined_severe": {
+      "n_windows": 3411.0,
+      "err_in_max_p90": 0.7763,
+      "err_in_max_max": 33.2539,
+      "err_after_max_p90": 0.7033,
+      "rec_gnss_p90": 2.869,
+      "det_rate": 0.9671,
+      "ds_growth_abs_p90": 0.7744,
+      "ds_growth_abs_max": 261.0638,
+      "dv_vs_clean_max": 33.2447,
+      "n_diverged": 7.0
+     }
+    },
+    "rec_all_safe": {
+     "S12_noise_increase": {
+      "n_windows": 15.0,
+      "err_in_max_p90": 1.3482,
+      "err_in_max_max": 2.2062,
+      "err_after_max_p90": 0.7486,
+      "rec_gnss_p90": 3.4384,
+      "det_rate": null,
+      "ds_growth_abs_p90": 32.5302,
+      "ds_growth_abs_max": 63.1837,
+      "dv_vs_clean_max": 2.1915,
+      "n_diverged": 0.0
+     },
+     "X27_noise_both_0p3": {
+      "n_windows": 14.0,
+      "err_in_max_p90": 0.2754,
+      "err_in_max_max": 0.3133,
+      "err_after_max_p90": 0.145,
+      "rec_gnss_p90": 0.084,
+      "det_rate": null,
+      "ds_growth_abs_p90": 0.2509,
+      "ds_growth_abs_max": 0.5763,
+      "dv_vs_clean_max": 0.3445,
+      "n_diverged": 0.0
+     },
+     "X28_noise_both_0p6": {
+      "n_windows": 14.0,
+      "err_in_max_p90": 0.7127,
+      "err_in_max_max": 2.9104,
+      "err_after_max_p90": 0.1178,
+      "rec_gnss_p90": 0.8117,
+      "det_rate": null,
+      "ds_growth_abs_p90": 0.4441,
+      "ds_growth_abs_max": 0.7891,
+      "dv_vs_clean_max": 2.9587,
+      "n_diverged": 0.0
+     },
+     "X29_noise_both_1p2": {
+      "n_windows": 14.0,
+      "err_in_max_p90": 1.2497,
+      "err_in_max_max": 1.2941,
+      "err_after_max_p90": 0.1283,
+      "rec_gnss_p90": 0.4344,
+      "det_rate": null,
+      "ds_growth_abs_p90": 5.9166,
+      "ds_growth_abs_max": 10.9444,
+      "dv_vs_clean_max": 1.2967,
+      "n_diverged": 0.0
+     },
+     "S18_combined_severe": {
+      "n_windows": 3411.0,
+      "err_in_max_p90": 0.5526,
+      "err_in_max_max": 7.7295,
+      "err_after_max_p90": 0.5816,
+      "rec_gnss_p90": 2.1766,
+      "det_rate": 0.9671,
+      "ds_growth_abs_p90": 0.3876,
+      "ds_growth_abs_max": 37.1257,
+      "dv_vs_clean_max": 7.7309,
+      "n_diverged": 3.0
+     }
+    }
+   },
+   "param_fix": {
+    "rate_to_maneuver": 0.01
+   },
+   "code_fix": "agreement test on low-passed bogie speeds (fix_agree_tau_s=2) and |d| <= disturbance_max while both bogies are distrusted (fix_d_clamp_bothbad); adaptive R from the front-rear spread"
+  },
+  {
+   "id": "RC4",
+   "severity": "major",
+   "title": "Joint slip ramps / low-speed steps are absorbed by the disturbance state",
+   "mechanism": "The joint CUSUM compares bogie acceleration with g*a_drive + clamp(d, +-disturbance_max) where d is the filter's own disturbance estimate. d follows the slipping wheels within ~0.4 s (maneuver mode q_d=8, GPB1 collapse) up to the 0.6 clamp, so the excess seen by the CUSUM stays below cusum_slip_accel.",
+   "code": "estimator.cpp jointMonitor d_ref (line 627)",
+   "evidence": {
+    "base": {
+     "X04_joint_slip_ramp10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 1.3736,
+      "err_in_max_max": 1.4413,
+      "err_after_max_p90": 0.1237,
+      "rec_gnss_p90": 0.9093,
+      "det_rate": 0.0,
+      "ds_growth_abs_p90": 7.0044,
+      "ds_growth_abs_max": 7.4204,
+      "dv_vs_clean_max": 1.4004,
+      "n_diverged": 0.0
+     },
+     "X05_joint_slip_ramp20": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.5749,
+      "err_in_max_max": 2.7182,
+      "err_after_max_p90": 0.1725,
+      "rec_gnss_p90": 1.2957,
+      "det_rate": 0.0,
+      "ds_growth_abs_p90": 13.2188,
+      "ds_growth_abs_max": 13.9134,
+      "dv_vs_clean_max": 2.7008,
+      "n_diverged": 0.0
+     },
+     "X06_joint_slip_ramp30": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.9173,
+      "err_in_max_max": 3.2548,
+      "err_after_max_p90": 0.1814,
+      "rec_gnss_p90": 0.9886,
+      "det_rate": 0.2381,
+      "ds_growth_abs_p90": 14.3046,
+      "ds_growth_abs_max": 16.0933,
+      "dv_vs_clean_max": 3.2315,
+      "n_diverged": 0.0
+     },
+     "X01_joint_slip_step10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.9312,
+      "err_in_max_max": 1.5776,
+      "err_after_max_p90": 0.7944,
+      "rec_gnss_p90": 5.4028,
+      "det_rate": 0.4762,
+      "ds_growth_abs_p90": 3.516,
+      "ds_growth_abs_max": 4.0449,
+      "dv_vs_clean_max": 1.5908,
+      "n_diverged": 0.0
+     },
+     "S02_slip_both_bogies": {
+      "n_windows": 34.0,
+      "err_in_max_p90": 1.4064,
+      "err_in_max_max": 1.9258,
+      "err_after_max_p90": 0.1959,
+      "rec_gnss_p90": 1.7799,
+      "det_rate": 0.7353,
+      "ds_growth_abs_p90": 3.955,
+      "ds_growth_abs_max": 12.3065,
+      "dv_vs_clean_max": 2.8724,
+      "n_diverged": 0.0
+     },
+     "S19_jury_style_simple": {
+      "n_windows": 56.0,
+      "err_in_max_p90": 1.0807,
+      "err_in_max_max": 1.7605,
+      "err_after_max_p90": 1.3189,
+      "rec_gnss_p90": 5.4518,
+      "det_rate": 0.8571,
+      "ds_growth_abs_p90": 4.9185,
+      "ds_growth_abs_max": 11.7313,
+      "dv_vs_clean_max": 1.7374,
+      "n_diverged": 0.0
+     }
+    },
+    "mf20": {
+     "S02_slip_both_bogies": {
+      "n_windows": 34.0,
+      "err_in_max_p90": 1.4064,
+      "err_in_max_max": 1.9258,
+      "err_after_max_p90": 0.1959,
+      "rec_gnss_p90": 1.7799,
+      "det_rate": 0.7353,
+      "ds_growth_abs_p90": 3.955,
+      "ds_growth_abs_max": 12.3065,
+      "dv_vs_clean_max": 2.8724,
+      "n_diverged": 0.0
+     }
+    },
+    "mf20_cusumh0.2": {
+     "X04_joint_slip_ramp10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 1.3736,
+      "err_in_max_max": 1.4413,
+      "err_after_max_p90": 0.1237,
+      "rec_gnss_p90": 0.9093,
+      "det_rate": 0.0,
+      "ds_growth_abs_p90": 7.0044,
+      "ds_growth_abs_max": 7.4204,
+      "dv_vs_clean_max": 1.4004,
+      "n_diverged": 0.0
+     },
+     "X05_joint_slip_ramp20": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.5749,
+      "err_in_max_max": 2.7182,
+      "err_after_max_p90": 0.1725,
+      "rec_gnss_p90": 1.2957,
+      "det_rate": 0.0,
+      "ds_growth_abs_p90": 13.2188,
+      "ds_growth_abs_max": 13.9134,
+      "dv_vs_clean_max": 2.7008,
+      "n_diverged": 0.0
+     },
+     "X06_joint_slip_ramp30": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.8449,
+      "err_in_max_max": 3.2548,
+      "err_after_max_p90": 0.1657,
+      "rec_gnss_p90": 0.771,
+      "det_rate": 0.2381,
+      "ds_growth_abs_p90": 14.3046,
+      "ds_growth_abs_max": 16.0933,
+      "dv_vs_clean_max": 3.2315,
+      "n_diverged": 0.0
+     },
+     "X01_joint_slip_step10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.7116,
+      "err_in_max_max": 1.5776,
+      "err_after_max_p90": 0.8961,
+      "rec_gnss_p90": 5.332,
+      "det_rate": 0.7143,
+      "ds_growth_abs_p90": 2.0243,
+      "ds_growth_abs_max": 4.2774,
+      "dv_vs_clean_max": 1.5908,
+      "n_diverged": 0.0
+     },
+     "S02_slip_both_bogies": {
+      "n_windows": 34.0,
+      "err_in_max_p90": 1.4062,
+      "err_in_max_max": 1.9258,
+      "err_after_max_p90": 0.1943,
+      "rec_gnss_p90": 1.7799,
+      "det_rate": 0.7941,
+      "ds_growth_abs_p90": 3.9564,
+      "ds_growth_abs_max": 12.3065,
+      "dv_vs_clean_max": 2.8724,
+      "n_diverged": 0.0
+     },
+     "S19_jury_style_simple": {
+      "n_windows": 56.0,
+      "err_in_max_p90": 0.9041,
+      "err_in_max_max": 1.7605,
+      "err_after_max_p90": 0.7585,
+      "rec_gnss_p90": 5.3482,
+      "det_rate": 0.9107,
+      "ds_growth_abs_p90": 3.2661,
+      "ds_growth_abs_max": 11.7313,
+      "dv_vs_clean_max": 1.7374,
+      "n_diverged": 0.0
+     }
+    },
+    "mf20_dmax0.3": {
+     "X04_joint_slip_ramp10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 1.3713,
+      "err_in_max_max": 1.419,
+      "err_after_max_p90": 0.1237,
+      "rec_gnss_p90": 0.9093,
+      "det_rate": 0.0,
+      "ds_growth_abs_p90": 7.0061,
+      "ds_growth_abs_max": 7.4211,
+      "dv_vs_clean_max": 1.3764,
+      "n_diverged": 0.0
+     },
+     "X05_joint_slip_ramp20": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.3308,
+      "err_in_max_max": 2.5624,
+      "err_after_max_p90": 0.1817,
+      "rec_gnss_p90": 1.2957,
+      "det_rate": 0.0952,
+      "ds_growth_abs_p90": 11.1188,
+      "ds_growth_abs_max": 13.2291,
+      "dv_vs_clean_max": 2.5209,
+      "n_diverged": 0.0
+     },
+     "X06_joint_slip_ramp30": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.5124,
+      "err_in_max_max": 2.9221,
+      "err_after_max_p90": 0.1656,
+      "rec_gnss_p90": 0.771,
+      "det_rate": 0.3333,
+      "ds_growth_abs_p90": 11.6877,
+      "ds_growth_abs_max": 14.8977,
+      "dv_vs_clean_max": 2.8847,
+      "n_diverged": 0.0
+     },
+     "X01_joint_slip_step10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.876,
+      "err_in_max_max": 1.5776,
+      "err_after_max_p90": 0.9033,
+      "rec_gnss_p90": 5.4285,
+      "det_rate": 0.619,
+      "ds_growth_abs_p90": 2.8461,
+      "ds_growth_abs_max": 4.0458,
+      "dv_vs_clean_max": 1.5908,
+      "n_diverged": 0.0
+     },
+     "S02_slip_both_bogies": {
+      "n_windows": 34.0,
+      "err_in_max_p90": 1.3539,
+      "err_in_max_max": 1.9153,
+      "err_after_max_p90": 0.1774,
+      "rec_gnss_p90": 1.6899,
+      "det_rate": 0.7353,
+      "ds_growth_abs_p90": 3.0805,
+      "ds_growth_abs_max": 11.9856,
+      "dv_vs_clean_max": 2.6913,
+      "n_diverged": 0.0
+     },
+     "S19_jury_style_simple": {
+      "n_windows": 56.0,
+      "err_in_max_p90": 1.0459,
+      "err_in_max_max": 1.7605,
+      "err_after_max_p90": 1.1309,
+      "rec_gnss_p90": 5.425,
+      "det_rate": 0.875,
+      "ds_growth_abs_p90": 3.9828,
+      "ds_growth_abs_max": 11.7312,
+      "dv_vs_clean_max": 1.7374,
+      "n_diverged": 0.0
+     }
+    },
+    "mf20_dmax0.3_slip0.4": {
+     "X04_joint_slip_ramp10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 1.3713,
+      "err_in_max_max": 1.419,
+      "err_after_max_p90": 0.1237,
+      "rec_gnss_p90": 0.9093,
+      "det_rate": 0.0,
+      "ds_growth_abs_p90": 7.0061,
+      "ds_growth_abs_max": 7.4211,
+      "dv_vs_clean_max": 1.3764,
+      "n_diverged": 0.0
+     },
+     "X05_joint_slip_ramp20": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.079,
+      "err_in_max_max": 2.3054,
+      "err_after_max_p90": 0.7474,
+      "rec_gnss_p90": 4.3407,
+      "det_rate": 0.2857,
+      "ds_growth_abs_p90": 11.0505,
+      "ds_growth_abs_max": 11.903,
+      "dv_vs_clean_max": 2.2625,
+      "n_diverged": 0.0
+     },
+     "X06_joint_slip_ramp30": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.4781,
+      "err_in_max_max": 2.5067,
+      "err_after_max_p90": 0.2104,
+      "rec_gnss_p90": 0.8886,
+      "det_rate": 0.4762,
+      "ds_growth_abs_p90": 10.8894,
+      "ds_growth_abs_max": 11.6625,
+      "dv_vs_clean_max": 2.5069,
+      "n_diverged": 0.0
+     },
+     "X01_joint_slip_step10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.7737,
+      "err_in_max_max": 1.5776,
+      "err_after_max_p90": 0.9033,
+      "rec_gnss_p90": 5.4028,
+      "det_rate": 0.6667,
+      "ds_growth_abs_p90": 2.3827,
+      "ds_growth_abs_max": 4.0458,
+      "dv_vs_clean_max": 1.5908,
+      "n_diverged": 0.0
+     },
+     "S02_slip_both_bogies": {
+      "n_windows": 34.0,
+      "err_in_max_p90": 1.1495,
+      "err_in_max_max": 1.9153,
+      "err_after_max_p90": 0.3345,
+      "rec_gnss_p90": 1.7371,
+      "det_rate": 0.7941,
+      "ds_growth_abs_p90": 2.3281,
+      "ds_growth_abs_max": 11.9856,
+      "dv_vs_clean_max": 2.6913,
+      "n_diverged": 0.0
+     },
+     "S19_jury_style_simple": {
+      "n_windows": 56.0,
+      "err_in_max_p90": 0.9622,
+      "err_in_max_max": 1.7605,
+      "err_after_max_p90": 0.7864,
+      "rec_gnss_p90": 5.3689,
+      "det_rate": 0.8929,
+      "ds_growth_abs_p90": 4.0005,
+      "ds_growth_abs_max": 11.7312,
+      "dv_vs_clean_max": 1.7374,
+      "n_diverged": 0.0
+     }
+    },
+    "fixA_jointref": {
+     "X04_joint_slip_ramp10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 1.3736,
+      "err_in_max_max": 1.4413,
+      "err_after_max_p90": 0.1237,
+      "rec_gnss_p90": 0.9093,
+      "det_rate": 0.0,
+      "ds_growth_abs_p90": 7.0044,
+      "ds_growth_abs_max": 7.4204,
+      "dv_vs_clean_max": 1.4004,
+      "n_diverged": 0.0
+     },
+     "X05_joint_slip_ramp20": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.0792,
+      "err_in_max_max": 2.3338,
+      "err_after_max_p90": 0.1643,
+      "rec_gnss_p90": 0.7539,
+      "det_rate": 0.4286,
+      "ds_growth_abs_p90": 10.5559,
+      "ds_growth_abs_max": 11.904,
+      "dv_vs_clean_max": 2.3082,
+      "n_diverged": 0.0
+     },
+     "X06_joint_slip_ramp30": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.4664,
+      "err_in_max_max": 2.5079,
+      "err_after_max_p90": 0.1597,
+      "rec_gnss_p90": 0.7639,
+      "det_rate": 0.4762,
+      "ds_growth_abs_p90": 11.504,
+      "ds_growth_abs_max": 11.6228,
+      "dv_vs_clean_max": 2.5095,
+      "n_diverged": 0.0
+     },
+     "X01_joint_slip_step10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.9312,
+      "err_in_max_max": 1.5776,
+      "err_after_max_p90": 0.133,
+      "rec_gnss_p90": 0.9245,
+      "det_rate": 0.5714,
+      "ds_growth_abs_p90": 3.516,
+      "ds_growth_abs_max": 3.9129,
+      "dv_vs_clean_max": 1.5908,
+      "n_diverged": 0.0
+     },
+     "S02_slip_both_bogies": {
+      "n_windows": 34.0,
+      "err_in_max_p90": 1.2632,
+      "err_in_max_max": 1.9258,
+      "err_after_max_p90": 0.3942,
+      "rec_gnss_p90": 4.6651,
+      "det_rate": 0.7647,
+      "ds_growth_abs_p90": 2.5902,
+      "ds_growth_abs_max": 12.3065,
+      "dv_vs_clean_max": 2.8724,
+      "n_diverged": 0.0
+     },
+     "S19_jury_style_simple": {
+      "n_windows": 56.0,
+      "err_in_max_p90": 0.84,
+      "err_in_max_max": 1.7605,
+      "err_after_max_p90": 0.1629,
+      "rec_gnss_p90": 5.3178,
+      "det_rate": 0.8929,
+      "ds_growth_abs_p90": 2.2766,
+      "ds_growth_abs_max": 11.7313,
+      "dv_vs_clean_max": 1.7374,
+      "n_diverged": 0.0
+     }
+    },
+    "rec_safe": {
+     "X04_joint_slip_ramp10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 1.3879,
+      "err_in_max_max": 1.4632,
+      "err_after_max_p90": 0.1224,
+      "rec_gnss_p90": 0.9159,
+      "det_rate": 0.0,
+      "ds_growth_abs_p90": 6.9652,
+      "ds_growth_abs_max": 7.4077,
+      "dv_vs_clean_max": 1.4241,
+      "n_diverged": 0.0
+     },
+     "X05_joint_slip_ramp20": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.5962,
+      "err_in_max_max": 2.7209,
+      "err_after_max_p90": 0.1849,
+      "rec_gnss_p90": 1.3577,
+      "det_rate": 0.0,
+      "ds_growth_abs_p90": 12.9843,
+      "ds_growth_abs_max": 13.8877,
+      "dv_vs_clean_max": 2.7043,
+      "n_diverged": 0.0
+     },
+     "X06_joint_slip_ramp30": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.9127,
+      "err_in_max_max": 3.2594,
+      "err_after_max_p90": 0.2002,
+      "rec_gnss_p90": 1.1043,
+      "det_rate": 0.2381,
+      "ds_growth_abs_p90": 14.2806,
+      "ds_growth_abs_max": 16.0881,
+      "dv_vs_clean_max": 3.2305,
+      "n_diverged": 0.0
+     },
+     "X01_joint_slip_step10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.8739,
+      "err_in_max_max": 1.4139,
+      "err_after_max_p90": 0.5463,
+      "rec_gnss_p90": 5.4028,
+      "det_rate": 0.5714,
+      "ds_growth_abs_p90": 3.4264,
+      "ds_growth_abs_max": 3.5777,
+      "dv_vs_clean_max": 1.4072,
+      "n_diverged": 0.0
+     },
+     "S02_slip_both_bogies": {
+      "n_windows": 34.0,
+      "err_in_max_p90": 1.4059,
+      "err_in_max_max": 1.9268,
+      "err_after_max_p90": 0.1901,
+      "rec_gnss_p90": 1.7799,
+      "det_rate": 0.7647,
+      "ds_growth_abs_p90": 3.993,
+      "ds_growth_abs_max": 12.3456,
+      "dv_vs_clean_max": 2.8993,
+      "n_diverged": 0.0
+     },
+     "S19_jury_style_simple": {
+      "n_windows": 56.0,
+      "err_in_max_p90": 0.9777,
+      "err_in_max_max": 1.7631,
+      "err_after_max_p90": 1.2557,
+      "rec_gnss_p90": 5.5498,
+      "det_rate": 0.875,
+      "ds_growth_abs_p90": 3.2666,
+      "ds_growth_abs_max": 12.2396,
+      "dv_vs_clean_max": 1.7905,
+      "n_diverged": 0.0
+     }
+    },
+    "rec_all_safe": {
+     "X04_joint_slip_ramp10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 1.3879,
+      "err_in_max_max": 1.4632,
+      "err_after_max_p90": 0.1224,
+      "rec_gnss_p90": 0.9159,
+      "det_rate": 0.0,
+      "ds_growth_abs_p90": 6.9652,
+      "ds_growth_abs_max": 7.4077,
+      "dv_vs_clean_max": 1.4241,
+      "n_diverged": 0.0
+     },
+     "X05_joint_slip_ramp20": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.0869,
+      "err_in_max_max": 2.3409,
+      "err_after_max_p90": 0.1669,
+      "rec_gnss_p90": 1.3546,
+      "det_rate": 0.4286,
+      "ds_growth_abs_p90": 10.5523,
+      "ds_growth_abs_max": 11.8952,
+      "dv_vs_clean_max": 2.3202,
+      "n_diverged": 0.0
+     },
+     "X06_joint_slip_ramp30": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.4775,
+      "err_in_max_max": 2.5127,
+      "err_after_max_p90": 0.1648,
+      "rec_gnss_p90": 0.871,
+      "det_rate": 0.4762,
+      "ds_growth_abs_p90": 11.4924,
+      "ds_growth_abs_max": 11.616,
+      "dv_vs_clean_max": 2.5136,
+      "n_diverged": 0.0
+     },
+     "X01_joint_slip_step10": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.9306,
+      "err_in_max_max": 1.4139,
+      "err_after_max_p90": 0.133,
+      "rec_gnss_p90": 0.9245,
+      "det_rate": 0.619,
+      "ds_growth_abs_p90": 3.5162,
+      "ds_growth_abs_max": 3.9134,
+      "dv_vs_clean_max": 1.4072,
+      "n_diverged": 0.0
+     },
+     "S02_slip_both_bogies": {
+      "n_windows": 34.0,
+      "err_in_max_p90": 1.2573,
+      "err_in_max_max": 1.9268,
+      "err_after_max_p90": 0.1843,
+      "rec_gnss_p90": 2.0786,
+      "det_rate": 0.7941,
+      "ds_growth_abs_p90": 2.7017,
+      "ds_growth_abs_max": 11.047,
+      "dv_vs_clean_max": 2.3861,
+      "n_diverged": 0.0
+     },
+     "S19_jury_style_simple": {
+      "n_windows": 56.0,
+      "err_in_max_p90": 0.7996,
+      "err_in_max_max": 1.7631,
+      "err_after_max_p90": 0.1413,
+      "rec_gnss_p90": 4.5481,
+      "det_rate": 0.8929,
+      "ds_growth_abs_p90": 2.3919,
+      "ds_growth_abs_max": 12.2396,
+      "dv_vs_clean_max": 1.7905,
+      "n_diverged": 0.0
+     }
+    }
+   },
+   "param_fix": {
+    "cusum_h": 0.2
+   },
+   "code_fix": "reference a slow copy of d frozen while any monitor is active (fix_joint_d_tau_s=20)"
+  },
+  {
+   "id": "RC5",
+   "severity": "major",
+   "title": "Standstill is never left without wheel data; a lone returning bogie is never trusted",
+   "mechanism": "standstill is cleared only by a bogie sample above threshold, so with both bogies silent predictMode keeps v=0 under traction; when one bogie returns at speed the IMM calls it a slip and recovery needs both bogies.",
+   "code": "estimator.cpp wheelUpdate standstill (lines 449-487), predictMode (lines 353-359), recovery (589-617)",
+   "evidence": {
+    "mf20": {
+     "S07_dropout_long": {
+      "n_windows": 28.0,
+      "err_in_max_p90": 1.3119,
+      "err_in_max_max": 12.288,
+      "err_after_max_p90": 0.1223,
+      "rec_gnss_p90": 0.2555,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.9194,
+      "ds_growth_abs_max": 218.2807,
+      "dv_vs_clean_max": 12.2692,
+      "n_diverged": 2.0
+     },
+     "X18_drop_vehicle_5": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 3.0123,
+      "err_in_max_max": 3.9929,
+      "err_after_max_p90": 0.1405,
+      "rec_gnss_p90": 0.5315,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.1724,
+      "ds_growth_abs_max": 1.7468,
+      "dv_vs_clean_max": 3.9596,
+      "n_diverged": 0.0
+     }
+    },
+    "fixE_standstill": {
+     "S07_dropout_long": {
+      "n_windows": 28.0,
+      "err_in_max_p90": 0.9061,
+      "err_in_max_max": 6.104,
+      "err_after_max_p90": 0.1223,
+      "rec_gnss_p90": 0.2555,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.7115,
+      "ds_growth_abs_max": 3.0142,
+      "dv_vs_clean_max": 6.1172,
+      "n_diverged": 1.0
+     },
+     "X18_drop_vehicle_5": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 3.0123,
+      "err_in_max_max": 3.9929,
+      "err_after_max_p90": 0.1405,
+      "rec_gnss_p90": 0.5315,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.1724,
+      "ds_growth_abs_max": 1.7468,
+      "dv_vs_clean_max": 3.9596,
+      "n_diverged": 0.0
+     }
+    },
+    "rec_safe": {
+     "S07_dropout_long": {
+      "n_windows": 28.0,
+      "err_in_max_p90": 1.2782,
+      "err_in_max_max": 12.288,
+      "err_after_max_p90": 0.1237,
+      "rec_gnss_p90": 0.2555,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.8788,
+      "ds_growth_abs_max": 221.8563,
+      "dv_vs_clean_max": 12.2676,
+      "n_diverged": 2.0
+     },
+     "X18_drop_vehicle_5": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.9547,
+      "err_in_max_max": 3.6612,
+      "err_after_max_p90": 0.1462,
+      "rec_gnss_p90": 0.5315,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.0124,
+      "ds_growth_abs_max": 1.7137,
+      "dv_vs_clean_max": 3.6276,
+      "n_diverged": 0.0
+     }
+    },
+    "rec_all_safe": {
+     "S07_dropout_long": {
+      "n_windows": 28.0,
+      "err_in_max_p90": 0.8514,
+      "err_in_max_max": 6.1272,
+      "err_after_max_p90": 0.1237,
+      "rec_gnss_p90": 0.2555,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.6179,
+      "ds_growth_abs_max": 4.0216,
+      "dv_vs_clean_max": 6.1369,
+      "n_diverged": 1.0
+     },
+     "X18_drop_vehicle_5": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 2.9547,
+      "err_in_max_max": 3.6612,
+      "err_after_max_p90": 0.1462,
+      "rec_gnss_p90": 0.5315,
+      "det_rate": null,
+      "ds_growth_abs_p90": 1.0124,
+      "ds_growth_abs_max": 1.7137,
+      "dv_vs_clean_max": 3.6276,
+      "n_diverged": 0.0
+     }
+    }
+   },
+   "example_run": {
+    "mf20": {
+     "v_max": 12.288,
+     "dv_vs_clean_max": 12.2692,
+     "ds_vs_clean_max": 235.1173,
+     "ds_vs_clean_end": -218.2677
+    },
+    "fixE_standstill": {
+     "v_max": 0.851,
+     "dv_vs_clean_max": 1.1102,
+     "ds_vs_clean_max": 5.9937,
+     "ds_vs_clean_end": -0.0528
+    },
+    "rec_all_safe": {
+     "v_max": 0.851,
+     "dv_vs_clean_max": 0.9105,
+     "ds_vs_clean_max": 5.5071,
+     "ds_vs_clean_end": -0.0554
+    }
+   },
+   "code_fix": "leave standstill when both bogies are silent and traction is commanded (fix_standstill_exit); re-anchor to the only available bogie after recover_min_bad_s+recover_time_s (fix_single_recover)"
+  },
+  {
+   "id": "RC6",
+   "severity": "moderate",
+   "title": "Transient joint latch inside query() between the W0 and W1 arrivals",
+   "mechanism": "A query at a wheel stamp applies the half-merged event (one bogie only): n_av=1, so a single charged CUSUM counts as a joint alarm and the output shows the rolled-back model speed; the next output is normal. Spikes stay in the 0.3 s CUSUM history and keep a bogie charged for ~2 s. These outputs sit on wheel stamps = the epochs the judge matches (GNSS vel stamps align with wheel stamps).",
+   "code": "estimator.cpp jointMonitor joint alarm (line 778) and history ring (lines 696-700)",
+   "evidence": {
+    "base": {
+     "S09_outliers_spikes": {
+      "n_glitch_0p3_sum": 13.0,
+      "dv_vs_clean_max": 1.4478,
+      "err_after_max_max": 1.1509,
+      "err_in_max_max": 0.1435
+     },
+     "X23_spikes_only": {
+      "n_glitch_0p3_sum": 9.0,
+      "dv_vs_clean_max": 1.2467,
+      "err_after_max_max": 1.0632,
+      "err_in_max_max": 0.6402
+     },
+     "S01_slip_single_bogie": {
+      "n_glitch_0p3_sum": 28.0,
+      "dv_vs_clean_max": 1.6526,
+      "err_after_max_max": 0.1781,
+      "err_in_max_max": 0.6055
+     },
+     "X07_single_slip_step20": {
+      "n_glitch_0p3_sum": 2.0,
+      "dv_vs_clean_max": 0.357,
+      "err_after_max_max": 0.1942,
+      "err_in_max_max": 0.1755
+     }
+    },
+    "fixB_needboth": {
+     "S09_outliers_spikes": {
+      "n_glitch_0p3_sum": 0.0,
+      "dv_vs_clean_max": 0.1117,
+      "err_after_max_max": 1.1509,
+      "err_in_max_max": 0.1435
+     },
+     "X23_spikes_only": {
+      "n_glitch_0p3_sum": 0.0,
+      "dv_vs_clean_max": 0.912,
+      "err_after_max_max": 1.0632,
+      "err_in_max_max": 0.6402
+     },
+     "S01_slip_single_bogie": {
+      "n_glitch_0p3_sum": 3.0,
+      "dv_vs_clean_max": 0.6278,
+      "err_after_max_max": 0.1781,
+      "err_in_max_max": 0.6055
+     },
+     "X07_single_slip_step20": {
+      "n_glitch_0p3_sum": 0.0,
+      "dv_vs_clean_max": 0.2043,
+      "err_after_max_max": 0.1942,
+      "err_in_max_max": 0.1755
+     }
+    },
+    "rec_all_safe": {
+     "S09_outliers_spikes": {
+      "n_glitch_0p3_sum": 0.0,
+      "dv_vs_clean_max": 0.2013,
+      "err_after_max_max": 1.0407,
+      "err_in_max_max": 0.144
+     },
+     "X23_spikes_only": {
+      "n_glitch_0p3_sum": 0.0,
+      "dv_vs_clean_max": 0.9312,
+      "err_after_max_max": 0.9254,
+      "err_in_max_max": 0.6174
+     },
+     "S01_slip_single_bogie": {
+      "n_glitch_0p3_sum": 0.0,
+      "dv_vs_clean_max": 0.5954,
+      "err_after_max_max": 0.1754,
+      "err_in_max_max": 0.5794
+     },
+     "X07_single_slip_step20": {
+      "n_glitch_0p3_sum": 0.0,
+      "dv_vs_clean_max": 0.1338,
+      "err_after_max_max": 0.187,
+      "err_in_max_max": 0.1863
+     }
+    }
+   },
+   "code_fix": "joint alarm needs both bogies unless the other is out (fix_joint_need_both); implausible samples never enter the CUSUM history or the controller check (fix_cusum_skip_bad)",
+   "skip_bad_modes": [
+    {
+     "config": "snapshot_defaults",
+     "scenario": "S05_slide_wheel_lock",
+     "bag": "30618_2f104a1d",
+     "t_from_rel": 262,
+     "t_to_rel": 290.0,
+     "dv_max": 0.371,
+     "ds_max": 2.235,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.007
+    },
+    {
+     "config": "snapshot_defaults",
+     "scenario": "S09_outliers_spikes",
+     "bag": "30618_6cb3280a",
+     "t_from_rel": 576,
+     "t_to_rel": 600.0,
+     "dv_max": 0.008,
+     "ds_max": 0.052,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.408
+    },
+    {
+     "config": "snapshot_defaults",
+     "scenario": "X21_frozen_wheels_zero3",
+     "bag": "30618_0f120b35",
+     "t_from_rel": 932,
+     "t_to_rel": 970.0,
+     "dv_max": 0.566,
+     "ds_max": 1.007,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.006
+    },
+    {
+     "config": "snapshot_defaults",
+     "scenario": "X23_spikes_only",
+     "bag": "30618_0f120b35",
+     "t_from_rel": 0,
+     "t_to_rel": 1317.96,
+     "dv_max": 0.244,
+     "ds_max": 0.638,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.354
+    },
+    {
+     "config": "snapshot_defaults",
+     "scenario": "S09_outliers_spikes",
+     "bag": "30618_0f120b35",
+     "t_from_rel": 0,
+     "t_to_rel": 1317.96,
+     "dv_max": 1.448,
+     "ds_max": 2.29,
+     "n_glitch_0p3": 13,
+     "cmd_inconsistent_frac": 0.371
+    },
+    {
+     "config": "fixes+skip_bad=1",
+     "scenario": "S05_slide_wheel_lock",
+     "bag": "30618_2f104a1d",
+     "t_from_rel": 262,
+     "t_to_rel": 290.0,
+     "dv_max": 2.152,
+     "ds_max": 6.941,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.007
+    },
+    {
+     "config": "fixes+skip_bad=1",
+     "scenario": "S09_outliers_spikes",
+     "bag": "30618_6cb3280a",
+     "t_from_rel": 576,
+     "t_to_rel": 600.0,
+     "dv_max": 0.984,
+     "ds_max": 10.458,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.071
+    },
+    {
+     "config": "fixes+skip_bad=1",
+     "scenario": "X21_frozen_wheels_zero3",
+     "bag": "30618_0f120b35",
+     "t_from_rel": 932,
+     "t_to_rel": 970.0,
+     "dv_max": 0.529,
+     "ds_max": 3.557,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.0
+    },
+    {
+     "config": "fixes+skip_bad=1",
+     "scenario": "X23_spikes_only",
+     "bag": "30618_0f120b35",
+     "t_from_rel": 0,
+     "t_to_rel": 1317.96,
+     "dv_max": 0.029,
+     "ds_max": 0.631,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.0
+    },
+    {
+     "config": "fixes+skip_bad=1",
+     "scenario": "S09_outliers_spikes",
+     "bag": "30618_0f120b35",
+     "t_from_rel": 0,
+     "t_to_rel": 1317.96,
+     "dv_max": 0.069,
+     "ds_max": 0.21,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.101
+    },
+    {
+     "config": "fixes+skip_bad=2",
+     "scenario": "S05_slide_wheel_lock",
+     "bag": "30618_2f104a1d",
+     "t_from_rel": 262,
+     "t_to_rel": 290.0,
+     "dv_max": 0.461,
+     "ds_max": 16.38,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.0
+    },
+    {
+     "config": "fixes+skip_bad=2",
+     "scenario": "S09_outliers_spikes",
+     "bag": "30618_6cb3280a",
+     "t_from_rel": 576,
+     "t_to_rel": 600.0,
+     "dv_max": 0.281,
+     "ds_max": 0.377,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.188
+    },
+    {
+     "config": "fixes+skip_bad=2",
+     "scenario": "X21_frozen_wheels_zero3",
+     "bag": "30618_0f120b35",
+     "t_from_rel": 932,
+     "t_to_rel": 970.0,
+     "dv_max": 0.517,
+     "ds_max": 3.288,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.0
+    },
+    {
+     "config": "fixes+skip_bad=2",
+     "scenario": "X23_spikes_only",
+     "bag": "30618_0f120b35",
+     "t_from_rel": 0,
+     "t_to_rel": 1317.96,
+     "dv_max": 0.724,
+     "ds_max": 6.09,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.135
+    },
+    {
+     "config": "fixes+skip_bad=2",
+     "scenario": "S09_outliers_spikes",
+     "bag": "30618_0f120b35",
+     "t_from_rel": 0,
+     "t_to_rel": 1317.96,
+     "dv_max": 0.888,
+     "ds_max": 11.437,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.12
+    },
+    {
+     "config": "fixes_no_skip",
+     "scenario": "S05_slide_wheel_lock",
+     "bag": "30618_2f104a1d",
+     "t_from_rel": 262,
+     "t_to_rel": 290.0,
+     "dv_max": 0.461,
+     "ds_max": 16.38,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.0
+    },
+    {
+     "config": "fixes_no_skip",
+     "scenario": "S09_outliers_spikes",
+     "bag": "30618_6cb3280a",
+     "t_from_rel": 576,
+     "t_to_rel": 600.0,
+     "dv_max": 0.007,
+     "ds_max": 0.05,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.342
+    },
+    {
+     "config": "fixes_no_skip",
+     "scenario": "X21_frozen_wheels_zero3",
+     "bag": "30618_0f120b35",
+     "t_from_rel": 932,
+     "t_to_rel": 970.0,
+     "dv_max": 0.512,
+     "ds_max": 0.91,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.006
+    },
+    {
+     "config": "fixes_no_skip",
+     "scenario": "X23_spikes_only",
+     "bag": "30618_0f120b35",
+     "t_from_rel": 0,
+     "t_to_rel": 1317.96,
+     "dv_max": 0.029,
+     "ds_max": 0.631,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.315
+    },
+    {
+     "config": "fixes_no_skip",
+     "scenario": "S09_outliers_spikes",
+     "bag": "30618_0f120b35",
+     "t_from_rel": 0,
+     "t_to_rel": 1317.96,
+     "dv_max": 0.048,
+     "ds_max": 0.21,
+     "n_glitch_0p3": 0,
+     "cmd_inconsistent_frac": 0.262
+    }
+   ],
+   "skip_bad_note": "fix_cusum_skip_bad (both modes) re-introduced false joint latches after zero bursts and weakened lock handling once fix_cmd_check stopped the spurious controller faults that used to disarm the monitors; the recommended set does not use it"
+  },
+  {
+   "id": "RC7",
+   "severity": "moderate",
+   "title": "Controller-consistency check fires on wheel anomalies, not on controller faults",
+   "mechanism": "Under a braking notch \"impossible\" = wheel accel - brake-model accel, so a weaker-than-tabulated brake near a stop, a wheel spinning up after a slide or a spike raises cmd_inconsistent (held 8 s), which disables the slip/slide CUSUMs and raises the positive d clamp to 2.0.",
+   "code": "estimator.cpp jointMonitor controller check (lines 734-745)",
+   "evidence": {
+    "base": {
+     "clean_cmd_inconsistent": {
+      "episodes": 12.0,
+      "per_hour": 2.1315,
+      "unexplained": 12.0,
+      "unexplained_per_hour": 2.1315,
+      "hours": 5.6299
+     },
+     "X23_spikes": {
+      "n_events": 1601,
+      "frac_cmd_incons_fired": 0.5759
+     },
+     "S04_slides": {
+      "n_events": 28,
+      "frac_cmd_incons_fired": 0.5714
+     },
+     "S16_notch_faults": {
+      "n_events": 78,
+      "frac_cmd_incons_fired": 0.0
+     },
+     "X25_notch_offset": {
+      "n_events": 36,
+      "frac_cmd_incons_fired": 0.0
+     }
+    },
+    "mf20_cmdf0.8": {
+     "clean_cmd_inconsistent": {
+      "episodes": 12.0,
+      "per_hour": 2.1308,
+      "unexplained": 12.0,
+      "unexplained_per_hour": 2.1308,
+      "hours": 5.6317
+     },
+     "X23_spikes": {
+      "n_events": 1601,
+      "frac_cmd_incons_fired": 0.574
+     },
+     "S04_slides": {
+      "n_events": 28,
+      "frac_cmd_incons_fired": 0.5357
+     },
+     "S16_notch_faults": {
+      "n_events": 78,
+      "frac_cmd_incons_fired": 0.0
+     },
+     "X25_notch_offset": {
+      "n_events": 36,
+      "frac_cmd_incons_fired": 0.0
+     }
+    },
+    "fixC_cmdcheck": {
+     "clean_cmd_inconsistent": {
+      "episodes": 9.0,
+      "per_hour": 1.5981,
+      "unexplained": 9.0,
+      "unexplained_per_hour": 1.5981,
+      "hours": 5.6317
+     },
+     "X23_spikes": {
+      "n_events": 1601,
+      "frac_cmd_incons_fired": 0.5422
+     },
+     "S04_slides": {
+      "n_events": 28,
+      "frac_cmd_incons_fired": 0.0357
+     },
+     "S16_notch_faults": {
+      "n_events": 78,
+      "frac_cmd_incons_fired": 0.0256
+     },
+     "X25_notch_offset": {
+      "n_events": 36,
+      "frac_cmd_incons_fired": 0.0
+     }
+    },
+    "rec_all_safe": {
+     "clean_cmd_inconsistent": {
+      "episodes": 11.0,
+      "per_hour": 1.9532,
+      "unexplained": 10.0,
+      "unexplained_per_hour": 1.7757,
+      "hours": 5.6317
+     },
+     "X23_spikes": {
+      "n_events": 1601,
+      "frac_cmd_incons_fired": 0.5422
+     },
+     "S04_slides": {
+      "n_events": 28,
+      "frac_cmd_incons_fired": 0.0357
+     },
+     "S16_notch_faults": {
+      "n_events": 78,
+      "frac_cmd_incons_fired": 0.0256
+     },
+     "X25_notch_offset": {
+      "n_events": 36,
+      "frac_cmd_incons_fired": 0.0
+     }
+    }
+   },
+   "code_fix": "absolute wheel acceleration under braking notches; no evidence while a bogie is distrusted or within 3 s of a latch release (fix_cmd_check)"
+  },
+  {
+   "id": "RC8",
+   "severity": "moderate",
+   "title": "Low-speed wheel lock followed by the maneuver mode -> false standstill",
+   "mechanism": "A lock from ~3 m/s looks like an emergency brake; the maneuver mode (d down to -2.3 m/s^2) follows the wheels below standstill_max_v and the zero-velocity update pins v=0 while the tram still moves.",
+   "code": "estimator.cpp IMM maneuver mode (lines 500-509), standstill guard (line 454)",
+   "evidence": {
+    "base": {
+     "S05_slide_wheel_lock": {
+      "n_windows": 27.0,
+      "err_in_max_p90": 1.5588,
+      "err_in_max_max": 2.1416,
+      "err_after_max_p90": 0.5896,
+      "rec_gnss_p90": 8.3501,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 3.1963,
+      "ds_growth_abs_max": 15.8019,
+      "dv_vs_clean_max": 2.1982,
+      "n_diverged": 0.0
+     },
+     "X09_joint_lock_2s": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.1606,
+      "err_in_max_max": 0.6442,
+      "err_after_max_p90": 0.1348,
+      "rec_gnss_p90": 0.3565,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.0574,
+      "ds_growth_abs_max": 8.1296,
+      "dv_vs_clean_max": 2.5702,
+      "n_diverged": 0.0
+     },
+     "S04_slide_braking_wsp": {
+      "n_windows": 28.0,
+      "err_in_max_p90": 1.1967,
+      "err_in_max_max": 2.5837,
+      "err_after_max_p90": 0.1244,
+      "rec_gnss_p90": 8.3701,
+      "det_rate": 0.9643,
+      "ds_growth_abs_p90": 0.7149,
+      "ds_growth_abs_max": 2.4666,
+      "dv_vs_clean_max": 2.7535,
+      "n_diverged": 0.0
+     }
+    },
+    "mf20_rman0.01": {
+     "S05_slide_wheel_lock": {
+      "n_windows": 27.0,
+      "err_in_max_p90": 1.5116,
+      "err_in_max_max": 2.1415,
+      "err_after_max_p90": 0.2037,
+      "rec_gnss_p90": 8.3501,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 2.3335,
+      "ds_growth_abs_max": 4.9136,
+      "dv_vs_clean_max": 2.1964,
+      "n_diverged": 0.0
+     },
+     "X09_joint_lock_2s": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.1417,
+      "err_in_max_max": 0.377,
+      "err_after_max_p90": 0.133,
+      "rec_gnss_p90": 0.3097,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.037,
+      "ds_growth_abs_max": 0.065,
+      "dv_vs_clean_max": 0.3498,
+      "n_diverged": 0.0
+     },
+     "S04_slide_braking_wsp": {
+      "n_windows": 28.0,
+      "err_in_max_p90": 1.1894,
+      "err_in_max_max": 2.7136,
+      "err_after_max_p90": 0.1246,
+      "rec_gnss_p90": 8.3701,
+      "det_rate": 0.9643,
+      "ds_growth_abs_p90": 0.7092,
+      "ds_growth_abs_max": 2.3974,
+      "dv_vs_clean_max": 2.8761,
+      "n_diverged": 0.0
+     }
+    },
+    "mf20_ssmv0.5": {
+     "S05_slide_wheel_lock": {
+      "n_windows": 27.0,
+      "err_in_max_p90": 1.5588,
+      "err_in_max_max": 2.1416,
+      "err_after_max_p90": 0.5896,
+      "rec_gnss_p90": 8.3501,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 3.1963,
+      "ds_growth_abs_max": 15.8019,
+      "dv_vs_clean_max": 2.1982,
+      "n_diverged": 0.0
+     },
+     "X09_joint_lock_2s": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.1606,
+      "err_in_max_max": 0.6442,
+      "err_after_max_p90": 0.1348,
+      "rec_gnss_p90": 0.3565,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.0574,
+      "ds_growth_abs_max": 8.1296,
+      "dv_vs_clean_max": 2.5702,
+      "n_diverged": 0.0
+     },
+     "S04_slide_braking_wsp": {
+      "n_windows": 28.0,
+      "err_in_max_p90": 1.1967,
+      "err_in_max_max": 2.5837,
+      "err_after_max_p90": 0.1244,
+      "rec_gnss_p90": 8.3701,
+      "det_rate": 0.9643,
+      "ds_growth_abs_p90": 0.7149,
+      "ds_growth_abs_max": 2.4666,
+      "dv_vs_clean_max": 2.7535,
+      "n_diverged": 0.0
+     }
+    },
+    "fixF_frozen": {
+     "S05_slide_wheel_lock": {
+      "n_windows": 27.0,
+      "err_in_max_p90": 1.5588,
+      "err_in_max_max": 2.1416,
+      "err_after_max_p90": 0.5896,
+      "rec_gnss_p90": 8.3501,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 3.1963,
+      "ds_growth_abs_max": 15.8019,
+      "dv_vs_clean_max": 2.1982,
+      "n_diverged": 0.0
+     },
+     "X09_joint_lock_2s": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.1606,
+      "err_in_max_max": 0.6442,
+      "err_after_max_p90": 0.1348,
+      "rec_gnss_p90": 0.3565,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.0574,
+      "ds_growth_abs_max": 8.1296,
+      "dv_vs_clean_max": 2.5702,
+      "n_diverged": 0.0
+     }
+    },
+    "rec_safe": {
+     "S05_slide_wheel_lock": {
+      "n_windows": 27.0,
+      "err_in_max_p90": 1.5116,
+      "err_in_max_max": 2.1415,
+      "err_after_max_p90": 0.2037,
+      "rec_gnss_p90": 8.3501,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 2.3335,
+      "ds_growth_abs_max": 4.9136,
+      "dv_vs_clean_max": 2.1964,
+      "n_diverged": 0.0
+     },
+     "X09_joint_lock_2s": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.1417,
+      "err_in_max_max": 0.377,
+      "err_after_max_p90": 0.133,
+      "rec_gnss_p90": 0.3097,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.037,
+      "ds_growth_abs_max": 0.065,
+      "dv_vs_clean_max": 0.3498,
+      "n_diverged": 0.0
+     },
+     "S04_slide_braking_wsp": {
+      "n_windows": 28.0,
+      "err_in_max_p90": 1.1894,
+      "err_in_max_max": 2.7136,
+      "err_after_max_p90": 0.1246,
+      "rec_gnss_p90": 8.3701,
+      "det_rate": 0.9643,
+      "ds_growth_abs_p90": 0.7092,
+      "ds_growth_abs_max": 2.3974,
+      "dv_vs_clean_max": 2.8761,
+      "n_diverged": 0.0
+     }
+    },
+    "rec_all_safe": {
+     "S05_slide_wheel_lock": {
+      "n_windows": 27.0,
+      "err_in_max_p90": 1.1181,
+      "err_in_max_max": 1.4182,
+      "err_after_max_p90": 0.1289,
+      "rec_gnss_p90": 0.3968,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.1107,
+      "ds_growth_abs_max": 16.3628,
+      "dv_vs_clean_max": 1.459,
+      "n_diverged": 0.0
+     },
+     "X09_joint_lock_2s": {
+      "n_windows": 21.0,
+      "err_in_max_p90": 0.1619,
+      "err_in_max_max": 0.2718,
+      "err_after_max_p90": 0.133,
+      "rec_gnss_p90": 0.3097,
+      "det_rate": 1.0,
+      "ds_growth_abs_p90": 0.0401,
+      "ds_growth_abs_max": 0.0783,
+      "dv_vs_clean_max": 0.2652,
+      "n_diverged": 0.0
+     },
+     "S04_slide_braking_wsp": {
+      "n_windows": 28.0,
+      "err_in_max_p90": 1.1895,
+      "err_in_max_max": 1.6537,
+      "err_after_max_p90": 0.1246,
+      "rec_gnss_p90": 0.8762,
+      "det_rate": 0.9643,
+      "ds_growth_abs_p90": 0.2343,
+      "ds_growth_abs_max": 2.172,
+      "dv_vs_clean_max": 1.806,
+      "n_diverged": 0.0
+     }
+    }
+   },
+   "param_fix": {
+    "rate_to_maneuver": 0.01
+   }
+  },
+  {
+   "id": "RC9",
+   "severity": "minor",
+   "title": "Per-bogie scale mismatch (wear) is absorbed by one shared scale state",
+   "evidence": {
+    "base": {
+     "30618_2f104a1d": {
+      "ds_vs_clean_end": -18.6468,
+      "along_rmse": 8.0406,
+      "clean_along_rmse": 0.4083
+     },
+     "30618_22c1c589": {
+      "ds_vs_clean_end": -7.7169,
+      "along_rmse": 3.1835,
+      "clean_along_rmse": 0.4699
+     },
+     "30618_0f120b35": {
+      "ds_vs_clean_end": -10.5971,
+      "along_rmse": 3.5556,
+      "clean_along_rmse": 0.6369
+     },
+     "30618_a53d5f6f": {
+      "ds_vs_clean_end": -4.4103,
+      "along_rmse": 2.006,
+      "clean_along_rmse": 1.1876
+     },
+     "30618_6cb3280a": {
+      "ds_vs_clean_end": -13.9574,
+      "along_rmse": 6.4543,
+      "clean_along_rmse": 0.5354
+     },
+     "30639_d927f360": {
+      "ds_vs_clean_end": -23.5358,
+      "along_rmse": 11.6764,
+      "clean_along_rmse": 0.81
+     },
+     "30618_01f73500": {
+      "ds_vs_clean_end": -4.7469,
+      "along_rmse": 2.4829,
+      "clean_along_rmse": 1.4133
+     }
+    }
+   },
+   "code_fix": "separate front/rear scale (or ratio) states calibrated at landmarks"
+  },
+  {
+   "id": "RC10",
+   "severity": "minor",
+   "title": "Total blackout while accelerating: controller assumed neutral after 0.6 s",
+   "evidence": {
+    "mf20": {
+     "v_max": 6.104,
+     "dv_vs_clean_max": 6.1172,
+     "ds_vs_clean_max": 35.4994
+    },
+    "mf20_cmdto3": {
+     "v_max": 3.1167,
+     "dv_vs_clean_max": 3.1197,
+     "ds_vs_clean_max": 14.4764
+    }
+   },
+   "note": "cmd_timeout_s=3 is NOT recommended: it delays the cmd-dropout flag (S16 detection 1.00 -> 0.54)",
+   "evidence_cmdto3": {
+    "mf20": {
+     "S06_dropout_short": {
+      "det_rate": 0.9767,
+      "err_in_max_p90": 0.1403,
+      "ds_growth_abs_p90": 0.0318
+     },
+     "X18_drop_vehicle_5": {
+      "det_rate": null,
+      "err_in_max_p90": 3.0123,
+      "ds_growth_abs_p90": 1.1724
+     }
+    },
+    "mf20_cmdto3": {
+     "S16_notch_faults": {
+      "det_rate": 0.5357,
+      "err_in_max_p90": 0.0833,
+      "ds_growth_abs_p90": 0.0044
+     },
+     "S06_dropout_short": {
+      "det_rate": 0.8605,
+      "err_in_max_p90": 0.1167,
+      "ds_growth_abs_p90": 0.0169
+     },
+     "X18_drop_vehicle_5": {
+      "det_rate": null,
+      "err_in_max_p90": 2.6082,
+      "ds_growth_abs_p90": 2.1135
+     }
+    }
+   }
+  },
+  {
+   "id": "RC11",
+   "severity": "moderate",
+   "title": "Re-anchoring with pinVelocity() keeps a large along-track sigma -> wrong landmark association at the next stop",
+   "mechanism": "pinVelocity() zeroes the s-v covariance, so after a long model-only phase the wheel measurements can no longer shrink P_ss (sigma_s stays ~16 m; a normal latch release shrinks it to ~2 m). At the next stop the landmark gate (3 sigma) and the random-stop prior spread over that width let a landmark 17 m away win the association: +16 m along-track error for ~900 s.",
+   "code": "estimator.cpp pinVelocity (lines 78-85) used by the recovery paths (lines 604-616, 664-676); landmarkUpdate association (lines 800-871)",
+   "evidence_file": "diagnostics/landmark_after_reanchor.csv",
+   "code_fix": "re-anchor with a scalar Kalman update of v (keeps P_sv, shrinks P_ss) and/or refuse landmark associations while sigma_s exceeds a few metres"
+  }
+ ]
+}

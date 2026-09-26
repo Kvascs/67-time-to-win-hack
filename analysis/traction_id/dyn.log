@@ -1,0 +1,23 @@
+base {'tauB': 0.3, 'tauT': 0.3, 'tau0': 0.3} 0.10405
+tauB {'tauB': 0.15, 'tauT': 0.3, 'tau0': 0.3} 0.10799
+tauB {'tauB': 0.2, 'tauT': 0.3, 'tau0': 0.3} 0.10606
+tauB {'tauB': 0.4, 'tauT': 0.3, 'tau0': 0.3} 0.10405
+tauB {'tauB': 0.5, 'tauT': 0.3, 'tau0': 0.3} 0.10548
+tauT {'tauB': 0.3, 'tauT': 0.2, 'tau0': 0.3} 0.10594
+tauT {'tauB': 0.3, 'tauT': 0.4, 'tau0': 0.3} 0.10452
+tauT {'tauB': 0.3, 'tauT': 0.5, 'tau0': 0.3} 0.10671
+tau0 {'tauB': 0.3, 'tauT': 0.3, 'tau0': 0.15} 0.10486
+tau0 {'tauB': 0.3, 'tauT': 0.3, 'tau0': 0.5} 0.10439
+tau0 {'tauB': 0.3, 'tauT': 0.3, 'tau0': 0.8} 0.10564
+two_pole {'tauB': 0.15, 'tauT': 0.15, 'tau0': 0.15, 'tau2': 0.15} 0.10368
+two_pole {'tauB': 0.2, 'tauT': 0.2, 'tau0': 0.2, 'tau2': 0.1} 0.10379
+two_pole {'tauB': 0.1, 'tauT': 0.1, 'tau0': 0.1, 'tau2': 0.2} 0.10379
+two_pole {'tauB': 0.25, 'tauT': 0.25, 'tau0': 0.25, 'tau2': 0.1} 0.10294
+jerk {'tauB': 0.2, 'tauT': 0.2, 'tau0': 0.2, 'jerk': 0.8} 0.11319
+jerk {'tauB': 0.2, 'tauT': 0.2, 'tau0': 0.2, 'jerk': 1.2} 0.10951
+jerk {'tauB': 0.2, 'tauT': 0.2, 'tau0': 0.2, 'jerk': 1.6} 0.10865
+jerk {'tauB': 0.2, 'tauT': 0.2, 'tau0': 0.2, 'jerk': 2.5} 0.10849
+delayB {'tauB': 0.3, 'tauT': 0.3, 'tau0': 0.3, 'dB': 0.1} 0.10377
+delayB {'tauB': 0.3, 'tauT': 0.3, 'tau0': 0.3, 'dB': 0.2} 0.10564
+delayT {'tauB': 0.3, 'tauT': 0.3, 'tau0': 0.3, 'dT': 0.1} 0.10397
+delayT {'tauB': 0.3, 'tauT': 0.3, 'tau0': 0.3, 'dT': 0.2} 0.10624
