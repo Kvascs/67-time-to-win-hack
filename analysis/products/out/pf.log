@@ -1,0 +1,32 @@
+runs anchored: 69, passes (run x bin): 7555, bins kept: 220
+per-pass max speed, estimator - GNSS [km/h]: median +0.01, MAE 0.35, p95 |d| 1.02, n 6907
+per-bin p95 of max speed, estimator - GNSS [km/h]: median |d| 0.12, max |d| 13.29; per-bin median: median |d| 0.11, max 5.91
+WB: bins 111, passes/bin median 34; top p95 53.6 km/h at route 2.27 km; median of per-pass max over bins 31.8 km/h; bins with p95 < 20 km/h: 11, with stop share > 0.5: 14
+EB: bins 109, passes/bin median 34; top p95 52.7 km/h at route 2.87 km; median of per-pass max over bins 35.2 km/h; bins with p95 < 20 km/h: 8, with stop share > 0.5: 14
+slow zones (p95 < 20 km/h, not a stop):
+    dir   route_m  n_pass  p95_kmh  curv_max  grade_pct
+bin                                                    
+0    WB    25.000      36   12.972     0.056     -0.197
+1    WB    75.000      34   13.652     0.046      0.327
+18   WB   925.000      34   19.695     0.001     -1.570
+19   WB   975.000      34   15.618     0.003     -1.214
+71   WB  3575.000      34   12.303     0.021      1.169
+72   WB  3625.000      34   16.207     0.044      1.710
+107  WB  5375.000      29   14.296     0.037     -0.465
+114  EB  5421.143      32   12.847     0.005      0.175
+115  EB  5369.142      32   18.526     0.043      0.513
+149  EB  3672.142      34   19.253     0.030     -1.698
+218  EB   220.138      33   14.127     0.042      0.285
+220  EB     0.000      38   15.462     0.028     -1.266
+fastest bins:
+    dir  route_m  n_pass    med_kmh  p95_kmh  grade_pct
+bin                                                    
+45   WB  2275.00      34  49.090000    53.56      -0.25
+43   WB  2175.00      34  53.099998    53.43       0.55
+44   WB  2225.00      34  53.009998    53.40      -0.01
+42   WB  2125.00      34  52.500000    52.98       0.55
+165  EB  2866.14      34  51.889999    52.70      -1.60
+65   WB  3275.00      34  39.599998    52.67       1.25
+166  EB  2816.14      34  51.439999    52.48      -0.93
+64   WB  3225.00      34  28.650000    52.47       0.88
+figure -> analysis\products\fig\f_speed_profile.png

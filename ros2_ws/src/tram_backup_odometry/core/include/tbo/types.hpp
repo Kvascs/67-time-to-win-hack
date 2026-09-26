@@ -59,6 +59,7 @@ struct Output {
   double a_ext{0.0};                  // map terms: grade + curve resistance + learned field, m/s^2
   double s{0.0}, s_var{0.0};          // distance along the track map (or odometer), m
   double s_map{-1.0};                 // antenna-1 arc length on the main map cycle (-1: off main / unknown)
+  double protection_level{0.0};       // 99 % bound of the along-track position error, m
   double x{0.0}, y{0.0}, z{0.0};      // position in the output frame, m
   double yaw{0.0};                    // heading in the output frame, rad (ENU: 0 = east, CCW)
   double cov_xx{0.0}, cov_xy{0.0}, cov_yy{0.0}, cov_zz{0.0};

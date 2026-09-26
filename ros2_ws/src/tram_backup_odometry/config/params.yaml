@@ -6,7 +6,8 @@ tram_backup_odometry:
     branch_files: "maps/branch_fan_F2.csv,maps/branch_fan_F3.csv,maps/branch_wb_detour.csv"
     landmark_file: "maps/landmarks.csv"
     cutoff_file: "maps/cutoffs.csv"
-    dfield_file: ""
+    dfield_file: "maps/dfield.csv"
+    fault_prior_file: ""
     output_frame: "mgrs"         # mgrs (jury, Autoware map frame) | enu | utm | map
     init_source: "master"        # GNSS antenna used for the initial fix
     frame_id: "map"
@@ -50,14 +51,15 @@ tram_backup_odometry:
     rate_recover: 0.7  # IMM bad -> nominal [1/s]
     mode_prob_floor: 1e-06  # IMM probability floor [-]
     slip_context_boost: 4.0  # rate boost under high effort [-]
-    rate_to_maneuver: 0.05  # IMM nominal -> maneuver (unmodelled acceleration) [1/s]
+    fault_prior_max: 4.0  # cap of the place-dependent fault-rate multiplier [-]
+    rate_to_maneuver: 0.01  # IMM nominal -> maneuver (unmodelled acceleration) [1/s]
     rate_maneuver_end: 0.5  # IMM maneuver -> nominal [1/s]
     sigma_accel_maneuver: 0.5  # acceleration noise in maneuver mode [m/s^2]
     q_disturbance_maneuver: 8.0  # disturbance random walk in maneuver mode [(m/s^2)^2/s]
     wrong_sign_penalty: 3.0  # log-penalty for impossible-sign fault residual [-]
     max_wheel_accel: 6.0  # implausible bogie acceleration [m/s^2]
-    stuck_time_s: 1.2  # frozen reading duration [s]
-    stuck_min_change: 0.15  # speed change proving a frozen reading [m/s]
+    stuck_time_s: 0.8  # frozen reading duration [s]
+    stuck_min_change: 0.0  # speed change proving a frozen reading [m/s]
     zero_stuck_other: 0.5  # other bogie speed proving a zero reading dead [m/s]
     single_bogie_latch_mult: 2.0  # latch threshold multiplier with one live bogie [-]
     cusum_slip_accel: 0.6  # CUSUM: tolerated excess accel under traction [m/s^2]
@@ -107,6 +109,9 @@ tram_backup_odometry:
     cutoff_min_v: 2.0  # min speed for a cut-off fix [m/s]
     cutoff_p_random: 0.05  # share of cut-offs away from known places [-]
     position_lead_s: 0.045  # position published for stamp + lead (reference fix timing) [s]
+    speed_var_scale: 0.32  # published speed variance scale (consistency calibration) [-]
+    speed_var_floor: 0.00025  # published speed variance floor [(m/s)^2]
+    protection_k: 5.76  # 99 % along-track protection level in sigma_s [-]
     mgrs_zone: 37.0  # UTM zone of the MGRS output frame [-]
     mgrs_origin_e: 400000.0  # UTM easting of the MGRS square origin [m]
     mgrs_origin_n: 6100000.0  # UTM northing of the MGRS square origin [m]
@@ -116,3 +121,13 @@ tram_backup_odometry:
     publish_grid_s: 0.05  # fixed stamp grid period (0 = off) [s]
     publish_on_cmd: 1.0  # publish at controller stamps [bool]
     publish_on_wheel: 1.0  # publish at bogie stamps [bool]
+    joint_need_both: 1.0  # joint alarm needs both bogies unless the other is out [bool]
+    joint_d_tau_s: 20.0  # slow disturbance reference of the joint CUSUM (0 = filter d) [s]
+    cmd_check_absolute: 1.0  # controller check on absolute braking accel, paused when wheels bad [bool]
+    standstill_exit_no_wheels: 1.0  # leave standstill under traction without wheel data [bool]
+    single_bogie_recover: 1.0  # re-anchor to the only live bogie after long rejection [bool]
+    agree_tau_s: 2.0  # low-pass time constant of the recovery agreement test (0 = raw) [s]
+    d_clamp_model_only: 1.0  # clamp disturbance while both bogies are distrusted [bool]
+    lockup_guard_s: 0.0  # time at ~0 after which re-anchoring to 0 is allowed (0 = never) [s]
+    stuck_reset: 0.0  # re-anchor to the healthy bogie when the other is declared stuck [bool]
+    slide_latch_min_v: 2.0  # no joint slide latch below this filter speed [m/s]

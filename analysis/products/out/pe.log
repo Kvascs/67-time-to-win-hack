@@ -1,0 +1,35 @@
+runs 86, 458 km
+tractive work per km: median 200 J/kg/km (IQR 190..215), range 151..229; = 1.52 kWh/km at the wheel for 27.5 t
+p90/p10 of tractive work per km: 1.23
+coasting share: median 0.141 (IQR 0.130..0.153); traction 0.458, braking 0.399
+braking work / tractive work: median 1.11
+regression Wkm ~ speed + stops/km + dir: R2 0.42; coef per km/h 4.8, per stop/km 2.4, EB -27.7; residual std 6.5 %
+residual vs coasting share: corr -0.45; vs brake/trac ratio -0.24
+W with g vs without: corr 0.893, median ratio 1.047; notch-seconds vs W: corr 0.72
+estimator vs GNSS speed in the same proxy: median |dW| 0.33 %, max 20.90 %, distance 0.43 % (n 69)
+                   Wkm  coast_share  v_run_kmh  eco_resid_pct
+vehicle date                                                 
+30618   07-27  207.738        0.143     22.754          2.911
+        08-10  200.147        0.138     23.636          0.292
+        08-26  205.442        0.133     23.041          0.751
+        09-03  208.875        0.131     24.064          1.247
+30639   05-05  182.255        0.172     21.270         -7.411
+        08-26  192.085        0.145     22.623         -4.252
+best 5 (least work for their speed and stops):
+               vehicle   date dir  dist_km  v_run_kmh  stops     Wkm  coast_share  brake_over_trac  eco_resid_pct
+bag                                                                                                              
+30618_e3d94878   30618  07-27  EB     5.41      24.10     12  151.16         0.15             2.17         -20.92
+30618_79b204dc   30618  08-10         5.40      24.21     10  166.95         0.16             1.09         -18.10
+30639_3b3d9eb8   30639  05-05  WB     5.45      21.01     15  181.20         0.17             0.99         -11.70
+30618_67b89902   30618  08-26  EB     5.39      26.19      9  178.05         0.17             1.12         -10.93
+30639_584b6e32   30639  08-26  WB     5.48      22.68     13  192.15         0.14             0.99          -9.52
+worst 5:
+               vehicle   date dir  dist_km  v_run_kmh  stops     Wkm  coast_share  brake_over_trac  eco_resid_pct
+bag                                                                                                              
+30618_3ba2326f   30618  08-10         5.21      22.69     16  221.08         0.13             1.23          10.83
+30618_81c22fee   30618  08-10         5.41      23.23     15  223.32         0.13             1.03          10.91
+30618_40ffd323   30618  08-10  WB     5.48      21.07     16  229.08         0.11             1.11          11.27
+30618_616ec56b   30618  07-27  EB     5.40      23.43     15  212.13         0.13             1.17          12.09
+30618_0f120b35   30618  07-27  EB     5.41      23.65     14  216.29         0.15             1.04          13.91
+saving if runs above the best quartile residual reached it: 5.2 % of work
+figure -> analysis\products\fig\e_ecodriving.png

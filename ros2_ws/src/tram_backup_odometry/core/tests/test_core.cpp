@@ -2,6 +2,8 @@
 // input, slip/dropout handling on a synthetic tram, and the "no GNSS after the init
 // window" proof (outputs must be bit-identical with and without later GNSS).
 #include <algorithm>
+#include <cstdio>
+#include <string>
 #include <cmath>
 #include <cstdint>
 #include <vector>
@@ -416,6 +418,30 @@ TEST_CASE("no-GNSS proof: GNSS after the init window changes nothing (bit-identi
     same = a.outs[i].x == b.outs[i].x && a.outs[i].y == b.outs[i].y && a.outs[i].v == b.outs[i].v;
   CHECK(same);
   CHECK(!a.outs.empty() && a.outs.back().map_matched);
+}
+
+TEST_CASE("track field: linear interpolation and cyclic wrap (learned d(s), adhesion map)") {
+  const std::string path = "tbo_test_field.csv";
+  {
+    std::FILE* fh = std::fopen(path.c_str(), "wb");
+    CHECK(fh != nullptr);
+    if (!fh) return;
+    std::fprintf(fh, "# test field\ns,d,runs\n5,0.1,3\n15,0.3,3\n95,-0.1,3\n");
+    std::fclose(fh);
+  }
+  TrackField f;
+  std::string err;
+  CHECK(f.loadCsv(path, 100.0, &err));
+  CHECK_NEAR(f.at(10.0), 0.2, 1e-12);
+  CHECK_NEAR(f.at(15.0), 0.3, 1e-12);
+  CHECK_NEAR(f.at(100.0), 0.0, 1e-12);   // wrap segment 95 -> 105 (= 5): -0.1 .. 0.1
+  CHECK_NEAR(f.at(-5.0), -0.1, 1e-12);   // negative s wraps too (-5 == 95)
+  CHECK_NEAR(f.at(-10.0), -0.075, 1e-12); // 90: between 15 (0.3) and 95 (-0.1)
+  CHECK_NEAR(f.at(210.0), 0.2, 1e-12);   // two laps later
+  TrackField open;
+  CHECK(open.loadCsv(path, 0.0, &err));
+  CHECK_NEAR(open.at(1000.0), -0.1, 1e-12);  // open track: clamp
+  std::remove(path.c_str());
 }
 
 // ---------------------------------------------------------------- time base and GNSS window

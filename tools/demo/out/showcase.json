@@ -1,0 +1,154 @@
+{
+ "setup": {
+  "exe": {
+   "path": "build_core/tbo_replay_fix5.exe",
+   "md5": "43203c9223abc0a7629144fbcf4168d2"
+  },
+  "track_map": {
+   "path": "analysis/validation_maps/track_map.csv",
+   "md5": "f8799a094d39a15223287f7aebbc412b"
+  },
+  "traction": {
+   "path": "ros2_ws/src/tram_backup_odometry/config/traction_lut.csv",
+   "md5": "fe1b4efc407e54738627c8bc2f46e768"
+  },
+  "branch_fan_F2": {
+   "path": "analysis/validation_maps/branch_fan_F2.csv",
+   "md5": "f1f01226daec0310d50ab1db31ef5f48"
+  },
+  "branch_wb_detour": {
+   "path": "analysis/validation_maps/branch_wb_detour.csv",
+   "md5": "34636904b344b6c71d50fc524343bbe4"
+  },
+  "landmarks": {
+   "path": "analysis/validation_maps/landmarks.csv",
+   "md5": "02a6c2cfc18592be5fada28c773a2608"
+  },
+  "cutoffs": {
+   "path": "analysis/validation_maps/cutoffs.csv",
+   "md5": "33264e075dafbaa7fec68a396effa33c"
+  },
+  "dfield": {
+   "path": "analysis/validation_maps/dfield.csv",
+   "md5": "bf458cc7d5a2c218c672f1f90bc8daed"
+  }
+ },
+ "sets": {
+  "output_frame": "enu",
+  "base_link_along_m": "0",
+  "base_link_height_m": "0",
+  "gnss_init_window_s": "5",
+  "dfield_file": "C:\\MosTransHack\\analysis\\validation_maps\\dfield.csv"
+ },
+ "after_s": 10.0,
+ "bags": {
+  "30618_2f104a1d": {
+   "faults": [
+    "slip:wheels@851+3:peak=0.25:phase=1",
+    "slide:wheels@337+4:peak=0.5:phase=-1",
+    "freeze:front@699+12",
+    "dropout:wheels@784+5",
+    "spike:wheels@1084+30:p=0.05:amp=20",
+    "slip:wheels@169+5:peak=0.3:phase=1"
+   ],
+   "gif": {
+    "path": "tools/demo/out/30618_2f104a1d/live_w02_slide_wheels.gif",
+    "frames": 105,
+    "fps": 10,
+    "step_s": 0.2,
+    "dpi": 90,
+    "size_mb": 0.381843,
+    "speedup": 2.0,
+    "window": 2
+   },
+   "reference": {
+    "antenna": "master",
+    "frame": "enu",
+    "time_base": "header",
+    "match_tol_s": 0.05,
+    "position_min_status": 2,
+    "position_outliers_removed": true,
+    "rtk_frac_bag": 0.9972819569909666,
+    "outlier_frac": 0.0044889779559118236,
+    "n_outlier_tight": 56
+   }
+  },
+  "30618_22c1c589": {
+   "faults": [
+    "slip:wheels@782+3:peak=0.25:phase=1",
+    "slide:wheels@227+4:peak=0.5:phase=-1",
+    "freeze:rear@278+12",
+    "dropout:wheels@639+5",
+    "spike:wheels@1015+30:p=0.05:amp=20"
+   ],
+   "gif": {
+    "path": "tools/demo/out/30618_22c1c589/live_w01_slip_wheels.gif",
+    "frames": 100,
+    "fps": 10,
+    "step_s": 0.2,
+    "dpi": 90,
+    "size_mb": 0.400065,
+    "speedup": 2.0,
+    "window": 1
+   },
+   "reference": {
+    "antenna": "master",
+    "frame": "enu",
+    "time_base": "header",
+    "match_tol_s": 0.05,
+    "position_min_status": 2,
+    "position_outliers_removed": true,
+    "rtk_frac_bag": 0.992639418081053,
+    "outlier_frac": 0.006019366657942947,
+    "n_outlier_tight": 33
+   }
+  },
+  "30639_d927f360": {
+   "faults": [
+    "slip:wheels@601+3:peak=0.25:phase=1",
+    "slide:wheels@910+4:peak=0.5:phase=-1",
+    "freeze:front@223+12",
+    "dropout:wheels@146+5",
+    "spike:wheels@838+30:p=0.05:amp=20"
+   ],
+   "gif": {
+    "path": "tools/demo/out/30639_d927f360/live_w04_dropout_wheels.gif",
+    "frames": 110,
+    "fps": 10,
+    "step_s": 0.2,
+    "dpi": 90,
+    "size_mb": 0.350397,
+    "speedup": 2.0,
+    "window": 4
+   },
+   "reference": {
+    "antenna": "master",
+    "frame": "enu",
+    "time_base": "header",
+    "match_tol_s": 0.05,
+    "position_min_status": 2,
+    "position_outliers_removed": true,
+    "rtk_frac_bag": 0.9973549799343305,
+    "outlier_frac": 0.003932327389117513,
+    "n_outlier_tight": 26
+   }
+  }
+ },
+ "sensitivity": {
+  "bag": "30618_2f104a1d",
+  "faults": [
+   "slide:wheels@186+4:peak=0.3:phase=-1",
+   "slip:wheels@226+3:peak=0.3:phase=1",
+   "slide:wheels@262+3:peak=0.5:phase=-1",
+   "slip:wheels@320+2:peak=0.3:phase=1",
+   "slide:wheels@390+4:peak=0.3:phase=-1",
+   "slip:wheels@440+4:peak=0.3:phase=1",
+   "slip:wheels@686+3:peak=0.25:phase=1",
+   "slip:wheels@853+4:peak=0.2:phase=1",
+   "slide:wheels@977+4:peak=0.4:phase=-1",
+   "slip:wheels@1051+3:peak=0.3:phase=1",
+   "slide:wheels@1115+4:peak=0.25:phase=-1"
+  ]
+ },
+ "wall_s": 1173.2743633999999
+}

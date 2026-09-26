@@ -1,0 +1,78 @@
+{
+ "train": {
+  "cpp_latches": 7,
+  "py_joint": 6,
+  "cpp_latches_reproduced": 6,
+  "cpp_cmd_onsets": 37,
+  "py_cmd_events": 37,
+  "cpp_cmd_reproduced": 37,
+  "py_cmd_confirmed_by_cpp": 37,
+  "latch_bags": [
+   {
+    "bag": "30618_68d1748a",
+    "cpp_latches": 1,
+    "py_joint": 1,
+    "cpp_latches_reproduced": 1
+   },
+   {
+    "bag": "30618_28538acf",
+    "cpp_latches": 1,
+    "py_joint": 1,
+    "cpp_latches_reproduced": 1
+   },
+   {
+    "bag": "30618_40ffd323",
+    "cpp_latches": 1,
+    "py_joint": 1,
+    "cpp_latches_reproduced": 1
+   },
+   {
+    "bag": "30618_33bec73f",
+    "cpp_latches": 1,
+    "py_joint": 1,
+    "cpp_latches_reproduced": 1
+   },
+   {
+    "bag": "30639_50956d6e",
+    "cpp_latches": 1,
+    "py_joint": 1,
+    "cpp_latches_reproduced": 1
+   },
+   {
+    "bag": "30618_2050d396",
+    "cpp_latches": 1,
+    "py_joint": 0,
+    "cpp_latches_reproduced": 0
+   },
+   {
+    "bag": "30618_27e994fc",
+    "cpp_latches": 1,
+    "py_joint": 1,
+    "cpp_latches_reproduced": 1
+   }
+  ]
+ },
+ "val": {
+  "cpp_latches": 1,
+  "py_joint": 1,
+  "cpp_latches_reproduced": 1,
+  "cpp_cmd_onsets": 14,
+  "py_cmd_events": 14,
+  "cpp_cmd_reproduced": 14,
+  "py_cmd_confirmed_by_cpp": 14,
+  "latch_bags": [
+   {
+    "bag": "30639_3b3d9eb8",
+    "cpp_latches": 1,
+    "py_joint": 1,
+    "cpp_latches_reproduced": 1
+   }
+  ]
+ },
+ "train_false_latches": {
+  "latches": 7,
+  "unconfirmed": 0,
+  "operating_hours": 17.294699224630993,
+  "rate_upper95_per_h": 0.17346355441252315
+ }
+}

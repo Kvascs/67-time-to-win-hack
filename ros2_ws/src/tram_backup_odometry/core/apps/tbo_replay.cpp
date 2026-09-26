@@ -64,7 +64,8 @@ int main(int argc, char** argv) {
       std::printf("    branch_files: \"%s\"\n", "maps/branch_fan_F2.csv,maps/branch_fan_F3.csv,maps/branch_wb_detour.csv");
       std::printf("    landmark_file: \"%s\"\n", "maps/landmarks.csv");
       std::printf("    cutoff_file: \"%s\"\n", "maps/cutoffs.csv");
-      std::printf("    dfield_file: \"%s\"\n", "");
+      std::printf("    dfield_file: \"%s\"\n", "maps/dfield.csv");
+      std::printf("    fault_prior_file: \"%s\"\n", "");
       std::printf("    output_frame: \"mgrs\"         # mgrs (jury, Autoware map frame) | enu | utm | map\n");
       std::printf("    init_source: \"master\"        # GNSS antenna used for the initial fix\n");
       std::printf("    frame_id: \"map\"\n    child_frame_id: \"base_link\"\n");
@@ -113,6 +114,7 @@ int main(int argc, char** argv) {
     else if (kv.first == "landmark_file") cfg.landmark_file = kv.second;
     else if (kv.first == "cutoff_file") cfg.cutoff_file = kv.second;
     else if (kv.first == "dfield_file") cfg.dfield_file = kv.second;
+    else if (kv.first == "fault_prior_file") cfg.fault_prior_file = kv.second;
     else { std::fprintf(stderr, "unknown string param %s\n", kv.first.c_str()); return 2; }
   }
 
@@ -170,6 +172,14 @@ int main(int argc, char** argv) {
     }
     est.setDisturbanceField(std::move(fld));
   }
+  if (!cfg.fault_prior_file.empty()) {
+    TrackField fld;
+    if (!fld.loadCsv(cfg.fault_prior_file, map.cyclic() ? map.length() : 0.0, &err)) {
+      std::fprintf(stderr, "%s\n", err.c_str());
+      return 2;
+    }
+    est.setFaultPrior(std::move(fld));
+  }
   OutputScheduler sched(cfg.p);
 
   std::FILE* fin = std::fopen(in_path.c_str(), "rb");
@@ -178,7 +188,7 @@ int main(int argc, char** argv) {
   if (!fout) { std::fprintf(stderr, "cannot write %s\n", out_path.c_str()); return 2; }
   std::fprintf(fout,
                "stamp_ns,recv_ns,trigger,v,v_var,x,y,z,yaw,s,s_var,cov_xx,cov_xy,cov_yy,cov_zz,"
-               "mu0,mu1,mu2,mu3,mu4,slip_f,slip_r,d,k,g,a_model,accel,flags,pos_valid,s_map,a_ext,proc_ns\n");
+               "mu0,mu1,mu2,mu3,mu4,slip_f,slip_r,d,k,g,a_model,accel,flags,pos_valid,s_map,a_ext,pl,proc_ns\n");
 
   std::vector<char*> f;
   f.reserve(16);
@@ -222,12 +232,12 @@ int main(int argc, char** argv) {
       const long long proc = std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count();
       std::fprintf(fout,
                    "%lld,%lld,%s,%.6f,%.6g,%.4f,%.4f,%.4f,%.6f,%.4f,%.6g,%.6g,%.6g,%.6g,%.6g,"
-                   "%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.6f,%.6f,%.6f,%.5f,%.5f,%u,%d,%.3f,%.5f,%lld\n",
+                   "%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.5f,%.6f,%.6f,%.6f,%.5f,%.5f,%u,%d,%.3f,%.5f,%.3f,%lld\n",
                    static_cast<long long>(o.stamp), static_cast<long long>(recv), type.c_str(), o.v,
                    o.v_var, o.x, o.y, o.z, o.yaw, o.s, o.s_var, o.cov_xx, o.cov_xy, o.cov_yy, o.cov_zz,
                    o.mode_prob[0], o.mode_prob[1], o.mode_prob[2], o.mode_prob[3], o.mode_prob[4], o.slip_front,
                    o.slip_rear, o.disturbance, o.scale, o.gain, o.a_model, o.accel, o.flags,
-                   o.pos_valid ? 1 : 0, o.s_map, o.a_ext, proc);
+                   o.pos_valid ? 1 : 0, o.s_map, o.a_ext, o.protection_level, proc);
       ++n_out;
     }
   }

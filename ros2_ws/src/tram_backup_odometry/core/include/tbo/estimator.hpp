@@ -80,6 +80,7 @@ class Estimator {
   void setLandmarks(std::vector<Landmark> lms) { landmarks_ = std::move(lms); }
   void setCutoffs(std::vector<Landmark> lms) { cutoffs_ = std::move(lms); }
   void setDisturbanceField(TrackField f) { dfield_ = std::move(f); }
+  void setFaultPrior(TrackField f) { fault_prior_ = std::move(f); }
 
   // ---- internals exposed for tests ----
   struct WheelTrack {
@@ -141,6 +142,15 @@ class Estimator {
     double cmd_cusum = 0.0;  // evidence that the controller signal is wrong
     Stamp cmd_fault_t = -1;  // last time that evidence crossed the threshold
     Stamp t_cmd_cusum = -1;
+    // ---- anomaly-suite fix prototypes ----
+    double d_slow = 0.0;     // slow disturbance reference for the joint CUSUM
+    bool d_slow_init = false;
+    Stamp t_dslow = -1;
+    double ema_z[2] = {0.0, 0.0};  // low-passed bogie speeds (recovery agreement test)
+    Stamp t_ema[2] = {-1, -1};
+    Stamp zero_since = -1;   // both available bogies ~0 since
+    Stamp single_since = -1; // only one bogie available and distrusted since
+    Stamp latch_end_t = -1;  // last joint-latch release
   };
 
  private:
@@ -181,6 +191,7 @@ class Estimator {
   std::vector<Landmark> landmarks_;
   std::vector<Landmark> cutoffs_;
   TrackField dfield_;
+  TrackField fault_prior_;  // slip/slide rate multiplier by place (learned adhesion map)
   // Maps a relative distance to (edge, arc length) along the anchored route.
   bool routeAt(double s_rel, const TrackMap*& m, double& s) const;
 

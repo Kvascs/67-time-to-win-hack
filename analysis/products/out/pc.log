@@ -1,0 +1,32 @@
+runs: 86 (69 anchored on the map), 458 km
+[flag] episodes 26 (not already flagged: 26); per 100 km 5.7; slip 16, slide 10, model-only 8; bogie {'front': 10, 'rear': 8, 'both': 8}; runs with any 19; median dur 1.72 s; |curv| > 0.01 share 0.31
+   context: slips under traction 16/16, slides under braking 9/10
+   GNSS check: max|wheel-(1+k)v_gnss| > 0.3 m/s in 0.61 of 23 episodes vs 0.052 of 115 random windows; median 0.77 vs 0.061 m/s
+[micro] episodes 13 (not already flagged: 0); per 100 km 0.0; slip 0, slide 0, model-only 0; bogie {}; runs with any 0; median dur nan s; |curv| > 0.01 share nan
+   context: slips under traction 0/0, slides under braking 0/0
+episodes per run (flag + micro) by vehicle/date:
+              flag     micro     all    
+               sum max   sum max sum max
+vehicle date                            
+30618   07-27    3   1     0   0   3   1
+        08-10    3   1     0   0   3   1
+        08-26    3   2     0   0   3   2
+        09-03    1   1     0   0   1   1
+30639   05-05    5   2     0   0   5   2
+        08-26   11   4     0   0  11   4
+runs with most episodes: {'30639_50956d6e': 4, '30618_2050d396': 2, '30639_3b3d9eb8': 2, '30639_d927f360': 2, '30639_927002c2': 2, '30618_095a115b': 1}
+bins with >=10 passes: 220; with any episode: 19; with episodes in >=2 runs: 2; in >=3 runs: 0
+top hotspots (by distinct runs, then rate per pass):
+ s_start dir  route_m  passes  slip_episodes  slide_episodes  runs_with_episode  rate_per_pass  nearest_platform_m  grade_pct  curv_max                                  context
+  5300.0  WB 5325.000      30              2               0                  2          0.067               9.650     -1.375     0.021 2 slip/0 slide, flag 2, v0 4 km/h, front
+  6750.0  EB 4369.142      33              2               0                  2          0.061             278.428     -0.262     0.009 2 slip/0 slide, flag 2, v0 0 km/h, front
+  5350.0  WB 5375.000      29              0               1                  1          0.034              40.350     -0.465     0.037  0 slip/1 slide, flag 1, v0 7 km/h, both
+  5750.0  EB 5369.142      32              1               0                  1          0.031              95.490      0.513     0.043 1 slip/0 slide, flag 1, v0 13 km/h, both
+  6900.0  EB 4222.142      33              0               1                  1          0.030             163.333     -0.510     0.001 0 slip/1 slide, flag 1, v0 34 km/h, rear
+  7000.0  EB 4122.142      33              0               1                  1          0.030              63.333     -0.401     0.001 0 slip/1 slide, flag 1, v0 21 km/h, both
+ 10950.0  EB  173.134      33              0               1                  1          0.030              14.143     -1.109     0.025  0 slip/1 slide, flag 1, v0 1 km/h, rear
+   550.0  WB  575.000      34              1               0                  1          0.029              19.831     -0.768     0.007  1 slip/0 slide, flag 1, v0 7 km/h, both
+  1500.0  WB 1525.000      34              1               0                  1          0.029             643.620     -1.993     0.001 1 slip/0 slide, flag 1, v0 0 km/h, front
+  2250.0  WB 2275.000      34              0               1                  1          0.029             725.517     -0.253     0.005 0 slip/1 slide, flag 1, v0 44 km/h, both
+share of located episodes in the 10 worst bins: 0.57 (21 located)
+figure -> analysis\products\fig\c_adhesion_map.png

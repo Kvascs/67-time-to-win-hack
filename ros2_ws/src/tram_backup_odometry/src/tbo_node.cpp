@@ -89,6 +89,13 @@ class TboNode : public rclcpp::Node {
         est_->setDisturbanceField(std::move(fld));
       else RCLCPP_WARN(get_logger(), "disturbance field not loaded (%s)", err.c_str());
     }
+    if (!cfg_.fault_prior_file.empty()) {
+      tbo::TrackField fld;
+      std::string err;
+      if (fld.loadCsv(resolve(cfg_.fault_prior_file), map_.cyclic() ? map_.length() : 0.0, &err))
+        est_->setFaultPrior(std::move(fld));
+      else RCLCPP_WARN(get_logger(), "fault prior not loaded (%s)", err.c_str());
+    }
     sched_ = std::make_unique<tbo::OutputScheduler>(est_->config().p);
 
     // Best-effort subscribers are compatible with both reliable and best-effort publishers.
@@ -134,7 +141,8 @@ class TboNode : public rclcpp::Node {
         "branch_files", "maps/branch_fan_F2.csv,maps/branch_fan_F3.csv,maps/branch_wb_detour.csv");
     cfg_.landmark_file = declare_parameter<std::string>("landmark_file", "maps/landmarks.csv");
     cfg_.cutoff_file = declare_parameter<std::string>("cutoff_file", "maps/cutoffs.csv");
-    cfg_.dfield_file = declare_parameter<std::string>("dfield_file", "");
+    cfg_.dfield_file = declare_parameter<std::string>("dfield_file", "maps/dfield.csv");
+    cfg_.fault_prior_file = declare_parameter<std::string>("fault_prior_file", "");
     cfg_.output_frame = declare_parameter<std::string>("output_frame", "mgrs");
     cfg_.init_source = declare_parameter<std::string>("init_source", "master");
     cfg_.frame_id = declare_parameter<std::string>("frame_id", "map");
@@ -286,6 +294,7 @@ class TboNode : public rclcpp::Node {
     s.model_accel = o.a_model;
     s.distance = o.s;
     s.distance_std = std::sqrt(std::max(0.0, o.s_var));
+    s.protection_level = o.protection_level;
     for (int j = 0; j < tbo::kNumModes; ++j) s.mode_prob[j] = o.mode_prob[j];
     s.slip_ratio_front = o.slip_front;
     s.slip_ratio_rear = o.slip_rear;

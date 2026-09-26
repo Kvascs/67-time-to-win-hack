@@ -1,0 +1,28 @@
+{
+ "train": {
+  "tau_int_measurement_noise": 3.801304445407897,
+  "tau_int_innov_f": 2.3858096293664346,
+  "tau_int_innov_r": 2.524060017467291,
+  "R_white_equiv": 0.00028107617402747494,
+  "R_effective": 0.0010684561098288842,
+  "sigma_R_effective": 0.03268724689888832,
+  "R_model_at_mean_speed": 0.003518494782966705,
+  "ratio_R_model_to_R_white": 12.517940359550986,
+  "ratio_R_model_to_R_effective": 3.293064404423875,
+  "ratio_Pprior_model_to_emp": 30.05410559290846,
+  "NIS2_conservatism_2_over_mean": 13.884677458359345
+ },
+ "val": {
+  "tau_int_measurement_noise": 4.028312098155214,
+  "tau_int_innov_f": 2.4282788815070737,
+  "tau_int_innov_r": 2.3740885432310392,
+  "R_white_equiv": 0.0002933670857151394,
+  "R_effective": 0.001181774180586834,
+  "sigma_R_effective": 0.03437694257182907,
+  "R_model_at_mean_speed": 0.0036508952938857932,
+  "ratio_R_model_to_R_white": 12.44480199605905,
+  "ratio_R_model_to_R_effective": 3.0893341163308095,
+  "ratio_Pprior_model_to_emp": 29.506212472220245,
+  "NIS2_conservatism_2_over_mean": 13.548275866486724
+ }
+}

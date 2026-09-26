@@ -1,0 +1,56 @@
+{
+ "speed_standstill": {
+  "bags": 69,
+  "median_rms_speed": 0.010030591272508695,
+  "pooled_sigma_axis_median": 0.007092699108101499,
+  "median_p95_speed": 0.022
+ },
+ "speed_cruise_d2_sigma_median": 0.017042525716468485,
+ "cross_track_scatter_by_status_moving": {
+  "status0": {
+   "n": 116418,
+   "rms": 5.67351053830095,
+   "median_abs": 0.593705790904878,
+   "p95_abs": 18.00938536775617
+  },
+  "status1": {
+   "n": 163,
+   "rms": 2.126761567692106,
+   "median_abs": 0.3125233066434756,
+   "p95_abs": 2.5709814666274307
+  },
+  "status2": {
+   "n": 424971,
+   "rms": 1.881077699407915,
+   "median_abs": 0.010314427459144682,
+   "p95_abs": 1.2398279247341726
+  }
+ },
+ "along_error_rms_by_status_moving": {
+  "status0_refgood": {
+   "n": 13982,
+   "rms": 7.901222175582182
+  },
+  "status2_refgood": {
+   "n": 366791,
+   "rms": 1.889797822447473
+  }
+ },
+ "status_share": {
+  "2": 0.7949072133637054,
+  "0": 0.20432984054669703,
+  "1": 0.0007629460895975703
+ },
+ "ref_good_bags": {
+  "train": 36,
+  "val": 12
+ },
+ "bags": {
+  "train": 52,
+  "val": 17
+ },
+ "clock_ok_bags": {
+  "train": 46,
+  "val": 14
+ }
+}

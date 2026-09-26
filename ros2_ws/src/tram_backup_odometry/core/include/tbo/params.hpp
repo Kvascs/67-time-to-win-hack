@@ -58,7 +58,8 @@ struct Params {
   double rate_recover = 0.7;        // 1/s: bad -> nominal
   double mode_prob_floor = 1e-6;
   double slip_context_boost = 4.0;  // x rate_to_bad under high traction / braking effort
-  double rate_to_maneuver = 0.05;   // 1/s: nominal -> unmodelled acceleration (emergency brake...)
+  double fault_prior_max = 4.0;     // cap of the place-dependent fault-rate multiplier (adhesion map)
+  double rate_to_maneuver = 0.01;   // 1/s: nominal -> unmodelled acceleration (emergency brake...)
   double rate_maneuver_end = 0.5;   // 1/s: maneuver -> nominal
   double sigma_accel_maneuver = 0.5;  // acceleration noise in the maneuver mode, m/s^2
   double q_disturbance_maneuver = 8.0;  // fast disturbance adaptation in maneuver mode, (m/s^2)^2/s
@@ -66,8 +67,9 @@ struct Params {
 
   // ---- plausibility gates ----
   double max_wheel_accel = 6.0;     // |dv/dt| of a bogie beyond this is not vehicle motion, m/s^2
-  double stuck_time_s = 1.2;        // identical readings for this long ...
-  double stuck_min_change = 0.15;   // ... while the vehicle speed changed by more than this (m/s)
+  double stuck_time_s = 0.8;        // identical non-zero readings for this long ...
+  double stuck_min_change = 0.0;    // ... while the filter speed changed by more than this (m/s);
+                                    // 0: the filter may follow the frozen bogie (circular test)
   double zero_stuck_other = 0.5;    // a bogie at 0 while the other reads above this (m/s) is dead
   double single_bogie_latch_mult = 2.0;  // CUSUM threshold multiplier with only one live bogie
 
@@ -133,6 +135,10 @@ struct Params {
 
   // ---- output ----
   double position_lead_s = 0.045;   // GNSS fixes lead wheel/vel stamps: publish s(t + lead)
+  // Published uncertainty, calibrated on train and checked on val (analysis/consistency):
+  double speed_var_scale = 0.32;    // published speed variance = max(scale * P_vv, floor):
+  double speed_var_floor = 2.5e-4;  //   95 % coverage 0.735 -> 0.957 (val); the floor covers standstill
+  double protection_k = 5.76;       // 99 % along-track protection level = k * sigma_s (val coverage 0.989)
   // Reference frame of the jury: Autoware map frame = MGRS 100 km square (Moscow: 37U DB).
   double mgrs_zone = 37.0;
   double mgrs_origin_e = 400000.0;  // UTM easting of the square's west edge
@@ -144,6 +150,19 @@ struct Params {
   double publish_grid_s = 0.05;     // also publish on a fixed stamp grid (0 disables)
   double publish_on_cmd = 1.0;      // publish at every controller stamp
   double publish_on_wheel = 1.0;    // publish at every bogie stamp
+
+  // ---- robustness fixes found by the anomaly suite (tools/anomaly_sim); 0 disables each ----
+  double joint_need_both = 1.0;     // a lone bogie alarm is "joint" only if the other bogie is really out
+  double joint_d_tau_s = 20.0;      // joint CUSUM reference: slow copy of d (s), so slow slip ramps show
+  double cmd_check_absolute = 1.0;  // controller check on absolute accel under braking, paused while wheels bad
+  double standstill_exit_no_wheels = 1.0;  // leave standstill under traction when both bogies are silent
+  double single_bogie_recover = 1.0;  // re-anchor to the only live bogie after a long rejection
+  double agree_tau_s = 2.0;         // recovery agreement test on low-passed wheels (s): noise-proof
+  double d_clamp_model_only = 1.0;  // |d| <= disturbance_max while both bogies are distrusted
+  double lockup_guard_s = 0.0;      // allow re-anchoring to ~0 wheels after this long at ~0 (0 = never)
+  double stuck_reset = 0.0;         // new stuck bogie: re-anchor to the healthy one, drop learnt d
+  double slide_latch_min_v = 2.0;   // no joint slide latch below this speed (m/s): near a stop a slide
+                                    // costs < 1 m, a false latch there costs a stop reported as motion
 };
 
 struct ParamInfo {
@@ -166,6 +185,7 @@ struct Config {
   std::string landmark_file;             // stop landmarks CSV (main cycle)
   std::string cutoff_file;               // traction cut-off landmarks CSV (main cycle)
   std::string dfield_file;               // learned disturbance field d(s) CSV (main cycle), empty = off
+  std::string fault_prior_file;          // place-dependent slip/slide rate multiplier CSV (main cycle), empty = off
   std::string output_frame = "mgrs";     // mgrs (jury) | enu (first fix) | utm | map
   std::string init_source = "master";    // master | rover
   std::string frame_id = "map";

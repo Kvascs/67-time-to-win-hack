@@ -48,6 +48,7 @@ static const ParamInfo kRegistry[] = {
     TBO_P(rate_recover, "1/s", "IMM bad -> nominal"),
     TBO_P(mode_prob_floor, "-", "IMM probability floor"),
     TBO_P(slip_context_boost, "-", "rate boost under high effort"),
+    TBO_P(fault_prior_max, "-", "cap of the place-dependent fault-rate multiplier"),
     TBO_P(rate_to_maneuver, "1/s", "IMM nominal -> maneuver (unmodelled acceleration)"),
     TBO_P(rate_maneuver_end, "1/s", "IMM maneuver -> nominal"),
     TBO_P(sigma_accel_maneuver, "m/s^2", "acceleration noise in maneuver mode"),
@@ -105,6 +106,9 @@ static const ParamInfo kRegistry[] = {
     TBO_P(cutoff_min_v, "m/s", "min speed for a cut-off fix"),
     TBO_P(cutoff_p_random, "-", "share of cut-offs away from known places"),
     TBO_P(position_lead_s, "s", "position published for stamp + lead (reference fix timing)"),
+    TBO_P(speed_var_scale, "-", "published speed variance scale (consistency calibration)"),
+    TBO_P(speed_var_floor, "(m/s)^2", "published speed variance floor"),
+    TBO_P(protection_k, "-", "99 % along-track protection level in sigma_s"),
     TBO_P(mgrs_zone, "-", "UTM zone of the MGRS output frame"),
     TBO_P(mgrs_origin_e, "m", "UTM easting of the MGRS square origin"),
     TBO_P(mgrs_origin_n, "m", "UTM northing of the MGRS square origin"),
@@ -114,6 +118,16 @@ static const ParamInfo kRegistry[] = {
     TBO_P(publish_grid_s, "s", "fixed stamp grid period (0 = off)"),
     TBO_P(publish_on_cmd, "bool", "publish at controller stamps"),
     TBO_P(publish_on_wheel, "bool", "publish at bogie stamps"),
+    TBO_P(joint_need_both, "bool", "joint alarm needs both bogies unless the other is out"),
+    TBO_P(joint_d_tau_s, "s", "slow disturbance reference of the joint CUSUM (0 = filter d)"),
+    TBO_P(cmd_check_absolute, "bool", "controller check on absolute braking accel, paused when wheels bad"),
+    TBO_P(standstill_exit_no_wheels, "bool", "leave standstill under traction without wheel data"),
+    TBO_P(single_bogie_recover, "bool", "re-anchor to the only live bogie after long rejection"),
+    TBO_P(agree_tau_s, "s", "low-pass time constant of the recovery agreement test (0 = raw)"),
+    TBO_P(d_clamp_model_only, "bool", "clamp disturbance while both bogies are distrusted"),
+    TBO_P(lockup_guard_s, "s", "time at ~0 after which re-anchoring to 0 is allowed (0 = never)"),
+    TBO_P(stuck_reset, "bool", "re-anchor to the healthy bogie when the other is declared stuck"),
+    TBO_P(slide_latch_min_v, "m/s", "no joint slide latch below this filter speed"),
 };
 
 #undef TBO_P
@@ -164,6 +178,7 @@ bool loadFlatYaml(const std::string& path, Config& cfg, std::string* err, std::s
     if (key == "landmark_file") { cfg.landmark_file = val; continue; }
     if (key == "cutoff_file") { cfg.cutoff_file = val; continue; }
     if (key == "dfield_file") { cfg.dfield_file = val; continue; }
+    if (key == "fault_prior_file") { cfg.fault_prior_file = val; continue; }
     if (key == "output_frame") { cfg.output_frame = val; continue; }
     if (key == "init_source") { cfg.init_source = val; continue; }
     if (key == "frame_id") { cfg.frame_id = val; continue; }

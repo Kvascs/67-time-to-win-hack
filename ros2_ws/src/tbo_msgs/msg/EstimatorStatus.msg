@@ -29,6 +29,7 @@ float64 accel                 # estimated longitudinal acceleration, m/s^2
 float64 model_accel           # drive acceleration predicted from the notch, m/s^2
 float64 distance              # along-track distance since start, m
 float64 distance_std          # m
+float64 protection_level      # 99 % bound of the along-track position error, m
 float64[5] mode_prob          # IMM: nominal, front bad, rear bad, both bad (model only), maneuver
 float64 slip_ratio_front      # (wheel - vehicle) / vehicle
 float64 slip_ratio_rear

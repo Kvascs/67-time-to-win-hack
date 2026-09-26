@@ -359,6 +359,21 @@ void Estimator::advance(FilterState& f, Stamp t) const {
     double at = model_.target(notch, vc);
     if (at < 0.0 && (f.standstill || vc < 0.05)) at = 0.0;  // brakes cannot push backwards
     if (f.standstill && notch <= 0) at = 0.0;
+    if (p_.standstill_exit_no_wheels > 0.5 && f.standstill && at > 0.1) {
+      // standstill is only cleared by a bogie reading above threshold: with both bogies silent the
+      // tram would stay pinned at 0 m/s under traction. Let the model drive once both are out.
+      const Stamp to = fromSec(p_.wheel_timeout_s);
+      bool silent = true;
+      for (int i = 0; i < 2; ++i)
+        if (f.wheel[i].have && t_step - f.wheel[i].t <= to) silent = false;
+      if (silent) {
+        f.standstill = false;
+        f.still_since = -1;
+        f.lm_done = false;
+        for (int j = 0; j < kNumModes; ++j)
+          pinVelocity(f.x[j], f.P[j], 0.0, p_.init_sigma_v * p_.init_sigma_v);
+      }
+    }
     f.a_target = at;
     f.a_drive += alpha * (at - f.a_drive);
     const double a_ext = trackAccel(f);
@@ -471,6 +486,7 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
   const double vc = combinedV(f);
   bool avail[2] = {false, false};
   bool implausible[2] = {false, false};
+  bool newly_stuck[2] = {false, false};
   double z[2] = {0.0, 0.0};
   for (int i = 0; i < 2; ++i) {
     if (!e.has[i]) continue;
@@ -492,8 +508,10 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
         w.v_at_same = vc;
       }
       if (toSec(e.t - w.same_since) >= p_.stuck_time_s &&
-          std::abs(vc - w.v_at_same) >= p_.stuck_min_change)
+          std::abs(vc - w.v_at_same) >= p_.stuck_min_change) {
+        if (!w.stuck) newly_stuck[i] = true;
         w.stuck = true;
+      }
     } else {
       w.same_since = -1;
       w.stuck = false;
@@ -538,12 +556,46 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
     }
   }
 
+  // stuck_reset: a bogie was just proven frozen. While it froze the filter may have followed it and
+  // learnt a disturbance explaining its missing acceleration, and the IMM may be rejecting the healthy
+  // bogie. Re-anchor to the healthy one (if plausible) and drop the learnt excess disturbance.
+  if (p_.stuck_reset > 0.5)
+    for (int i = 0; i < 2; ++i) {
+      const int o = 1 - i;
+      if (!newly_stuck[i] || !avail[o] || implausible[o]) continue;
+      for (int j = 0; j < kNumModes; ++j) {
+        pinVelocity(f.x[j], f.P[j], z[o] / (1.0 + f.x[j](kK, 0)), p_.sigma_wheel * p_.sigma_wheel);
+        f.x[j](kD, 0) = std::clamp(f.x[j](kD, 0), -p_.disturbance_max, p_.disturbance_max);
+      }
+      for (int j = 0; j < kNumModes; ++j) f.mu[j] = 0.01;
+      f.mu[kModeNominal] = 1.0 - 0.01 * (kNumModes - 1);
+      f.recovered_t = e.t;
+      f.bad_since = f.agree_since = -1;
+    }
+
   // ---- zero-velocity (standstill) detection ----
   const double thr = p_.standstill_kmh * p_.wheel_kmh_to_ms;
   bool all_low = true;
   for (int i = 0; i < 2; ++i)
     if (avail[i] && z[i] > thr) all_low = false;
-  if (all_low && vc < p_.standstill_max_v) {
+  if (p_.agree_tau_s > 0.0)  // low-passed plausible bogie speeds for the recovery agreement test
+    for (int i = 0; i < 2; ++i)
+      if (avail[i] && !implausible[i]) {
+        const double gap = f.t_ema[i] >= 0 ? toSec(e.t - f.t_ema[i]) : 1e9;
+        if (gap > 1.0) f.ema_z[i] = z[i];
+        else f.ema_z[i] += (1.0 - std::exp(-gap / p_.agree_tau_s)) * (z[i] - f.ema_z[i]);
+        f.t_ema[i] = e.t;
+      }
+  bool zero_long = false;  // lockup_guard_s: bogies at ~0 far longer than any wheel lock lasts
+  if (p_.lockup_guard_s > 0.0) {
+    if (all_low) {
+      if (f.zero_since < 0) f.zero_since = e.t;
+      zero_long = toSec(e.t - f.zero_since) >= p_.lockup_guard_s;
+    } else {
+      f.zero_since = -1;
+    }
+  }
+  if (all_low && (vc < p_.standstill_max_v || zero_long)) {
     if (f.still_since < 0) f.still_since = e.t;
     if (!f.standstill && toSec(e.t - f.still_since) >= p_.standstill_time_s) {
       f.standstill = true;
@@ -586,7 +638,14 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
   const double dt = std::clamp(toSec(e.t - f.t_mix), 0.0, 1.0);
   f.t_mix = e.t;
   const bool effort = std::abs(f.a_target) > 0.5 || std::abs(f.notch) >= 8;
-  const double boost = effort ? p_.slip_context_boost : 1.0;
+  double boost = effort ? p_.slip_context_boost : 1.0;
+  if (!fault_prior_.empty()) {  // known low-adhesion places: faults are a priori more likely there
+    double s = 0.0;
+    for (int j = 0; j < kNumModes; ++j) s += f.mu[j] * f.x[j](kS, 0);
+    const TrackMap* m = nullptr;
+    double sm = 0.0;
+    if (routeAt(s, m, sm) && m == map_) boost *= std::clamp(fault_prior_.at(sm), 1.0, p_.fault_prior_max);
+  }
   const double pb = 1.0 - std::exp(-p_.rate_to_bad * boost * dt);
   const double pbb = 1.0 - std::exp(-p_.rate_to_both_bad * boost * dt);
   const double pr = 1.0 - std::exp(-p_.rate_recover * dt);
@@ -668,6 +727,8 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
   // collapse the mode-conditioned posteriors (moment matching) into every mode
   StateVec xbar;
   for (int j = 0; j < kNumModes; ++j) xbar += f.mu[j] * f.x[j];
+  if (p_.d_clamp_model_only > 0.5 && f.mu[kModeBothBad] > 0.5)  // wheels distrusted: no wheel-learnt
+    xbar(kD, 0) = std::clamp(xbar(kD, 0), -p_.disturbance_max, p_.disturbance_max);  // excess accel
   StateCov Pbar;
   for (int j = 0; j < kNumModes; ++j) {
     const StateVec dx = f.x[j] - xbar;
@@ -685,19 +746,25 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
   } else {
     f.bad_since = -1;
   }
-  const bool agree = avail[0] && avail[1] && std::abs(z[0] - z[1]) < p_.recover_agree &&
-                     !implausible[0] && !implausible[1];
+  bool agree = avail[0] && avail[1] && std::abs(z[0] - z[1]) < p_.recover_agree &&
+               !implausible[0] && !implausible[1];
+  if (p_.agree_tau_s > 0.0)  // noisy bogies: compare low-passed speeds instead of single samples
+    agree = avail[0] && avail[1] && f.t_ema[0] >= 0 && f.t_ema[1] >= 0 && toSec(e.t - f.t_ema[0]) < 0.5 &&
+            toSec(e.t - f.t_ema[1]) < 0.5 && std::abs(f.ema_z[0] - f.ema_z[1]) < p_.recover_agree;
   if (agree) {
     if (f.agree_since < 0) f.agree_since = e.t;
   } else {
     f.agree_since = -1;
   }
+  const bool zero_ok = p_.lockup_guard_s > 0.0 && f.zero_since >= 0 &&
+                       toSec(e.t - f.zero_since) >= p_.lockup_guard_s;
   if (f.bad_since >= 0 && f.agree_since >= 0 && toSec(e.t - f.bad_since) >= p_.recover_min_bad_s &&
       toSec(e.t - f.agree_since) >= p_.recover_time_s) {
     const double zm = 0.5 * (z[0] + z[1]);
     const double vnow = combinedV(f);
     // never re-anchor onto wheels locked near zero while the model says we still move
-    if (zm > 2.0 * thr || vnow < p_.standstill_max_v) {
+    // (lockup_guard_s: unless they have read ~0 for longer than any lock lasts)
+    if (zm > 2.0 * thr || vnow < p_.standstill_max_v || zero_ok) {
       for (int j = 0; j < kNumModes; ++j) {
         const double k = f.x[j](kK, 0);
         pinVelocity(f.x[j], f.P[j], zm / (1.0 + k), p_.sigma_wheel * p_.sigma_wheel);
@@ -708,6 +775,34 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
       f.bad_since = f.agree_since = -1;
     }
   }
+  // single_bogie_recover: the other bogie is out (dropout / stuck) and the only one left has been
+  // rejected for recover_min_bad_s + recover_time_s while reading smoothly -> re-anchor to it
+  if (p_.single_bogie_recover > 0.5) {
+    const int n_av = (avail[0] ? 1 : 0) + (avail[1] ? 1 : 0);
+    bool armed = false;
+    if (n_av == 1) {
+      const int i = avail[0] ? 0 : 1;
+      const WheelTrack& wo = f.wheel[1 - i];
+      const bool other_out = !wo.have || toSec(e.t - wo.t) > p_.wheel_timeout_s || wo.stuck;
+      const double bad_i = f.mu[i == 0 ? kModeFrontBad : kModeRearBad] + f.mu[kModeBothBad];
+      if (other_out && bad_i > 0.5 && !implausible[i]) {
+        armed = true;
+        if (f.single_since < 0) f.single_since = e.t;
+        const double vnow = combinedV(f);
+        if (toSec(e.t - f.single_since) >= p_.recover_min_bad_s + p_.recover_time_s &&
+            (z[i] > 2.0 * thr || vnow < p_.standstill_max_v || zero_ok)) {
+          for (int j = 0; j < kNumModes; ++j)
+            pinVelocity(f.x[j], f.P[j], z[i] / (1.0 + f.x[j](kK, 0)), p_.sigma_wheel * p_.sigma_wheel);
+          for (int j = 0; j < kNumModes; ++j) f.mu[j] = 0.01;
+          f.mu[kModeNominal] = 1.0 - 0.01 * (kNumModes - 1);
+          f.recovered_t = e.t;
+          f.single_since = -1;
+          armed = false;
+        }
+      }
+    }
+    if (!armed) f.single_since = -1;
+  }
 }
 
 bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, const double* z) const {
@@ -717,8 +812,27 @@ bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, 
   const double k = xm(kK, 0);
   // Reference: the controller model with a grade-sized disturbance only. A large negative d
   // learned during an unmodelled brake must not make normal driving look like a slip.
-  const double d_ref = std::clamp(xm(kD, 0), -p_.disturbance_max, p_.disturbance_max);
-  const double a_model = xm(kG, 0) * f.a_drive + d_ref;
+  double d_src = xm(kD, 0);
+  if (p_.joint_d_tau_s > 0.0) {
+    // the filter's d absorbs a slowly rising joint slip within ~0.5 s (it follows the wheels), which
+    // hides ramps from the CUSUM: reference a slow copy of d, frozen while any monitor is active
+    const bool quiet = !f.latch && f.mu[kModeNominal] > 0.9 && f.wheel[0].cusum_pos <= 0.0 &&
+                       f.wheel[0].cusum_neg <= 0.0 && f.wheel[1].cusum_pos <= 0.0 && f.wheel[1].cusum_neg <= 0.0;
+    if (!f.d_slow_init) {
+      f.d_slow = d_src;
+      f.d_slow_init = true;
+    } else if (quiet) {
+      const double dt = std::clamp(toSec(e.t - f.t_dslow), 0.0, 1.0);
+      f.d_slow += (1.0 - std::exp(-dt / p_.joint_d_tau_s)) * (d_src - f.d_slow);
+    }
+    f.t_dslow = e.t;
+    d_src = f.d_slow;
+  }
+  const double d_ref = std::clamp(d_src, -p_.disturbance_max, p_.disturbance_max);
+  // same terms as the filter dynamics: drive + disturbance + map (grade, learned field); without the
+  // grade a 3 % slope alone used up to half of the CUSUM allowance
+  const double a_map = trackAccel(f);
+  const double a_model = xm(kG, 0) * f.a_drive + d_ref + a_map;
   auto setModelOnly = [&]() {
     for (int j = 0; j < kNumModes; ++j) f.mu[j] = p_.mode_prob_floor;
     f.mu[kModeBothBad] = 1.0 - p_.mode_prob_floor * (kNumModes - 1);
@@ -749,6 +863,7 @@ bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, 
     f.release_count = (n > 0 && ok) ? f.release_count + 1 : 0;
     if (f.release_count >= static_cast<int>(p_.latch_release_n)) {
       f.latch = false;
+      f.latch_end_t = e.t;
       setNominal();
       resetMonitor();
       f.snap_t = -1;
@@ -761,6 +876,7 @@ bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, 
         for (int j = 0; j < kNumModes; ++j)
           pinVelocity(f.x[j], f.P[j], zm / (1.0 + f.x[j](kK, 0)), p_.sigma_wheel * p_.sigma_wheel);
         f.latch = false;
+        f.latch_end_t = e.t;
         f.recovered_t = e.t;
         setNominal();
         resetMonitor();
@@ -827,8 +943,22 @@ bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, 
   if (n_excess > 0 && vc > 0.3) {
     const double ex = excess_sum / n_excess;
     double impossible = 0.0;
-    if (f.notch <= 0) impossible = ex;                  // speeding up with no traction
-    else if (f.a_target > 0.1) impossible = -ex - 1.0;  // strong braking under traction
+    if (p_.cmd_check_absolute > 0.5) {
+      // (1) under a braking notch only an actual speed-up is impossible (a weaker-than-tabulated
+      //     brake near a stop is not); (2) no evidence while a bogie is distrusted or right after a
+      //     joint latch: a wheel spinning back up after a slide is not the controller's fault
+      const double bad = f.mu[kModeFrontBad] + f.mu[kModeRearBad] + f.mu[kModeBothBad];
+      const bool pause = f.latch || bad > 0.5 || (f.latch_end_t >= 0 && toSec(e.t - f.latch_end_t) < 3.0);
+      if (!pause) {
+        if (f.notch < 0) impossible = ex + a_model;        // absolute bogie acceleration
+        else if (f.notch == 0) impossible = ex;
+        else if (f.a_target > 0.1) impossible = -ex - 1.0;
+      }
+    } else if (f.notch <= 0) {
+      impossible = ex;                                   // speeding up with no traction
+    } else if (f.a_target > 0.1) {
+      impossible = -ex - 1.0;                            // strong braking under traction
+    }
     const double dtc = f.t_cmd_cusum >= 0 ? std::clamp(toSec(e.t - f.t_cmd_cusum), 0.0, 0.5) : 0.0;
     f.cmd_cusum = std::max(0.0, f.cmd_cusum + (impossible - p_.cmd_fault_accel) * dtc);
     if (f.cmd_cusum > p_.cmd_fault_h) {
@@ -859,7 +989,7 @@ bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, 
   }
   if (f.onset) {
     const double dt = toSec(e.t - f.mod_t);
-    const double a = f.onset_g * f.a_drive + f.onset_d;
+    const double a = f.onset_g * f.a_drive + f.onset_d + a_map;
     double v1 = f.mod_v + a * dt;
     if (v1 < 0.0) v1 = 0.0;
     f.mod_s += 0.5 * (f.mod_v + v1) * dt;
@@ -874,7 +1004,18 @@ bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, 
     const WheelTrack& w = f.wheel[live];
     if (std::max(w.cusum_pos, w.cusum_neg) < p_.cusum_h * p_.single_bogie_latch_mult) alarms = 0;
   }
-  if (alarms == n_av) {
+  bool joint = alarms == n_av;
+  // near a stop a joint slide is harmless (< 1 m) but a false one latches the model through the stop
+  if (joint && sign < 0 && vc < p_.slide_latch_min_v) joint = false;
+  if (joint && n_av == 1 && p_.joint_need_both > 0.5) {
+    // A lone alarm is "joint" only if the other bogie is really out. Otherwise its sample of the
+    // same stamp pair has merely not arrived yet (query() between the W0 and W1 messages), and
+    // latching would publish a rolled-back model speed exactly at a wheel stamp.
+    const WheelTrack& wo = f.wheel[avail[0] ? 1 : 0];
+    const bool other_out = !wo.have || toSec(e.t - wo.t) > p_.wheel_timeout_s || wo.stuck;
+    if (!other_out) joint = false;
+  }
+  if (joint) {
     if (f.onset) {
       const double elapsed = toSec(e.t - f.onset_t);
       const double var_v = p_.sigma_wheel * p_.sigma_wheel + p_.sigma_accel * p_.sigma_accel * elapsed;
@@ -1227,7 +1368,7 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
     Pm += f.mu[j] * (f.P[j] + dx * transpose(dx));
   }
   o.v = std::max(0.0, xm(kV, 0));
-  o.v_var = Pm(kV, kV);
+  o.v_var = std::max(p_.speed_var_scale * Pm(kV, kV), p_.speed_var_floor);
   o.s = xm(kS, 0);
   o.s_var = Pm(kS, kS);
   o.disturbance = xm(kD, 0);
@@ -1322,6 +1463,7 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
     o.cov_zz = 1e4;
     fl |= kFlagNotInitialized | kFlagNoMap;
   }
+  o.protection_level = p_.protection_k * std::sqrt(std::max(sig_s2, 0.0));
   o.flags = fl;
   o.pos_valid = init_.anchored || (init_.have_first && t - init_.t_first >= fromSec(p_.gnss_wait_s));
   return o;
