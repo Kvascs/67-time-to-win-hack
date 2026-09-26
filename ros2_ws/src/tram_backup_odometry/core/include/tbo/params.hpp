@@ -12,8 +12,8 @@ struct Params {
   double wheel_curv_abs = 0.415;    // wheels under-read in curves: v = v_wheel (1 + a|k| + b k), a
   double wheel_curv_signed = -0.054;  // b (per 1/m of track curvature k from the map)
   double wheel_curv_sat = 0.009;    // the curve under-reading saturates at ~0.9 % (R < 60 m)
-  double front_bogie_along_m = 9.9; // bogie positions ahead of antenna 1 along the track (curvature
-  double rear_bogie_along_m = 2.35; //   for each bogie's wheel correction is taken at its own place)
+  double front_bogie_along_m = 9.873;  // bogie pivots ahead of antenna 1 (organisers' TF: master at
+  double rear_bogie_along_m = 2.323;   //   x = -9.873 in base_link, bogie base 7.55 m); curvature per bogie
   double body_rear_m = -2.1;        // car body extent relative to antenna 1 (grade averaged over it)
   double body_front_m = 14.4;
   double wheel_max_kmh = 110.0;           // readings above are physically impossible -> invalid
@@ -87,6 +87,7 @@ struct Params {
   double latch_release_rel = 0.04;  // ... or this fraction of speed
   double latch_release_n = 2.0;     // consecutive consistent samples to release
   double latch_max_s = 10.0;        // longest joint anomaly bridged by the model before re-anchoring
+  double slide_latch_max_s = 3.0;   // same for a slide: anti-skid control releases a lock within ~1-2 s
 
   // ---- standstill (zero-velocity update) ----
   double standstill_kmh = 0.15;     // both bogies below -> candidate standstill
@@ -139,13 +140,15 @@ struct Params {
   double speed_var_scale = 0.32;    // published speed variance = max(scale * P_vv, floor):
   double speed_var_floor = 2.5e-4;  //   95 % coverage 0.735 -> 0.957 (val); the floor covers standstill
   double protection_k = 5.76;       // 99 % along-track protection level = k * sigma_s (val coverage 0.989)
-  // Reference frame of the jury: Autoware map frame = MGRS 100 km square (Moscow: 37U DB).
+  // Reference frame of the jury: Autoware map frame, MGRS grid 37U CB (organisers' example
+  // 37UCB035858: lat 55.80883 lon 37.46028 -> x 103501.63, y 85876.12), i.e. x continues past 100 km
+  // into the neighbouring square DB instead of wrapping.
   double mgrs_zone = 37.0;
-  double mgrs_origin_e = 400000.0;  // UTM easting of the square's west edge
+  double mgrs_origin_e = 300000.0;  // UTM easting of the square's west edge (CB)
   double mgrs_origin_n = 6100000.0; // UTM northing of the square's south edge
   // Published point = base_link (centre of the front bogie at rail-top level, REP-103).
-  double base_link_along_m = 9.9;   // front bogie ahead of antenna 1 (fitted: body heading vs chord)
-  double base_link_height_m = 3.5;  // antenna 1 above rail top (assumption until the TF is given)
+  double base_link_along_m = 9.873; // front bogie pivot ahead of antenna 1 (organisers' TF; data fit: 9.9)
+  double base_link_height_m = 3.0;  // antennas above the wheel-rail contact point (organisers' TF)
   double bogie_base_m = 7.55;       // distance between bogie centres (organisers)
   double publish_grid_s = 0.05;     // also publish on a fixed stamp grid (0 disables)
   double publish_on_cmd = 1.0;      // publish at every controller stamp

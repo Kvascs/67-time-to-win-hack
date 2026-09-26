@@ -60,7 +60,7 @@ ros2 bag play <путь к bag>
 | Топик | Тип | Содержимое |
 |---|---|---|
 | `/result/velocity` | `tram_vehicle_msgs/VelocitySensor` | продольная скорость, м/с (`velocity`), `frame_id = base_link` |
-| `/result/position` | `nav_msgs/Odometry` | положение `base_link` (центр передней тележки, уровень рельса) в **MGRS 37U DB** (x = E−400000, y = N−6100000, z — высота); ориентация; ковариации; `twist.linear.x` = скорость |
+| `/result/position` | `nav_msgs/Odometry` | положение `base_link` (центр передней тележки, уровень рельса) в системе карты Autoware **MGRS 37U CB** (x = E−300000, y = N−6100000 в UTM 37N, без переноса через 100 км; z — высота антенн по GNSS − 3.0 м); ориентация; ковариации; `twist.linear.x` = скорость |
 | `/result/status` | `tbo_msgs/EstimatorStatus` | флаги (`FLAG_*_SLIP/SLIDE/DROPOUT/STUCK/...`), вероятности 5 режимов, коэффициент скольжения каждой тележки, использованное сцепление, время обработки |
 | `/diagnostics` | `diagnostic_msgs/DiagnosticArray` | 1 Гц: OK/WARN со словесным статусом («обнаружено проскальзывание», «только модель», ...), счётчики |
 

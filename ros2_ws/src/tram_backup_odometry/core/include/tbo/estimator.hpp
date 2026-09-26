@@ -100,7 +100,8 @@ class Estimator {
     static constexpr int kHist = 8;
     Stamp ht[kHist]{};
     double hz[kHist]{};
-    double ham[kHist]{};
+    double ham[kHist]{};     // model acceleration, slip reference (slow disturbance)
+    double hams[kHist]{};    // model acceleration, slide reference (filter disturbance)
     int hn = 0;
     int hhead = 0;
     double cusum_pos = 0.0, cusum_neg = 0.0;

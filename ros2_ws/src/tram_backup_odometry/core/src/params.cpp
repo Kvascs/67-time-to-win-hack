@@ -70,6 +70,7 @@ static const ParamInfo kRegistry[] = {
     TBO_P(latch_release_rel, "-", "latch release gate (relative)"),
     TBO_P(latch_release_n, "-", "consistent samples to release latch"),
     TBO_P(latch_max_s, "s", "max joint anomaly bridged by the model"),
+    TBO_P(slide_latch_max_s, "s", "max joint slide bridged by the model"),
     TBO_P(standstill_kmh, "km/h", "standstill threshold"),
     TBO_P(standstill_time_s, "s", "standstill confirmation time"),
     TBO_P(standstill_max_v, "m/s", "lock-up guard for standstill"),

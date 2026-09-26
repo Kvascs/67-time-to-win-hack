@@ -420,6 +420,36 @@ TEST_CASE("no-GNSS proof: GNSS after the init window changes nothing (bit-identi
   CHECK(!a.outs.empty() && a.outs.back().map_matched);
 }
 
+TEST_CASE("distance never runs backwards without landmarks, even with an unmodelled grade") {
+  // Regression: the wheel-update gain of s leaked through the wheel-scale channel (P_sk * v) and
+  // moved s backwards by metres per sample when the model missed an acceleration (no map grade).
+  // 4 km at 10 +- 2 m/s (30 s period) under a constant notch: the model misses every acceleration.
+  // The joint slip monitor is off here: its roll-back moves s back by design; this test isolates the leak.
+  Config cfg;
+  cfg.p.cusum_h = 1e6;
+  TractionModel model;
+  std::vector<In> ev;
+  const double t0 = 20000.0, dur = 400.0;
+  auto vAt = [](double t) { return t < 10.0 ? t : 10.0 + 2.0 * std::sin(2.0 * 3.14159265 * (t - 10.0) / 30.0); };
+  double s_true = 0.0;
+  for (double t = 0.0; t < dur; t += 0.01) s_true += vAt(t + 0.005) * 0.01;
+  for (int k = 0; k * 0.05 <= dur; ++k) {
+    const double t = k * 0.05 + 0.016;
+    ev.push_back({2, fromSec(t0 + t + 0.001), fromSec(t0 + t), 3.0, 0, 0});
+  }
+  for (int k = 0; k * 0.1 <= dur; ++k) {
+    const double t = k * 0.1 + 0.03;
+    for (int sensor = 0; sensor < 2; ++sensor)
+      ev.push_back({sensor, fromSec(t0 + t + 0.046), fromSec(t0 + t), vAt(t) * kKmh, 0, 0});
+  }
+  sortByArrival(ev);
+  const RunResult r = run(ev, cfg, model);
+  double worst = 0.0;
+  for (size_t i = 1; i < r.outs.size(); ++i) worst = std::min(worst, r.outs[i].s - r.outs[i - 1].s);
+  CHECK(worst > -0.01);
+  CHECK_NEAR(r.outs.back().s, s_true, 0.02 * s_true);  // leak: -3.0 %; now -1.4 % (model misses +-0.42 m/s^2)
+}
+
 TEST_CASE("track field: linear interpolation and cyclic wrap (learned d(s), adhesion map)") {
   const std::string path = "tbo_test_field.csv";
   {

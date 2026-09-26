@@ -59,6 +59,11 @@ double kfUpdate(StateVec& x, StateCov& P, const double* z, const int* idx, const
   // Schmidt ("consider") state: the wheel scale k is not observable from wheels + model
   // (only (1+k)*g is), so bogie updates must not move it; stop landmarks calibrate it.
   for (int r = 0; r < M; ++r) K(kK, r) = 0.0;
+  // Position is the integral of speed and is corrected by landmarks only. Its wheel-update gain,
+  // (P_sv (1+k) + P_sk v) / S, is the small difference of two large terms (both ~ distance * P_kk)
+  // that the linearised scale does not keep balanced when speed changes: without landmarks the
+  // remainder moved s by 0.4-0.6 m per sample (up to 96 m backwards over a run without GNSS).
+  for (int r = 0; r < M; ++r) K(kS, r) = 0.0;
   x += K * nu;
   const StateCov IKH = StateCov::identity() - K * H;
   P = IKH * P * transpose(IKH) + K * R * transpose(K);  // Joseph form
@@ -75,13 +80,26 @@ void clampState(StateVec& x, StateCov& P, const Params& p, double d_min, double 
   conditionCovariance(P, 1e-12);
 }
 
+// Imposes speed v with variance var (standstill, re-anchoring to the wheels, roll-back) as a
+// scalar measurement of v on a widened prior, so the covariance stays consistent. Zeroing the
+// v row/column instead left stale s-k / s-v cross terms behind; later wheel updates then moved s
+// by metres per sample through the wheel-scale channel (P_sk * v / S), backwards as often as not.
 void pinVelocity(StateVec& x, StateCov& P, double v, double var) {
+  const double innov = v - x(kV, 0);
+  P(kV, kV) += innov * innov + 1.0;  // the value is imposed: open the prior on v first
+  const double S = P(kV, kV) + var;
+  StateVec K;
+  for (int i = 0; i < kNx; ++i) K(i, 0) = P(i, kV) / S;
+  K(kK, 0) = 0.0;  // the wheel scale is calibrated by landmarks only (Schmidt state)
+  x += K * innov;
   x(kV, 0) = v;
-  for (int i = 0; i < kNx; ++i) {
-    P(kV, i) = 0.0;
-    P(i, kV) = 0.0;
-  }
-  P(kV, kV) = var;
+  Mat<1, kNx> H;
+  H(0, kV) = 1.0;
+  const StateCov IKH = StateCov::identity() - K * H;
+  Mat<1, 1> R;
+  R(0, 0) = var;
+  P = IKH * P * transpose(IKH) + K * R * transpose(K);
+  symmetrize(P);
 }
 
 }  // namespace
@@ -833,6 +851,11 @@ bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, 
   // grade a 3 % slope alone used up to half of the CUSUM allowance
   const double a_map = trackAccel(f);
   const double a_model = xm(kG, 0) * f.a_drive + d_ref + a_map;
+  // Slide reference: the brake table error changes by ~1 m/s^2 within one braking (d from +0.7 to
+  // -0.3 as the brake builds up), so the slow copy lags and fakes a joint slide; braking therefore
+  // uses the filter's own disturbance within its physical bounds.
+  const double d_fast = std::clamp(xm(kD, 0), -p_.disturbance_max_decel, p_.disturbance_max_free);
+  const double a_model_slide = xm(kG, 0) * f.a_drive + d_fast + a_map;
   auto setModelOnly = [&]() {
     for (int j = 0; j < kNumModes; ++j) f.mu[j] = p_.mode_prob_floor;
     f.mu[kModeBothBad] = 1.0 - p_.mode_prob_floor * (kNumModes - 1);
@@ -869,7 +892,8 @@ bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, 
       f.snap_t = -1;
       return false;  // this sample updates the filter normally
     }
-    if (toSec(e.t - f.latch_t) > p_.latch_max_s) {  // model drift now dominates: re-anchor
+    const double latch_max = f.latch_sign < 0 ? p_.slide_latch_max_s : p_.latch_max_s;
+    if (toSec(e.t - f.latch_t) > latch_max) {  // model drift now dominates: re-anchor
       const bool both = avail[0] && avail[1];
       if ((both && std::abs(z[0] - z[1]) < p_.recover_agree) || (avail[0] != avail[1])) {
         const double zm = both ? 0.5 * (z[0] + z[1]) : (avail[0] ? z[0] : z[1]);
@@ -906,6 +930,7 @@ bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, 
     w.ht[slot] = e.t;
     w.hz[slot] = z[i];
     w.ham[slot] = a_model;
+    w.hams[slot] = a_model_slide;
     w.hhead = (w.hhead + 1) % WheelTrack::kHist;
     w.hn = std::min(w.hn + 1, WheelTrack::kHist);
     int ref = -1;
@@ -923,11 +948,13 @@ bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, 
       w.cusum_pos = w.cusum_neg = 0.0;
     } else {
       const double age = toSec(e.t - w.ht[ref]);
-      const double excess = (z[i] - w.hz[ref]) / age - 0.5 * (a_model + w.ham[ref]);
+      const double a_wheel = (z[i] - w.hz[ref]) / age;
+      const double excess = a_wheel - 0.5 * (a_model + w.ham[ref]);
+      const double excess_slide = a_wheel - 0.5 * (a_model_slide + w.hams[ref]);
       excess_sum += excess;
       ++n_excess;
       w.cusum_pos = traction ? std::max(0.0, w.cusum_pos + (excess - p_.cusum_slip_accel) * dtc) : 0.0;
-      w.cusum_neg = braking ? std::max(0.0, w.cusum_neg + (-excess - p_.cusum_slide_accel) * dtc) : 0.0;
+      w.cusum_neg = braking ? std::max(0.0, w.cusum_neg + (-excess_slide - p_.cusum_slide_accel) * dtc) : 0.0;
     }
     w.alarm = w.cusum_pos > p_.cusum_h || w.cusum_neg > p_.cusum_h;
     if (w.alarm) {
@@ -976,7 +1003,7 @@ bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, 
       f.snap_t = e.t;
       f.snap_v = vc;
       f.snap_s = xm(kS, 0);
-      f.snap_d = d_ref;
+      f.snap_d = braking ? d_fast : d_ref;  // the reference of the monitor that can fire now
       f.snap_g = xm(kG, 0);
     }
   } else if (!f.onset && f.snap_t >= 0) {
