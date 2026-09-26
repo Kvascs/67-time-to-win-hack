@@ -96,8 +96,10 @@ ros2 bag record -o run_out /result/velocity /result/position /result/status
 ros2 run tram_backup_odometry_tools evaluate_run --input-bag <путь к bag> --output-bag run_out
 ```
 
-`evaluate_run` сравнивает с антенной GNSS (ENU от первого фикса), поэтому для этой проверки запускайте ноду в режиме антенны:
-`-p output_frame:=enu -p base_link_along_m:=0.0 -p base_link_height_m:=0.0`.
+`evaluate_run` по умолчанию сравнивает как судья: `base_link` в MGRS 37U CB против эталона, построенного из обеих
+антенн GNSS по TF организаторов (master x = −9.873, rover x = +2.563, z = +3.0); нода — с параметрами по умолчанию.
+Режим `--frame enu` сравнивает точку антенны 1 в ENU от первого фикса (ноду тогда запускать с
+`-p output_frame:=enu -p base_link_along_m:=0.0 -p base_link_height_m:=0.0`).
 
 Всё сразу — один прогон с замером под ограничениями жюри (2 ядра, 0.5 ГБ):
 

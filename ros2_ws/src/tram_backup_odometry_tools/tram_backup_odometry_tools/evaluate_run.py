@@ -5,7 +5,12 @@ and /vel) and our outputs from a bag recorded during playback (/result/velocity,
 /result/position). Pairs every reference sample with the output of the nearest header stamp
 (tolerance 0.05 s) and prints speed RMSE/MAE/bias, position error (3-D, along/cross-track using
 the published heading), z error and end drift in % of the travelled reference distance.
-Reference frame: ENU tangent plane at the first master fix (same as the node's output_frame=enu).
+Two reference frames:
+  --frame mgrs (default, like the jury): base_link in MGRS 37U CB (x = UTM E - 300000, y = N - 6100000)
+      built from BOTH antennas with the organisers' TF (master x = -9.873, rover x = +2.563, z = +3.0 in
+      base_link): base_link = master + 9.873 * unit(rover - master), height - 3.0 m. Node at defaults.
+  --frame enu: antenna 1 in the ENU tangent plane at the first master fix; run the node with
+      output_frame:=enu base_link_along_m:=0 base_link_height_m:=0.
 
 Usage:
   ros2 bag record -o run_out /result/velocity /result/position /result/status   # during playback
@@ -38,6 +43,51 @@ def enu(lat, lon, h, lat0, lon0, h0):
     return d @ r.T
 
 
+def utm(lat, lon, zone=37):
+    """WGS84 -> UTM (northern hemisphere), Krueger series to n^4 (sub-millimetre)."""
+    n = F / (2 - F)
+    a_ = A / (1 + n) * (1 + n ** 2 / 4 + n ** 4 / 64)
+    al = [n / 2 - 2 * n ** 2 / 3 + 5 * n ** 3 / 16 + 41 * n ** 4 / 180,
+          13 * n ** 2 / 48 - 3 * n ** 3 / 5 + 557 * n ** 4 / 1440,
+          61 * n ** 3 / 240 - 103 * n ** 4 / 140,
+          49561 * n ** 4 / 161280]
+    la, lo = np.radians(lat), np.radians(lon) - math.radians(zone * 6 - 183)
+    e = math.sqrt(E2)
+    t = np.sinh(np.arctanh(np.sin(la)) - e * np.arctanh(e * np.sin(la)))
+    xi, eta = np.arctan2(t, np.cos(lo)), np.arctanh(np.sin(lo) / np.sqrt(1 + t ** 2))
+    x, y = eta.copy(), xi.copy()
+    for j, aj in enumerate(al, 1):
+        x += aj * np.cos(2 * j * xi) * np.sinh(2 * j * eta)
+        y += aj * np.sin(2 * j * xi) * np.cosh(2 * j * eta)
+    return 500000.0 + 0.9996 * a_ * x, 0.9996 * a_ * y
+
+
+def base_link_reference(ref: dict, along=9.873, height=3.0, e0=300000.0, n0=6100000.0):
+    """Reference base_link in MGRS from both antennas (fixes paired within 20 ms)."""
+    m = [f for f in ref['/sensing/gnss/master/fix'] if math.isfinite(f.latitude)]
+    r = [f for f in ref['/sensing/gnss/rover/fix'] if math.isfinite(f.latitude)]
+    if not m or not r:
+        return None
+    mt = np.array([st(f.header) for f in m])
+    rt = np.array([st(f.header) for f in r])
+    order = np.argsort(rt)
+    rt, r = rt[order], [r[i] for i in order]
+    j = np.clip(np.searchsorted(rt, mt), 1, len(rt) - 1)
+    j = np.where(np.abs(rt[j - 1] - mt) < np.abs(rt[j] - mt), j - 1, j)
+    ok = np.abs(rt[j] - mt) < 0.02
+    me, mn = utm(np.array([f.latitude for f in m]), np.array([f.longitude for f in m]))
+    re_, rn = utm(np.array([r[k].latitude for k in j]), np.array([r[k].longitude for k in j]))
+    ma = np.array([f.altitude for f in m])
+    ra = np.array([r[k].altitude for k in j])
+    u = np.stack([re_ - me, rn - mn, ra - ma], -1)
+    ln = np.linalg.norm(u, axis=1)
+    ok &= (ln > 11.9) & (ln < 13.0)  # antenna baseline 12.44 m: both fixes consistent
+    u = u / np.maximum(ln, 1e-9)[:, None]
+    b = np.stack([me - e0, mn - n0, ma], -1) + along * u
+    b[:, 2] -= height
+    return mt[ok], b[ok], np.arctan2(u[ok, 1], u[ok, 0])
+
+
 def read_bag(path: str, topics: set[str]) -> dict:
     import rosbag2_py
     from rclpy.serialization import deserialize_message
@@ -68,8 +118,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--input-bag', required=True)
     ap.add_argument('--output-bag', required=True)
+    ap.add_argument('--frame', choices=['mgrs', 'enu'], default='mgrs')
     a = ap.parse_args()
-    ref = read_bag(a.input_bag, {'/sensing/gnss/master/fix', '/sensing/gnss/master/vel'})
+    ref = read_bag(a.input_bag, {'/sensing/gnss/master/fix', '/sensing/gnss/master/vel', '/sensing/gnss/rover/fix'})
     res = read_bag(a.output_bag, {'/result/velocity', '/result/position'})
     vel = sorted(res['/result/velocity'], key=lambda m: st(m.header))
     pos = sorted(res['/result/position'], key=lambda m: st(m.header))
@@ -87,10 +138,16 @@ def main():
           f'MAE {np.mean(np.abs(ev)):.3f} bias {np.mean(ev):+.3f} m/s | moving RMSE '
           f'{np.sqrt(np.mean(ev[rspeed[ok] > 0.5] ** 2)):.3f} m/s')
     # ---- position
-    fx = [m for m in ref['/sensing/gnss/master/fix'] if math.isfinite(m.latitude)]
-    ft = np.array([st(m.header) for m in fx])
-    lat = np.array([m.latitude for m in fx]); lon = np.array([m.longitude for m in fx]); alt = np.array([m.altitude for m in fx])
-    p_ref = enu(lat, lon, alt, lat[0], lon[0], alt[0])
+    if a.frame == 'mgrs':
+        br = base_link_reference(ref)
+        if br is None or len(br[0]) == 0:
+            raise SystemExit('no paired master/rover fixes for the base_link reference')
+        ft, p_ref, _ = br
+    else:
+        fx = [m for m in ref['/sensing/gnss/master/fix'] if math.isfinite(m.latitude)]
+        ft = np.array([st(m.header) for m in fx])
+        lat = np.array([m.latitude for m in fx]); lon = np.array([m.longitude for m in fx]); alt = np.array([m.altitude for m in fx])
+        p_ref = enu(lat, lon, alt, lat[0], lon[0], alt[0])
     pt = np.array([st(m.header) for m in pos])
     p_out = np.array([[m.pose.pose.position.x, m.pose.pose.position.y, m.pose.pose.position.z] for m in pos])
     yaw = np.array([2 * math.atan2(m.pose.pose.orientation.z, m.pose.pose.orientation.w) for m in pos])
@@ -101,7 +158,7 @@ def main():
     cross = -e[:, 0] * np.sin(y) + e[:, 1] * np.cos(y)
     e3 = np.linalg.norm(e, axis=1)
     dist = float(np.sum(np.hypot(np.diff(p_ref[:, 0]), np.diff(p_ref[:, 1]))))
-    print(f'pos   : matched {ok.mean() * 100:.1f}% | 3-D RMSE {np.sqrt(np.mean(e3 ** 2)):.2f} m, max {e3.max():.2f} m | '
+    print(f'pos   : [{a.frame}] matched {ok.mean() * 100:.1f}% | 3-D RMSE {np.sqrt(np.mean(e3 ** 2)):.2f} m, max {e3.max():.2f} m | '
           f'along RMSE {np.sqrt(np.mean(along ** 2)):.2f} m (max {np.abs(along).max():.2f}) | cross RMSE '
           f'{np.sqrt(np.mean(cross ** 2)):.2f} m | z RMSE {np.sqrt(np.mean(e[:, 2] ** 2)):.2f} m')
     print(f'drift : end error {e3[-1]:.2f} m over {dist:.0f} m = {100 * e3[-1] / max(dist, 1):.3f} %')
