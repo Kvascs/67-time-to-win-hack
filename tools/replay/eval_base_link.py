@@ -52,7 +52,7 @@ def reference(bag):
 
 
 def one(args):
-    bag, exe, tag, sets = args
+    bag, exe, tag, sets, no_gnss = args
     ref = reference(bag)
     if ref is None:
         return {'bag': bag, 'error': 'no RTK'}
@@ -61,13 +61,22 @@ def one(args):
     tmp.mkdir(parents=True, exist_ok=True)
     ev, out = tmp / f'{bag}_ev.csv', tmp / f'{bag}_out.csv'
     cpp_bridge.export_events(bag, ev)
+    if no_gnss:  # drop every GNSS fix: the position must come from the GNSS-free localisation
+        lines = [ln for ln in ev.read_text().splitlines() if not ln.startswith('GF')]
+        with open(ev, 'w', newline='\n') as fh:
+            fh.write('\n'.join(lines) + '\n')
     br = ','.join(str(b) for b in sorted(VAL.glob('branch_*.csv')))
     s = {'output_frame': 'mgrs', 'landmark_file': str(VAL / 'landmarks.csv'), 'cutoff_file': str(VAL / 'cutoffs.csv'),
-         'dfield_file': str(VAL / 'dfield.csv'), **sets}
+         'dfield_file': str(VAL / 'dfield.csv'), 'gl_stops_file': str(VAL / 'gl_stops.csv'),
+         'gl_cutoffs_file': str(VAL / 'gl_cutoffs.csv'), 'speed_envelope_file': str(VAL / 'speed_envelope.csv'), **sets}
     o = cpp_bridge.run_replay(ev, out, map_csv=VAL / 'track_map.csv',
                               traction_csv=cpp_bridge.PKG / 'config' / 'traction_lut.csv', sets=s, branches=br)
+    t_first = o.stamp_ns.min() * 1e-9
     o = o[o.pos_valid == 1].drop_duplicates('stamp_ns').sort_values('stamp_ns')
+    if o.empty:
+        return {'bag': bag, 'n': 0, 't_valid': float('nan'), 'error': 'no valid position'}
     ot = o.stamp_ns.to_numpy() * 1e-9
+    t_valid = float(ot[0] - t_first)
     i = np.clip(np.searchsorted(ot, ref.t.to_numpy()), 1, len(ot) - 1)
     i = np.where(np.abs(ot[i - 1] - ref.t.to_numpy()) < np.abs(ot[i] - ref.t.to_numpy()), i - 1, i)
     ok = np.abs(ot[i] - ref.t.to_numpy()) <= 0.05  # the judge's matching tolerance
@@ -76,7 +85,7 @@ def one(args):
     along = e[:, 0] * np.cos(yaw) + e[:, 1] * np.sin(yaw)
     cross = -e[:, 0] * np.sin(yaw) + e[:, 1] * np.cos(yaw)
     e3 = np.linalg.norm(e, axis=1)
-    return {'bag': bag, 'n': int(ok.sum()), 'p3_rmse': float(np.sqrt(np.mean(e3 ** 2))),
+    return {'bag': bag, 'n': int(ok.sum()), 't_valid': t_valid, 'p3_rmse': float(np.sqrt(np.mean(e3 ** 2))),
             'p3_med': float(np.median(e3)), 'p2_rmse': float(np.sqrt(np.mean(np.sum(e[:, :2] ** 2, axis=1)))),
             'along_rmse': float(np.sqrt(np.mean(along ** 2))), 'cross_rmse': float(np.sqrt(np.mean(cross ** 2))),
             'cross_p99': float(np.percentile(np.abs(cross), 99)), 'z_rmse': float(np.sqrt(np.mean(e[:, 2] ** 2))),
@@ -90,18 +99,19 @@ def main():
     ap.add_argument('--split', default='val')
     ap.add_argument('--set', action='append', default=[])
     ap.add_argument('--jobs', type=int, default=3)
+    ap.add_argument('--no-gnss', action='store_true', help='remove every GNSS fix from the input')
     a = ap.parse_args()
     sets = dict(s.split('=', 1) for s in a.set)
     splits = json.load(open(cpp_bridge.ROOT / 'data' / 'splits.json'))
     bags = splits[a.split]
     with ProcessPoolExecutor(a.jobs) as ex:
-        rows = list(ex.map(one, [(b, a.exe, a.tag, sets) for b in bags]))
+        rows = list(ex.map(one, [(b, a.exe, a.tag, sets, a.no_gnss) for b in bags]))
     df = pd.DataFrame(rows)
     out = cpp_bridge.ROOT / 'build_core' / 'eval'
     out.mkdir(parents=True, exist_ok=True)
     df.to_csv(out / f'bl_{a.tag}.csv', index=False)
     df = df[df.get('error', pd.Series(index=df.index, dtype=object)).isna()] if 'error' in df else df
-    keys = ['p3_rmse', 'p3_med', 'p2_rmse', 'along_rmse', 'cross_rmse', 'cross_p99', 'z_rmse', 'z_bias']
+    keys = ['t_valid', 'p3_rmse', 'p3_med', 'p2_rmse', 'along_rmse', 'cross_rmse', 'cross_p99', 'z_rmse', 'z_bias']
     print(f'[{a.tag}] bags={len(df)} sets={sets}')
     print('  mean  ', df[keys].mean().round(3).to_dict())
     print('  median', df[keys].median().round(3).to_dict())

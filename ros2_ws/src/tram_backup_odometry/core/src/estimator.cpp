@@ -147,6 +147,8 @@ void Estimator::reset() {
   latest_ = 0;
   pending_jump_ = 0;
   s_hist_.clear();
+  gl_.reset();
+  gl_tried_ = false;
   init_ = InitState{};
   init_.fixes.reserve(512);
   init_.other.reserve(512);
@@ -276,6 +278,7 @@ void Estimator::insert(const Event& e) {
   while (buf_.size() > 200) {  // hard bound on work per query
     applyEvent(committed_, buf_.front());
     noteCommitted();
+    feedGlobal();
     buf_.erase(buf_.begin());
   }
 }
@@ -285,6 +288,7 @@ void Estimator::commitOlderThan(Stamp t) {
   while (n < buf_.size() && buf_[n].t < t) {
     applyEvent(committed_, buf_[n]);
     noteCommitted();
+    feedGlobal();
     ++n;
   }
   if (n > 0) buf_.erase(buf_.begin(), buf_.begin() + static_cast<long>(n));
@@ -302,6 +306,78 @@ void Estimator::noteCommitted() {
   constexpr double kHistS = 30.0;  // longer than the init window plus any fix delay
   const Stamp keep = committed_.t - fromSec(kHistS);
   while (s_hist_.size() > 2 && (s_hist_[1].first <= keep || s_hist_.size() > 4096)) s_hist_.pop_front();
+}
+
+bool Estimator::globalAvailable() const {
+  return p_.global_loc_enable > 0.5 && map_ && map_->cyclic() && !gl_stops_.empty();
+}
+
+void Estimator::feedGlobal() {
+  if (init_.anchored || !committed_.started || !globalAvailable()) return;
+  if (!gl_) {
+    // only when no GNSS fix came at all within the wait (the normal path anchors on GNSS)
+    if (gl_tried_ || init_.have_gnss || !init_.have_first) return;
+    if (committed_.t - init_.t_first < fromSec(p_.gnss_wait_s)) return;
+    gl_tried_ = true;
+    GlobalLocalizer::Params gp;
+    gp.curv_abs = p_.wheel_curv_abs;
+    gp.curv_signed = p_.wheel_curv_signed;
+    gp.curv_sat = p_.wheel_curv_sat;
+    gp.front_along = p_.front_bogie_along_m;
+    gp.rear_along = p_.rear_bogie_along_m;
+    gl_ = std::make_unique<GlobalLocalizer>();
+    if (!gl_->init(*map_, gl_stops_, gl_cutoffs_, vmax_env_, gp)) {
+      gl_.reset();
+      return;
+    }
+    gl_s0_ = 0.0;
+    for (int j = 0; j < kNumModes; ++j) gl_s0_ += committed_.mu[j] * committed_.x[j](kS, 0);
+  }
+  double s = 0.0;
+  for (int j = 0; j < kNumModes; ++j) s += committed_.mu[j] * committed_.x[j](kS, 0);
+  gl_->step(toSec(committed_.t), s - gl_s0_, combinedV(committed_), committed_.standstill,
+            committed_.have_cmd ? committed_.notch : 0);
+  if (gl_->fixed()) handoverGlobal();
+}
+
+void Estimator::handoverGlobal() {
+  const GlobalLocalizer::Estimate e = gl_->fix();
+  double s_now = 0.0;
+  for (int j = 0; j < kNumModes; ++j) s_now += committed_.mu[j] * committed_.x[j](kS, 0);
+  static const bool dbg = std::getenv("TBO_DEBUG_GL") != nullptr;
+  if (dbg)
+    std::fprintf(stderr, "GL fix t=%.1f s_map=%.2f kappa=%.4f+-%.4f conf=%.4f cues=%d s_var=%.2f odo=%.1f\n",
+                 toSec(committed_.t), e.s, e.kappa, e.kappa_sd, e.conf, e.cues, e.s_var, gl_->lastOdometer());
+  // the fix is the current place of antenna 1 on the main cycle; from now on the map is used as with GNSS
+  init_.anchored = true;
+  init_.map_matched = true;
+  init_.prefix = nullptr;
+  init_.s_offset = e.s - s_now;
+  init_.match_dist = 0.0;
+  if (!init_.origin_set) {  // no GNSS origin: the map origin defines the ENU / UTM output frames
+    init_.origin = map_->origin();
+    init_.origin_set = true;
+    configureFrame();
+  }
+  // Wheel scale: a few cues rarely pin kappa; a well-determined one is taken over, otherwise the
+  // prior stays and the landmarks calibrate it (a wrong tight kappa drifted 3 % in dd8d0741).
+  const bool use_kappa = e.kappa_sd < 0.003;
+  for (int j = 0; j < kNumModes; ++j) {
+    StateVec& x = committed_.x[j];
+    StateCov& P = committed_.P[j];
+    const double k_new = use_kappa ? e.kappa : x(kK, 0);
+    x(kV, 0) *= (1.0 + x(kK, 0)) / (1.0 + k_new);
+    x(kK, 0) = k_new;
+    for (int i = 0; i < kNx; ++i) {
+      P(kK, i) = 0.0;
+      P(i, kK) = 0.0;
+    }
+    P(kK, kK) = use_kappa ? std::max(e.kappa_sd * e.kappa_sd, 1e-6) : p_.init_sigma_scale * p_.init_sigma_scale;
+    P(kS, kS) += e.s_var + 1.0;
+  }
+  init_.var_applied = true;
+  ++diag_.global_fixes;
+  gl_.reset();
 }
 
 double Estimator::distanceAt(Stamp t) const {
@@ -854,7 +930,29 @@ bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, 
   // Slide reference: the brake table error changes by ~1 m/s^2 within one braking (d from +0.7 to
   // -0.3 as the brake builds up), so the slow copy lags and fakes a joint slide; braking therefore
   // uses the filter's own disturbance within its physical bounds.
-  const double d_fast = std::clamp(xm(kD, 0), -p_.disturbance_max_decel, p_.disturbance_max_free);
+  double d_brake = xm(kD, 0);
+  if (p_.slide_ref_tau_s > 0.0) {  // smooth heavy wheel noise; freeze while a slide builds up
+    const bool slide_quiet = !f.latch && f.wheel[0].cusum_neg <= 0.0 && f.wheel[1].cusum_neg <= 0.0;
+    if (!f.d_med_init) {
+      f.d_med = d_brake;
+      f.d_med_init = true;
+    } else if (slide_quiet) {
+      const double dt = f.t_dmed >= 0 ? std::clamp(toSec(e.t - f.t_dmed), 0.0, 1.0) : 0.0;
+      f.d_med += (1.0 - std::exp(-dt / p_.slide_ref_tau_s)) * (d_brake - f.d_med);
+    }
+    f.t_dmed = e.t;
+    d_brake = f.d_med;
+  }
+  if (avail[0] && avail[1]) {  // bogie noise level from the front-rear difference (common motion cancels)
+    const double dz = z[0] - z[1];
+    const double dt = f.t_noise >= 0 ? std::clamp(toSec(e.t - f.t_noise), 0.0, 1.0) : 1.0;
+    f.noise_var += (1.0 - std::exp(-dt / 5.0)) * (dz * dz - f.noise_var);
+    f.t_noise = e.t;
+  }
+  const bool fast_ref = p_.slide_ref_fast > 0.5 &&
+                        f.noise_var < p_.slide_fast_max_noise * p_.slide_fast_max_noise;
+  const double d_fast =
+      fast_ref ? std::clamp(d_brake, -p_.disturbance_max_decel, p_.disturbance_max_free) : d_ref;
   const double a_model_slide = xm(kG, 0) * f.a_drive + d_fast + a_map;
   auto setModelOnly = [&]() {
     for (int j = 0; j < kNumModes; ++j) f.mu[j] = p_.mode_prob_floor;
@@ -1003,7 +1101,7 @@ bool Estimator::jointMonitor(FilterState& f, const Event& e, const bool* avail, 
       f.snap_t = e.t;
       f.snap_v = vc;
       f.snap_s = xm(kS, 0);
-      f.snap_d = braking ? d_fast : d_ref;  // the reference of the monitor that can fire now
+      f.snap_d = braking ? d_fast : d_ref;
       f.snap_g = xm(kG, 0);
     }
   } else if (!f.onset && f.snap_t >= 0) {
@@ -1505,7 +1603,10 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
   }
   o.protection_level = p_.protection_k * std::sqrt(std::max(sig_s2, 0.0));
   o.flags = fl;
-  o.pos_valid = init_.anchored || (init_.have_first && t - init_.t_first >= fromSec(p_.gnss_wait_s));
+  // Without any GNSS: relative odometry only if asked for (in the MGRS frame it is meaningless);
+  // otherwise the position waits for the GNSS-free map fix.
+  o.pos_valid = init_.anchored || (init_.have_first && t - init_.t_first >= fromSec(p_.gnss_wait_s) &&
+                                   (!globalAvailable() || p_.nognss_relative > 0.5));
   return o;
 }
 

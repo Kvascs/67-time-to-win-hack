@@ -71,6 +71,9 @@ static const ParamInfo kRegistry[] = {
     TBO_P(latch_release_n, "-", "consistent samples to release latch"),
     TBO_P(latch_max_s, "s", "max joint anomaly bridged by the model"),
     TBO_P(slide_latch_max_s, "s", "max joint slide bridged by the model"),
+    TBO_P(slide_ref_fast, "bool", "slide monitor reference: filter disturbance (1) or slow copy (0)"),
+    TBO_P(slide_ref_tau_s, "s", "low-pass time constant of the slide reference (0 = raw)"),
+    TBO_P(slide_fast_max_noise, "m/s", "bogie noise level above which the slide reference is the slow copy"),
     TBO_P(standstill_kmh, "km/h", "standstill threshold"),
     TBO_P(standstill_time_s, "s", "standstill confirmation time"),
     TBO_P(standstill_max_v, "m/s", "lock-up guard for standstill"),
@@ -86,6 +89,8 @@ static const ParamInfo kRegistry[] = {
     TBO_P(dfield_gain, "-", "weight of the learned disturbance field d(s)"),
     TBO_P(grade_s_coupling, "bool", "EKF Jacobian includes d(grade accel)/ds"),
     TBO_P(gnss_init_window_s, "s", "GNSS accepted only this long after the first fix"),
+    TBO_P(global_loc_enable, "bool", "GNSS-free global localisation when no fix arrives"),
+    TBO_P(nognss_relative, "bool", "publish relative odometry before a GNSS-free fix"),
     TBO_P(gnss_wait_s, "s", "position withheld this long waiting for the first fix"),
     TBO_P(gnss_min_fixes, "-", "fixes needed for initialisation"),
     TBO_P(map_gate_m, "m", "init fix to map distance gate"),
@@ -181,6 +186,9 @@ bool loadFlatYaml(const std::string& path, Config& cfg, std::string* err, std::s
     if (key == "cutoff_file") { cfg.cutoff_file = val; continue; }
     if (key == "dfield_file") { cfg.dfield_file = val; continue; }
     if (key == "fault_prior_file") { cfg.fault_prior_file = val; continue; }
+    if (key == "gl_stops_file") { cfg.gl_stops_file = val; continue; }
+    if (key == "gl_cutoffs_file") { cfg.gl_cutoffs_file = val; continue; }
+    if (key == "speed_envelope_file") { cfg.speed_envelope_file = val; continue; }
     if (key == "output_frame") { cfg.output_frame = val; continue; }
     if (key == "init_source") { cfg.init_source = val; continue; }
     if (key == "frame_id") { cfg.frame_id = val; continue; }

@@ -1,0 +1,7 @@
+# GNSS-free global localisation: traction cut-off places and P(cut-off | passed at notch >= 4) (train)
+# random cut-off rate 3.880320e-06 per m
+s,sigma,q
+348.922,2.310,0.8158
+3707.038,0.500,0.9400
+5947.506,0.500,0.7667
+8723.389,0.500,0.2692

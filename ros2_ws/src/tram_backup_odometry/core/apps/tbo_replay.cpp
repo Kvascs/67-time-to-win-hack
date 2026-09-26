@@ -66,6 +66,9 @@ int main(int argc, char** argv) {
       std::printf("    cutoff_file: \"%s\"\n", "maps/cutoffs.csv");
       std::printf("    dfield_file: \"%s\"\n", "maps/dfield.csv");
       std::printf("    fault_prior_file: \"%s\"\n", "");
+      std::printf("    gl_stops_file: \"%s\"\n", "maps/gl_stops.csv");
+      std::printf("    gl_cutoffs_file: \"%s\"\n", "maps/gl_cutoffs.csv");
+      std::printf("    speed_envelope_file: \"%s\"\n", "maps/speed_envelope.csv");
       std::printf("    output_frame: \"mgrs\"         # mgrs (jury, Autoware map frame) | enu | utm | map\n");
       std::printf("    init_source: \"master\"        # GNSS antenna used for the initial fix\n");
       std::printf("    frame_id: \"map\"\n    child_frame_id: \"base_link\"\n");
@@ -115,6 +118,9 @@ int main(int argc, char** argv) {
     else if (kv.first == "cutoff_file") cfg.cutoff_file = kv.second;
     else if (kv.first == "dfield_file") cfg.dfield_file = kv.second;
     else if (kv.first == "fault_prior_file") cfg.fault_prior_file = kv.second;
+    else if (kv.first == "gl_stops_file") cfg.gl_stops_file = kv.second;
+    else if (kv.first == "gl_cutoffs_file") cfg.gl_cutoffs_file = kv.second;
+    else if (kv.first == "speed_envelope_file") cfg.speed_envelope_file = kv.second;
     else { std::fprintf(stderr, "unknown string param %s\n", kv.first.c_str()); return 2; }
   }
 
@@ -179,6 +185,17 @@ int main(int argc, char** argv) {
       return 2;
     }
     est.setFaultPrior(std::move(fld));
+  }
+  if (!cfg.gl_stops_file.empty()) {
+    std::vector<Landmark> st, cu;
+    TrackField env;
+    if (!loadLandmarks(cfg.gl_stops_file, st, &err) ||
+        (!cfg.gl_cutoffs_file.empty() && !loadLandmarks(cfg.gl_cutoffs_file, cu, &err)) ||
+        (!cfg.speed_envelope_file.empty() && !env.loadCsv(cfg.speed_envelope_file, map.cyclic() ? map.length() : 0.0, &err))) {
+      std::fprintf(stderr, "%s\n", err.c_str());
+      return 2;
+    }
+    est.setGlobalLocalisation(std::move(st), std::move(cu), std::move(env));
   }
   OutputScheduler sched(cfg.p);
 

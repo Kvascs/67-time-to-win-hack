@@ -8,6 +8,9 @@ tram_backup_odometry:
     cutoff_file: "maps/cutoffs.csv"
     dfield_file: "maps/dfield.csv"
     fault_prior_file: ""
+    gl_stops_file: "maps/gl_stops.csv"
+    gl_cutoffs_file: "maps/gl_cutoffs.csv"
+    speed_envelope_file: "maps/speed_envelope.csv"
     output_frame: "mgrs"         # mgrs (jury, Autoware map frame) | enu | utm | map
     init_source: "master"        # GNSS antenna used for the initial fix
     frame_id: "map"
@@ -73,7 +76,10 @@ tram_backup_odometry:
     latch_release_rel: 0.04  # latch release gate (relative) [-]
     latch_release_n: 2.0  # consistent samples to release latch [-]
     latch_max_s: 10.0  # max joint anomaly bridged by the model [s]
-    slide_latch_max_s: 3.0  # max joint slide bridged by the model [s]
+    slide_latch_max_s: 10.0  # max joint slide bridged by the model [s]
+    slide_ref_fast: 1.0  # slide monitor reference: filter disturbance (1) or slow copy (0) [bool]
+    slide_ref_tau_s: 0.0  # low-pass time constant of the slide reference (0 = raw) [s]
+    slide_fast_max_noise: 0.1  # bogie noise level above which the slide reference is the slow copy [m/s]
     standstill_kmh: 0.15  # standstill threshold [km/h]
     standstill_time_s: 0.25  # standstill confirmation time [s]
     standstill_max_v: 1.2  # lock-up guard for standstill [m/s]
@@ -89,6 +95,8 @@ tram_backup_odometry:
     dfield_gain: 1.0  # weight of the learned disturbance field d(s) [-]
     grade_s_coupling: 0.0  # EKF Jacobian includes d(grade accel)/ds [bool]
     gnss_init_window_s: 5.0  # GNSS accepted only this long after the first fix [s]
+    global_loc_enable: 1.0  # GNSS-free global localisation when no fix arrives [bool]
+    nognss_relative: 0.0  # publish relative odometry before a GNSS-free fix [bool]
     gnss_wait_s: 4.0  # position withheld this long waiting for the first fix [s]
     gnss_min_fixes: 3.0  # fixes needed for initialisation [-]
     map_gate_m: 25.0  # init fix to map distance gate [m]

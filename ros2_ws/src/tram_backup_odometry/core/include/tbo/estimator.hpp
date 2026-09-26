@@ -17,10 +17,12 @@
 #include <array>
 #include <cstdint>
 #include <deque>
+#include <memory>
 #include <utility>
 #include <vector>
 
 #include "tbo/geo.hpp"
+#include "tbo/global_localizer.hpp"
 #include "tbo/params.hpp"
 #include "tbo/small_matrix.hpp"
 #include "tbo/traction_model.hpp"
@@ -46,7 +48,7 @@ struct Diagnostics {
   std::uint64_t wheel_msgs = 0, cmd_msgs = 0, gnss_msgs = 0;
   std::uint64_t invalid_wheel = 0, invalid_cmd = 0, rejected_stamps = 0;
   std::uint64_t late_dropped = 0, merged_pairs = 0, recoveries = 0, resets = 0, time_gaps = 0;
-  std::uint64_t implausible_wheel = 0, gnss_ignored_after_window = 0, landmark_fixes = 0;
+  std::uint64_t implausible_wheel = 0, gnss_ignored_after_window = 0, landmark_fixes = 0, global_fixes = 0;
   int max_buffer = 0;
 };
 
@@ -81,6 +83,13 @@ class Estimator {
   void setCutoffs(std::vector<Landmark> lms) { cutoffs_ = std::move(lms); }
   void setDisturbanceField(TrackField f) { dfield_ = std::move(f); }
   void setFaultPrior(TrackField f) { fault_prior_ = std::move(f); }
+  // Cues for the GNSS-free global localisation (used only when no GNSS fix arrives at all).
+  void setGlobalLocalisation(std::vector<Landmark> stops, std::vector<Landmark> cutoffs, TrackField vmax) {
+    gl_stops_ = std::move(stops);
+    gl_cutoffs_ = std::move(cutoffs);
+    vmax_env_ = std::move(vmax);
+  }
+  bool globalLocalisationRunning() const { return gl_ != nullptr; }
 
   // ---- internals exposed for tests ----
   struct WheelTrack {
@@ -145,6 +154,11 @@ class Estimator {
     Stamp t_cmd_cusum = -1;
     // ---- anomaly-suite fix prototypes ----
     double d_slow = 0.0;     // slow disturbance reference for the joint CUSUM
+    double d_med = 0.0;      // medium disturbance reference for the slide CUSUM
+    double noise_var = 0.0;  // EMA of (front - rear)^2: bogie sensor noise level
+    Stamp t_noise = -1;
+    bool d_med_init = false;
+    Stamp t_dmed = -1;
     bool d_slow_init = false;
     Stamp t_dslow = -1;
     double ema_z[2] = {0.0, 0.0};  // low-passed bogie speeds (recovery agreement test)
@@ -182,6 +196,9 @@ class Estimator {
   double combinedV(const FilterState& f) const;
   void updateAnchor();
   void noteCommitted();          // record (t, s) of the committed state
+  void feedGlobal();             // GNSS-free localisation: one committed step, handover on a fix
+  void handoverGlobal();
+  bool globalAvailable() const;
   double distanceAt(Stamp t) const;  // travelled distance at any recent time (anchor at fix time)
 
   Config cfg_;
@@ -193,6 +210,11 @@ class Estimator {
   std::vector<Landmark> cutoffs_;
   TrackField dfield_;
   TrackField fault_prior_;  // slip/slide rate multiplier by place (learned adhesion map)
+  std::vector<Landmark> gl_stops_, gl_cutoffs_;
+  TrackField vmax_env_;
+  std::unique_ptr<GlobalLocalizer> gl_;
+  double gl_s0_ = 0.0;      // committed distance when the localiser started (its odometer origin)
+  bool gl_tried_ = false;
   // Maps a relative distance to (edge, arc length) along the anchored route.
   bool routeAt(double s_rel, const TrackMap*& m, double& s) const;
 

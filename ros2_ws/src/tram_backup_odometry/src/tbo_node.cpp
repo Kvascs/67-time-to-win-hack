@@ -96,6 +96,17 @@ class TboNode : public rclcpp::Node {
         est_->setFaultPrior(std::move(fld));
       else RCLCPP_WARN(get_logger(), "fault prior not loaded (%s)", err.c_str());
     }
+    if (!cfg_.gl_stops_file.empty()) {
+      std::vector<tbo::Landmark> st, cu;
+      tbo::TrackField env;
+      std::string err;
+      const bool ok = tbo::loadLandmarks(resolve(cfg_.gl_stops_file), st, &err) &&
+                      (cfg_.gl_cutoffs_file.empty() || tbo::loadLandmarks(resolve(cfg_.gl_cutoffs_file), cu, &err)) &&
+                      (cfg_.speed_envelope_file.empty() ||
+                       env.loadCsv(resolve(cfg_.speed_envelope_file), map_.cyclic() ? map_.length() : 0.0, &err));
+      if (ok) est_->setGlobalLocalisation(std::move(st), std::move(cu), std::move(env));
+      else RCLCPP_WARN(get_logger(), "GNSS-free localisation data not loaded (%s)", err.c_str());
+    }
     sched_ = std::make_unique<tbo::OutputScheduler>(est_->config().p);
 
     // Best-effort subscribers are compatible with both reliable and best-effort publishers.
@@ -143,6 +154,9 @@ class TboNode : public rclcpp::Node {
     cfg_.cutoff_file = declare_parameter<std::string>("cutoff_file", "maps/cutoffs.csv");
     cfg_.dfield_file = declare_parameter<std::string>("dfield_file", "maps/dfield.csv");
     cfg_.fault_prior_file = declare_parameter<std::string>("fault_prior_file", "");
+    cfg_.gl_stops_file = declare_parameter<std::string>("gl_stops_file", "maps/gl_stops.csv");
+    cfg_.gl_cutoffs_file = declare_parameter<std::string>("gl_cutoffs_file", "maps/gl_cutoffs.csv");
+    cfg_.speed_envelope_file = declare_parameter<std::string>("speed_envelope_file", "maps/speed_envelope.csv");
     cfg_.output_frame = declare_parameter<std::string>("output_frame", "mgrs");
     cfg_.init_source = declare_parameter<std::string>("init_source", "master");
     cfg_.frame_id = declare_parameter<std::string>("frame_id", "map");

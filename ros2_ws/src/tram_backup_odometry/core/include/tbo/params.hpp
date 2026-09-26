@@ -87,7 +87,14 @@ struct Params {
   double latch_release_rel = 0.04;  // ... or this fraction of speed
   double latch_release_n = 2.0;     // consecutive consistent samples to release
   double latch_max_s = 10.0;        // longest joint anomaly bridged by the model before re-anchoring
-  double slide_latch_max_s = 3.0;   // same for a slide: anti-skid control releases a lock within ~1-2 s
+  double slide_latch_max_s = 10.0;  // same for a slide (3 s re-anchored onto still locked wheels)
+  // Slide monitor reference. The brake table error changes by ~1 m/s^2 within one braking, so the slow
+  // copy of d lags and fakes joint slides through stops (4 of 69 real runs); the filter's own d follows
+  // it. Under heavy sensor noise the filter's d gets noisy, so the slow copy is used there.
+  double slide_ref_fast = 1.0;      // 1: filter disturbance while the bogie noise is low, 0: always slow
+  double slide_ref_tau_s = 0.0;     // optional low-pass of the fast reference (s), frozen during a slide
+  double slide_fast_max_noise = 0.1;  // RMS front-rear difference (m/s) above which the slow copy is used
+                                      // (natural: ~0.024 m/s)
 
   // ---- standstill (zero-velocity update) ----
   double standstill_kmh = 0.15;     // both bogies below -> candidate standstill
@@ -111,6 +118,8 @@ struct Params {
 
   // ---- initialisation / map ----
   double gnss_init_window_s = 5.0;  // GNSS used only this long after the first fix
+  double global_loc_enable = 1.0;   // no GNSS at all: find the place on the map from stops / cut-offs
+  double nognss_relative = 0.0;     // 1: publish relative odometry until then (0: withhold the position)
   double gnss_wait_s = 4.0;         // hold position output this long for the first fix, then go relative (start-up burst ~2.5 s)
   double gnss_min_fixes = 3.0;
   double map_gate_m = 25.0;         // max distance of the init fix from the map
@@ -190,6 +199,9 @@ struct Config {
   std::string cutoff_file;               // traction cut-off landmarks CSV (main cycle)
   std::string dfield_file;               // learned disturbance field d(s) CSV (main cycle), empty = off
   std::string fault_prior_file;          // place-dependent slip/slide rate multiplier CSV (main cycle), empty = off
+  std::string gl_stops_file;             // GNSS-free localisation: stop places with stop probability (s,sigma,p)
+  std::string gl_cutoffs_file;           // GNSS-free localisation: cut-off places with probability (s,sigma,q)
+  std::string speed_envelope_file;       // GNSS-free localisation: max speed per place (s,vmax)
   std::string output_frame = "mgrs";     // mgrs (jury) | enu (first fix) | utm | map
   std::string init_source = "master";    // master | rover
   std::string frame_id = "map";

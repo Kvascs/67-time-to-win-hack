@@ -25,6 +25,7 @@ add_library(tbo_core STATIC
   src/traction_model.cpp
   src/track_map.cpp
   src/estimator.cpp
+  src/global_localizer.cpp
 )
 target_include_directories(tbo_core PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

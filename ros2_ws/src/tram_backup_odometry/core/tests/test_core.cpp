@@ -10,6 +10,7 @@
 
 #include "mini_test.hpp"
 #include "tbo/estimator.hpp"
+#include "tbo/global_localizer.hpp"
 #include "tbo/scheduler.hpp"
 #include "tbo/traction_model.hpp"
 #include "tbo/track_map.hpp"
@@ -448,6 +449,48 @@ TEST_CASE("distance never runs backwards without landmarks, even with an unmodel
   for (size_t i = 1; i < r.outs.size(); ++i) worst = std::min(worst, r.outs[i].s - r.outs[i - 1].s);
   CHECK(worst > -0.01);
   CHECK_NEAR(r.outs.back().s, s_true, 0.02 * s_true);  // leak: -3.0 %; now -1.4 % (model misses +-0.42 m/s^2)
+}
+
+TEST_CASE("GNSS-free localisation: stops at known places fix the place on a closed track") {
+  // 2 km ring, six stop places with irregular spacing; the run starts at an unknown place (s = 500 m)
+  std::vector<MapPose> ring;
+  const double R = 2000.0 / (2.0 * 3.14159265358979);
+  for (int i = 0; i < 400; ++i) {
+    const double a = 2.0 * 3.14159265358979 * i / 400.0;
+    ring.push_back({R * std::cos(a), R * std::sin(a), 0.0, 0.0});
+  }
+  TrackMap map;
+  map.setPoints(ring, true, {55.81, 37.462, 168.4});
+  const double L = map.length();
+  std::vector<Landmark> stops;
+  for (double s : {100.0, 350.0, 720.0, 1100.0, 1400.0, 1800.0}) stops.push_back({s * L / 2000.0, 0.3, 0.9});
+  GlobalLocalizer gl;
+  GlobalLocalizer::Params gp;
+  CHECK(gl.init(map, stops, {}, TrackField{}, gp));
+  const double s0 = 500.0 * L / 2000.0;
+  double t = 0.0, r = 0.0;
+  size_t next = 2;  // first stop place ahead of s0
+  for (int lap_stop = 0; lap_stop < 8 && !gl.fixed(); ++lap_stop) {
+    const double target = stops[next % stops.size()].s + (next >= stops.size() ? L : 0.0);
+    while (s0 + r < target - 1e-6) {  // cruise at 10 m/s
+      const double step = std::min(1.0, target - (s0 + r));
+      r += step;
+      t += step / 10.0;
+      gl.step(t, r, 10.0, false, 0);
+    }
+    for (int k = 0; k < 40; ++k) {  // 4 s standstill
+      t += 0.1;
+      gl.step(t, r, 0.0, true, 0);
+    }
+    ++next;
+  }
+  CHECK(gl.fixed());
+  if (gl.fixed()) {
+    double err = std::fmod(gl.fix().s - (s0 + gl.lastOdometer()), L);
+    if (err > 0.5 * L) err -= L;
+    if (err < -0.5 * L) err += L;
+    CHECK(std::abs(err) < 2.0);
+  }
 }
 
 TEST_CASE("track field: linear interpolation and cyclic wrap (learned d(s), adhesion map)") {
