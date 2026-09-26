@@ -1,0 +1,3 @@
+tag,lm_s,lm_cls,k,role,offset,s,sigma,weight,w_bg,n_soft,n_ev,runs,mid_runs,n_rtk,frac_first_last,n_pass,p_stop,bags
+all,191.679,signal,1,secondary,1.211,192.89,0.1,0.248,0.118,4.96,5,3,3,4,0.0,35,0.086,30618_49fe4c54;30639_0be558e2;30639_3b3d9eb8
+all,3000.522,platform,1,secondary,5.253,3005.775,0.1,0.148,0.139,5.93,6,6,6,6,0.0,34,0.176,30618_01f73500;30618_0652866c;30618_3b36e5cd;30618_49fe4c54;30618_9c09b081;30618_a869780d

@@ -1,0 +1,62 @@
+=== Step 2 regression, train bags, vmin=3.0 m/s ===
+selection: {"n_all": 579768, "n_s_valid": 317697, "n_moving": 234629, "n_no_episode": 233738, "n_consistent": 225560, "n_slip_removed": 4, "n_used": 225556, "n_bags": 46}
+samples with max(|kf|,|kr|) > 0.02: 12246  (both > 0.02: 6190)
+per-bag offset log(vf/vr) on straight: median -0.00008, std 0.00019, min -0.00059, max +0.00053
+y (within) std = 0.00385  robust std = 0.00191  n = 225556
+M1 linear kf,kr        within R2=0.0367  res std=0.00378  kf=+0.161(+-0.012), kr=-0.1198(+-0.012)
+M2 abs |kf|,|kr|       within R2=0.0242  res std=0.00380  akf=+0.1468(+-0.013), akr=-0.1291(+-0.013)
+M3 linear+abs          within R2=0.0511  res std=0.00375  kf=+0.143(+-0.0098), kr=-0.09982(+-0.0092), akf=+0.1065(+-0.011), akr=-0.1102(+-0.012)
+M4 quad kf^2-kr^2      within R2=0.0369  res std=0.00378  q=+3.989(+-0.24)
+M5 chord model         within R2=0.0221  res std=0.00381  pred=+0.8422(+-0.06)
+M6 M3+kf^2,kr^2        within R2=0.0618  res std=0.00373  kf=+0.1223(+-0.011), kr=-0.08785(+-0.0096), akf=-0.1092(+-0.022), akr=+0.04471(+-0.025), kf2=+5.935(+-0.7), kr2=-4.012(+-0.61)
+N  nuisance a, a/v     within R2=0.0011  res std=0.00385  a=+0.0001804(+-3.7e-05), a_v=-0.002226(+-0.00025)
+M7 M6+chord+nuis       within R2=0.0672  res std=0.00372  kf=+0.119(+-0.011), kr=-0.08524(+-0.0094), akf=-0.1366(+-0.02), akr=+0.07224(+-0.024), kf2=+9.763(+-0.68), kr2=-7.749(+-0.66), pred=-0.9575(+-0.12), a=+6.204e-05(+-3.8e-05), a_v=-0.001274(+-0.00025)
+--- subset max(|kf|,|kr|) > 0.02 (n=12246) ---
+M3 linear+abs          within R2=0.1730  res std=0.01036  kf=+0.1829(+-0.013), kr=-0.1627(+-0.011), akf=+0.2512(+-0.017), akr=+0.01997(+-0.015)
+M4 quad kf^2-kr^2      within R2=0.0842  res std=0.01090  q=+4.247(+-0.24)
+M5 chord model         within R2=0.0486  res std=0.01111  pred=+0.8728(+-0.061)
+M7 M6+chord+nuis       within R2=0.2173  res std=0.01008  kf=+0.1991(+-0.015), kr=-0.1703(+-0.012), akf=+0.4536(+-0.045), akr=+0.5539(+-0.052), kf2=-2.74(+-1.2), kr2=-13.1(+-1), pred=-0.837(+-0.11), a=-0.0174(+-0.0047), a_v=+0.04727(+-0.017)
+--- residual noise (M7) ---
+  max|k| straight both<0.003  n= 169742 std=0.00234 robust=0.00172
+  max|k| mild 0.003-0.01      n=  40124 std=0.00304 robust=0.00214
+  max|k| 0.01-0.02            n=   3444 std=0.01092 robust=0.00921
+  max|k| sharp >0.02          n=  12246 std=0.01064 robust=0.00970
+  straight, v 3-5 m/s: n=  38700 std=0.00325 robust=0.00244
+  straight, v 5-8 m/s: n=  47053 std=0.00260 robust=0.00217
+  straight, v 8-12 m/s: n=  66806 std=0.00155 robust=0.00133
+  straight, v 12-30 m/s: n=  17183 std=0.00160 robust=0.00143
+  residual ACF lag 1..10 samples: 0.433 0.344 0.291 0.263 0.235 0.167 0.127 0.096 0.073 0.048 (median dt 0.102 s); lag 20: -0.028, lag 30: 0.017
+  integrated autocorrelation factor (1+2*sum rho_1..30) = 4.64 -> effective samples = n/4.64
+  straight-only residual ACF lag 1..10: 0.120 0.080 0.025 0.020 0.012 -0.017 -0.011 -0.020 -0.007 -0.007
+--- ROC: detect max(|kf|,|kr|) > 0.02 from the ratio alone (per sample) ---
+  |y| per sample     [all negatives         ] AUC=0.854 TPR@FPR1%=0.356 @5%=0.591 @10%=0.679  (pos 12246, neg 213310)
+  |y| per sample     [negatives max|k|<0.005] AUC=0.862 TPR@FPR1%=0.455 @5%=0.618 @10%=0.696  (pos 12246, neg 193257)
+  |mean y| +-0.5 s   [all negatives         ] AUC=0.905 TPR@FPR1%=0.373 @5%=0.712 @10%=0.795  (pos 12246, neg 213310)
+  |mean y| +-0.5 s   [negatives max|k|<0.005] AUC=0.917 TPR@FPR1%=0.612 @5%=0.758 @10%=0.817  (pos 12246, neg 193257)
+  |mean y| +-1 s     [all negatives         ] AUC=0.917 TPR@FPR1%=0.364 @5%=0.753 @10%=0.819  (pos 12246, neg 213310)
+  |mean y| +-1 s     [negatives max|k|<0.005] AUC=0.929 TPR@FPR1%=0.635 @5%=0.792 @10%=0.840  (pos 12246, neg 193257)
+  std y +-1 s        [all negatives         ] AUC=0.971 TPR@FPR1%=0.364 @5%=0.880 @10%=0.944  (pos 12246, neg 213310)
+  std y +-1 s        [negatives max|k|<0.005] AUC=0.978 TPR@FPR1%=0.661 @5%=0.906 @10%=0.951  (pos 12246, neg 193257)
+  rms y +-2 s        [all negatives         ] AUC=0.982 TPR@FPR1%=0.463 @5%=0.950 @10%=0.979  (pos 12246, neg 213310)
+  rms y +-2 s        [negatives max|k|<0.005] AUC=0.989 TPR@FPR1%=0.785 @5%=0.968 @10%=0.982  (pos 12246, neg 193257)
+  transition label (one pivot in, other out), |y| per sample: AUC=0.854 TPR@FPR5%=0.582
+  transition label (one pivot in, other out), |mean y| +-0.5 s: AUC=0.902 TPR@FPR5%=0.682
+--- event level: 20 sharp-curve zones (|k|>0.02, merged gaps<=5 m) ---
+  max |mean y over +-0.5 s| : passages 171, straight 30 m windows 1278: AUC=0.998 P(detect)@FA1%=0.988 @FA5%=1.000  (thr 0.58% / 0.35%)
+  rms y over window         : passages 171, straight 30 m windows 1278: AUC=0.997 P(detect)@FA1%=0.977 @FA5%=1.000  (thr 0.58% / 0.37%)
+  per zone (antenna s start): passages, median stats, detection@FA5% (rms):
+    zone      0.0: n= 23 med max|ym|=2.02% med rms=1.16% det=1.00
+    zone     64.0: n= 24 med max|ym|=2.29% med rms=1.20% det=1.00
+    zone    201.0: n= 13 med max|ym|=1.86% med rms=1.47% det=1.00
+    zone   3641.1: n= 24 med max|ym|=1.43% med rms=1.33% det=1.00
+    zone   3660.1: n= 22 med max|ym|=0.98% med rms=1.15% det=1.00
+    zone   5348.1: n=  1 med max|ym|=0.69% med rms=0.47% det=1.00
+    zone   5361.1: n=  1 med max|ym|=0.51% med rms=0.54% det=1.00
+    zone   5434.1: n=  1 med max|ym|=1.05% med rms=0.72% det=1.00
+    zone   5526.1: n=  1 med max|ym|=2.17% med rms=1.19% det=1.00
+    zone   5762.1: n=  2 med max|ym|=1.78% med rms=0.83% det=1.00
+    zone   7478.1: n= 17 med max|ym|=1.45% med rms=1.02% det=1.00
+    zone   7509.1: n= 16 med max|ym|=1.26% med rms=0.79% det=1.00
+    zone   7533.1: n= 17 med max|ym|=1.44% med rms=1.11% det=1.00
+    zone  10963.2: n=  2 med max|ym|=1.26% med rms=0.87% det=1.00
+    zone  11036.2: n=  7 med max|ym|=2.10% med rms=1.30% det=1.00

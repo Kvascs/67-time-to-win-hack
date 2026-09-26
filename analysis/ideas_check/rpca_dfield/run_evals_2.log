@@ -1,0 +1,48 @@
+rpca_dw_pcp_lam1: rc=0 144 s
+[rpca_dw_pcp_lam1] n=17 good=12 sets={'dfield_file': 'C:\\MosTransHack\\analysis\\ideas_check\\rpca_dfield\\dfield_pcp_lam1.csv'} dropwin=(60.0, 10.0)
+  all_mean    {'v_rmse': 0.1906, 'v_p99': 0.7901, 'along_rmse': 7.255, 'along_max': 26.3547, 'end_err': 3.6435, 'drift_pct': 0.063, 'win_v_rmse': 0.4647, 'win_ds_abs': 2.4417}
+  all_median  {'v_rmse': 0.161, 'v_p99': 0.6834, 'along_rmse': 4.8043, 'along_max': 25.8362, 'end_err': 2.4868, 'drift_pct': 0.0379, 'win_v_rmse': 0.3903, 'win_ds_abs': 2.2692}
+  good_mean   {'v_rmse': 0.1552, 'v_p99': 0.6348, 'along_rmse': 4.7857, 'along_max': 23.0617, 'end_err': 2.7341, 'drift_pct': 0.0491, 'win_v_rmse': 0.4401, 'win_ds_abs': 2.2737}
+  good_median {'v_rmse': 0.1235, 'v_p99': 0.5938, 'along_rmse': 3.3791, 'along_max': 24.2665, 'end_err': 2.0098, 'drift_pct': 0.0348, 'win_v_rmse': 0.3591, 'win_ds_abs': 2.1686}
+rpca_dw_median_final2: rc=0 81 s
+[rpca_dw_median_final2] n=17 good=12 sets={'dfield_file': 'C:\\MosTransHack\\analysis\\ideas_check\\rpca_dfield\\dfield_median_final2.csv'} dropwin=(60.0, 10.0)
+  all_mean    {'v_rmse': 0.184, 'v_p99': 0.731, 'along_rmse': 7.0887, 'along_max': 26.1674, 'end_err': 2.9263, 'drift_pct': 0.0507, 'win_v_rmse': 0.4465, 'win_ds_abs': 2.2817}
+  all_median  {'v_rmse': 0.1499, 'v_p99': 0.5845, 'along_rmse': 4.1266, 'along_max': 25.6643, 'end_err': 1.9763, 'drift_pct': 0.0324, 'win_v_rmse': 0.3318, 'win_ds_abs': 2.0849}
+  good_mean   {'v_rmse': 0.1485, 'v_p99': 0.5638, 'along_rmse': 4.6779, 'along_max': 22.8047, 'end_err': 1.7756, 'drift_pct': 0.0319, 'win_v_rmse': 0.4199, 'win_ds_abs': 2.1186}
+  good_median {'v_rmse': 0.11, 'v_p99': 0.522, 'along_rmse': 3.1976, 'along_max': 24.2235, 'end_err': 1.631, 'drift_pct': 0.0298, 'win_v_rmse': 0.3189, 'win_ds_abs': 1.9338}
+rpca_dw_pcp_lamp: rc=0 277 s
+[rpca_dw_pcp_lamp] n=17 good=12 sets={'dfield_file': 'C:\\MosTransHack\\analysis\\ideas_check\\rpca_dfield\\dfield_pcp_lamp.csv'} dropwin=(60.0, 10.0)
+  all_mean    {'v_rmse': 0.1885, 'v_p99': 0.7753, 'along_rmse': 7.1637, 'along_max': 26.1468, 'end_err': 3.5947, 'drift_pct': 0.0622, 'win_v_rmse': 0.4612, 'win_ds_abs': 2.4118}
+  all_median  {'v_rmse': 0.1598, 'v_p99': 0.6778, 'along_rmse': 4.727, 'along_max': 25.8026, 'end_err': 2.4853, 'drift_pct': 0.0371, 'win_v_rmse': 0.3828, 'win_ds_abs': 2.2505}
+  good_mean   {'v_rmse': 0.1539, 'v_p99': 0.6238, 'along_rmse': 4.7779, 'along_max': 23.0256, 'end_err': 2.6829, 'drift_pct': 0.0483, 'win_v_rmse': 0.4362, 'win_ds_abs': 2.2452}
+  good_median {'v_rmse': 0.1216, 'v_p99': 0.5718, 'along_rmse': 3.3605, 'along_max': 24.2556, 'end_err': 1.979, 'drift_pct': 0.0343, 'win_v_rmse': 0.3531, 'win_ds_abs': 2.1286}
+rpca_dw_pcp_cvbest: rc=0 345 s
+[rpca_dw_pcp_cvbest] n=17 good=12 sets={'dfield_file': 'C:\\MosTransHack\\analysis\\ideas_check\\rpca_dfield\\dfield_pcp_cvbest.csv'} dropwin=(60.0, 10.0)
+  all_mean    {'v_rmse': 0.1877, 'v_p99': 0.7613, 'along_rmse': 7.149, 'along_max': 26.2007, 'end_err': 3.4526, 'drift_pct': 0.0597, 'win_v_rmse': 0.4591, 'win_ds_abs': 2.411}
+  all_median  {'v_rmse': 0.1573, 'v_p99': 0.6379, 'along_rmse': 4.4509, 'along_max': 25.8735, 'end_err': 2.4819, 'drift_pct': 0.0353, 'win_v_rmse': 0.3622, 'win_ds_abs': 2.1872}
+  good_mean   {'v_rmse': 0.1522, 'v_p99': 0.6031, 'along_rmse': 4.7092, 'along_max': 22.8479, 'end_err': 2.5767, 'drift_pct': 0.0463, 'win_v_rmse': 0.4313, 'win_ds_abs': 2.2167}
+  good_median {'v_rmse': 0.1187, 'v_p99': 0.5888, 'along_rmse': 3.2764, 'along_max': 24.3094, 'end_err': 1.961, 'drift_pct': 0.0345, 'win_v_rmse': 0.3454, 'win_ds_abs': 2.0731}
+rpca_clean_pcp_lam1: rc=0 446 s
+[rpca_clean_pcp_lam1] n=17 good=12 sets={'dfield_file': 'C:\\MosTransHack\\analysis\\ideas_check\\rpca_dfield\\dfield_pcp_lam1.csv'} dropwin=None
+  all_mean    {'v_rmse': 0.052, 'v_p99': 0.1599, 'along_rmse': 2.6724, 'along_max': 17.4977, 'end_err': 2.0153, 'drift_pct': 0.0348}
+  all_median  {'v_rmse': 0.0329, 'v_p99': 0.0829, 'along_rmse': 1.165, 'along_max': 10.7771, 'end_err': 0.7175, 'drift_pct': 0.011}
+  good_mean   {'v_rmse': 0.039, 'v_p99': 0.0817, 'along_rmse': 1.5339, 'along_max': 16.7699, 'end_err': 0.9428, 'drift_pct': 0.0169}
+  good_median {'v_rmse': 0.0258, 'v_p99': 0.0807, 'along_rmse': 1.13, 'along_max': 9.7329, 'end_err': 0.4676, 'drift_pct': 0.0083}
+rpca_clean_median_final2: rc=0 476 s
+[rpca_clean_median_final2] n=17 good=12 sets={'dfield_file': 'C:\\MosTransHack\\analysis\\ideas_check\\rpca_dfield\\dfield_median_final2.csv'} dropwin=None
+  all_mean    {'v_rmse': 0.0519, 'v_p99': 0.16, 'along_rmse': 2.6721, 'along_max': 17.4982, 'end_err': 2.0171, 'drift_pct': 0.0349}
+  all_median  {'v_rmse': 0.0328, 'v_p99': 0.0832, 'along_rmse': 1.165, 'along_max': 10.7781, 'end_err': 0.7178, 'drift_pct': 0.011}
+  good_mean   {'v_rmse': 0.0388, 'v_p99': 0.0816, 'along_rmse': 1.5331, 'along_max': 16.7696, 'end_err': 0.9467, 'drift_pct': 0.017}
+  good_median {'v_rmse': 0.0258, 'v_p99': 0.0807, 'along_rmse': 1.1251, 'along_max': 9.726, 'end_err': 0.4764, 'drift_pct': 0.0084}
+rpca_clean_pcp_lamp: rc=0 362 s
+[rpca_clean_pcp_lamp] n=17 good=12 sets={'dfield_file': 'C:\\MosTransHack\\analysis\\ideas_check\\rpca_dfield\\dfield_pcp_lamp.csv'} dropwin=None
+  all_mean    {'v_rmse': 0.052, 'v_p99': 0.1599, 'along_rmse': 2.6724, 'along_max': 17.4979, 'end_err': 2.0157, 'drift_pct': 0.0349}
+  all_median  {'v_rmse': 0.0329, 'v_p99': 0.083, 'along_rmse': 1.165, 'along_max': 10.7773, 'end_err': 0.7177, 'drift_pct': 0.011}
+  good_mean   {'v_rmse': 0.039, 'v_p99': 0.0817, 'along_rmse': 1.5338, 'along_max': 16.7701, 'end_err': 0.9436, 'drift_pct': 0.0169}
+  good_median {'v_rmse': 0.0258, 'v_p99': 0.0808, 'along_rmse': 1.1296, 'along_max': 9.7325, 'end_err': 0.4692, 'drift_pct': 0.0083}
+rpca_clean_pcp_cvbest: rc=0 392 s
+[rpca_clean_pcp_cvbest] n=17 good=12 sets={'dfield_file': 'C:\\MosTransHack\\analysis\\ideas_check\\rpca_dfield\\dfield_pcp_cvbest.csv'} dropwin=None
+  all_mean    {'v_rmse': 0.052, 'v_p99': 0.16, 'along_rmse': 2.6723, 'along_max': 17.4982, 'end_err': 2.0152, 'drift_pct': 0.0348}
+  all_median  {'v_rmse': 0.0329, 'v_p99': 0.083, 'along_rmse': 1.1652, 'along_max': 10.7779, 'end_err': 0.7144, 'drift_pct': 0.011}
+  good_mean   {'v_rmse': 0.0389, 'v_p99': 0.0817, 'along_rmse': 1.5337, 'along_max': 16.77, 'end_err': 0.9427, 'drift_pct': 0.0169}
+  good_median {'v_rmse': 0.0258, 'v_p99': 0.0809, 'along_rmse': 1.129, 'along_max': 9.7316, 'end_err': 0.47, 'drift_pct': 0.0083}

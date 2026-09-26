@@ -1,0 +1,13 @@
+base         30618_e9a34502: v 0.02260 -> 0.02260  along 0.2794 -> 0.2720  DIFFERENT
+base         30618_3e9f4952: v 0.02340 -> 0.02341  along 0.4380 -> 0.4376  DIFFERENT
+base         30639_927002c2: v 0.03332 -> 0.03334  along 0.5338 -> 0.5580  DIFFERENT
+base         30618_2050d396: v 0.05985 -> 0.05986  along 0.7903 -> 0.7265  DIFFERENT
+base         30618_1cc230fa: v 0.03597 -> 0.03601  along 1.3090 -> 1.3347  DIFFERENT
+base         30618_27e994fc: v 0.16398 -> 0.16391  along 7.7970 -> 7.6900  DIFFERENT
+Traceback (most recent call last):
+  File "C:\MosTransHack\analysis\ideas_check\quasi_newton\a_recheck.py", line 46, in <module>
+    main()
+  File "C:\MosTransHack\analysis\ideas_check\quasi_newton\a_recheck.py", line 34, in main
+    cached = {b: ev.cache[H.key(b, sets)] for b in A.SUBSET}
+                 ~~~~~~~~^^^^^^^^^^^^^^^^
+KeyError: '30618_e9a34502|landmark_assoc_q=0.008223052921;q_disturbance=0.003972097772;sigma_accel=0.1168150299;sigma_wheel=0.05201972666'

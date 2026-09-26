@@ -1,0 +1,29 @@
+position: full-bag MSE 33.426 m^2 (RMSE 5.782); t < 1270 s MSE 1.1190 (RMSE 1.058); speed MSE 0.00377 (RMSE 0.0614)
+  metric                                                                                      source   mse_m2  share_full_pct note  share_1270_pct  share_speed_pct
+pos_full                                               stub track missing from the map (t >= 1270 s) 32.34211        96.75709                  NaN              NaN
+pos_full                  along: start: -0.75 m lost in the first 50 m (east loop, kappa 0.03-0.056)  0.02885         0.08632              2.66188              NaN
+pos_full                 along: no place fix over 2120 m (s 881-3000), wheel scale k off by ~+0.13 %  0.85802         2.56692             79.15500              NaN
+pos_full                  along: residual after the PDA fix at 3000 m (beta0 keeps 9 % of the prior)  0.04883         0.14609              4.50497              NaN
+pos_full along: fix at a signal stop 2 m short of the signal landmark (-0.93 m) and weak later fixes  0.05813         0.17390              5.36238              NaN
+pos_full         along: approach to the stub: -1.1 m in the curves at s 5340-5375 (kappa 0.02-0.037)  0.03292         0.09847              3.03657              NaN
+pos_full                                       along: all other segments (short drift between fixes)  0.03538         0.10585              3.26394              NaN
+pos_full                                                                          cross (t < 1270 s)  0.00406         0.01215              0.37468              NaN
+pos_full                                                                z bias +0.108 m (t < 1270 s)  0.01127         0.03372              1.03985              NaN
+pos_full                                                                      z scatter (t < 1270 s)  0.00651         0.01948              0.60072              NaN
+   speed                                        reference lag (our speed vs speed delayed by 0.12 s)  0.00292             NaN                  NaN         77.32540
+   speed                                                                        after the lag: accel  0.00034             NaN                  NaN          9.12710
+   speed                                                                        after the lag: brake  0.00033             NaN                  NaN          8.67876
+   speed                                                                       after the lag: cruise  0.00016             NaN                  NaN          4.31078
+   speed                                                                   after the lag: standstill  0.00002             NaN                  NaN          0.55795
+timing (inside the along rows): tau +0.0137 s -> mean((tau v)^2) = 0.0065 m^2 = 0.6 % of t<1270 MSE
+       variant  v_rmse  p3_rmse_1270  along_1270  along_bias  along_max_1270  p3_rmse_full   k_end
+          base  0.0614        1.0578      1.0471      0.2253          3.6048        5.7815  0.0011
+oracle_k0.0010  0.0608        0.8343      0.8206      0.0564          2.7656        5.7459  0.0001
+   max_dk_1e-3  0.0610        0.8676      0.8545      0.0867          2.9067        5.7506  0.0011
+sig_scale_5e-3  0.0611        0.9446      0.9326      0.1520          3.1895        5.7624  0.0011
+     lead_0.02  0.0614        0.9893      0.9778      0.1351          3.3925        5.7667  0.0011
+   p_rand_0.05  0.0614        1.0048      0.9934      0.2215          3.4285        5.7714  0.0011
+   sig_signal1  0.0615        1.0723      1.0617      0.3122          3.7584        5.7830  0.0011
+  oracle_stops  0.0612        0.5982      0.5788     -0.0241          1.6665        5.7168  0.0011
+frozen_k0.0012  0.0606        0.5102      0.4868     -0.2319          1.6546        5.7092 -0.0002
+frozen_k0.0015  0.0606        0.5079      0.4842     -0.3263          1.6498        5.7093 -0.0005

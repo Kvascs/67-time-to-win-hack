@@ -1,0 +1,47 @@
+[warm] windows fit 11798 ES 3237 (18 s); OE_LAM 0.01 OE_MONO 10.0
+C:\MosTransHack\analysis\ideas_check\quasi_newton\b_oe_lbfgs.py:99: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:821.)
+  log(f"[{MODE}] start: loss {float(L):.5f} data rmse(fit) {float(d.sqrt()):.4f} ES rmse {es_rmse():.4f} "
+[warm] start: loss 0.05136 data rmse(fit) 0.2261 ES rmse 0.3058 |grad| 6.093e-03; one full-batch loss+grad 4.5 s
+[warm] it   1 evals    2 loss 0.05132 fit rmse 0.2260 ES rmse 0.3058 tau 0.4520 kg [8.218000411987305, 7.9770002365112305, 7.361999988555908] (8 s)
+[warm] it   2 evals    4 loss 0.05099 fit rmse 0.2250 ES rmse 0.3060 tau 0.4532 kg [8.218999862670898, 7.97599983215332, 7.361999988555908] (14 s)
+[warm] it   3 evals    6 loss 0.05080 fit rmse 0.2243 ES rmse 0.3053 tau 0.4527 kg [8.218999862670898, 7.97599983215332, 7.361000061035156] (21 s)
+[warm] it   4 evals    8 loss 0.05064 fit rmse 0.2239 ES rmse 0.3046 tau 0.4528 kg [8.218000411987305, 7.97599983215332, 7.360000133514404] (30 s)
+[warm] it   5 evals   10 loss 0.05053 fit rmse 0.2236 ES rmse 0.3042 tau 0.4539 kg [8.215999603271484, 7.97599983215332, 7.360000133514404] (39 s)
+[warm] it   6 evals   12 loss 0.05047 fit rmse 0.2233 ES rmse 0.3039 tau 0.4554 kg [8.21399974822998, 7.97599983215332, 7.359000205993652] (48 s)
+[warm] it   7 evals   14 loss 0.05040 fit rmse 0.2231 ES rmse 0.3040 tau 0.4580 kg [8.213000297546387, 7.97599983215332, 7.359000205993652] (55 s)
+[warm] it   8 evals   16 loss 0.05032 fit rmse 0.2229 ES rmse 0.3039 tau 0.4602 kg [8.210000038146973, 7.9770002365112305, 7.359000205993652] (63 s)
+[warm] it   9 evals   18 loss 0.05029 fit rmse 0.2227 ES rmse 0.3040 tau 0.4610 kg [8.208999633789062, 7.9770002365112305, 7.359000205993652] (71 s)
+[warm] it  10 evals   20 loss 0.05023 fit rmse 0.2225 ES rmse 0.3040 tau 0.4600 kg [8.206999778747559, 7.978000164031982, 7.360000133514404] (79 s)
+[warm] it  11 evals   22 loss 0.05017 fit rmse 0.2223 ES rmse 0.3042 tau 0.4585 kg [8.20300006866455, 7.979000091552734, 7.361000061035156] (86 s)
+[warm] it  12 evals   24 loss 0.05015 fit rmse 0.2221 ES rmse 0.3039 tau 0.4573 kg [8.196999549865723, 7.980000019073486, 7.361000061035156] (93 s)
+[warm] it  13 evals   26 loss 0.05012 fit rmse 0.2221 ES rmse 0.3040 tau 0.4575 kg [8.196000099182129, 7.980000019073486, 7.361000061035156] (101 s)
+[warm] it  14 evals   28 loss 0.05010 fit rmse 0.2220 ES rmse 0.3042 tau 0.4584 kg [8.192000389099121, 7.980999946594238, 7.361000061035156] (108 s)
+[warm] it  15 evals   30 loss 0.05007 fit rmse 0.2219 ES rmse 0.3041 tau 0.4587 kg [8.1899995803833, 7.980999946594238, 7.361999988555908] (116 s)
+[warm] it  16 evals   32 loss 0.05004 fit rmse 0.2218 ES rmse 0.3040 tau 0.4586 kg [8.182999610900879, 7.982999801635742, 7.361999988555908] (124 s)
+[warm] it  17 evals   34 loss 0.05001 fit rmse 0.2217 ES rmse 0.3038 tau 0.4586 kg [8.17300033569336, 7.985000133514404, 7.36299991607666] (131 s)
+[warm] it  18 evals   36 loss 0.04998 fit rmse 0.2216 ES rmse 0.3036 tau 0.4584 kg [8.170999526977539, 7.986000061035156, 7.36299991607666] (139 s)
+[warm] it  19 evals   38 loss 0.04996 fit rmse 0.2215 ES rmse 0.3036 tau 0.4589 kg [8.164999961853027, 7.986999988555908, 7.36299991607666] (147 s)
+[warm] it  20 evals   40 loss 0.04994 fit rmse 0.2214 ES rmse 0.3034 tau 0.4598 kg [8.156999588012695, 7.988999843597412, 7.363999843597412] (156 s)
+[warm] it  21 evals   42 loss 0.04992 fit rmse 0.2213 ES rmse 0.3035 tau 0.4611 kg [8.152999877929688, 7.989999771118164, 7.363999843597412] (167 s)
+[warm] it  22 evals   44 loss 0.04990 fit rmse 0.2212 ES rmse 0.3033 tau 0.4617 kg [8.145000457763672, 7.993000030517578, 7.364999771118164] (177 s)
+[warm] it  23 evals   46 loss 0.04989 fit rmse 0.2212 ES rmse 0.3033 tau 0.4619 kg [8.140000343322754, 7.994999885559082, 7.364999771118164] (187 s)
+[warm] it  24 evals   48 loss 0.04987 fit rmse 0.2212 ES rmse 0.3032 tau 0.4619 kg [8.133999824523926, 7.997000217437744, 7.364999771118164] (195 s)
+[warm] it  25 evals   50 loss 0.04986 fit rmse 0.2211 ES rmse 0.3033 tau 0.4618 kg [8.12600040435791, 8.00100040435791, 7.364999771118164] (203 s)
+[warm] it  26 evals   52 loss 0.04985 fit rmse 0.2211 ES rmse 0.3032 tau 0.4611 kg [8.126999855041504, 8.00100040435791, 7.364999771118164] (212 s)
+[warm] it  27 evals   54 loss 0.04984 fit rmse 0.2211 ES rmse 0.3032 tau 0.4604 kg [8.12600040435791, 8.001999855041504, 7.364999771118164] (220 s)
+[warm] it  28 evals   56 loss 0.04983 fit rmse 0.2211 ES rmse 0.3032 tau 0.4593 kg [8.121000289916992, 8.005999565124512, 7.364999771118164] (229 s)
+[warm] it  29 evals   58 loss 0.04982 fit rmse 0.2210 ES rmse 0.3031 tau 0.4582 kg [8.112000465393066, 8.01200008392334, 7.364999771118164] (237 s)
+[warm] it  30 evals   60 loss 0.04981 fit rmse 0.2210 ES rmse 0.3033 tau 0.4588 kg [8.11400032043457, 8.01200008392334, 7.364999771118164] (245 s)
+[warm] best ES rmse 0.3031 at it 29; 60 full-batch evaluations, 245 s
+             model    H    n   rmse    mae   bias    p95  d_rmse  d_mae  d_bias
+   lbfgs_warm_last  1.0 6929 0.0989 0.0611 0.0019 0.1713  0.0494 0.0323  0.0006
+   lbfgs_warm_last  3.0 7145 0.2107 0.1259 0.0056 0.3558  0.3397 0.2074  0.0094
+   lbfgs_warm_last  5.0 7326 0.2850 0.1698 0.0085 0.5020  0.7673 0.4660  0.0237
+   lbfgs_warm_last 10.0 7724 0.4004 0.2372 0.0107 0.7629  2.2246 1.3419  0.0638
+   lbfgs_warm_last 30.0 8635 0.5844 0.3174 0.0080 1.1210  9.9600 5.6996  0.1717
+lbfgs_warm_best_es  1.0 6929 0.0989 0.0611 0.0017 0.1713  0.0493 0.0323  0.0006
+lbfgs_warm_best_es  3.0 7145 0.2106 0.1258 0.0051 0.3560  0.3396 0.2073  0.0087
+lbfgs_warm_best_es  5.0 7326 0.2848 0.1698 0.0076 0.5011  0.7670 0.4659  0.0216
+lbfgs_warm_best_es 10.0 7724 0.4002 0.2373 0.0092 0.7622  2.2236 1.3423  0.0563
+lbfgs_warm_best_es 30.0 8635 0.5840 0.3175 0.0050 1.1221  9.9568 5.7057  0.1197

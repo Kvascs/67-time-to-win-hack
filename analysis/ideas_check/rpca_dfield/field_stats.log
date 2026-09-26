@@ -1,0 +1,10 @@
+field              corr  slope  |d|p50  |d|p95     rms  header
+median_repo       0.954  0.898  0.0231  0.0793  0.0446  # learned disturbance field on the main cycle: median unexplained accel (m/s^2) per 10 m bin over 52 runs (train); min 3 runs per bin
+median_final2     1.000  1.000  0.0221  0.0780  0.0474  # median field re-learned with tbo_replay_final2 (learn_dfield.build_field on the same samples): 52 train runs; min 3 runs per bin
+pcp_cvbest        0.586  0.267  0.0118  0.0447  0.0219  # PCP field (robust PCA on 52 train runs x 1106 cells of per-run cell medians, observed-entries ADMM): lam = 32.000/sqrt(max(m,n)) = 0.9622, field = m
+pcp_lam05         0.498  0.029  0.0001  0.0064  0.0028  # PCP field (robust PCA on 52 train runs x 1106 cells of per-run cell medians, observed-entries ADMM): lam = 0.500/sqrt(max(m,n)) = 0.0150, field = me
+pcp_lam1          0.715  0.167  0.0066  0.0235  0.0111  # PCP field (robust PCA on 52 train runs x 1106 cells of per-run cell medians, observed-entries ADMM): lam = 1.000/sqrt(max(m,n)) = 0.0301, field = me
+pcp_lam1_med      0.728  0.327  0.0142  0.0427  0.0213  # PCP field (robust PCA on 52 train runs x 1106 cells of per-run cell medians, observed-entries ADMM): lam = 1.000/sqrt(max(m,n)) = 0.0301, field = me
+pcp_lam1_obs      0.727  0.316  0.0137  0.0416  0.0206  # PCP field (robust PCA on 52 train runs x 1106 cells of per-run cell medians, observed-entries ADMM): lam = 1.000/sqrt(max(m,n)) = 0.0301, field = me
+pcp_lam4          0.773  0.285  0.0106  0.0343  0.0175  # PCP field (robust PCA on 52 train runs x 1106 cells of per-run cell medians, observed-entries ADMM): lam = 4.000/sqrt(max(m,n)) = 0.1203, field = me
+pcp_lamp          0.742  0.223  0.0086  0.0291  0.0143  # PCP field (robust PCA on 52 train runs x 1106 cells of per-run cell medians, observed-entries ADMM): lam = 1.447/sqrt(max(m,n)) = 0.0435, field = me

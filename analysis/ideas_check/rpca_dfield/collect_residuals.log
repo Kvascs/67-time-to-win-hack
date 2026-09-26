@@ -1,0 +1,4 @@
+FAILED 30618_27e994fc Error tokenizing data. C error: out of memory
+train: 51/52 runs, 408700 samples, r std 0.1545, 331 s -> residuals_train.parquet
+val: 17/17 runs, 133841 samples, r std 0.1794, 240 s -> residuals_val.parquet
+train: redo ['30618_27e994fc'] -> 52/52 runs, 417584 samples, r std 0.1580

@@ -1,0 +1,5 @@
+# regenerable replay artefacts (scripts in this folder rebuild them)
+*.parquet
+rtk_epochs*/
+tmp/*_ev*.csv
+tmp/*_out*.csv

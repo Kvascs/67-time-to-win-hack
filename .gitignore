@@ -55,3 +55,9 @@ desktop.ini
 /research/qa_session/*
 !/research/qa_session/QA_SUMMARY.md
 /research/prior_work/
+# regenerable intermediate data of the idea checks
+/analysis/ideas_check/**/*.pkl
+/analysis/ideas_check/**/*.parquet
+/analysis/ideas_check/**/*.pt
+/analysis/ideas_check/**/tmp/
+/analysis/ideas_check/**/logs/

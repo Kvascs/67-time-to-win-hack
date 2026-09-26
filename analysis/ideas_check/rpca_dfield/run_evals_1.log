@@ -1,0 +1,24 @@
+rpca_dw_none: rc=0 408 s
+[rpca_dw_none] n=17 good=12 sets={'dfield_file': ''} dropwin=(60.0, 10.0)
+  all_mean    {'v_rmse': 0.1934, 'v_p99': 0.8141, 'along_rmse': 7.2389, 'along_max': 26.3318, 'end_err': 3.7052, 'drift_pct': 0.064, 'win_v_rmse': 0.4765, 'win_ds_abs': 2.5253}
+  all_median  {'v_rmse': 0.1663, 'v_p99': 0.7022, 'along_rmse': 5.1806, 'along_max': 25.9639, 'end_err': 2.4898, 'drift_pct': 0.038, 'win_v_rmse': 0.4163, 'win_ds_abs': 2.3456}
+  good_mean   {'v_rmse': 0.1598, 'v_p99': 0.6723, 'along_rmse': 4.8596, 'along_max': 23.2489, 'end_err': 2.7929, 'drift_pct': 0.0502, 'win_v_rmse': 0.4536, 'win_ds_abs': 2.3717}
+  good_median {'v_rmse': 0.1322, 'v_p99': 0.6469, 'along_rmse': 3.4851, 'along_max': 24.3078, 'end_err': 2.0405, 'drift_pct': 0.0354, 'win_v_rmse': 0.3818, 'win_ds_abs': 2.2962}
+rpca_clean_none: rc=0 405 s
+[rpca_clean_none] n=17 good=12 sets={'dfield_file': ''} dropwin=None
+  all_mean    {'v_rmse': 0.052, 'v_p99': 0.1599, 'along_rmse': 2.6725, 'along_max': 17.4977, 'end_err': 2.0145, 'drift_pct': 0.0348}
+  all_median  {'v_rmse': 0.0329, 'v_p99': 0.0831, 'along_rmse': 1.165, 'along_max': 10.777, 'end_err': 0.7177, 'drift_pct': 0.011}
+  good_mean   {'v_rmse': 0.039, 'v_p99': 0.0818, 'along_rmse': 1.5342, 'along_max': 16.7704, 'end_err': 0.9414, 'drift_pct': 0.0169}
+  good_median {'v_rmse': 0.0259, 'v_p99': 0.0809, 'along_rmse': 1.1314, 'along_max': 9.7352, 'end_err': 0.465, 'drift_pct': 0.0082}
+rpca_dw_median_repo: rc=0 429 s
+[rpca_dw_median_repo] n=17 good=12 sets={'dfield_file': 'C:\\MosTransHack\\analysis\\validation_maps\\dfield.csv'} dropwin=(60.0, 10.0)
+  all_mean    {'v_rmse': 0.1838, 'v_p99': 0.7236, 'along_rmse': 7.0735, 'along_max': 26.142, 'end_err': 2.9295, 'drift_pct': 0.0507, 'win_v_rmse': 0.4459, 'win_ds_abs': 2.2793}
+  all_median  {'v_rmse': 0.15, 'v_p99': 0.5644, 'along_rmse': 4.1925, 'along_max': 25.6941, 'end_err': 1.8491, 'drift_pct': 0.0294, 'win_v_rmse': 0.3249, 'win_ds_abs': 2.0361}
+  good_mean   {'v_rmse': 0.1481, 'v_p99': 0.5569, 'along_rmse': 4.68, 'along_max': 22.7856, 'end_err': 1.7668, 'drift_pct': 0.0317, 'win_v_rmse': 0.4188, 'win_ds_abs': 2.1081}
+  good_median {'v_rmse': 0.1088, 'v_p99': 0.5201, 'along_rmse': 3.2219, 'along_max': 24.2392, 'end_err': 1.6569, 'drift_pct': 0.029, 'win_v_rmse': 0.3154, 'win_ds_abs': 1.8764}
+rpca_clean_median_repo: rc=0 312 s
+[rpca_clean_median_repo] n=17 good=12 sets={'dfield_file': 'C:\\MosTransHack\\analysis\\validation_maps\\dfield.csv'} dropwin=None
+  all_mean    {'v_rmse': 0.0519, 'v_p99': 0.16, 'along_rmse': 2.6721, 'along_max': 17.4982, 'end_err': 2.0171, 'drift_pct': 0.0349}
+  all_median  {'v_rmse': 0.0328, 'v_p99': 0.0831, 'along_rmse': 1.1649, 'along_max': 10.7776, 'end_err': 0.7173, 'drift_pct': 0.011}
+  good_mean   {'v_rmse': 0.0389, 'v_p99': 0.0815, 'along_rmse': 1.5332, 'along_max': 16.7697, 'end_err': 0.9467, 'drift_pct': 0.017}
+  good_median {'v_rmse': 0.0258, 'v_p99': 0.0807, 'along_rmse': 1.1255, 'along_max': 9.7266, 'end_err': 0.4766, 'drift_pct': 0.0084}

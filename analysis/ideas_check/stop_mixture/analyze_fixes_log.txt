@@ -1,0 +1,24 @@
+val place-fix attempts (current file): 325, with truth 261 (RTK 210); association sd: median 1.74 m, p90 3.65 m
+           n  accepted  rtk  med_abs_err_pred  med_abs_err_after  expl_mix  expl_oracle
+band                                                                                   
+1.5-4 m   13         5    9             0.213              0.392         0            2
+<1.5 m   189       169  150             0.257              0.154         0            0
+>4 m      59        14   51             0.392              0.542         1            0
+
+attempts in the 1.5-4 m band (d_lm = true stop - nearest landmark):
+           bag   s_true  truth_rtk     lm_s  d_lm   sd  n  p_known  accepted  err_pred  err_after  expl_mix  expl_oracle
+30618_01f73500  5221.57       True  5217.58  3.99 0.34  0     0.00     False     -0.17      -0.09     False        False
+30618_2366c74a  7816.55      False  7818.87 -2.32 2.59  1     0.85      True      2.55       2.36     False        False
+30618_2366c74a  8079.56      False  8081.27 -1.71 1.87  1     0.92      True      2.64       1.90     False        False
+30618_2366c74a 10957.96       True 10960.86 -2.90 2.01  1     0.84      True      0.14       1.26     False         True
+30618_2366c74a 10958.57       True 10960.86 -2.29 0.67  1     0.89      True      1.43       1.85     False         True
+30639_3b3d9eb8  5331.94      False  5334.65 -2.71 1.03  1     0.64      True      0.76       1.34     False        False
+30639_3b3d9eb8  5338.24      False  5334.65  3.59 0.58  0     0.00     False      1.26       1.22     False        False
+30639_d927f360  5647.89       True  5645.32  2.57 1.01  1     0.17     False      0.01      -0.01     False        False
+30639_d927f360  5647.89       True  5645.32  2.57 1.06  1     0.19     False      0.01      -0.01     False        False
+30639_d927f360  5647.89       True  5645.32  2.57 1.01  1     0.17     False      0.01      -0.01     False        False
+30639_d927f360  5873.09       True  5870.49  2.60 0.88  1     0.16     False      0.21       0.23     False        False
+30639_d927f360  5873.69       True  5870.49  3.20 0.89  0     0.00     False      0.11       0.19     False        False
+30639_d927f360 11052.05       True     0.14 -1.73 0.98  1     0.09     False     -0.35      -0.39     False        False
+
+1.5-4 m band: 13 attempts, 5 accepted as a fix, 3 of them made the error > 0.2 m worse; explained by a train mixture row: 0, by the leaky oracle queue row: 2

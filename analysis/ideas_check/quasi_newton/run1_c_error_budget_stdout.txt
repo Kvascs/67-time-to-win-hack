@@ -1,0 +1,27 @@
+           bag  along_rmse  along_rmse_clip1m  gross_time_share  gross_mse_share  n_fix  n_gross_episodes  ep_after_fix  ep_start_of_run  ep_between_fixes
+30639_9c362687       2.136              0.785             0.601            0.997     13                 2             0                0                 2
+30618_e3d94878       1.477              0.632             0.305            0.957     11                 4             1                1                 2
+30618_2f104a1d       0.382              0.373             0.021            0.187     10                 1             0                0                 1
+30618_b95ca60a       0.396              0.324             0.027            0.502     12                 3             0                0                 3
+30618_0f120b35       0.487              0.399             0.069            0.622     15                 1             0                0                 1
+30618_f19a4ac3       1.212              0.529             0.193            0.941     11                 7             0                2                 5
+30618_22c1c589       0.309              0.281             0.016            0.341     12                 1             0                0                 1
+30618_616ec56b       4.130              0.408             0.030            0.992     13                 8             1                0                 7
+30618_6cb3280a       0.308              0.308             0.000            0.000     14                 0             0                0                 0
+30618_2366c74a       0.626              0.515             0.123            0.638     11                 4             1                0                 3
+30639_d927f360       0.896              0.531             0.181            0.874     13                 2             0                0                 2
+30639_2b4a6347       0.215              0.215             0.000            0.000     13                 0             0                0                 0
+30618_01f73500       0.422              0.316             0.023            0.568     12                 8             1                0                 7
+30618_dd8d0741       1.142              0.594             0.257            0.927     17                 3             0                0                 3
+30618_a53d5f6f       0.445              0.340             0.003            0.432     16                 3             0                0                 3
+
+VAL 15 bags: along RMSE mean 0.972 median 0.487; if every |e| > 1.0 m were clipped to 1.0 m: mean 0.437 median 0.399
+gross time share: mean 0.123; gross share of along MSE (pooled): 0.953
+gross episodes by start: {'ep_after_fix': 4, 'ep_start_of_run': 3, 'ep_between_fixes': 40}
+landmark fixes: 137; |post| median 0.16 m (pre 0.25); suspicious (post > 1.0 m or worse by > 0.5 m): 5
+           bag       t  pre  post
+30639_9c362687  992.85 3.70  2.79
+30618_e3d94878  891.28 0.40 -1.13
+30618_616ec56b  146.08 0.00 -0.90
+30618_616ec56b 1064.90 0.00  0.97
+30618_01f73500  132.03 0.17 -1.31

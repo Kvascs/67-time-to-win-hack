@@ -1,0 +1,10 @@
+T= 60 s f=10 Hz: 1801 unknowns, band 3 | GN+IRLS: 29 it, 1493 ms total (Python), banded solve 37.60 ms/it; k=0.0095 (true 0.0100), weight of the wrong landmark 0.04, cost 440.94
+    L-BFGS: 5000 it, 5954 f+g, 78799 ms; to 1 cm of the GN solution after None it; final max|ds - ds_GN| 11.866 m; cost 471.31
+    L-BFGS (Jacobi-scaled): 5000 it, 5123 f+g, 71320 ms; to 1 cm of the GN solution after None it; final max|ds - ds_GN| 0.068 m; cost 440.95
+T=120 s f=10 Hz: 3601 unknowns, band 3 | GN+IRLS: 29 it, 1836 ms total (Python), banded solve 47.17 ms/it; k=0.0092 (true 0.0100), weight of the wrong landmark 0.27, cost 959.16
+    L-BFGS: 5000 it, 6014 f+g, 101158 ms; to 1 cm of the GN solution after None it; final max|ds - ds_GN| 20.729 m; cost 1014.03
+    L-BFGS (Jacobi-scaled): 5000 it, 5116 f+g, 86888 ms; to 1 cm of the GN solution after None it; final max|ds - ds_GN| 0.398 m; cost 959.92
+T=120 s f=50 Hz: 18001 unknowns, band 3 | GN+IRLS: 9 it, 1947 ms total (Python), banded solve 85.89 ms/it; k=0.0102 (true 0.0100), weight of the wrong landmark 0.29, cost 5264.39
+pure banded Cholesky solve (scipy/LAPACK pbsv), 1800 unknowns, band 3, 2 rhs: 0.525 ms
+pure banded Cholesky solve (scipy/LAPACK pbsv), 3600 unknowns, band 3, 2 rhs: 5.406 ms
+pure banded Cholesky solve (scipy/LAPACK pbsv), 18000 unknowns, band 3, 2 rhs: 5.717 ms

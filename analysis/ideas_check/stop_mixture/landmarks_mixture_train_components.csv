@@ -1,0 +1,2 @@
+tag,lm_s,lm_cls,k,role,offset,s,sigma,weight,w_bg,n_soft,n_ev,runs,mid_runs,n_rtk,frac_first_last,n_pass,p_stop,bags
+train,3000.517,platform,2,secondary,5.259,3005.776,0.1,0.156,0.035,4.99,5,5,5,5,0.0,30,0.167,30618_0652866c;30618_3b36e5cd;30618_49fe4c54;30618_9c09b081;30618_a869780d

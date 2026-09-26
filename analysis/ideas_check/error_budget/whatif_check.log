@@ -1,0 +1,50 @@
+--- oracle_k0.0010: ['wheel_kmh_to_ms=0.2776029526', 'init_sigma_scale=0.002']
+[30618_88aea4d9_oracle_k0.0010] outputs 53171, LM attempts 22
+  velocity RMSE 0.0608 (t<1270: 0.0612), n=53116
+  position 3-D RMSE 5.746 (t<1270: 0.834), along 0.821 cross 0.064 z 0.136, n=53116
+--- oracle_k0.0012: ['wheel_kmh_to_ms=0.2775474986', 'init_sigma_scale=0.002']
+
+--- max_dk_1e-3: ['landmark_max_dk=0.001']
+[30618_88aea4d9_max_dk_1e-3] outputs 53171, LM attempts 22
+  velocity RMSE 0.0610 (t<1270: 0.0614), n=53116
+  position 3-D RMSE 5.751 (t<1270: 0.868), along 0.854 cross 0.064 z 0.136, n=53116
+--- sig_scale_5e-3: ['init_sigma_scale=0.005']
+[30618_88aea4d9_sig_scale_5e-3] outputs 53171, LM attempts 22
+  velocity RMSE 0.0611 (t<1270: 0.0615), n=53116
+  position 3-D RMSE 5.762 (t<1270: 0.945), along 0.933 cross 0.064 z 0.136, n=53116
+--- lead_0.02: ['position_lead_s=0.02']
+[30618_88aea4d9_lead_0.02] outputs 53171, LM attempts 22
+  velocity RMSE 0.0614 (t<1270: 0.0618), n=53116
+  position 3-D RMSE 5.767 (t<1270: 0.989), along 0.978 cross 0.064 z 0.136, n=53116
+--- p_rand_0.05: ['landmark_p_random=0.05']
+[30618_88aea4d9_p_rand_0.05] outputs 53171, LM attempts 27
+  velocity RMSE 0.0614 (t<1270: 0.0618), n=53116
+  position 3-D RMSE 5.771 (t<1270: 1.005), along 0.993 cross 0.066 z 0.136, n=53116
+--- sig_signal1: ['landmark_file=C:\\MosTransHack\\analysis\\ideas_check\\error_budget\\tmp\\lm_signal_sigma1.csv']
+[30618_88aea4d9_sig_signal1] outputs 53171, LM attempts 22
+  velocity RMSE 0.0615 (t<1270: 0.0619), n=53116
+  position 3-D RMSE 5.783 (t<1270: 1.072), along 1.062 cross 0.065 z 0.136, n=53116
+--- oracle_stops: ['landmark_file=C:\\MosTransHack\\analysis\\ideas_check\\error_budget\\tmp\\lm_oracle_stops.csv']
+
+Traceback (most recent call last):
+  File "C:\MosTransHack\analysis\ideas_check\error_budget\whatif_check.py", line 94, in <module>
+    main()
+  File "C:\MosTransHack\analysis\ideas_check\error_budget\whatif_check.py", line 83, in main
+    rows = [{'variant': 'base', **summarize('')}] + [{'variant': n, **summarize(f'_{n}')} for n in names]
+                                                                      ^^^^^^^^^^^^^^^^^^
+  File "C:\MosTransHack\analysis\ideas_check\error_budget\whatif_check.py", line 67, in summarize
+    P = pd.read_parquet(HERE / f'pairs_pos{tag}.parquet')
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<python-user-site>\Python312\site-packages\pandas\io\parquet.py", line 671, in read_parquet
+    return impl.read(
+           ^^^^^^^^^^
+  File "<python-user-site>\Python312\site-packages\pandas\io\parquet.py", line 253, in read
+    path_or_handle, handles, filesystem = _get_path_or_handle(
+                                          ^^^^^^^^^^^^^^^^^^^^
+  File "<python-user-site>\Python312\site-packages\pandas\io\parquet.py", line 141, in _get_path_or_handle
+    handles = get_handle(
+              ^^^^^^^^^^^
+  File "<python-user-site>\Python312\site-packages\pandas\io\common.py", line 939, in get_handle
+    handle = open(handle, ioargs.mode)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\MosTransHack\\analysis\\ideas_check\\error_budget\\pairs_pos_oracle_k0.0012.parquet'

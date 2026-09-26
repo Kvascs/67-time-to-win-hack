@@ -1,0 +1,20 @@
+=== v > 3.0 m/s, train bags split in halves (46 bags) ===
+  mean y                 straight max|k|<0.003  bins  3988: split-half r = 0.753; std of bin means 0.110%; kappa-model explains 0.004 of bin-mean variance
+  mean y                 mild 0.003-0.02        bins   953: split-half r = 0.945; std of bin means 0.316%; kappa-model explains 0.005 of bin-mean variance
+  mean y                 sharp max|k|>0.02      bins   253: split-half r = 0.957; std of bin means 0.819%; kappa-model explains 0.214 of bin-mean variance
+  mean |y|               straight max|k|<0.003  bins  3988: split-half r = 0.826
+  mean |y|               mild 0.003-0.02        bins   953: split-half r = 0.959
+  mean |y|               sharp max|k|>0.02      bins   253: split-half r = 0.939
+  mean |y|/sigma_v(v)    straight max|k|<0.003  bins  3988: split-half r = 0.769
+  mean |y|/sigma_v(v)    mild 0.003-0.02        bins   953: split-half r = 0.940
+  mean |y|/sigma_v(v)    sharp max|k|>0.02      bins   253: split-half r = 0.941
+=== v > 1.5 m/s, train bags split in halves (46 bags) ===
+  mean y                 straight max|k|<0.003  bins  4490: split-half r = 0.763; std of bin means 0.118%; kappa-model explains 0.002 of bin-mean variance
+  mean y                 mild 0.003-0.02        bins  1088: split-half r = 0.935; std of bin means 0.330%; kappa-model explains 0.001 of bin-mean variance
+  mean y                 sharp max|k|>0.02      bins   433: split-half r = 0.932; std of bin means 0.754%; kappa-model explains 0.160 of bin-mean variance
+  mean |y|               straight max|k|<0.003  bins  4490: split-half r = 0.843
+  mean |y|               mild 0.003-0.02        bins  1088: split-half r = 0.950
+  mean |y|               sharp max|k|>0.02      bins   433: split-half r = 0.905
+  mean |y|/sigma_v(v)    straight max|k|<0.003  bins  4490: split-half r = 0.775
+  mean |y|/sigma_v(v)    mild 0.003-0.02        bins  1088: split-half r = 0.933
+  mean |y|/sigma_v(v)    sharp max|k|>0.02      bins   433: split-half r = 0.921

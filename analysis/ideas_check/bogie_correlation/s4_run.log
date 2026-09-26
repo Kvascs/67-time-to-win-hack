@@ -1,0 +1,91 @@
+30639_d601d28f train 10 528s
+30639_c31df386 train 23 597s
+30639_dce52be4 train 24 606s
+30639_92226df0 train 27 610s
+30639_253671cc train 18 662s
+30639_44226bde train 32 670s
+30639_d3c43d69 train 22 651s
+30618_b83d854d train 21 657s
+30618_b8044aa0 train 23 627s
+30618_76e1f9c7 train 25 674s
+30618_2dbce472 train 21 660s
+30618_b15eafc3 train 24 621s
+30618_68d1748a train 26 652s
+30618_095a115b train 15 646s
+30618_7b4d83f4 train 23 642s
+30618_87afe526 train 17 667s
+30618_0e41eac3 train 19 661s
+30618_68847170 train 24 638s
+30618_49fe4c54 train 10 666s
+30618_ab5921a4 train 27 682s
+30618_073f08d1 train 31 637s
+30618_0652866c train 22 714s
+30618_9c09b081 train 21 674s
+30618_e2dcf65f train 22 618s
+30618_28538acf train 9 639s
+30618_8158f0b0 train 19 677s
+30618_21dd3af3 train 26 606s
+30618_4d487b0d train 13 637s
+30618_3b36e5cd train 15 639s
+30618_748832b9 train 24 619s
+30618_1cc230fa train 20 620s
+30618_40ffd323 train 14 597s
+30618_2cb9ce37 train 12 450s
+30618_af7496f0 train 5 72s
+30618_437e855c train 15 646s
+30639_584b6e32 train 14 523s
+30618_d4ba7005 train 18 609s
+30618_dd8e6395 train 16 664s
+30639_4285f2bc train 18 552s
+30618_e9a34502 train 23 624s
+30639_9f0b519f train 25 605s
+30618_33bec73f train 18 620s
+30639_50956d6e train 22 556s
+30639_927002c2 train 20 574s
+30618_2050d396 train 30 647s
+30639_0be558e2 train 17 568s
+30618_67b89902 train 25 611s
+30618_3e9f4952 train 17 640s
+30618_a869780d train 16 617s
+30618_0686195f train 8 625s
+30618_88548b02 train 23 630s
+30618_27e994fc train 17 662s
+30639_3b3d9eb8 val 14 495s
+30639_9c362687 val 28 694s
+30618_e3d94878 val 11 616s
+30618_2f104a1d val 19 613s
+30618_b95ca60a val 19 634s
+30618_0f120b35 val 22 645s
+30618_f19a4ac3 val 24 650s
+30618_22c1c589 val 15 639s
+30618_616ec56b val 26 619s
+30618_6cb3280a val 33 613s
+30618_2366c74a val 5 512s
+30639_d927f360 val 16 516s
+30639_2b4a6347 val 18 594s
+30618_01f73500 val 18 659s
+30618_dd8d0741 val 10 650s
+30618_a53d5f6f val 26 653s
+30618_defd0170 val 27 608s
+L_eff (from s3, train) = 7.5194 m; thresholds |z_F| >= 5.0, counterpart |z_R| >= 4.0 (same sign)
+train: moving time (3-20 m/s) 8.89 h; front events 1026 (115 per h); matched at expected lag 0.150 vs control lag 0.093; matched events per hour 17
+    timing (sample stamps): dt_obs - dt_exp median +7.1 ms, robust sd 91.8 ms, sd 128.2 ms; relative: median +0.0081 robust sd 0.0828
+    timing (centroid     ): dt_obs - dt_exp median +15.4 ms, robust sd 132.8 ms, sd 134.9 ms; relative: median +0.0128 robust sd 0.0954
+    timing (10 Hz ticks  ): dt_obs - dt_exp median +6.9 ms, robust sd 87.0 ms, sd 129.3 ms; relative: median +0.0064 robust sd 0.0744
+    sampling-phase floor sqrt(E[dt^2]/6) = 45.3 ms (dt of the two peak samples)
+    v  3- 6 m/s: matched    92 (1.00 of those tested), timing robust sd 159.5 ms, relative robust sd 0.0885, median +0.0113
+    v  6- 9 m/s: matched    27 (1.00 of those tested), timing robust sd 94.9 ms, relative robust sd 0.0828, median +0.0085
+    v  9-12 m/s: matched    13 (1.00 of those tested), timing robust sd 41.2 ms, relative robust sd 0.0631, median -0.0010
+    v 12-20 m/s: matched    22 (1.00 of those tested), timing robust sd 29.4 ms, relative robust sd 0.0492, median -0.0237
+    mixture fit (dt_obs): true counterparts 31 of 154 matched (3 per h), bias +0.92 %, per-event sd 1.83 % (= 31 ms at the median lag 1.71 s) -> +-0.1 % (1 sigma) needs 335 true events = 97.1 h of driving, even if every true pair were recognised
+    mixture fit (dt_snap): true counterparts 38 of 151 matched (4 per h), bias +0.92 %, per-event sd 2.88 % (= 49 ms at the median lag 1.71 s) -> +-0.1 % (1 sigma) needs 827 true events = 192.6 h of driving, even if every true pair were recognised
+val: moving time (3-20 m/s) 2.89 h; front events 331 (114 per h); matched at expected lag 0.157 vs control lag 0.112; matched events per hour 18
+    timing (sample stamps): dt_obs - dt_exp median -10.6 ms, robust sd 106.5 ms, sd 118.8 ms; relative: median -0.0107 robust sd 0.0860
+    timing (centroid     ): dt_obs - dt_exp median -7.6 ms, robust sd 159.9 ms, sd 133.4 ms; relative: median -0.0081 robust sd 0.1045
+    timing (10 Hz ticks  ): dt_obs - dt_exp median -15.9 ms, robust sd 107.3 ms, sd 120.9 ms; relative: median -0.0182 robust sd 0.0751
+    sampling-phase floor sqrt(E[dt^2]/6) = 46.0 ms (dt of the two peak samples)
+    v  3- 6 m/s: matched    32 (1.00 of those tested), timing robust sd 136.4 ms, relative robust sd 0.0725, median +0.0014
+    v 12-20 m/s: matched    13 (1.00 of those tested), timing robust sd 48.3 ms, relative robust sd 0.0881, median -0.0221
+    mixture fit (dt_obs): true counterparts 25 of 52 matched (9 per h), bias -1.31 %, per-event sd 5.03 % (= 90 ms at the median lag 1.78 s) -> +-0.1 % (1 sigma) needs 2535 true events = 291.5 h of driving, even if every true pair were recognised
+    mixture fit (dt_snap): true counterparts 25 of 52 matched (9 per h), bias -1.86 %, per-event sd 4.66 % (= 83 ms at the median lag 1.78 s) -> +-0.1 % (1 sigma) needs 2169 true events = 250.4 h of driving, even if every true pair were recognised
+position lock: matched events with an event of another bag within 3 m: 0.573 (n=206); random path points: 0.141 (n=206)

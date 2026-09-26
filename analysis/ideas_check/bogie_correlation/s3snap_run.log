@@ -1,0 +1,93 @@
+30639_d601d28f train k_true +0.0156 lam_w 7.694 L_bag 7.576 T 570s edge False
+30639_c31df386 train k_true +0.0099 lam_w 7.578 L_bag 7.504 T 555s edge False
+30639_dce52be4 train k_true +0.0086 lam_w 7.630 L_bag 7.565 T 581s edge False
+30639_92226df0 train k_true +0.0091 lam_w 7.563 L_bag 7.495 T 643s edge False
+30639_253671cc train k_true +0.0062 lam_w 7.555 L_bag 7.509 T 539s edge False
+30639_44226bde train k_true +0.0059 lam_w 7.555 L_bag 7.510 T 610s edge False
+30639_d3c43d69 train k_true +0.0049 lam_w 7.728 L_bag 7.690 T 556s edge True
+30618_b83d854d train k_true -0.0004 lam_w 7.604 L_bag 7.607 T 598s edge False
+30618_b8044aa0 train k_true +0.0001 lam_w 7.477 L_bag 7.476 T 515s edge False
+30618_76e1f9c7 train k_true -0.0009 lam_w 7.543 L_bag 7.549 T 560s edge False
+30618_2dbce472 train k_true -0.0011 lam_w 7.602 L_bag 7.611 T 552s edge False
+30618_b15eafc3 train k_true +0.0001 lam_w 7.492 L_bag 7.491 T 552s edge False
+30618_68d1748a train k_true -0.0012 lam_w 7.564 L_bag 7.573 T 523s edge False
+30618_095a115b train k_true -0.0007 lam_w 7.520 L_bag 7.526 T 610s edge False
+30618_7b4d83f4 train k_true -0.0000 lam_w 7.480 L_bag 7.480 T 614s edge False
+30618_87afe526 train k_true -0.0006 lam_w 7.521 L_bag 7.526 T 581s edge False
+30618_0e41eac3 train k_true -0.0011 lam_w 7.613 L_bag 7.621 T 576s edge False
+30618_68847170 train k_true -0.0005 lam_w 7.480 L_bag 7.483 T 582s edge False
+30618_49fe4c54 train k_true -0.0008 lam_w 7.600 L_bag 7.606 T 611s edge False
+30618_ab5921a4 train k_true -0.0010 lam_w 7.302 L_bag 7.309 T 602s edge False
+30618_073f08d1 train k_true -0.0004 lam_w 7.538 L_bag 7.542 T 553s edge False
+30618_0652866c train k_true -0.0014 lam_w 7.498 L_bag 7.508 T 637s edge False
+30618_9c09b081 train k_true -0.0013 lam_w 7.492 L_bag 7.502 T 619s edge False
+30618_e2dcf65f train k_true -0.0007 lam_w 7.512 L_bag 7.517 T 537s edge False
+30618_28538acf train k_true -0.0016 lam_w 7.472 L_bag 7.483 T 579s edge False
+30618_8158f0b0 train k_true -0.0016 lam_w 7.479 L_bag 7.491 T 598s edge False
+30618_21dd3af3 train k_true -0.0014 lam_w 7.501 L_bag 7.511 T 511s edge False
+30618_4d487b0d train k_true -0.0017 lam_w 7.468 L_bag 7.481 T 540s edge False
+30618_3b36e5cd train k_true -0.0015 lam_w 7.508 L_bag 7.519 T 537s edge False
+30618_748832b9 train k_true -0.0014 lam_w 7.390 L_bag 7.400 T 594s edge False
+30618_1cc230fa train k_true -0.0014 lam_w 7.715 L_bag 7.726 T 506s edge False
+30618_40ffd323 train k_true -0.0020 lam_w 7.415 L_bag 7.429 T 599s edge False
+30618_2cb9ce37 train k_true -0.0015 lam_w 7.653 L_bag 7.665 T 437s edge False
+30618_af7496f0 no k_true
+30618_437e855c train k_true -0.0019 lam_w 7.470 L_bag 7.484 T 559s edge False
+30639_584b6e32 train k_true -0.0039 lam_w 7.534 L_bag 7.564 T 646s edge False
+30618_d4ba7005 train k_true -0.0010 lam_w 7.538 L_bag 7.545 T 552s edge False
+30618_dd8e6395 train k_true -0.0017 lam_w 7.466 L_bag 7.479 T 554s edge False
+30639_4285f2bc train k_true -0.0039 lam_w 7.613 L_bag 7.642 T 573s edge False
+30618_e9a34502 train k_true -0.0008 lam_w 7.698 L_bag 7.705 T 491s edge False
+30639_9f0b519f train k_true -0.0032 lam_w 7.607 L_bag 7.632 T 582s edge False
+30618_33bec73f train k_true -0.0010 lam_w 7.447 L_bag 7.455 T 587s edge False
+30639_50956d6e train k_true -0.0044 lam_w 7.648 L_bag 7.683 T 642s edge False
+30639_927002c2 train k_true -0.0044 lam_w 7.516 L_bag 7.549 T 520s edge False
+30618_2050d396 train k_true -0.0011 lam_w 7.427 L_bag 7.435 T 575s edge False
+30639_0be558e2 train k_true -0.0043 lam_w 7.328 L_bag 7.360 T 636s edge True
+30618_67b89902 train k_true -0.0010 lam_w 7.508 L_bag 7.515 T 578s edge False
+30618_3e9f4952 train k_true -0.0012 lam_w 7.442 L_bag 7.451 T 544s edge False
+30618_a869780d train k_true -0.0013 lam_w 7.349 L_bag 7.358 T 508s edge False
+30618_0686195f train k_true -0.0146 lam_w 7.572 L_bag 7.684 T 522s edge False
+30618_88548b02 train k_true -0.0060 lam_w 7.373 L_bag 7.418 T 527s edge False
+30618_27e994fc train k_true -0.0062 lam_w 7.432 L_bag 7.478 T 569s edge False
+30639_3b3d9eb8 val k_true +0.0113 lam_w 7.578 L_bag 7.493 T 534s edge False
+30639_9c362687 val k_true +0.0071 lam_w 7.565 L_bag 7.512 T 591s edge False
+30618_e3d94878 val k_true +0.0001 lam_w 7.386 L_bag 7.385 T 581s edge False
+30618_2f104a1d val k_true -0.0000 lam_w 7.506 L_bag 7.506 T 559s edge False
+30618_b95ca60a val k_true +0.0001 lam_w 7.570 L_bag 7.569 T 529s edge False
+30618_0f120b35 val k_true -0.0000 lam_w 7.430 L_bag 7.430 T 528s edge False
+30618_f19a4ac3 val k_true -0.0002 lam_w 7.506 L_bag 7.507 T 613s edge False
+30618_22c1c589 val k_true -0.0006 lam_w 7.496 L_bag 7.501 T 582s edge False
+30618_616ec56b val k_true -0.0011 lam_w 7.479 L_bag 7.487 T 484s edge False
+30618_6cb3280a val k_true -0.0014 lam_w 7.518 L_bag 7.529 T 599s edge False
+30618_2366c74a val k_true -0.0013 lam_w 7.430 L_bag 7.440 T 479s edge False
+30639_d927f360 val k_true -0.0028 lam_w 7.570 L_bag 7.592 T 534s edge False
+30639_2b4a6347 val k_true -0.0033 lam_w 7.673 L_bag 7.698 T 634s edge False
+30618_01f73500 val k_true -0.0015 lam_w 7.611 L_bag 7.623 T 618s edge False
+30618_dd8d0741 val k_true -0.0014 lam_w 7.530 L_bag 7.541 T 527s edge False
+30618_a53d5f6f val k_true -0.0014 lam_w 7.624 L_bag 7.635 T 565s edge False
+30618_defd0170 val k_true -0.0154 lam_w 7.326 L_bag 7.441 T 508s edge True
+L_eff (median over 51 train bags of lam_w / (1 + k_true)) = 7.5114 m; spread of L_bag: robust sd 0.0561 m, p10..p90 7.429..7.665
+train: bags 51, valid driving per bag median 570 s; per-bag k_hat - k_true: median +0.0000, robust sd 0.0074, rms 0.0121, max |.| 0.0285; |err|<0.1%: 0.14, <0.3%: 0.27; corr(k_hat, k_true) +0.33; true k spread sd 0.0045; peak on prior edge: 2
+    subset straight: n_front median 2436, per-bag k err median +0.0000 robust sd 0.0285 (L_eff 7.443 m)
+    subset v3_6    : n_front median 1812, per-bag k err median +0.0000 robust sd 0.0094 (L_eff 7.523 m)
+    subset v6_9    : n_front median 1965, per-bag k err median +0.0000 robust sd 0.0304 (L_eff 7.529 m)
+    subset v9_12   : n_front median 1161, per-bag k err median -0.0000 robust sd 0.0292 (L_eff 7.646 m)
+    subset v12_20  : n_front median 536, per-bag k err median +0.0000 robust sd 0.0133 (L_eff 7.376 m)
+val: bags 17, valid driving per bag median 559 s; per-bag k_hat - k_true: median -0.0005, robust sd 0.0121, rms 0.0106, max |.| 0.0248; |err|<0.1%: 0.18, <0.3%: 0.35; corr(k_hat, k_true) +0.42; true k spread sd 0.0052; peak on prior edge: 1
+    subset straight: n_front median 2433, per-bag k err median +0.0131 robust sd 0.0203 (L_eff 7.443 m)
+    subset v3_6    : n_front median 1682, per-bag k err median +0.0019 robust sd 0.0136 (L_eff 7.523 m)
+    subset v6_9    : n_front median 1809, per-bag k err median -0.0027 robust sd 0.0243 (L_eff 7.529 m)
+    subset v9_12   : n_front median 1354, per-bag k err median -0.0156 robust sd 0.0315 (L_eff 7.646 m)
+    subset v12_20  : n_front median 549, per-bag k err median +0.0031 robust sd 0.0370 (L_eff 7.376 m)
+Accumulation: k error of chunks with T seconds of valid driving (both splits, L_eff from train)
+  T=   30s train n= 939 median +0.0021 robust sd 0.0332 sd 0.0258 |err|<0.1%: 0.02 <0.3%: 0.06 <1%: 0.21
+  T=   30s val   n= 305 median +0.0065 robust sd 0.0308 sd 0.0262 |err|<0.1%: 0.01 <0.3%: 0.06 <1%: 0.23
+  T=   60s train n= 455 median +0.0006 robust sd 0.0301 sd 0.0240 |err|<0.1%: 0.03 <0.3%: 0.09 <1%: 0.27
+  T=   60s val   n= 147 median +0.0045 robust sd 0.0286 sd 0.0244 |err|<0.1%: 0.01 <0.3%: 0.07 <1%: 0.24
+  T=  120s train n= 214 median +0.0010 robust sd 0.0229 sd 0.0223 |err|<0.1%: 0.06 <0.3%: 0.12 <1%: 0.34
+  T=  120s val   n=  70 median +0.0017 robust sd 0.0203 sd 0.0197 |err|<0.1%: 0.03 <0.3%: 0.17 <1%: 0.39
+  T=  300s train n=  62 median +0.0022 robust sd 0.0144 sd 0.0149 |err|<0.1%: 0.03 <0.3%: 0.16 <1%: 0.53
+  T=  300s val   n=  20 median +0.0038 robust sd 0.0150 sd 0.0146 |err|<0.1%: 0.10 <0.3%: 0.25 <1%: 0.45
+  T=  600s train n=  11 median -0.0021 robust sd 0.0074 sd 0.0143 |err|<0.1%: 0.09 <0.3%: 0.27 <1%: 0.64
+Fit on train chunks: robust sd(T) ~ 0.2171 / sqrt(T/s)  ->  sd = 0.1 % needs T = 47126 s = 13.1 h of valid driving (sd 0.05 %: 52.4 h); 95 % within +-0.1 % needs 50.3 h

@@ -1,0 +1,5 @@
+train: {'n_all': 579768, 'n_s_valid': 317697, 'n_moving': 287241, 'n_no_episode': 286112, 'n_consistent': 275850, 'n_slip_removed': 21, 'n_used': 275829, 'n_bags': 46}
+sigma_v(v) straight [%]: 1.75:0.453 2.25:0.453 2.75:0.479 3.25:0.328 3.75:0.346 4.25:0.335 4.75:0.283 5.25:0.290 5.75:0.273 6.25:0.272 6.75:0.266 7.25:0.227 7.75:0.225 8.25:0.199 8.75:0.182 9.25:0.161 9.75:0.139 10.25:0.135 10.75:0.137 11.25:0.131 11.75:0.130 12.25:0.148 12.75:0.138 13.25:0.150 13.75:0.166 14.25:0.180 14.75:0.185
+per-bag offset log(vf/vr): median -0.008 %, IQR -0.017..-0.000 %, range -0.058..0.051 %
+val: {'n_all': 187963, 'n_s_valid': 95760, 'n_moving': 87313, 'n_no_episode': 87213, 'n_consistent': 85667, 'n_slip_removed': 6, 'n_used': 85661, 'n_bags': 15}
+train map: 11054 bins, 10569 with >= 10 samples; samples per bin median 20; std of bin mean z 0.761; median bin sd_z 0.777

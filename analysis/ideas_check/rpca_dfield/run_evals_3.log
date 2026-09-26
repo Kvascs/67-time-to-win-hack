@@ -1,0 +1,12 @@
+rpca_dw_pcp_lam1_obs: rc=0 433 s
+[rpca_dw_pcp_lam1_obs] n=17 good=12 sets={'dfield_file': 'C:\\MosTransHack\\analysis\\ideas_check\\rpca_dfield\\dfield_pcp_lam1_obs.csv'} dropwin=(60.0, 10.0)
+  all_mean    {'v_rmse': 0.1864, 'v_p99': 0.758, 'along_rmse': 7.0657, 'along_max': 26.0648, 'end_err': 3.2237, 'drift_pct': 0.0555, 'win_v_rmse': 0.4543, 'win_ds_abs': 2.353}
+  all_median  {'v_rmse': 0.1553, 'v_p99': 0.6191, 'along_rmse': 3.9932, 'along_max': 25.7615, 'end_err': 2.4833, 'drift_pct': 0.0379, 'win_v_rmse': 0.3579, 'win_ds_abs': 2.1673}
+  good_mean   {'v_rmse': 0.1513, 'v_p99': 0.6013, 'along_rmse': 4.6248, 'along_max': 22.7485, 'end_err': 2.1406, 'drift_pct': 0.0383, 'win_v_rmse': 0.4282, 'win_ds_abs': 2.1802}
+  good_median {'v_rmse': 0.1157, 'v_p99': 0.5457, 'along_rmse': 3.2671, 'along_max': 24.2434, 'end_err': 1.9753, 'drift_pct': 0.0342, 'win_v_rmse': 0.3323, 'win_ds_abs': 2.0034}
+rpca_clean_pcp_lam1_obs: rc=0 506 s
+[rpca_clean_pcp_lam1_obs] n=17 good=12 sets={'dfield_file': 'C:\\MosTransHack\\analysis\\ideas_check\\rpca_dfield\\dfield_pcp_lam1_obs.csv'} dropwin=None
+  all_mean    {'v_rmse': 0.052, 'v_p99': 0.1599, 'along_rmse': 2.6722, 'along_max': 17.4973, 'end_err': 2.0157, 'drift_pct': 0.0349}
+  all_median  {'v_rmse': 0.0329, 'v_p99': 0.0829, 'along_rmse': 1.165, 'along_max': 10.7772, 'end_err': 0.7175, 'drift_pct': 0.011}
+  good_mean   {'v_rmse': 0.0389, 'v_p99': 0.0816, 'along_rmse': 1.5336, 'along_max': 16.7692, 'end_err': 0.9436, 'drift_pct': 0.0169}
+  good_median {'v_rmse': 0.0258, 'v_p99': 0.0806, 'along_rmse': 1.1282, 'along_max': 9.7299, 'end_err': 0.4691, 'drift_pct': 0.0083}

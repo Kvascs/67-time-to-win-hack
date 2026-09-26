@@ -1,0 +1,16 @@
+metric,source,mse_m2,share_full_pct,note,share_1270_pct,share_speed_pct
+pos_full,stub track missing from the map (t >= 1270 s),32.34210890533891,96.7570946265924,,,
+pos_full,"along: start: -0.75 m lost in the first 50 m (east loop, kappa 0.03-0.056)",0.02885416988251895,0.08632231292851134,,2.6618819542614505,
+pos_full,"along: no place fix over 2120 m (s 881-3000), wheel scale k off by ~+0.13 %",0.8580215028745273,2.5669219032150714,,79.15500477640516,
+pos_full,along: residual after the PDA fix at 3000 m (beta0 keeps 9 % of the prior),0.04883280024940477,0.14609189179476081,,4.504969309087495,
+pos_full,along: fix at a signal stop 2 m short of the signal landmark (-0.93 m) and weak later fixes,0.058126951116727214,0.1738969751792551,,5.3623820357276575,
+pos_full,along: approach to the stub: -1.1 m in the curves at s 5340-5375 (kappa 0.02-0.037),0.03291572703712321,0.09847317393419194,,3.036572535902219,
+pos_full,along: all other segments (short drift between fixes),0.0353803695781414,0.10584658462487995,,3.2639430522037842,
+pos_full,cross (t < 1270 s),0.0040614003215779645,0.012150391812159227,,0.37467611333326784,
+pos_full,z bias +0.108 m (t < 1270 s),0.01127171047169171,0.033721299990211596,,1.0398484108334591,
+pos_full,z scatter (t < 1270 s),0.006511682155896273,0.01948083992854104,,0.6007218122455096,
+speed,reference lag (our speed vs speed delayed by 0.12 s),0.0029173533519352823,,,,77.32540292081242
+speed,after the lag: accel,0.00034434974434676834,,,,9.12710238190005
+speed,after the lag: brake,0.0003274343894575934,,,,8.678755378789745
+speed,after the lag: cruise,0.00016263842519636049,,,,4.310784550788954
+speed,after the lag: standstill,2.105066576207272e-05,,,,0.5579547677088289

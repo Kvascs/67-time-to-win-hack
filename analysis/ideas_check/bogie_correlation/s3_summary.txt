@@ -1,0 +1,24 @@
+L_eff (median over 51 train bags of lam_w / (1 + k_true)) = 7.5194 m; spread of L_bag: robust sd 0.0863 m, p10..p90 7.427..7.623
+train: bags 51, valid driving per bag median 592 s; per-bag k_hat - k_true: median +0.0000, robust sd 0.0115, rms 0.0110, max |.| 0.0360; |err|<0.1%: 0.08, <0.3%: 0.24; corr(k_hat, k_true) +0.29; true k spread sd 0.0045; peak on prior edge: 1
+    subset straight: n_front median 2550, per-bag k err median +0.0000 robust sd 0.0297 (L_eff 7.527 m)
+    subset v3_6    : n_front median 1857, per-bag k err median +0.0000 robust sd 0.0098 (L_eff 7.531 m)
+    subset v6_9    : n_front median 1984, per-bag k err median +0.0000 robust sd 0.0325 (L_eff 7.509 m)
+    subset v9_12   : n_front median 1269, per-bag k err median -0.0000 robust sd 0.0321 (L_eff 7.612 m)
+    subset v12_20  : n_front median 552, per-bag k err median +0.0000 robust sd 0.0276 (L_eff 7.446 m)
+val: bags 17, valid driving per bag median 573 s; per-bag k_hat - k_true: median +0.0014, robust sd 0.0094, rms 0.0096, max |.| 0.0232; |err|<0.1%: 0.06, <0.3%: 0.41; corr(k_hat, k_true) +0.30; true k spread sd 0.0052; peak on prior edge: 1
+    subset straight: n_front median 2462, per-bag k err median +0.0051 robust sd 0.0278 (L_eff 7.527 m)
+    subset v3_6    : n_front median 1767, per-bag k err median -0.0025 robust sd 0.0155 (L_eff 7.531 m)
+    subset v6_9    : n_front median 1829, per-bag k err median +0.0096 robust sd 0.0255 (L_eff 7.509 m)
+    subset v9_12   : n_front median 1352, per-bag k err median -0.0089 robust sd 0.0142 (L_eff 7.612 m)
+    subset v12_20  : n_front median 617, per-bag k err median +0.0123 robust sd 0.0430 (L_eff 7.446 m)
+Accumulation: k error of chunks with T seconds of valid driving (both splits, L_eff from train)
+  T=   30s train n= 983 median +0.0008 robust sd 0.0331 sd 0.0257 |err|<0.1%: 0.02 <0.3%: 0.08 <1%: 0.24
+  T=   30s val   n= 315 median +0.0086 robust sd 0.0328 sd 0.0265 |err|<0.1%: 0.02 <0.3%: 0.06 <1%: 0.22
+  T=   60s train n= 477 median -0.0013 robust sd 0.0280 sd 0.0231 |err|<0.1%: 0.05 <0.3%: 0.10 <1%: 0.29
+  T=   60s val   n= 154 median +0.0017 robust sd 0.0292 sd 0.0252 |err|<0.1%: 0.03 <0.3%: 0.07 <1%: 0.27
+  T=  120s train n= 223 median -0.0001 robust sd 0.0215 sd 0.0208 |err|<0.1%: 0.05 <0.3%: 0.13 <1%: 0.39
+  T=  120s val   n=  72 median +0.0039 robust sd 0.0201 sd 0.0231 |err|<0.1%: 0.04 <0.3%: 0.10 <1%: 0.36
+  T=  300s train n=  71 median +0.0022 robust sd 0.0142 sd 0.0160 |err|<0.1%: 0.06 <0.3%: 0.23 <1%: 0.51
+  T=  300s val   n=  21 median -0.0011 robust sd 0.0145 sd 0.0158 |err|<0.1%: 0.00 <0.3%: 0.14 <1%: 0.52
+  T=  600s train n=  20 median -0.0010 robust sd 0.0123 sd 0.0136 |err|<0.1%: 0.05 <0.3%: 0.30 <1%: 0.55
+Fit on train chunks: robust sd(T) ~ 0.2327 / sqrt(T/s)  ->  sd = 0.1 % needs T = 54167 s = 15.0 h of valid driving (sd 0.05 %: 60.2 h); 95 % within +-0.1 % needs 57.8 h

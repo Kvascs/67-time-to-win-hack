@@ -1,0 +1,152 @@
+==============================================================================================================
+VAL: 15 bags with RTK, 127230 epochs
+  per-bag 3-D RMSE: mean 2.081, median 0.892; mean of per-bag MSE 9.687 m^2
+  components of the mean per-bag MSE: along 20.0 %, cross 70.3 %, z 9.7 %
+       category  epochs_pct  bags  share_sum_sq  share_mean_bag_mse  rmse_in_cat  mean_rmse_without  median_rmse_without
+      ref_clock       0.279     3         1.988               1.381        7.685              2.069                0.893
+       ref_jump       0.424     7        17.599              40.826       18.540              1.529                0.758
+      start_off       2.512     3        66.287              43.694       14.790              1.596                0.892
+  west_terminal       0.074     2         0.352               0.240        6.282              2.081                0.892
+ parallel_track       0.000     0         0.000               0.000          NaN              2.081                0.892
+off_track_other       0.031     1         0.037               0.412        3.148              2.092                0.892
+     drift_long       9.697    13         2.567               1.986        1.481              2.060                0.774
+    drift_short      86.983    15        11.171              11.461        1.032              3.946                1.452
+  without reference faults: per-bag 3-D RMSE mean 1.517, median 0.739; mean per-bag MSE 5.797
+       category  share_mean_bag_mse  along_part_of_it  mean_rmse_without  median_rmse_without
+      start_off              73.177             2.691              1.003                0.739
+  west_terminal               0.402            64.281              1.517                0.739
+ parallel_track               0.000             0.000              1.517                0.739
+off_track_other               1.292             8.133              1.510                0.739
+     drift_long               3.331            60.587              1.475                0.638
+    drift_short              21.798            19.281              2.657                1.197
+  per bag (category columns = % of the bag squared error):
+cat             drift_long  drift_short  off_track_other  ref_clock  ref_jump  start_off  west_terminal  p3_rmse  along_rmse  cross_rmse  z_rmse  share_of_split_mse
+bag                                                                                                                                                                 
+30618_e3d94878         0.1          1.5              0.0        1.8       0.0       96.3            0.4      7.3         1.5         7.1     0.1                36.6
+30639_9c362687         0.0          5.7              1.3        0.0      92.9        0.0            0.0      6.7         2.2         6.1     1.7                31.0
+30618_f19a4ac3         3.2         34.9              0.0        4.7       0.0       56.4            0.7      4.6         1.2         3.6     2.7                14.8
+30618_616ec56b         0.2          0.7              0.0        0.0      99.1        0.0            0.0      4.2         4.1         0.3     0.3                12.0
+30639_2b4a6347         0.0        100.0              0.0        0.0       0.0        0.0            0.0      1.7         0.2         0.7     1.5                 1.9
+30618_6cb3280a        27.6         64.3              0.0        0.0       0.0        8.1            0.0      1.2         0.3         0.2     1.1                 1.0
+30618_dd8d0741        60.3         35.5              0.0        0.0       4.2        0.0            0.0      1.1         1.1         0.1     0.1                 0.9
+30639_d927f360        52.8         47.2              0.0        0.0       0.0        0.0            0.0      0.9         0.9         0.1     0.0                 0.5
+30618_2366c74a        11.4         81.7              0.0        6.9       0.0        0.0            0.0      0.8         0.5         0.3     0.5                 0.4
+30618_a53d5f6f        11.2         62.7              0.0        0.0      26.2        0.0            0.0      0.5         0.4         0.2     0.2                 0.2
+30618_b95ca60a        48.1         38.9              0.0        0.0      13.0        0.0            0.0      0.5         0.4         0.1     0.3                 0.2
+30618_0f120b35        59.6         30.4              0.0        0.0      10.0        0.0            0.0      0.5         0.5         0.1     0.1                 0.2
+30618_01f73500         9.9         56.3              0.0        0.0      33.9        0.0            0.0      0.5         0.4         0.1     0.2                 0.1
+30618_2f104a1d        16.0         84.0              0.0        0.0       0.0        0.0            0.0      0.4         0.4         0.1     0.0                 0.1
+30618_22c1c589        59.7         40.3              0.0        0.0       0.0        0.0            0.0      0.4         0.3         0.1     0.2                 0.1
+  along RMSE by distance since the last accepted fix:
+                      n  along_rmse  along_p95
+db                                            
+(0.0, 250.0]      61876       0.579      0.757
+(250.0, 500.0]    19587       0.398      0.691
+(500.0, 1000.0]   10893       0.673      1.657
+(1000.0, 2000.0]   9813       1.104      2.476
+(2000.0, 4000.0]   2525       1.197      2.439
+==============================================================================================================
+TRAIN: 46 bags with RTK, 413114 epochs
+  per-bag 3-D RMSE: mean 1.899, median 1.220; mean of per-bag MSE 7.746 m^2
+  components of the mean per-bag MSE: along 54.7 %, cross 38.2 %, z 7.1 %
+       category  epochs_pct  bags  share_sum_sq  share_mean_bag_mse  rmse_in_cat  mean_rmse_without  median_rmse_without
+      ref_clock       0.667     5         2.235               1.888        4.855              1.888                1.221
+       ref_jump       0.547    22        13.468              12.707       13.161              1.758                1.200
+      start_off       0.994     0         0.005               0.004        0.190              1.901                1.220
+  west_terminal       0.421     5        37.944              32.990       25.184              1.563                0.944
+ parallel_track       1.873    11         5.591               4.567        4.582              1.785                0.705
+off_track_other       0.522    16         0.645               0.802        2.948              1.899                1.217
+     drift_long       8.802    38        21.224              24.569        4.119              1.734                0.991
+    drift_short      86.173    46        18.887              22.473        1.242              5.783                2.526
+  without reference faults: per-bag 3-D RMSE mean 1.733, median 1.114; mean per-bag MSE 6.726
+       category  share_mean_bag_mse  along_part_of_it  mean_rmse_without  median_rmse_without
+      start_off               0.005            31.463              1.735                1.114
+  west_terminal              38.209             3.038              1.392                0.803
+ parallel_track               5.337             5.704              1.614                0.683
+off_track_other               0.931             8.937              1.732                1.104
+     drift_long              28.927            92.189              1.549                0.837
+    drift_short              26.590            81.318              3.372                1.288
+  per bag (category columns = % of the bag squared error):
+cat             drift_long  drift_short  off_track_other  parallel_track  ref_clock  ref_jump  start_off  west_terminal  p3_rmse  along_rmse  cross_rmse  z_rmse  share_of_split_mse
+bag                                                                                                                                                                                 
+30618_27e994fc        70.7         22.9              0.0             0.0        0.0       2.9        0.0            3.4      8.2         7.8         1.5     1.9                18.7
+30618_8158f0b0         0.0          0.3              0.1             2.2        0.0       0.0        0.0           97.4      7.5         1.1         7.4     0.2                15.6
+30618_49fe4c54         0.3          0.4              0.0             0.7        0.0       0.0        0.0           98.5      6.6         1.1         6.5     0.1                12.3
+30639_253671cc        76.2         17.0              4.1             0.0        0.0       2.7        0.0            0.0      5.9         5.3         1.4     2.3                 9.9
+30618_28538acf         0.2          0.9              0.0             0.0        3.4      95.5        0.0            0.0      5.9         5.7         0.5     1.6                 9.8
+30618_21dd3af3         0.2         18.0              0.1             0.0        5.4       0.1        0.0           76.2      4.4         1.6         3.8     1.5                 5.5
+30639_4285f2bc         0.0         68.7              0.0             0.0        0.0      31.3        0.0            0.0      4.0         3.8         0.2     1.5                 4.6
+30618_40ffd323        38.0         40.5              0.0             0.0       21.2       0.3        0.0            0.0      3.7         3.7         0.1     0.1                 3.8
+30618_af7496f0         0.0         93.2              0.0             0.0        0.0       6.8        0.0            0.0      3.6         3.5         0.7     0.8                 3.7
+30618_4d487b0d        10.4         73.9              0.5             0.0       13.8       1.4        0.0            0.0      3.3         3.3         0.3     0.1                 3.0
+30618_095a115b        14.2         22.7             10.3            52.7        0.0       0.0        0.0            0.0      2.6         1.7         2.0     0.3                 2.0
+30639_92226df0        29.1         51.0              2.5             0.0        0.0      17.3        0.0            0.0      2.3         1.5         0.5     1.6                 1.4
+30618_88548b02         6.4         77.2              0.3             0.0        0.0      16.0        0.0            0.0      1.9         1.2         0.6     1.3                 1.0
+30618_68d1748a         1.4         21.8              2.4            66.5        0.0       7.9        0.0            0.0      1.9         0.8         1.6     0.7                 1.0
+30618_a869780d         0.2          5.0              0.0             0.0        0.0       0.0        0.0           94.8      1.9         0.5         1.8     0.0                 1.0
+30618_9c09b081         0.1         33.3              1.0            60.3        0.0       5.3        0.0            0.0      1.7         1.1         1.4     0.2                 0.9
+30618_0652866c         1.0         12.0              1.5            81.0        0.0       4.4        0.0            0.0      1.5         0.6         1.3     0.3                 0.6
+30618_0e41eac3         0.2         20.2              1.3            78.2        0.0       0.0        0.0            0.0      1.4         0.6         1.3     0.1                 0.6
+30618_ab5921a4         7.0         54.0             10.5             7.7        0.0      20.8        0.0            0.0      1.4         1.0         0.5     0.8                 0.5
+30618_76e1f9c7         4.5         11.4              1.3            82.7        0.0       0.0        0.0            0.0      1.4         0.5         1.3     0.1                 0.5
+  along RMSE by distance since the last accepted fix:
+                       n  along_rmse  along_p95
+db                                             
+(0.0, 250.0]      219842       0.955      1.773
+(250.0, 500.0]     54162       1.228      1.498
+(500.0, 1000.0]    23475       2.436      2.700
+(1000.0, 2000.0]   31720       2.354      6.906
+(2000.0, 4000.0]    4642       9.290     27.636
+==============================================================================================================
+PLACE-FIX ATTEMPTS (all RTK bags; along error of the published base_link 1.5 s before / 0.3-2 s after)
+  stop: attempts 836, accepted 567 (mean |along| 0.589 -> 0.310; worse by > 0.5 m: 9, worse by > 1 m: 0); rejected with a candidate 78 (candidate right within 1 m: 37, mean |along| there 0.910); no candidate 191 (|along| > 3 m there: 26)
+  cutoff: attempts 58, accepted 58 (mean |along| 0.451 -> 0.423; worse by > 0.5 m: 3, worse by > 1 m: 2); rejected with a candidate 0 (candidate right within 1 m: 0, mean |along| there nan); no candidate 0 (|along| > 3 m there: 0)
+  accepted fixes that made the along error worse by > 0.5 m:
+           bag       t   kind   sd    d0  p_known  along_before  along_after  cand_err
+30618_40ffd323  145.65 cutoff 2.48  2.92     0.96          5.36         7.17      8.28
+30618_01f73500  132.00 cutoff 2.55 -3.33     0.96          0.19        -1.32     -3.14
+30618_e3d94878  892.30   stop 4.60 -1.49     0.92          0.17        -1.15     -1.32
+30618_616ec56b 1066.00   stop 1.66  1.46     0.84          0.04         1.00      1.50
+30618_e9a34502  512.85   stop 2.30  1.23     0.92         -0.01         0.94      1.22
+30618_616ec56b  147.20   stop 0.83 -1.18     0.84          0.02        -0.81     -1.16
+30618_27e994fc 1106.25   stop 0.87 -0.97     0.88         -0.41        -1.14     -1.38
+30639_0be558e2  211.25   stop 1.26 -1.20     0.83         -0.09        -0.81     -1.29
+30639_92226df0  895.65   stop 4.71 -1.58     0.86          0.30        -1.01     -1.28
+30618_76e1f9c7  120.40 cutoff 2.49  1.33     0.97          0.22         0.91      1.55
+30639_9f0b519f  615.20   stop 1.54 -1.31     0.90         -0.18        -0.81     -1.49
+30618_21dd3af3  433.15   stop 2.63  0.43     0.92          0.57         1.09      1.00
+  rejected right candidates while |along| > 1 m:
+           bag       t kind  n    sd    d0  p_known  along_before  cand_err
+30618_748832b9 1108.75 stop  1  0.93  2.55     0.03         -2.48      0.07
+30618_40ffd323  122.25 stop  1  1.90  4.02     0.38         -4.21     -0.19
+30618_88548b02 1253.45 stop  1  1.00  1.59     0.19         -1.72     -0.13
+30618_27e994fc  307.45 stop  1  2.93  8.60     0.15         -7.68      0.92
+30618_27e994fc  685.35 stop  1 10.54 26.93     0.33        -27.58     -0.65
+30618_2366c74a 1082.15 stop  1  1.02 -1.34     0.25          1.37      0.03
+  attempts without a candidate while |along| > 2 m (gate too narrow or no place):
+           bag       t kind    sd  along_before
+30618_2dbce472  198.70 stop  2.51          2.36
+30618_095a115b  464.95 stop  2.23         -3.08
+30618_9c09b081   57.45 stop  2.38         12.12
+30618_28538acf  151.70 stop  1.86          9.51
+30618_8158f0b0 1181.45 stop  1.61          9.27
+30618_4d487b0d  161.20 stop  1.78         10.99
+30618_4d487b0d  168.90 stop  1.81          9.66
+30618_4d487b0d  340.90 stop  3.85          5.25
+30618_1cc230fa  597.35 stop  4.32         -3.17
+30618_40ffd323  161.75 stop  2.33          6.54
+30618_40ffd323  231.85 stop  0.82          5.29
+30618_40ffd323  321.55 stop  2.24          5.28
+30618_40ffd323  466.05 stop  5.34         12.84
+30618_40ffd323  524.55 stop  9.93          7.11
+30618_40ffd323  571.55 stop 10.36          7.11
+30618_af7496f0  178.55 stop  3.02          5.78
+30618_af7496f0  182.95 stop  3.02          5.33
+30618_af7496f0  191.45 stop  3.03          4.15
+30618_af7496f0  205.35 stop  3.25          4.00
+30618_af7496f0  212.05 stop  3.26          3.96
+30618_af7496f0  243.05 stop  3.34          4.02
+30639_50956d6e 1041.80 stop  0.60         -3.01
+30639_50956d6e 1047.60 stop  0.61         -3.46
+30639_50956d6e 1078.60 stop  0.95         -3.60
+30618_2050d396  413.30 stop  1.71          3.00

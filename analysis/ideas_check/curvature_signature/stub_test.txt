@@ -1,0 +1,64 @@
+=== Step 3: stub vs main after divergence at main s = 5390.0 ===
+kappa-model M6 beta (kf,kr,|kf|,|kr|,kf2,kr2) = [0.1, -0.0781, -0.1418, 0.0338, 5.477, -2.62]; chord beta = 0.654; tau = 5.39
+noise table sigma [%] (rows kmax bins [0.0, 0.003, 0.006, 0.01, 0.015, 0.02, 0.03, 1.0], cols v bins [0.0, 3.0, 5.0, 8.0, 100.0]):
+    0.47  0.33  0.26  0.16
+    0.78  0.61  0.30  0.21
+    0.51  0.56  0.30  0.22
+    0.78  0.96  0.57  0.35
+    0.88  1.22  0.57  0.35
+    1.05  1.01  0.57  0.35
+    1.26  1.15  0.57  0.35
+runs with samples at 0<=u<=100: main 22, stub 4
+                       n   umax  vmed
+cls  bag                             
+main 30618_01f73500  207  70.24  2.71
+     30618_0652866c  270  99.96  3.51
+     30618_095a115b  173  53.32  2.62
+     30618_1cc230fa  298  87.77  2.72
+     30618_27e994fc  134  99.98  3.38
+     30618_28538acf  295  80.48  2.77
+     30618_2dbce472  198  51.42  2.60
+     30618_3b36e5cd  220  55.47  2.56
+     30618_3e9f4952  304  82.01  2.59
+     30618_40ffd323  311  95.22  2.72
+     30618_4d487b0d  265  94.97  2.74
+     30618_68d1748a  205  53.63  2.59
+     30618_76e1f9c7  269  82.70  2.81
+     30618_87afe526  216  59.97  2.66
+     30618_9c09b081  304  95.34  2.73
+     30618_a53d5f6f  198  51.77  2.63
+     30618_ab5921a4  271  78.18  2.68
+     30618_b83d854d  155  43.28  2.62
+     30618_dd8d0741  264  79.26  2.72
+     30639_4285f2bc  317  95.24  2.80
+     30639_50956d6e  380  95.06  2.48
+     30639_584b6e32   77  31.93  2.64
+stub 30618_49fe4c54  180  99.35  6.12
+     30618_8158f0b0  142  99.74  6.16
+     30618_a869780d  149  71.73  4.33
+     30639_0be558e2  188  99.55  6.37
+--- LLR = log p(ratio | main) - log p(ratio | stub), > 0 favours main; tau-corrected ---
+D = 20 m of front-pivot travel after the divergence: runs main 21, stub 4
+   kappa-model mean only      main: median   -0.00 [min   -0.85] correct 0.48 decisive(>ln20) 0.00 | stub:   +0.65   -0.25   -0.24   +0.70  correct 0.50 decisive 0.00
+   kappa-model mean+sigma     main: median   -1.38 [min  -22.63] correct 0.24 decisive(>ln20) 0.00 | stub:  -52.93  -25.02  -41.41  -46.77  correct 1.00 decisive 1.00
+   chord model mean           main: median   +0.22 [min   +0.04] correct 1.00 decisive(>ln20) 0.00 | stub:   +0.92   +0.28   +0.50   +0.45  correct 0.00 decisive 0.00
+   roughness only             main: median   -1.40 [min  -21.99] correct 0.24 decisive(>ln20) 0.00 | stub:  -53.27  -24.93  -41.37  -47.99  correct 1.00 decisive 1.00
+   empirical templates LOO    main: median   +5.17 [min   -0.25] correct 0.95 decisive(>ln20) 0.90 | stub:  -19.26   -8.49  -11.56  -15.83  correct 1.00 decisive 1.00
+   expected LLR if model exact: main runs median +4.99, stub runs median -12.87; mean-only part (main) 0.302
+   rms y: main median 0.72%, stub 1.73% 1.48% 1.52% 1.53%
+D = 50 m of front-pivot travel after the divergence: runs main 22, stub 4
+   kappa-model mean only      main: median   +0.53 [min   -0.53] correct 0.86 decisive(>ln20) 0.00 | stub:   +0.15   -1.51   -2.16   -3.69  correct 0.75 decisive 0.25
+   kappa-model mean+sigma     main: median   -1.81 [min  -23.95] correct 0.32 decisive(>ln20) 0.05 | stub:  -78.06  -36.55  -68.67  -91.31  correct 1.00 decisive 1.00
+   chord model mean           main: median   -0.08 [min   -0.89] correct 0.32 decisive(>ln20) 0.00 | stub:   +0.88   +0.07   +0.18   -0.13  correct 0.25 decisive 0.00
+   roughness only             main: median   -2.03 [min  -23.98] correct 0.27 decisive(>ln20) 0.00 | stub:  -78.18  -35.90  -67.54  -89.62  correct 1.00 decisive 1.00
+   empirical templates LOO    main: median +245.79 [min  +18.74] correct 1.00 decisive(>ln20) 1.00 | stub:  -36.79  -23.72  -36.82  -44.03  correct 1.00 decisive 1.00
+   expected LLR if model exact: main runs median +11.41, stub runs median -22.20; mean-only part (main) 1.003
+   rms y: main median 0.75%, stub 1.45% 1.24% 1.31% 1.37%
+D = 100 m of front-pivot travel after the divergence: runs main 22, stub 4
+   kappa-model mean only      main: median   +0.81 [min   -0.30] correct 0.91 decisive(>ln20) 0.05 | stub:   +0.07   -1.27   -2.16   -3.63  correct 0.75 decisive 0.25
+   kappa-model mean+sigma     main: median   -0.82 [min  -18.80] correct 0.45 decisive(>ln20) 0.18 | stub:  -79.11  -37.06  -70.66  -92.72  correct 1.00 decisive 1.00
+   chord model mean           main: median   -0.09 [min   -1.36] correct 0.27 decisive(>ln20) 0.00 | stub:   +0.81   -0.01   +0.03   -0.26  correct 0.50 decisive 0.00
+   roughness only             main: median   -0.83 [min  -19.37] correct 0.41 decisive(>ln20) 0.18 | stub:  -79.45  -36.82  -69.85  -91.41  correct 1.00 decisive 1.00
+   empirical templates LOO    main: median +429.01 [min  +18.74] correct 1.00 decisive(>ln20) 1.00 | stub:  -49.96  -33.22  -45.12  -54.88  correct 1.00 decisive 1.00
+   expected LLR if model exact: main runs median +17.56, stub runs median -24.69; mean-only part (main) 1.075
+   rms y: main median 0.73%, stub 1.16% 1.00% 1.17% 1.09%

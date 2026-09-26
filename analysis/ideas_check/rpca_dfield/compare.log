@@ -1,0 +1,85 @@
+VAL means / medians over 17 bags (dw = --dropwin 60:10, window metrics; clean = no drop)
+               win_v_rmse_mean  win_v_rmse_median  win_ds_abs_mean  win_ds_abs_median  v_rmse_mean  v_rmse_median  along_rmse_mean  along_rmse_median
+variant                                                                                                                                              
+none                    0.4765             0.4163           2.5253             2.3456       0.0520         0.0329           2.6725             1.1650
+median_repo             0.4459             0.3249           2.2793             2.0361       0.0519         0.0328           2.6721             1.1649
+median_final2           0.4465             0.3318           2.2817             2.0849       0.0519         0.0328           2.6721             1.1650
+pcp_lam1                0.4647             0.3903           2.4417             2.2692       0.0520         0.0329           2.6724             1.1650
+pcp_lamp                0.4612             0.3828           2.4118             2.2505       0.0520         0.0329           2.6724             1.1650
+pcp_cvbest              0.4591             0.3622           2.4110             2.1872       0.0520         0.0329           2.6723             1.1652
+pcp_lam1_obs            0.4543             0.3579           2.3530             2.1673       0.0520         0.0329           2.6722             1.1650
+
+Paired per-bag differences (variant - vs; negative = better). sd_diff = bag-to-bag spread of the difference, se = sd/sqrt(n); bag_sd_of_metric = spread of the metric itself across bags
+      variant            vs     metric  mean_diff  sd_diff  se_diff  better  worse  n  wilcoxon_p  bag_sd_of_metric
+  median_repo          none win_v_rmse   -0.03063  0.02683  0.00651      15      2 17     0.00038           0.26892
+  median_repo          none win_ds_abs   -0.24593  0.25306  0.06138      14      3 17     0.00168           0.91922
+  median_repo          none     v_rmse   -0.00014  0.00024  0.00006      16      1 17     0.00003           0.04797
+  median_repo          none along_rmse   -0.00033  0.00353  0.00086      10      7 17     0.74666           3.56463
+median_final2          none win_v_rmse   -0.03005  0.02505  0.00607      15      2 17     0.00029           0.26892
+median_final2          none win_ds_abs   -0.24356  0.23316  0.05655      15      2 17     0.00066           0.91922
+median_final2          none     v_rmse   -0.00014  0.00026  0.00006      16      1 17     0.00005           0.04797
+median_final2          none along_rmse   -0.00038  0.00377  0.00091      10      7 17     0.67770           3.56463
+     pcp_lam1          none win_v_rmse   -0.01179  0.00794  0.00193      17      0 17     0.00002           0.26892
+     pcp_lam1          none win_ds_abs   -0.08361  0.05539  0.01344      16      1 17     0.00008           0.91922
+     pcp_lam1          none     v_rmse   -0.00004  0.00006  0.00001      17      0 17     0.00002           0.04797
+     pcp_lam1          none along_rmse   -0.00007  0.00097  0.00024      11      6 17     0.32895           3.56463
+     pcp_lamp          none win_v_rmse   -0.01533  0.00956  0.00232      17      0 17     0.00002           0.26892
+     pcp_lamp          none win_ds_abs   -0.11345  0.07127  0.01729      16      1 17     0.00011           0.91922
+     pcp_lamp          none     v_rmse   -0.00006  0.00008  0.00002      17      0 17     0.00002           0.04797
+     pcp_lamp          none along_rmse   -0.00009  0.00128  0.00031      10      7 17     0.43068           3.56463
+   pcp_cvbest          none win_v_rmse   -0.01746  0.01603  0.00389      16      1 17     0.00015           0.26892
+   pcp_cvbest          none win_ds_abs   -0.11425  0.11333  0.02749      15      2 17     0.00107           0.91922
+   pcp_cvbest          none     v_rmse   -0.00006  0.00008  0.00002      17      0 17     0.00002           0.04797
+   pcp_cvbest          none along_rmse   -0.00013  0.00159  0.00038      10      7 17     0.54767           3.56463
+ pcp_lam1_obs          none win_v_rmse   -0.02218  0.01626  0.00394      15      2 17     0.00008           0.26892
+ pcp_lam1_obs          none win_ds_abs   -0.17229  0.12901  0.03129      15      2 17     0.00015           0.91922
+ pcp_lam1_obs          none     v_rmse   -0.00008  0.00012  0.00003      16      1 17     0.00003           0.04797
+ pcp_lam1_obs          none along_rmse   -0.00024  0.00198  0.00048      11      6 17     0.32895           3.56463
+         none   median_repo win_v_rmse    0.03063  0.02683  0.00651       2     15 17     0.00038           0.27511
+         none   median_repo win_ds_abs    0.24593  0.25306  0.06138       3     14 17     0.00168           0.92456
+         none   median_repo     v_rmse    0.00014  0.00024  0.00006       1     16 17     0.00003           0.04794
+         none   median_repo along_rmse    0.00033  0.00353  0.00086       7     10 17     0.74666           3.56505
+median_final2   median_repo win_v_rmse    0.00058  0.00424  0.00103       7     10 17     0.61122           0.27511
+median_final2   median_repo win_ds_abs    0.00237  0.04269  0.01035       8      9 17     1.00000           0.92456
+median_final2   median_repo     v_rmse   -0.00000  0.00002  0.00000       5     12 17     0.12021           0.04794
+median_final2   median_repo along_rmse   -0.00005  0.00027  0.00007       9      8 17     0.48738           3.56505
+     pcp_lam1   median_repo win_v_rmse    0.01884  0.02030  0.00492       3     14 17     0.00209           0.27511
+     pcp_lam1   median_repo win_ds_abs    0.16233  0.21354  0.05179       3     14 17     0.01099           0.92456
+     pcp_lam1   median_repo     v_rmse    0.00010  0.00019  0.00005       1     16 17     0.00003           0.04794
+     pcp_lam1   median_repo along_rmse    0.00026  0.00259  0.00063       8      9 17     0.96323           3.56505
+     pcp_lamp   median_repo win_v_rmse    0.01530  0.01855  0.00450       3     14 17     0.00316           0.27511
+     pcp_lamp   median_repo win_ds_abs    0.13248  0.19819  0.04807       3     14 17     0.03479           0.92456
+     pcp_lamp   median_repo     v_rmse    0.00009  0.00017  0.00004       1     16 17     0.00003           0.04794
+     pcp_lamp   median_repo along_rmse    0.00024  0.00229  0.00055       7     10 17     0.92651           3.56505
+   pcp_cvbest   median_repo win_v_rmse    0.01317  0.01993  0.00483       4     13 17     0.02322           0.27511
+   pcp_cvbest   median_repo win_ds_abs    0.13168  0.21085  0.05114       5     12 17     0.03479           0.92456
+   pcp_cvbest   median_repo     v_rmse    0.00008  0.00016  0.00004       2     15 17     0.00084           0.04794
+   pcp_cvbest   median_repo along_rmse    0.00019  0.00202  0.00049       9      8 17     0.92651           3.56505
+ pcp_lam1_obs   median_repo win_v_rmse    0.00845  0.01281  0.00311       4     13 17     0.02667           0.27511
+ pcp_lam1_obs   median_repo win_ds_abs    0.07365  0.15296  0.03710       5     12 17     0.07141           0.92456
+ pcp_lam1_obs   median_repo     v_rmse    0.00006  0.00012  0.00003       2     15 17     0.00008           0.04794
+ pcp_lam1_obs   median_repo along_rmse    0.00009  0.00158  0.00038      10      7 17     0.57906           3.56505
+         none median_final2 win_v_rmse    0.03005  0.02505  0.00607       2     15 17     0.00029           0.27469
+         none median_final2 win_ds_abs    0.24356  0.23316  0.05655       2     15 17     0.00066           0.91875
+         none median_final2     v_rmse    0.00014  0.00026  0.00006       1     16 17     0.00005           0.04793
+         none median_final2 along_rmse    0.00038  0.00377  0.00091       7     10 17     0.67770           3.56505
+  median_repo median_final2 win_v_rmse   -0.00058  0.00424  0.00103      10      7 17     0.61122           0.27469
+  median_repo median_final2 win_ds_abs   -0.00237  0.04269  0.01035       9      8 17     1.00000           0.91875
+  median_repo median_final2     v_rmse    0.00000  0.00002  0.00000      12      5 17     0.12021           0.04793
+  median_repo median_final2 along_rmse    0.00005  0.00027  0.00007       8      9 17     0.48738           3.56505
+     pcp_lam1 median_final2 win_v_rmse    0.01827  0.01850  0.00449       2     15 17     0.00134           0.27469
+     pcp_lam1 median_final2 win_ds_abs    0.15996  0.19346  0.04692       3     14 17     0.00464           0.91875
+     pcp_lam1 median_final2     v_rmse    0.00010  0.00021  0.00005       1     16 17     0.00008           0.04793
+     pcp_lam1 median_final2 along_rmse    0.00031  0.00283  0.00069       7     10 17     0.85364           3.56505
+     pcp_lamp median_final2 win_v_rmse    0.01472  0.01678  0.00407       4     13 17     0.00258           0.27469
+     pcp_lamp median_final2 win_ds_abs    0.13011  0.17650  0.04281       3     14 17     0.01099           0.91875
+     pcp_lamp median_final2     v_rmse    0.00009  0.00018  0.00004       1     16 17     0.00008           0.04793
+     pcp_lamp median_final2 along_rmse    0.00030  0.00253  0.00061       7     10 17     0.85364           3.56505
+   pcp_cvbest median_final2 win_v_rmse    0.01259  0.01906  0.00462       6     11 17     0.02322           0.27469
+   pcp_cvbest median_final2 win_ds_abs    0.12931  0.19417  0.04709       4     13 17     0.01743           0.91875
+   pcp_cvbest median_final2     v_rmse    0.00008  0.00018  0.00004       2     15 17     0.00168           0.04793
+   pcp_cvbest median_final2 along_rmse    0.00025  0.00226  0.00055       9      8 17     0.74666           3.56505
+ pcp_lam1_obs median_final2 win_v_rmse    0.00787  0.01127  0.00273       4     13 17     0.01286           0.27469
+ pcp_lam1_obs median_final2 win_ds_abs    0.07128  0.13091  0.03175       6     11 17     0.07968           0.91875
+ pcp_lam1_obs median_final2     v_rmse    0.00006  0.00014  0.00003       2     15 17     0.00050           0.04793
+ pcp_lam1_obs median_final2 along_rmse    0.00015  0.00182  0.00044      10      7 17     0.71190           3.56505

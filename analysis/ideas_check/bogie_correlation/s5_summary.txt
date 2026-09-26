@@ -1,0 +1,30 @@
+Per (vehicle, date, bogie) group: spread of k vs spread of c = q/(1+k); slope of k on (q/median q - 1)
+  30618 2026-07-27 front n=26 (train 19): k range -0.179..+0.022 % (sd 0.058 %), q range 0.0047903..0.0047951, c sd 0.045 %, corr(q,k) +0.65, slope dk/(dq/q) +1.19
+  30618 2026-07-27 rear  n=26 (train 19): k range -0.159..+0.012 % (sd 0.055 %), q range 0.0048046..0.0048084, c sd 0.046 %, corr(q,k) +0.53, slope dk/(dq/q) +1.00
+  30618 2026-08-10 front n= 9 (train 7): k range -0.199..-0.128 % (sd 0.021 %), q range 0.0047874..0.0047874, c sd 0.022 %, corr(q,k) +nan, slope dk/(dq/q) +nan
+  30618 2026-08-10 rear  n= 9 (train 7): k range -0.219..-0.130 % (sd 0.026 %), q range 0.0048018..0.0048027, c sd 0.023 %, corr(q,k) +0.51, slope dk/(dq/q) +1.27
+  30618 2026-08-26 front n=12 (train 9): k range -0.192..-0.087 % (sd 0.032 %), q range 0.0047874..0.0047874, c sd 0.032 %, corr(q,k) +nan, slope dk/(dq/q) +nan
+  30618 2026-08-26 rear  n=12 (train 9): k range -0.187..-0.084 % (sd 0.033 %), q range 0.0048008..0.0048027, c sd 0.031 %, corr(q,k) +0.38, slope dk/(dq/q) +0.85
+  30618 2026-09-03 front n= 4 (train 3): k range -1.538..-0.571 % (sd 0.520 %), q range 0.0049438..0.0049934, c sd 0.041 %, corr(q,k) +1.00, slope dk/(dq/q) +1.00
+  30618 2026-09-03 rear  n= 4 (train 3): k range -1.556..-0.620 % (sd 0.513 %), q range 0.0049438..0.0049915, c sd 0.045 %, corr(q,k) +1.00, slope dk/(dq/q) +1.02
+  30639 2026-05-05 front n= 9 (train 7): k range +0.487..+1.569 % (sd 0.330 %), q range 0.0047874..0.0048370, c sd 0.023 %, corr(q,k) +1.00, slope dk/(dq/q) +1.02
+  30639 2026-05-05 rear  n= 9 (train 7): k range +0.477..+1.547 % (sd 0.331 %), q range 0.0047884..0.0048351, c sd 0.028 %, corr(q,k) +1.00, slope dk/(dq/q) +1.06
+  30639 2026-08-26 front n= 8 (train 6): k range -0.455..-0.298 % (sd 0.060 %), q range 0.0047369..0.0047417, c sd 0.039 %, corr(q,k) +0.77, slope dk/(dq/q) +1.11
+  30639 2026-08-26 rear  n= 8 (train 6): k range -0.436..-0.250 % (sd 0.066 %), q range 0.0047417..0.0047445, c sd 0.047 %, corr(q,k) +0.89, slope dk/(dq/q) +2.47
+VAL prediction (34 bag-bogies in groups that also have train bags): k = q / c_group(train) - 1: error median -0.043 %, rms 0.055 %, max |.| 0.109 %  |  baseline k = mean k of the group's train bags: rms 0.186 %, max |.| 0.671 %
+  largest val errors (%): 30639_d927f360/rear -0.109 (k -0.25), 30618_0f120b35/rear -0.086 (k +0.01), 30618_f19a4ac3/rear -0.084 (k -0.01), 30618_e3d94878/front -0.083 (k +0.02), 30618_b95ca60a/front -0.074 (k +0.01), 30618_2f104a1d/rear -0.072 (k -0.01)
+c = q/(1+k) per vehicle, date, bogie (median; sd in % of c) -- c ~ true wheel diameter if q ~ configured one
+  30618 front 2026-07-27: 4.79610e-3 (sd 0.045 %, n=26) | 2026-08-10: 4.79440e-3 (sd 0.022 %, n=10) | 2026-08-26: 4.79332e-3 (sd 0.032 %, n=12) | 2026-09-03: 5.02218e-3 (sd 0.041 %, n=4)
+  30618 rear  2026-07-27: 4.81004e-3 (sd 0.046 %, n=26) | 2026-08-10: 4.80942e-3 (sd 0.023 %, n=10) | 2026-08-26: 4.80797e-3 (sd 0.031 %, n=12) | 2026-09-03: 5.02292e-3 (sd 0.045 %, n=4)
+  30639 front 2026-05-05: 4.76386e-3 (sd 0.023 %, n=9) | 2026-08-26: 4.75889e-3 (sd 0.039 %, n=8)
+  30639 rear  2026-05-05: 4.76347e-3 (sd 0.028 %, n=9) | 2026-08-26: 4.76152e-3 (sd 0.047 %, n=8)
+  cross-date 30618 c(2026-07-27) -> 2026-08-10 front: k error median -0.056 %, rms 0.056 % (n=10)
+  cross-date 30618 c(2026-07-27) -> 2026-08-10 rear : k error median -0.037 %, rms 0.037 % (n=10)
+  cross-date 30618 c(2026-08-10) -> 2026-08-26 front: k error median -0.024 %, rms 0.037 % (n=12)
+  cross-date 30618 c(2026-08-10) -> 2026-08-26 rear : k error median -0.040 %, rms 0.052 % (n=12)
+  cross-date 30618 c(2026-08-26) -> 2026-09-03 front: k error median +4.724 %, rms 4.735 % (n=4)
+  cross-date 30618 c(2026-08-26) -> 2026-09-03 rear : k error median +4.442 %, rms 4.439 % (n=4)
+  cross-date 30639 c(2026-05-05) -> 2026-08-26 front: k error median -0.104 %, rms 0.119 % (n=8)
+  cross-date 30639 c(2026-05-05) -> 2026-08-26 rear : k error median -0.041 %, rms 0.079 % (n=8)
+within-bag change of q (front), 2nd half vs 1st half: median +0.000 %, max |.| 0.325 % (30639_d601d28f)
+within-bag change of q (rear), 2nd half vs 1st half: median +0.000 %, max |.| 0.276 % (30639_d601d28f)

@@ -1,0 +1,22 @@
+L_eff (from s3, train) = 7.5194 m; thresholds |z_F| >= 5.0, counterpart |z_R| >= 4.0 (same sign)
+train: moving time (3-20 m/s) 8.89 h; front events 1026 (115 per h); matched at expected lag 0.150 vs control lag 0.093; matched events per hour 17
+    timing (sample stamps): dt_obs - dt_exp median +7.1 ms, robust sd 91.8 ms, sd 128.2 ms; relative: median +0.0081 robust sd 0.0828
+    timing (centroid     ): dt_obs - dt_exp median +15.4 ms, robust sd 132.8 ms, sd 134.9 ms; relative: median +0.0128 robust sd 0.0954
+    timing (10 Hz ticks  ): dt_obs - dt_exp median +6.9 ms, robust sd 87.0 ms, sd 129.3 ms; relative: median +0.0064 robust sd 0.0744
+    sampling-phase floor sqrt(E[dt^2]/6) = 45.3 ms (dt of the two peak samples)
+    v  3- 6 m/s: matched    92 (1.00 of those tested), timing robust sd 159.5 ms, relative robust sd 0.0885, median +0.0113
+    v  6- 9 m/s: matched    27 (1.00 of those tested), timing robust sd 94.9 ms, relative robust sd 0.0828, median +0.0085
+    v  9-12 m/s: matched    13 (1.00 of those tested), timing robust sd 41.2 ms, relative robust sd 0.0631, median -0.0010
+    v 12-20 m/s: matched    22 (1.00 of those tested), timing robust sd 29.4 ms, relative robust sd 0.0492, median -0.0237
+    mixture fit (dt_obs): true counterparts 31 of 154 matched (3 per h), bias +0.92 %, per-event sd 1.83 % (= 31 ms at the median lag 1.71 s) -> +-0.1 % (1 sigma) needs 335 true events = 97.1 h of driving, even if every true pair were recognised
+    mixture fit (dt_snap): true counterparts 38 of 151 matched (4 per h), bias +0.92 %, per-event sd 2.88 % (= 49 ms at the median lag 1.71 s) -> +-0.1 % (1 sigma) needs 827 true events = 192.6 h of driving, even if every true pair were recognised
+val: moving time (3-20 m/s) 2.89 h; front events 331 (114 per h); matched at expected lag 0.157 vs control lag 0.112; matched events per hour 18
+    timing (sample stamps): dt_obs - dt_exp median -10.6 ms, robust sd 106.5 ms, sd 118.8 ms; relative: median -0.0107 robust sd 0.0860
+    timing (centroid     ): dt_obs - dt_exp median -7.6 ms, robust sd 159.9 ms, sd 133.4 ms; relative: median -0.0081 robust sd 0.1045
+    timing (10 Hz ticks  ): dt_obs - dt_exp median -15.9 ms, robust sd 107.3 ms, sd 120.9 ms; relative: median -0.0182 robust sd 0.0751
+    sampling-phase floor sqrt(E[dt^2]/6) = 46.0 ms (dt of the two peak samples)
+    v  3- 6 m/s: matched    32 (1.00 of those tested), timing robust sd 136.4 ms, relative robust sd 0.0725, median +0.0014
+    v 12-20 m/s: matched    13 (1.00 of those tested), timing robust sd 48.3 ms, relative robust sd 0.0881, median -0.0221
+    mixture fit (dt_obs): true counterparts 25 of 52 matched (9 per h), bias -1.31 %, per-event sd 5.03 % (= 90 ms at the median lag 1.78 s) -> +-0.1 % (1 sigma) needs 2535 true events = 291.5 h of driving, even if every true pair were recognised
+    mixture fit (dt_snap): true counterparts 25 of 52 matched (9 per h), bias -1.86 %, per-event sd 4.66 % (= 83 ms at the median lag 1.78 s) -> +-0.1 % (1 sigma) needs 2169 true events = 250.4 h of driving, even if every true pair were recognised
+position lock: matched events with an event of another bag within 3 m: 0.573 (n=206); random path points: 0.141 (n=206)

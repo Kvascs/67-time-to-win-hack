@@ -1,0 +1,5 @@
+[val] x=[-0.0269, 0.0396, -0.007, 0.0275] mult=[0.9735, 1.0404, 0.993, 1.0279] bags=17 wall 300 s
+  v_rmse     mean 0.0517 -> 0.0518 (+0.04 %, 95 % CI -0.03..+0.16 %)  median 0.0328 -> 0.0328; better 7 / worse 10 of 17
+  along_rmse mean 0.9722 -> 0.9723 (+0.02 %, 95 % CI -0.03..+0.08 %)  median 0.4873 -> 0.4873; better 6 / worse 9 of 15
+  p3_rmse    mean 2.0899 -> 2.0901 (+0.01 %, 95 % CI -0.01..+0.04 %)  median 0.9083 -> 0.9106; better 6 / worse 9 of 15
+[val] replays run in this call: 17, replay wall sum 510 s

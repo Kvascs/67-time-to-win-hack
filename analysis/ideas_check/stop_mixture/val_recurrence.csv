@@ -1,0 +1,2 @@
+lm_s,offset,s,sigma,train_n,train_runs,train_share,val_n,val_bags,val_n_primary,val_share,val_n_window,null_lambda,p_poisson,val_mean_offset,in_all_fit,survives_rtk_only
+3000.517,5.259,3005.776,0.1,5,5,0.172,2,30618_01f73500;30639_3b3d9eb8,5,0.286,8,0.1,0.0047,4.962,True,True

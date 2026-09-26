@@ -1,0 +1,25 @@
+variant _max_dk_1e-3 vs base
+split      metric  base_mean  var_mean  base_median  var_median  better_>5%  worse_>5%  n
+  val          p3      2.081     2.090        0.892       0.848           2          3 15
+  val       along      0.959     1.004        0.469       0.547           2          7 15
+  val    p3_clean      0.995     0.995        0.739       0.823           2          3 15
+  val along_clean      0.544     0.561        0.388       0.456           2          7 15
+train          p3      1.899     2.287        1.220       1.220           8         11 46
+train       along      1.276     1.678        0.548       0.558          13         13 46
+train    p3_clean      1.250     1.632        0.613       0.641          11         12 46
+train along_clean      1.086     1.484        0.527       0.526          14         13 46
+largest changes of the clean 3-D RMSE:
+                p3_clean  p3_clean_base  split   delta
+bag                                                   
+30618_27e994fc     4.278          8.317  train  -4.038
+30618_40ffd323     2.331          3.465  train  -1.133
+30618_dd8d0741     0.823          1.128    val  -0.305
+30618_49fe4c54     0.456          0.593  train  -0.137
+30618_2050d396     0.714          0.834  train  -0.120
+30618_ab5921a4     1.068          1.176  train  -0.107
+30618_b8044aa0     0.489          0.373  train   0.116
+30618_0652866c     0.895          0.591  train   0.304
+30618_af7496f0     4.087          3.596  train   0.491
+30618_4d487b0d     3.740          3.070  train   0.671
+30639_92226df0     3.916          2.110  train   1.805
+30639_253671cc    25.696          5.869  train  19.827

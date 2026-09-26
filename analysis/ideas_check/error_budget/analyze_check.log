@@ -1,0 +1,113 @@
+====================================================================================================
+1. POSITION DECOMPOSITION (30618_88aea4d9)
+  full bag: 3-D RMSE 5.782 m, MSE 33.426 m^2; t >= 1270 s (3.1 % of pairs) carries 96.8 % of the squared error
+  t < 1270 s: 3-D RMSE 1.058 m, MSE 1.1190 m^2, n=51453
+    along : RMSE 1.047  bias +0.225  std 1.023  MSE 1.0965 ( 98.0 %)  of which bias^2 0.0508
+    cross : RMSE 0.065  bias -0.018  std 0.062  MSE 0.0042 (  0.4 %)  of which bias^2 0.0003
+    dz    : RMSE 0.135  bias +0.108  std 0.082  MSE 0.0184 (  1.6 %)  of which bias^2 0.0116
+====================================================================================================
+2. TIMING
+  pair stamp offset ours-ref: mean +21.3 ms, p5 -5.0, p95 +43.6; v_ref*dt term: RMSE 0.155 m, mean +0.089 m
+  along = tau*v + drift(path; knots 100 m, reset at fixes): tau = +0.0135 s; removable MSE 0.0003 m^2 (= 0.0 % of 3-D MSE); tau-term alone mean((tau v)^2) 0.0063
+  along = tau*v + drift(path; knots 200 m, reset at fixes): tau = +0.0241 s; removable MSE 0.0025 m^2 (= 0.2 % of 3-D MSE); tau-term alone mean((tau v)^2) 0.0202
+  along = tau*v + drift(path; knots 400 m, reset at fixes): tau = +0.0243 s; removable MSE 0.0038 m^2 (= 0.3 % of 3-D MSE); tau-term alone mean((tau v)^2) 0.0206
+  RTK master antenna vs reference (antenna = base_link - 9.873 m along yaw), 190 RTK fixes: along GNSS-ref = -0.094 + +0.0654*v  -> reference position lags the GNSS stamp by 0.065 s; GNSS alt - (ref z + 3.0) median +0.152 m
+    speed delayed by 0.00 s: RMSE 0.0618
+    speed delayed by 0.05 s: RMSE 0.0421
+    speed delayed by 0.08 s: RMSE 0.0331
+    speed delayed by 0.10 s: RMSE 0.0300
+    speed delayed by 0.12 s: RMSE 0.0292
+    speed delayed by 0.15 s: RMSE 0.0341
+====================================================================================================
+3. STOPS AND PLACE FIXES
+  kind      t0   dur   s_map  s_true  lm_near_d  lm_near_pstop lm_near_cls  attempt   n   sd    d0  p_known accepted  along_before  along_after
+  stop   -0.94 35.74   -1.00     NaN        NaN            NaN         NaN     True 1.0 1.01 -0.15     0.42    False           NaN        -0.17
+  stop   84.65 23.86  145.51  146.27      -0.00           0.62    platform     True 1.0 2.64  0.76     0.91     True         -0.92        -0.22
+  stop  143.75 11.56  278.27  278.22      -0.40           0.31      signal     True 1.0 1.99 -0.46     0.83     True          0.13        -0.18
+cutoff  169.30  0.00  350.50     NaN        NaN            NaN         NaN     True 1.0 1.34 -1.38     0.96     True          0.33         0.15
+  stop  194.45 18.76  556.10  555.68      -0.51           0.59    platform     True 1.0 2.27 -0.93     0.90     True          0.55        -0.20
+  stop  266.05 27.26  880.88  881.11       0.27           0.74    platform     True 1.0 2.15  0.51     0.92     True         -0.34         0.13
+  stop  398.75  2.06 1509.66 1508.70    -544.47           0.18      signal     True 0.0 2.53  0.00     0.00    False          0.97         1.02
+  stop  433.95  2.96 1722.14 1720.92     677.85           0.12      signal     True 0.0 2.96  0.00     0.00    False          1.21         1.23
+  stop  580.95 22.96 3003.71 3000.81      -0.29           0.79    platform     True 1.0 5.05 -3.19     0.91     True          3.36         0.57
+  stop  610.95 38.26 3005.94 3005.39      -4.87           0.79    platform     True 0.0 1.34  0.00     0.00    False          0.55         0.58
+  stop  714.00 32.40 3434.30 3433.86      -0.43           0.79    platform     True 2.0 2.44 -0.87     0.93     True          0.52         0.02
+  stop  780.90  1.40 3578.01 3578.16       1.22           0.12      signal     True 1.0 1.63  1.37     0.58    False         -0.15        -0.09
+cutoff  818.50  0.00 3706.40     NaN        NaN            NaN         NaN     True 1.0 1.97  0.68     0.98     True         -0.43        -0.01
+  stop  844.95 37.36 3922.88 3922.92      -2.05           0.44      signal     True 1.0 1.46 -2.01     0.75     True          0.18        -0.75
+  stop  915.15 24.16 4100.00 4100.83      -0.68           0.74    platform     True 1.0 1.44  0.15     0.92     True         -0.85        -0.71
+  stop 1005.35 21.86 4576.36 4577.12      -0.21           0.73    platform     True 1.0 2.08  0.54     0.92     True         -0.83        -0.39
+  stop 1028.45  0.26 4576.83 4577.22      -0.32           0.73    platform    False NaN  NaN   NaN      NaN      NaN           NaN          NaN
+  stop 1030.45 36.36 4577.09 4577.51      -0.61           0.73    platform     True 1.0 0.40 -0.18     0.94     True         -0.41        -0.50
+  stop 1125.15 20.46 4996.89 4997.34      -0.12           0.67    platform     True 1.0 1.89  0.33     0.92     True         -0.48        -0.27
+  stop 1178.55 28.16 5217.87 5218.37      -0.78           0.73    platform     True 1.0 1.39 -0.28     0.92     True         -0.48        -0.59
+  stop 1210.25  2.16 5219.22 5219.74      -2.15           0.73    platform     True 0.0 0.31  0.00     0.00    False         -0.52        -0.49
+  stop 1242.75  6.56 5339.45 5340.06      -5.40           0.52    platform     True 0.0 1.04  0.00     0.00    False         -0.61        -0.57
+  stop 1304.35  7.21 5490.00 5490.03     143.23           0.00    terminal     True 0.0 1.53  0.00     0.00    False         -0.04        -0.03
+  stops: 21, with an attempt 20, accepted 12; no candidate in the gate (n=0): 6; cut-off attempts 2, accepted 2
+====================================================================================================
+4. ALONG-TRACK DRIFT BETWEEN ACCEPTED PLACE FIXES (t < end)
+ t_start    t_end   path_m  along_start  along_end  along_max  drift_pct  k_mean  stops_without_fix  along_rmse  share_along_sq
+   0.000   85.795  145.290       -0.173     -0.921      1.210     -0.515   0.000                  0       0.670           2.717
+  85.795  144.895  131.972       -0.222      0.127      0.296      0.264  -0.004                  0       0.169           0.120
+ 144.895  169.295   66.046       -0.183      0.353      0.582      0.811  -0.002                  0       0.189           0.062
+ 169.295  195.695  198.944        0.140      0.546      0.772      0.204  -0.001                  0       0.468           0.410
+ 195.695  267.195  326.014       -0.204     -0.344      0.517     -0.043   0.000                  0       0.223           0.252
+ 267.195  582.195 2119.869        0.125      3.352      3.605      0.152  -0.000                  2       1.892          80.783
+ 582.195  715.295  434.523        0.567      0.516      1.170     -0.012   0.001                  1       0.684           4.598
+ 715.295  818.495  268.845        0.016     -0.526      0.949     -0.201   0.001                  1       0.291           0.660
+ 818.495  845.995  211.083       -0.019      0.163      0.567      0.086   0.001                  0       0.234           0.110
+ 845.995  916.195  178.899       -0.656     -0.866      1.021     -0.117   0.001                  0       0.714           2.543
+ 916.195 1006.495  476.741       -0.726     -0.832      0.996     -0.022   0.001                  0       0.676           2.930
+1006.495 1031.595    0.646       -0.430     -0.412      0.809        NaN   0.001                  1       0.370           0.243
+1031.595 1126.295  420.237       -0.497     -0.485      0.628      0.003   0.001                  0       0.413           1.147
+1126.295 1179.695  221.469       -0.287     -0.479      0.618     -0.087   0.001                  0       0.294           0.328
+1179.695 1270.000  157.223       -0.580     -1.606      1.654     -0.652   0.001                  2       0.696           3.099
+  path-weighted drift over segments > 300 m: +0.078 %  (k_est mean +0.0002) -> implied k_true ~ +0.0010
+  k estimate: t=60: +0.0000, t=90: -0.0038, t=150: -0.0023, t=200: +0.0003, t=270: -0.0003, t=400: -0.0003, t=580: -0.0003, t=590: +0.0009, t=720: +0.0011, t=850: +0.0013, t=1000: +0.0013, t=1200: +0.0011
+====================================================================================================
+5. SLIP / SLIDE / MODEL-ONLY EVENTS
+  slip/slide bits0-3: 0 intervals, 0.0 s total; speed MSE share of flagged pairs 0.0 % (0.00 % of pairs); along jump across intervals: sum +0.000 m, max |.| 0.000 m
+  model-only bit11: 2 intervals, 0.5 s total; speed MSE share of flagged pairs 0.0 % (0.00 % of pairs); along jump across intervals: sum +0.000 m, max |.| 0.000 m
+         -2.15-   -2.15 s ( 0.00 s)  v  0.00  along +nan -> +nan
+         -1.50-   -0.95 s ( 0.55 s)  v  0.00  along +nan -> -0.168
+  maneuver bit17: 0 intervals, 0.0 s total; speed MSE share of flagged pairs 0.0 % (0.00 % of pairs); along jump across intervals: sum +0.000 m, max |.| 0.000 m
+====================================================================================================
+6. HEIGHT
+  dz bias +0.108 m, std 0.082, RMSE 0.135; removing a constant bias -> z RMSE 0.082, 3-D RMSE 1.052
+  dz by s_map (500 m bins): 0: +0.08, 500: +0.09, 1000: +0.27, 1500: +0.21, 2000: +0.09, 2500: +0.12, 3000: +0.09, 3500: +0.09, 4000: +0.08, 4500: +0.09, 5000: +0.11
+====================================================================================================
+7. SPEED
+ delay_s     regime  share_pairs   rmse    bias  share_mse  mse_contrib
+     0.0 standstill      30.5852 0.0101  0.0007     0.8187       0.0000
+     0.0      accel      27.1607 0.0875  0.0764    54.3930       0.0021
+     0.0     cruise      17.7521 0.0299  0.0130     4.1657       0.0002
+     0.0      brake      24.5020 0.0796 -0.0653    40.6226       0.0016
+     0.1 standstill      30.5852 0.0087  0.0005     2.5887       0.0000
+     0.1      accel      27.1607 0.0396  0.0190    47.2584       0.0004
+     0.1     cruise      17.7521 0.0290  0.0126    16.5672       0.0001
+     0.1      brake      24.5020 0.0352 -0.0016    33.5858       0.0003
+  top 12 5-s windows by speed squared error (share of total, flags OR):
+          sse   rmse      v    acc    fl  share
+w                                              
+840.0   5.557  0.165  2.779  1.668  4096  2.826
+125.0   3.573  0.134  4.311  0.974     0  1.817
+910.0   3.218  0.127  2.519  1.404     0  1.636
+1090.0  3.202  0.127  7.872  1.435     0  1.628
+1070.0  2.893  0.120  4.132  0.953     0  1.471
+880.0   2.846  0.119  0.092  0.522  4096  1.447
+780.0   2.803  0.115  0.340  1.112  4096  1.425
+835.0   2.703  0.113  8.083  1.066     0  1.374
+1075.0  2.671  0.116  8.327  0.863     0  1.358
+710.0   2.610  0.111  1.529  1.345  4096  1.327
+1150.0  2.567  0.113  5.373  0.971     0  1.305
+945.0   2.546  0.113  6.304  0.965     0  1.294
+  top 5 % of 5-s windows carry 18.9 % of the speed MSE
+    acc_ref -9.00..-0.80: n=  2548 RMSE raw 0.1169 bias -0.1075 | delayed 0.1 s RMSE 0.0449 bias -0.0028
+    acc_ref -0.80..-0.30: n=  8038 RMSE raw 0.0728 bias -0.0650 | delayed 0.1 s RMSE 0.0322 bias -0.0031
+    acc_ref -0.30..-0.05: n=  3996 RMSE raw 0.0322 bias -0.0073 | delayed 0.1 s RMSE 0.0316 bias +0.0076
+    acc_ref -0.05..+0.05: n=  4035 RMSE raw 0.0291 bias +0.0155 | delayed 0.1 s RMSE 0.0295 bias +0.0151
+    acc_ref +0.05..+0.30: n=  5317 RMSE raw 0.0395 bias +0.0283 | delayed 0.1 s RMSE 0.0290 bias +0.0125
+    acc_ref +0.30..+0.80: n=  7641 RMSE raw 0.0844 bias +0.0769 | delayed 0.1 s RMSE 0.0365 bias +0.0206
+    acc_ref +0.80..+9.00: n=  3389 RMSE raw 0.1076 bias +0.1035 | delayed 0.1 s RMSE 0.0347 bias +0.0151
+  standstill pairs: our |v| max 0.2374, ref |v| max 0.0000, RMSE 0.0101
