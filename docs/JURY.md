@@ -105,7 +105,7 @@ ros2 run tram_backup_odometry_tools evaluate_run --input-bag <путь к bag> -
 
 ```bash
 docker run --rm --cpus=2 --memory=512m -v <каталог с bag-ами>:/bags:ro -v $(pwd)/out:/out \
-    tram_backup_odometry bash -lc "ros2 run tram_backup_odometry check_run.sh <имя bag> 120"
+    tram_backup_odometry ros2 run tram_backup_odometry check_run.sh <имя bag> 120
 ```
 
 ## 6. Проверка без ROS (офлайн, то же ядро)
