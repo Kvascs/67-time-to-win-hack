@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import collections
 import csv
+import os
 import time
 
 import rclpy
@@ -53,13 +54,21 @@ class LatencyProbe(Node):
         except ImportError:
             self.get_logger().warn('psutil not installed: CPU/RAM not measured (pip install psutil)')
             return None
+        # the compiled node itself, not a `ros2 run` / launch wrapper whose command line mentions it
+        best = None
         for p in psutil.process_iter(['name', 'cmdline']):
-            cmd = ' '.join(p.info.get('cmdline') or [])
-            if 'tbo_node' in cmd:
-                p.cpu_percent(None)
-                return p
-        self.get_logger().warn('tbo_node process not found: CPU/RAM not measured')
-        return None
+            name = p.info.get('name') or ''
+            cmd = p.info.get('cmdline') or []
+            exe = os.path.basename(cmd[0]) if cmd else ''
+            if name == 'tbo_node' or exe == 'tbo_node':
+                best = p
+                break
+        if best is None:
+            self.get_logger().warn('tbo_node process not found: CPU/RAM not measured')
+            return None
+        best.cpu_percent(None)
+        self.get_logger().info(f'measuring CPU/RAM of pid {best.pid} ({best.info.get("name")})')
+        return best
 
     def on_input(self, msg):
         now = time.monotonic_ns()
