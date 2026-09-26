@@ -184,20 +184,31 @@ void GlobalLocalizer::blur(double r, bool force_jump) {
   r_blur_ = r;
   var_acc_ += p_.q_x * dist;
   eps_acc_ += p_.jump_rate * dist;
-  std::vector<float> row(nx_), tmp(nx_);
+  // rows are copied into a buffer padded with the wrapped ends, so the inner loops need no modulo
+  auto padded = [&](const float* g, int margin, std::vector<float>& pad) {
+    pad.resize(static_cast<size_t>(nx_) + 2 * margin);
+    for (int k = 0; k < margin; ++k) {
+      pad[k] = g[((k - margin) % nx_ + nx_) % nx_];
+      pad[static_cast<size_t>(margin) + nx_ + k] = g[k % nx_];
+    }
+    std::copy(g, g + nx_, pad.begin() + margin);
+  };
+  std::vector<float> pad, tmp(nx_);
   if (var_acc_ >= du_ * du_) {  // odometry random walk: Gaussian blur along u0
     const double sig = std::sqrt(var_acc_) / du_;
-    const int rad = std::max(1, static_cast<int>(std::ceil(3.0 * sig)));
-    std::vector<double> w(2 * rad + 1);
+    const int rad = std::min(nx_ / 2 - 1, std::max(1, static_cast<int>(std::ceil(3.0 * sig))));
+    std::vector<float> w(2 * rad + 1);
     double ws = 0.0;
-    for (int k = -rad; k <= rad; ++k) ws += (w[k + rad] = std::exp(-0.5 * k * k / (sig * sig)));
-    for (double& x : w) x /= ws;
+    for (int k = -rad; k <= rad; ++k) ws += std::exp(-0.5 * k * k / (sig * sig));
+    for (int k = -rad; k <= rad; ++k) w[k + rad] = static_cast<float>(std::exp(-0.5 * k * k / (sig * sig)) / ws);
     for (int j = 0; j < nk_; ++j) {
       float* g = &G_[static_cast<size_t>(j) * nx_];
+      padded(g, rad, pad);
       for (int i = 0; i < nx_; ++i) {
-        double a = 0.0;
-        for (int k = -rad; k <= rad; ++k) a += w[k + rad] * g[((i + k) % nx_ + nx_) % nx_];
-        tmp[i] = static_cast<float>(a);
+        const float* q = &pad[i];
+        float a = 0.0f;
+        for (int k = 0; k <= 2 * rad; ++k) a += w[k] * q[k];
+        tmp[i] = a;
       }
       std::copy(tmp.begin(), tmp.end(), g);
     }
@@ -205,15 +216,16 @@ void GlobalLocalizer::blur(double r, bool force_jump) {
   }
   if (eps_acc_ > 0.0 && (force_jump || eps_acc_ > 0.01)) {  // rare odometry jumps: box mixing
     const double eps = std::min(0.5, eps_acc_);
-    const int half = static_cast<int>(p_.jump_hw / du_);
+    const int half = std::min(nx_ / 2 - 1, static_cast<int>(p_.jump_hw / du_));
     const int width = 2 * half + 1;
     for (int j = 0; j < nk_; ++j) {
       float* g = &G_[static_cast<size_t>(j) * nx_];
+      padded(g, half + 1, pad);
       double acc = 0.0;
-      for (int k = -half; k <= half; ++k) acc += g[((k % nx_) + nx_) % nx_];
+      for (int k = 1; k <= width; ++k) acc += pad[k];  // cells i - half .. i + half for i = 0
       for (int i = 0; i < nx_; ++i) {
-        tmp[i] = static_cast<float>((1.0 - eps) * g[i] + eps * acc / width);
-        acc += g[(i + half + 1) % nx_] - g[((i - half) % nx_ + nx_) % nx_];
+        tmp[i] = static_cast<float>((1.0 - eps) * pad[i + half + 1] + eps * acc / width);
+        acc += pad[static_cast<size_t>(i) + width + 1] - pad[static_cast<size_t>(i) + 1];
       }
       std::copy(tmp.begin(), tmp.end(), g);
     }
