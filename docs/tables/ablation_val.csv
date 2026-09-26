@@ -1,0 +1,15 @@
+variant,v_rmse_mean,v_rmse_med,v_p99_mean,v_p99_med,along_rmse_mean,along_rmse_med,end_err_mean,end_err_med,drift_pct_mean,drift_pct_med,ablation
+abl_full_val,0.0519,0.0329,0.16,0.0832,2.6729,1.1744,1.967,0.7175,0.0337,0.011,full
+abl_no_grade_val,0.0521,0.0331,0.1606,0.0839,2.6791,1.1776,1.9691,0.717,0.0337,0.011,no_grade
+abl_no_curve_corr_val,0.0528,0.0357,0.164,0.0855,2.8112,1.3365,2.2972,1.0915,0.0397,0.0183,no_curve_corr
+abl_no_landmarks_val,0.0572,0.0398,0.1694,0.0895,9.7623,6.2753,14.1124,6.6418,0.2129,0.1205,no_landmarks
+abl_no_cutoffs_val,0.0521,0.0353,0.1606,0.0832,2.6704,1.2044,1.9662,0.7036,0.0337,0.0111,no_cutoffs
+abl_no_landmarks_cutoffs_val,0.0578,0.0352,0.17,0.0835,9.6629,4.8829,15.3003,6.1514,0.2151,0.1116,no_landmarks_cutoffs
+abl_no_maneuver_mode_val,0.052,0.0328,0.1609,0.0847,2.6696,1.1742,1.9589,0.7152,0.0336,0.011,no_maneuver_mode
+abl_no_joint_cusum_val,0.0522,0.0329,0.161,0.0832,2.6934,1.1744,2.0897,0.7175,0.0359,0.011,no_joint_cusum
+abl_no_cmd_check_val,0.0519,0.0329,0.16,0.0832,2.6729,1.1744,1.967,0.7175,0.0337,0.011,no_cmd_check
+abl_no_wrong_sign_val,0.0582,0.0329,0.1603,0.0832,2.6964,1.1744,2.4529,0.7187,0.0426,0.012,no_wrong_sign
+abl_no_lead_val,0.052,0.0339,0.16,0.0832,2.6617,1.1919,2.0049,0.7229,0.0343,0.0114,no_lead
+abl_no_dfield_val,0.052,0.0329,0.16,0.0832,2.6739,1.1743,1.9628,0.7034,0.0336,0.011,no_dfield
+abl_narrow_k_prior_val,0.0572,0.0352,0.1688,0.0828,5.3409,1.1752,7.8921,0.717,0.0622,0.012,narrow_k_prior
+abl_no_robust_fixes_val,0.0519,0.0329,0.16,0.0832,2.6729,1.1744,1.967,0.7175,0.0337,0.011,no_robust_fixes

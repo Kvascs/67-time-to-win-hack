@@ -90,6 +90,7 @@ def main():
     ap.add_argument('--jobs', type=int, default=4)
     ap.add_argument('--set', action='append', default=[], help='common overrides for every variant')
     a = ap.parse_args()
+    a.exe = str(Path(a.exe).resolve())
     extra = dict(s.split('=', 1) for s in a.set)
     suffix = f"_{a.split}" + ('_dropwin' if a.dropwin else '')
     rows = []
