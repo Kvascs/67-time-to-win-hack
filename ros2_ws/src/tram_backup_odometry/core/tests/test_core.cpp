@@ -110,8 +110,9 @@ struct RunResult {
 };
 
 RunResult run(const std::vector<In>& ev, const Config& cfg, const TractionModel& model,
-              const TrackMap* map = nullptr) {
+              const TrackMap* map = nullptr, const TrackMap* stub = nullptr) {
   Estimator est(cfg, model, map);
+  if (stub) est.setStub(*stub);
   OutputScheduler sched(cfg.p);
   RunResult r;
   Stamp buf[64];
@@ -493,6 +494,43 @@ TEST_CASE("GNSS-free localisation: stops at known places fix the place on a clos
   }
 }
 
+TEST_CASE("dead-end stub: a stop at its far part puts the tram on it, a stop near the switch does not") {
+  Config cfg;
+  cfg.output_frame = "map";
+  TractionModel model;
+  TrackMap map;
+  map.setPoints({{-500, 0, 0, 0}, {5000, 0, 0, 0}}, false, {55.81, 37.462, 168.4});  // map s = x + 500
+  Truth tr;
+  // the synthetic brake leaves the tram creeping at ~0.3 m/s; an extra 0.4 m/s^2 from 49 s stops it
+  const auto ev = makeRun(9300.0, 60.0, tr, cleanWheels, 3.0, [](double t) { return t > 49.0 ? -0.4 : 0.0; });
+  const double s_stop = 500.0 + tr.s.back();  // antenna 1 on the main line at the final stop
+  const std::string path = "tbo_test_stub.csv";
+  auto stubAt = [&](double past) {  // stub leaving the main line `past` metres before the stop, 30 deg left
+    const double join = s_stop - past;
+    std::FILE* fh = std::fopen(path.c_str(), "wb");
+    std::fprintf(fh, "# stub\n# origin_lat=55.81 origin_lon=37.462 origin_h=168.4 cyclic=0 join_s=%.3f\ns,x,y,z\n", join);
+    for (int i = 0; i <= 125; ++i) std::fprintf(fh, "%d,%.4f,%.4f,0\n", i, join - 500.0 + i * 0.8660254, i * 0.5);
+    std::fclose(fh);
+    TrackMap stub;
+    std::string err;
+    CHECK(stub.loadCsv(path, &err));
+    return stub;
+  };
+  const TrackMap far = stubAt(110.0), near = stubAt(50.0);
+  std::remove(path.c_str());
+  const RunResult a = run(ev, cfg, model, &map, &far), b = run(ev, cfg, model, &map, &near);
+  CHECK(!a.outs.empty() && !b.outs.empty());
+  if (a.outs.empty() || b.outs.empty()) return;
+  // on the stub after the stop: base_link ~120 m along it, i.e. ~60 m off the main line
+  CHECK(a.outs.back().y > 50.0 && a.outs.back().y < 70.0);
+  CHECK(a.outs.back().s_map < 0.0);
+  // a stop 50 m past the switch is a main-line stop (the recordings end there)
+  CHECK(std::abs(b.outs.back().y) < 1.0);
+  // before the stop both runs are on the main line
+  for (const Output& o : a.outs)
+    if (toSec(o.stamp) < 9300.0 + 40.0) CHECK(std::abs(o.y) < 1.0);
+}
+
 TEST_CASE("track field: linear interpolation and cyclic wrap (learned d(s), adhesion map)") {
   const std::string path = "tbo_test_field.csv";
   {
@@ -601,6 +639,8 @@ TEST_CASE("GNSS init window counts from the first fix (GNSS starts 3 s after the
 
 TEST_CASE("anchor while moving inside a 10 s GNSS window: position follows the truth") {
   Config cfg;
+  cfg.p.speed_output_delay_s = 0.0;  // judge-reference alignment is not what this test checks
+  cfg.p.position_output_delay_s = 0.0;
   cfg.output_frame = "map";
   cfg.p.gnss_init_window_s = 10.0;
   cfg.p.position_lead_s = 0.0;

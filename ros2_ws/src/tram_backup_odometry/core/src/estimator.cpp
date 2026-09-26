@@ -425,8 +425,13 @@ double Estimator::combinedV(const FilterState& f) const {
 void Estimator::applyEvent(FilterState& f, const Event& e) const {
   if (!f.started) startFilter(f, e.t);
   advance(f, e.t);
+  if (f.stub) {  // moved on beyond the stub end (or back before its start): it was not the stub after all
+    double s = 0.0;
+    for (int j = 0; j < kNumModes; ++j) s += f.mu[j] * f.x[j](kS, 0);
+    if (s - f.stub_s0 > stub_.length() + 10.0 || s < f.stub_s0 - 5.0) f.stub = false;
+  }
   if (e.is_cmd) {
-    if (p_.cutoff_enable > 0.5 && f.have_cmd && e.notch == 0 && f.notch >= p_.cutoff_notch &&
+    if (p_.cutoff_enable > 0.5 && !f.stub && f.have_cmd && e.notch == 0 && f.notch >= p_.cutoff_notch &&
         !cutoffs_.empty() && combinedV(f) > p_.cutoff_min_v) {
       if (placeUpdate(f, e.t, cutoffs_, p_.cutoff_p_random, p_.position_lead_s)) f.lm_t = e.t;
     }
@@ -436,6 +441,7 @@ void Estimator::applyEvent(FilterState& f, const Event& e) const {
     return;
   }
   wheelUpdate(f, e);
+  stubRoughness(f, e);
 }
 
 void Estimator::advance(FilterState& f, Stamp t) const {
@@ -484,6 +490,83 @@ void Estimator::advance(FilterState& f, Stamp t) const {
     f.odo += combinedV(f) * h;
   }
   f.t = t;
+}
+
+bool Estimator::stubCheck(FilterState& f) const {
+  if (f.stub) return true;
+  if (!has_stub_ || p_.stub_enable < 0.5 || !map_ || !init_.anchored) return false;
+  double s = 0.0;
+  for (int j = 0; j < kNumModes; ++j) s += f.mu[j] * f.x[j](kS, 0);
+  const TrackMap* m = nullptr;
+  double sm = 0.0;
+  if (!routeAt(s, m, sm) || m != map_) return false;
+  double d = sm - stub_.joinS();  // antenna path past the stub start
+  if (map_->cyclic()) {
+    const double L = map_->length();
+    d = std::fmod(d, L);
+    if (d > 0.5 * L) d -= L;
+    if (d < -0.5 * L) d += L;
+  }
+  static const bool dbg = std::getenv("TBO_DEBUG_STUB") != nullptr;
+  if (dbg) std::fprintf(stderr, "STUB t=%.1f s_map=%.1f past_start=%.1f\n", toSec(f.t), sm, d);
+  if (d < p_.stub_stop_min_m || d > p_.stub_stop_max_m) return false;
+  f.stub = true;
+  f.stub_s0 = s - d;
+  return true;
+}
+
+void Estimator::stubRoughness(FilterState& f, const Event& e) const {
+  const bool both = e.has[0] && e.has[1] && std::isfinite(e.z[0]) && std::isfinite(e.z[1]);
+  if (both && e.z[0] > 3.0 && e.z[1] > 3.0) {  // slow bogie noise level while moving
+    const double dz = e.z[0] - e.z[1];
+    if (f.noise_slow < 0.0) {
+      f.noise_slow = dz * dz;
+    } else {
+      const double dt = f.t_noise_slow >= 0 ? std::clamp(toSec(e.t - f.t_noise_slow), 0.0, 1.0) : 0.0;
+      f.noise_slow += (1.0 - std::exp(-dt / 60.0)) * (dz * dz - f.noise_slow);
+    }
+    f.t_noise_slow = e.t;
+  }
+  if (!has_stub_ || p_.stub_enable < 0.5 || p_.stub_rough_min <= 0.0 || !map_ || !init_.anchored || f.stub) return;
+  double s = 0.0;
+  for (int j = 0; j < kNumModes; ++j) s += f.mu[j] * f.x[j](kS, 0);
+  const TrackMap* m = nullptr;
+  double sm = 0.0;
+  if (!routeAt(s, m, sm) || m != map_) return;
+  double d = sm - stub_.joinS();
+  if (map_->cyclic()) {
+    const double L = map_->length();
+    d = std::fmod(d, L);
+    if (d > 0.5 * L) d -= L;
+    if (d < -0.5 * L) d += L;
+  }
+  if (d < p_.stub_rough_from_m - 5.0 || d > p_.stub_rough_to_m + 100.0) {  // away from the switch
+    f.stub_rs = 0.0;
+    f.stub_rn = 0;
+    f.stub_rdone = false;
+    return;
+  }
+  if (f.stub_rdone || d < p_.stub_rough_from_m) return;
+  if (d <= p_.stub_rough_to_m) {
+    if (both && e.z[0] > 1.0 && e.z[1] > 1.0) {
+      if (f.stub_rn == 0) f.stub_noise0 = f.noise_slow;
+      const double y = std::log(e.z[0] / e.z[1]);
+      f.stub_rs += y * y;
+      ++f.stub_rn;
+    }
+    return;
+  }
+  f.stub_rdone = true;  // passed the window: decide once
+  const double rough = f.stub_rn > 0 ? std::sqrt(f.stub_rs / f.stub_rn) : 0.0;
+  const bool quiet = f.stub_noise0 >= 0.0 && f.stub_noise0 < p_.stub_rough_max_noise * p_.stub_rough_max_noise;
+  static const bool dbg = std::getenv("TBO_DEBUG_STUB") != nullptr;
+  if (dbg)
+    std::fprintf(stderr, "STUBR t=%.1f rough=%.4f n=%d noise=%.4f\n", toSec(e.t), rough, f.stub_rn,
+                 std::sqrt(std::max(f.stub_noise0, 0.0)));
+  if (f.stub_rn >= 20 && quiet && rough > p_.stub_rough_min) {
+    f.stub = true;
+    f.stub_s0 = s - d;
+  }
 }
 
 bool Estimator::routeAt(double s_rel, const TrackMap*& m, double& s) const {
@@ -711,7 +794,7 @@ void Estimator::wheelUpdate(FilterState& f, const Event& e) const {
   if (f.standstill) {
     if (!f.lm_done && toSec(e.t - f.still_since) >= p_.landmark_dwell_s) {
       f.lm_done = true;
-      if (p_.landmark_enable > 0.5 && placeUpdate(f, e.t, landmarks_, p_.landmark_p_random, 0.0))
+      if (!stubCheck(f) && p_.landmark_enable > 0.5 && placeUpdate(f, e.t, landmarks_, p_.landmark_p_random, 0.0))
         f.lm_t = e.t;
     }
     const double relax = 1.0 - std::exp(-toSec(e.t - f.t_mix) * p_.rate_recover);
@@ -1547,30 +1630,53 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
   const double sig_s2 = o.s_var + (init_.var_applied ? 0.0 : p_.init_sigma_s * p_.init_sigma_s);
   const TrackMap* rm = nullptr;
   double sm = 0.0;
-  const double s_ant = o.s + o.v * p_.position_lead_s;  // antenna 1 on the map (antenna) path
+  // antenna 1 on the map (antenna) path, aligned with the fix timing and then with the judge reference
+  const double s_ant = o.s + o.v * (p_.position_lead_s - p_.position_output_delay_s);
   const double s_pub = s_ant + p_.base_link_along_m;
   {
     const TrackMap* ra = nullptr;
     double sa = 0.0;
     if (routeAt(o.s, ra, sa) && ra == map_) o.s_map = sa;
   }
-  if (init_.anchored && routeAt(s_pub, rm, sm)) {
+  const bool on_stub = init_.anchored && has_stub_ && f.stub;
+  if (on_stub || (init_.anchored && routeAt(s_pub, rm, sm))) {
     // base_link = antenna 1 + base_link_along_m along the car body axis, the line through both
     // antennas (organisers' TF: master x = -9.873, rover x = +2.563 in base_link). The map is the
     // antenna path, which swings ~0.7 m outside the rails in the 16 m loops, so the path point
     // base_link_along_m further on is not the bogie pivot; the body-axis construction is the rigid TF.
-    const MapPose p = rm->at(sm);
-    double bx = p.x, by = p.y, hx = std::cos(p.heading), hy = std::sin(p.heading);
-    const TrackMap *ra = nullptr, *rr = nullptr;
-    double sa = 0.0, sr = 0.0;
-    if (p_.antenna_baseline_m > 1.0 && routeAt(s_ant, ra, sa) && routeAt(s_ant + p_.antenna_baseline_m, rr, sr)) {
-      const MapPose A = ra->at(sa), Rv = rr->at(sr);
+    MapPose p;
+    double bx = 0.0, by = 0.0, hx = 1.0, hy = 0.0;
+    if (on_stub) {  // the same construction on the dead-end stub polyline
+      const double da = s_ant - f.stub_s0;
+      p = stub_.at(da + p_.base_link_along_m);
+      const MapPose A = stub_.at(da), Rv = stub_.at(da + p_.antenna_baseline_m);
+      hx = std::cos(A.heading);
+      hy = std::sin(A.heading);
       const double dx = Rv.x - A.x, dy = Rv.y - A.y, len = std::hypot(dx, dy);
       if (len > 1.0) {
         hx = dx / len;
         hy = dy / len;
-        bx = A.x + p_.base_link_along_m * hx;
-        by = A.y + p_.base_link_along_m * hy;
+      }
+      bx = A.x + p_.base_link_along_m * hx;
+      by = A.y + p_.base_link_along_m * hy;
+      o.s_map = -1.0;
+    } else {
+      p = rm->at(sm);
+      bx = p.x;
+      by = p.y;
+      hx = std::cos(p.heading);
+      hy = std::sin(p.heading);
+      const TrackMap *ra = nullptr, *rr = nullptr;
+      double sa = 0.0, sr = 0.0;
+      if (p_.antenna_baseline_m > 1.0 && routeAt(s_ant, ra, sa) && routeAt(s_ant + p_.antenna_baseline_m, rr, sr)) {
+        const MapPose A = ra->at(sa), Rv = rr->at(sr);
+        const double dx = Rv.x - A.x, dy = Rv.y - A.y, len = std::hypot(dx, dy);
+        if (len > 1.0) {
+          hx = dx / len;
+          hy = dy / len;
+          bx = A.x + p_.base_link_along_m * hx;
+          by = A.y + p_.base_link_along_m * hy;
+        }
       }
     }
     double ox, oy, oz, ox2, oy2, oz2;
@@ -1609,6 +1715,8 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
     fl |= kFlagNotInitialized | kFlagNoMap;
   }
   o.protection_level = p_.protection_k * std::sqrt(std::max(sig_s2, 0.0));
+  if (p_.speed_output_delay_s != 0.0 && !f.standstill)  // speed of (stamp - delay): v - a * delay
+    o.v = std::max(0.0, o.v - (o.accel + o.a_ext) * p_.speed_output_delay_s);
   o.flags = fl;
   // Without any GNSS: relative odometry only if asked for (in the MGRS frame it is meaningless);
   // otherwise the position waits for the GNSS-free map fix.

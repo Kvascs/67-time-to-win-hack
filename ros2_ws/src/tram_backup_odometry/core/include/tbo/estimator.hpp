@@ -83,6 +83,11 @@ class Estimator {
   void setCutoffs(std::vector<Landmark> lms) { cutoffs_ = std::move(lms); }
   void setDisturbanceField(TrackField f) { dfield_ = std::move(f); }
   void setFaultPrior(TrackField f) { fault_prior_ = std::move(f); }
+  // Dead-end stub leaving the main cycle (its join_s = main arc of its first point); some runs end on it.
+  void setStub(TrackMap stub) {
+    stub_ = std::move(stub);
+    has_stub_ = !stub_.empty() && stub_.hasJoin();
+  }
   // Cues for the GNSS-free global localisation (used only when no GNSS fix arrives at all).
   void setGlobalLocalisation(std::vector<Landmark> stops, std::vector<Landmark> cutoffs, TrackField vmax) {
     gl_stops_ = std::move(stops);
@@ -151,6 +156,14 @@ class Estimator {
     Stamp lm_t = -1;
     double odo = 0.0;        // distance travelled in this run (integral of the combined speed), m
     double lm_odo = 0.0;     // odo at the last accepted place fix (landmark or cut-off)
+    bool stub = false;       // on the dead-end stub (decided by a stop at its far part)
+    double stub_s0 = 0.0;    // filter arc where the stub starts
+    double stub_rs = 0.0;    // sum of log(front/rear)^2 in the switch window
+    int stub_rn = 0;
+    bool stub_rdone = false; // roughness decision taken for this pass of the switch
+    double stub_noise0 = 0.0;  // slow bogie noise level when entering the window, (m/s)^2
+    double noise_slow = -1.0;  // slow EMA (60 s) of (front - rear)^2 while moving, (m/s)^2
+    Stamp t_noise_slow = -1;
     double cmd_cusum = 0.0;  // evidence that the controller signal is wrong
     Stamp cmd_fault_t = -1;  // last time that evidence crossed the threshold
     Stamp t_cmd_cusum = -1;
@@ -214,11 +227,17 @@ class Estimator {
   TrackField fault_prior_;  // slip/slide rate multiplier by place (learned adhesion map)
   std::vector<Landmark> gl_stops_, gl_cutoffs_;
   TrackField vmax_env_;
+  TrackMap stub_;          // dead-end stub (antenna path from its start on the main line)
+  bool has_stub_ = false;
   std::unique_ptr<GlobalLocalizer> gl_;
   double gl_s0_ = 0.0;      // committed distance when the localiser started (its odometer origin)
   bool gl_tried_ = false;
   // Maps a relative distance to (edge, arc length) along the anchored route.
   bool routeAt(double s_rel, const TrackMap*& m, double& s) const;
+  // Stop check for the dead-end stub: true while the tram is taken to be on it (no landmarks there).
+  bool stubCheck(FilterState& f) const;
+  // Roughness of the front/rear speed ratio at the switch: the other (earlier) cue for the stub.
+  void stubRoughness(FilterState& f, const Event& e) const;
 
   FilterState committed_;
   std::vector<Event> buf_;  // sorted by (t, seq); capacity reserved up front

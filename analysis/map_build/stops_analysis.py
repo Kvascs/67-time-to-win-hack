@@ -153,7 +153,21 @@ def main(map_dir='map_train'):
     ev_va['split'] = 'val'
     ev_all = pd.concat([ev_tr, ev_va], ignore_index=True)
     passes = {**pas_tr, **pas_va}
-    ev_all, cl = cluster(ev_all, passes, mp)
+    if map_dir == 'map_train':
+        # honest validation: stop places (median, spread, p_stop) from TRAIN stops only; val stops are
+        # attached to the nearest train place within 3 m for the consistency statistics below
+        ev_tr, cl = cluster(ev_tr, pas_tr, mp)
+        ev_va = ev_va.copy()
+        ev_va['cluster'] = -1
+        for i, r in ev_va.iterrows():
+            c = cl[cl.edge == r.edge]
+            if len(c):
+                j = int(np.argmin(np.abs(c.s_median.to_numpy() - r.s)))
+                if abs(c.s_median.iloc[j] - r.s) <= 3.0:
+                    ev_va.at[i, 'cluster'] = int(c.cluster.iloc[j])
+        ev_all = pd.concat([ev_tr, ev_va], ignore_index=True)
+    else:
+        ev_all, cl = cluster(ev_all, passes, mp)
     cl['dir'] = [direction(e, s) for e, s in zip(cl.edge, cl.s_median)]
     # train-only stats for landmark std, val check: distance of val stops to the train cluster median
     cl = cl.sort_values(['edge', 's_median']).reset_index(drop=True)

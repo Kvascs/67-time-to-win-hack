@@ -51,6 +51,10 @@ def convert(bag: Path):
                 elif c.msgtype.endswith('TwistStamped'):
                     rows.append((tt, stamp(m.header), m.twist.linear.x, m.twist.linear.y, m.twist.linear.z,
                                  m.twist.angular.z))
+                elif c.msgtype.endswith('Odometry'):  # reference localisation (/localization/kinematic_state)
+                    p, q, v = m.pose.pose.position, m.pose.pose.orientation, m.twist.twist
+                    rows.append((tt, stamp(m.header), p.x, p.y, p.z, q.x, q.y, q.z, q.w,
+                                 v.linear.x, v.linear.y, v.linear.z, v.angular.z))
             key = c.topic.strip('/').replace('/', '__')
             arr = np.array(rows, dtype=np.float64) if rows else np.zeros((0, 3))
             if key in d:  # multiple connections on same topic

@@ -108,12 +108,21 @@ static const ParamInfo kRegistry[] = {
     TBO_P(landmark_p_random, "-", "share of stops not at a landmark"),
     TBO_P(landmark_sigma_extra, "m", "extra landmark position sigma"),
     TBO_P(landmark_assoc_q, "m^2/m", "association variance growth per metre since the last place fix"),
+    TBO_P(stub_enable, "-", "dead-end stub: take a far stop past its start as being on it (1 on)"),
+    TBO_P(stub_stop_min_m, "m", "dead-end stub: nearest stop past its start that means the stub"),
+    TBO_P(stub_stop_max_m, "m", "dead-end stub: farthest stop past its start that means the stub"),
+    TBO_P(stub_rough_min, "-", "dead-end stub: rms log(front/rear) at the switch that means the stub (0 off)"),
+    TBO_P(stub_rough_from_m, "m", "dead-end stub: roughness window start, antenna arc from the stub start"),
+    TBO_P(stub_rough_to_m, "m", "dead-end stub: roughness window end, antenna arc from the stub start"),
+    TBO_P(stub_rough_max_noise, "m/s", "dead-end stub: roughness test skipped above this slow bogie noise"),
     TBO_P(landmark_max_dk, "-", "max wheel-scale change per landmark fix"),
     TBO_P(cutoff_enable, "bool", "use traction cut-off landmarks"),
     TBO_P(cutoff_notch, "-", "min notch before an abrupt cut to 0"),
     TBO_P(cutoff_min_v, "m/s", "min speed for a cut-off fix"),
     TBO_P(cutoff_p_random, "-", "share of cut-offs away from known places"),
     TBO_P(position_lead_s, "s", "position published for stamp + lead (reference fix timing)"),
+    TBO_P(speed_output_delay_s, "s", "published speed is that of stamp - delay (judge reference lag)"),
+    TBO_P(position_output_delay_s, "s", "published position is that of stamp - delay (judge reference lag)"),
     TBO_P(speed_var_scale, "-", "published speed variance scale (consistency calibration)"),
     TBO_P(speed_var_floor, "(m/s)^2", "published speed variance floor"),
     TBO_P(protection_k, "-", "99 % along-track protection level in sigma_s"),
@@ -191,6 +200,7 @@ bool loadFlatYaml(const std::string& path, Config& cfg, std::string* err, std::s
     if (key == "gl_stops_file") { cfg.gl_stops_file = val; continue; }
     if (key == "gl_cutoffs_file") { cfg.gl_cutoffs_file = val; continue; }
     if (key == "speed_envelope_file") { cfg.speed_envelope_file = val; continue; }
+    if (key == "stub_file") { cfg.stub_file = val; continue; }
     if (key == "output_frame") { cfg.output_frame = val; continue; }
     if (key == "init_source") { cfg.init_source = val; continue; }
     if (key == "frame_id") { cfg.frame_id = val; continue; }

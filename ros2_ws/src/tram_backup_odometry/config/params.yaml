@@ -11,6 +11,7 @@ tram_backup_odometry:
     gl_stops_file: "maps/gl_stops.csv"
     gl_cutoffs_file: "maps/gl_cutoffs.csv"
     speed_envelope_file: "maps/speed_envelope.csv"
+    stub_file: "maps/stub_west_arrival_2.csv"
     output_frame: "mgrs"         # mgrs (jury, Autoware map frame) | enu | utm | map
     init_source: "master"        # GNSS antenna used for the initial fix
     frame_id: "map"
@@ -114,12 +115,21 @@ tram_backup_odometry:
     landmark_p_random: 0.15  # share of stops not at a landmark [-]
     landmark_sigma_extra: 0.3  # extra landmark position sigma [m]
     landmark_assoc_q: 0.008  # association variance growth per metre since the last place fix [m^2/m]
+    stub_enable: 1.0  # dead-end stub: take a far stop past its start as being on it (1 on) [-]
+    stub_stop_min_m: 85.0  # dead-end stub: nearest stop past its start that means the stub [m]
+    stub_stop_max_m: 135.0  # dead-end stub: farthest stop past its start that means the stub [m]
+    stub_rough_min: 0.013  # dead-end stub: rms log(front/rear) at the switch that means the stub (0 off) [-]
+    stub_rough_from_m: -15.0  # dead-end stub: roughness window start, antenna arc from the stub start [m]
+    stub_rough_to_m: 12.0  # dead-end stub: roughness window end, antenna arc from the stub start [m]
+    stub_rough_max_noise: 0.05  # dead-end stub: roughness test skipped above this slow bogie noise [m/s]
     landmark_max_dk: 0.004  # max wheel-scale change per landmark fix [-]
     cutoff_enable: 1.0  # use traction cut-off landmarks [bool]
     cutoff_notch: 4.0  # min notch before an abrupt cut to 0 [-]
     cutoff_min_v: 2.0  # min speed for a cut-off fix [m/s]
     cutoff_p_random: 0.05  # share of cut-offs away from known places [-]
     position_lead_s: 0.045  # position published for stamp + lead (reference fix timing) [s]
+    speed_output_delay_s: 0.1  # published speed is that of stamp - delay (judge reference lag) [s]
+    position_output_delay_s: 0.08  # published position is that of stamp - delay (judge reference lag) [s]
     speed_var_scale: 0.32  # published speed variance scale (consistency calibration) [-]
     speed_var_floor: 0.00025  # published speed variance floor [(m/s)^2]
     protection_k: 5.76  # 99 % along-track protection level in sigma_s [-]

@@ -107,6 +107,12 @@ class TboNode : public rclcpp::Node {
       if (ok) est_->setGlobalLocalisation(std::move(st), std::move(cu), std::move(env));
       else RCLCPP_WARN(get_logger(), "GNSS-free localisation data not loaded (%s)", err.c_str());
     }
+    if (!cfg_.stub_file.empty()) {
+      tbo::TrackMap stub;
+      std::string err;
+      if (stub.loadCsv(resolve(cfg_.stub_file), &err)) est_->setStub(std::move(stub));
+      else RCLCPP_WARN(get_logger(), "dead-end stub not loaded (%s)", err.c_str());
+    }
     sched_ = std::make_unique<tbo::OutputScheduler>(est_->config().p);
 
     // Best-effort subscribers are compatible with both reliable and best-effort publishers.
@@ -157,6 +163,7 @@ class TboNode : public rclcpp::Node {
     cfg_.gl_stops_file = declare_parameter<std::string>("gl_stops_file", "maps/gl_stops.csv");
     cfg_.gl_cutoffs_file = declare_parameter<std::string>("gl_cutoffs_file", "maps/gl_cutoffs.csv");
     cfg_.speed_envelope_file = declare_parameter<std::string>("speed_envelope_file", "maps/speed_envelope.csv");
+    cfg_.stub_file = declare_parameter<std::string>("stub_file", "maps/stub_west_arrival_2.csv");
     cfg_.output_frame = declare_parameter<std::string>("output_frame", "mgrs");
     cfg_.init_source = declare_parameter<std::string>("init_source", "master");
     cfg_.frame_id = declare_parameter<std::string>("frame_id", "map");

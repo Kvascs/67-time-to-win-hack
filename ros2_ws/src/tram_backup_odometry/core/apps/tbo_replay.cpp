@@ -69,6 +69,7 @@ int main(int argc, char** argv) {
       std::printf("    gl_stops_file: \"%s\"\n", "maps/gl_stops.csv");
       std::printf("    gl_cutoffs_file: \"%s\"\n", "maps/gl_cutoffs.csv");
       std::printf("    speed_envelope_file: \"%s\"\n", "maps/speed_envelope.csv");
+      std::printf("    stub_file: \"%s\"\n", "maps/stub_west_arrival_2.csv");
       std::printf("    output_frame: \"mgrs\"         # mgrs (jury, Autoware map frame) | enu | utm | map\n");
       std::printf("    init_source: \"master\"        # GNSS antenna used for the initial fix\n");
       std::printf("    frame_id: \"map\"\n    child_frame_id: \"base_link\"\n");
@@ -121,6 +122,7 @@ int main(int argc, char** argv) {
     else if (kv.first == "gl_stops_file") cfg.gl_stops_file = kv.second;
     else if (kv.first == "gl_cutoffs_file") cfg.gl_cutoffs_file = kv.second;
     else if (kv.first == "speed_envelope_file") cfg.speed_envelope_file = kv.second;
+    else if (kv.first == "stub_file") cfg.stub_file = kv.second;
     else { std::fprintf(stderr, "unknown string param %s\n", kv.first.c_str()); return 2; }
   }
 
@@ -196,6 +198,14 @@ int main(int argc, char** argv) {
       return 2;
     }
     est.setGlobalLocalisation(std::move(st), std::move(cu), std::move(env));
+  }
+  if (!cfg.stub_file.empty()) {
+    TrackMap stub;
+    if (!stub.loadCsv(cfg.stub_file, &err)) {
+      std::fprintf(stderr, "%s\n", err.c_str());
+      return 2;
+    }
+    est.setStub(std::move(stub));
   }
   OutputScheduler sched(cfg.p);
 

@@ -8,6 +8,9 @@
 | `branch_fan_F2.csv`, `branch_fan_F3.csv`, `branch_wb_detour.csv` | ветки, вливающиеся в главный цикл (`join_s` — дуга точки слияния); нужны, если прогон начинается не на главном пути |
 | `landmarks.csv` | места остановок («виртуальные балисы»): `s,sigma,p_stop,cls` |
 | `cutoffs.csv` | места резкого сброса тяги (позиция ≥ 4 → 0 на ходу): `s,sigma,n` |
+| `stub_west_arrival_2.csv` | тупиковый путь у западной конечной (125 м), на котором кончаются некоторые записи; `join_s` — дуга главного цикла, где он начинается |
+| `dfield.csv` | выученное поле невязки модели тяги по месту: `s,value` (ячейки 10 м) |
+| `gl_stops.csv`, `gl_cutoffs.csv`, `speed_envelope.csv` | признаки для поиска места без GNSS: места остановок, места сброса тяги, огибающая скорости |
 
 Как получены:
 
@@ -15,6 +18,7 @@
 python analysis/map_build/run_all.py                      # карта по GNSS (train -> map_train, всё -> map)
 python tools/map/export_core_map.py --map-dir analysis/map_build/map
 python tools/map/cutoff_landmarks.py --map-dir analysis/map_build/map --split all
+python tools/map/export_stub.py --map-dir analysis/map_build/map
 ```
 
 Для честной валидации на val используются карты, построенные только по train:
