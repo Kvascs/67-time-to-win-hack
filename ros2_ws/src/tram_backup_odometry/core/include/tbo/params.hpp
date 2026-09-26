@@ -38,6 +38,10 @@ struct Params {
   double sigma_accel = 0.12;        // white acceleration noise of the model, m/s^2
   double q_disturbance = 0.004;     // random walk of disturbance d, (m/s^2)^2 / s
   double q_scale = 1e-9;            // random walk of wheel scale error k, 1 / s
+  double q_along = 0.0;             // along-track random walk per metre travelled, m^2 / m: place-dependent
+                                    // odometry error (creep, rail geometry) that a constant k does not capture.
+                                    // Off: 0.001 helped the drift cases but made 14 of 46 train runs worse
+                                    // (normal runs 0.667 -> 0.676 m along); landmark_assoc_q does it better.
   double q_gain = 2e-5;             // random walk of traction gain g, 1 / s
   double init_sigma_v = 0.3;
   double init_sigma_d = 0.10;
@@ -137,6 +141,13 @@ struct Params {
   double landmark_min_prob = 0.6;   // posterior probability required to apply the fix
   double landmark_p_random = 0.15;  // prior share of stops not at any landmark (traffic)
   double landmark_sigma_extra = 0.3;  // added to the landmark spread, m
+  // Association only: + this x distance since the last place fix, m^2/m. Odometry drifts from place to
+  // place by -0.41..+0.48 % (5-95 % of train segments between stops), more than the filter variance says,
+  // so right places were rejected after a drift (d927f360: 1.8 m after 320 m, p = 0.52). 0.008: val along
+  // RMSE 0.509 -> 0.488 m (11 clean-reference bags), train 0.667 -> 0.658, gross errors recaptured
+  // (27e994fc 31.8 -> 7.8 m); fault suite end offset 6.42 -> 5.37 m, still 9/343 diverged. Cost: a queue
+  // stop 3 m before a platform can be taken for it (+0.1..0.2 m on 3 of 15 val bags; GNSS-free +2 %).
+  double landmark_assoc_q = 0.008;
   double landmark_max_dk = 0.004;   // max wheel-scale change applied by one landmark fix
   double cutoff_enable = 1.0;       // traction cut-off landmarks (notch >= cutoff_notch -> 0)
   double cutoff_notch = 4.0;

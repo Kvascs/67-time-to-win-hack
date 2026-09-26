@@ -39,12 +39,20 @@ def reference(bag):
     re_, rn = TR.transform(r[:, 3], r[:, 2])
     A = np.c_[me, mn, m[:, 4]]
     R = np.c_[re_, rn, r[:, 4]]
-    u = R - A
-    L = np.linalg.norm(u, axis=1)
-    good = (L > 11.9) & (L < 13.0)  # baseline 12.44 m: both fixes consistent
-    u = u / L[:, None]
+    # Horizontal body axis from both antennas; the rover's RTK altitude is often metres off, so the
+    # vertical comes from the master alone: its altitude trend along its own track (+-15 m) gives
+    # the pitch, and base_link lies 9.873 m ahead and 3.0 m below along the body.
+    uh = R[:, :2] - A[:, :2]
+    Lh = np.linalg.norm(uh, axis=1)
+    good = (np.abs(Lh - 12.436) < 0.15) & (np.abs(R[:, 2] - A[:, 2]) < 0.6)  # consistent fixes only
+    uh = uh / np.maximum(Lh, 1e-9)[:, None]
+    dist = np.r_[0.0, np.cumsum(np.hypot(np.diff(A[:, 0]), np.diff(A[:, 1])))]
+    keep = np.r_[True, np.diff(dist) > 1e-3]
+    alt_d = lambda q: np.interp(q, dist[keep], A[keep, 2])
+    slope = np.clip((alt_d(dist + 15.0) - alt_d(dist - 15.0)) / 30.0, -0.06, 0.06)
+    u = np.c_[uh, np.zeros(len(uh))]
     B = A + ALONG * u
-    B[:, 2] -= HEIGHT  # body z ~ vertical (pitch < 4 %)
+    B[:, 2] = A[:, 2] + ALONG * slope - HEIGHT
     B[:, 0] -= E0
     B[:, 1] -= N0
     return pd.DataFrame({'t': m[good, 1], 'x': B[good, 0], 'y': B[good, 1], 'z': B[good, 2],

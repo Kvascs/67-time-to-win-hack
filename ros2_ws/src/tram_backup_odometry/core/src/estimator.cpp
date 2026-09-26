@@ -375,6 +375,7 @@ void Estimator::handoverGlobal() {
     P(kK, kK) = use_kappa ? std::max(e.kappa_sd * e.kappa_sd, 1e-6) : p_.init_sigma_scale * p_.init_sigma_scale;
     P(kS, kS) += e.s_var + 1.0;
   }
+  committed_.lm_odo = committed_.odo;  // the global fix is a place fix: landmark association starts afresh
   init_.var_applied = true;
   ++diag_.global_fixes;
   gl_.reset();
@@ -480,6 +481,7 @@ void Estimator::advance(FilterState& f, Stamp t) const {
       predictMode(f.x[j], f.P[j], f.a_drive, a_ext, h, f.standstill,
                   j == kModeManeuver ? p_.sigma_accel_maneuver : p_.sigma_accel,
                   j == kModeManeuver ? p_.q_disturbance_maneuver : p_.q_disturbance, da_ds);
+    f.odo += combinedV(f) * h;
   }
   f.t = t;
 }
@@ -568,6 +570,7 @@ void Estimator::predictMode(StateVec& x, StateCov& P, double a, double a_ext, do
   P = F * P * transpose(F);
   const double qa = sigma_accel * sigma_accel;
   P(kS, kS) += qa * h * h * h / 3.0;
+  P(kS, kS) += p_.q_along * std::abs(ds);  // odometry error that varies from place to place
   P(kS, kV) += qa * h * h / 2.0;
   P(kV, kS) += qa * h * h / 2.0;
   P(kV, kV) += qa * h;
@@ -1178,7 +1181,10 @@ bool Estimator::placeUpdate(FilterState& f, Stamp t, const std::vector<Landmark>
   sm = map_->wrap(sm + std::max(0.0, xm(kV, 0)) * lead);
   const double L = map_->length();
   const double extra2 = p_.landmark_sigma_extra * p_.landmark_sigma_extra;
-  const double var_s = std::max(Pm(kS, kS), 0.0);
+  // Association only: odometry drifts from place to place by up to ~0.5 % between fixes (5-95 % of
+  // train segments: -0.41..+0.48 %), more than the filter's own along-track variance says. A right
+  // place 1.8 m away after 320 m was rejected (d927f360). The update itself keeps the filter variance.
+  const double var_s = std::max(Pm(kS, kS), 0.0) + p_.landmark_assoc_q * std::max(f.odo - f.lm_odo, 0.0);
   const double g = p_.landmark_gate_sigma;
   // candidates inside the gate: probabilistic data association (PDA) over all of them plus the
   // "not a known place" hypothesis, so two close places (e.g. 6 m apart) blend instead of
@@ -1255,6 +1261,7 @@ bool Estimator::placeUpdate(FilterState& f, Stamp t, const std::vector<Landmark>
     symmetrize(P);
     x(kK, 0) = std::clamp(x(kK, 0), -0.05, 0.05);
   }
+  f.lm_odo = f.odo;
   return true;
 }
 

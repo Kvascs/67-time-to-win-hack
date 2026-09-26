@@ -149,6 +149,8 @@ class Estimator {
     int latch_sign = 0;      // +1 slip (wheels fast), -1 slide (wheels slow)
     bool lm_done = false;    // landmark fix already attempted during the current stop
     Stamp lm_t = -1;
+    double odo = 0.0;        // distance travelled in this run (integral of the combined speed), m
+    double lm_odo = 0.0;     // odo at the last accepted place fix (landmark or cut-off)
     double cmd_cusum = 0.0;  // evidence that the controller signal is wrong
     Stamp cmd_fault_t = -1;  // last time that evidence crossed the threshold
     Stamp t_cmd_cusum = -1;
