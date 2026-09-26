@@ -4,6 +4,8 @@
   <name>tram_vehicle_msgs</name>
   <version>0.0.0</version>
   <description>Tram control messages</description>
+  <!-- added by the team: newer catkin_pkg rejects a package without a maintainer; messages unchanged -->
+  <maintainer email="team@example.com">MosTransHack team</maintainer>
   <license>MIT</license>
 
   <depend>std_msgs</depend>

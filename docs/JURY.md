@@ -7,7 +7,7 @@
 
 | Пакет | Назначение |
 |---|---|
-| `tram_vehicle_msgs` | сообщения организаторов (без изменений) |
+| `tram_vehicle_msgs` | сообщения организаторов (определения без изменений; в `package.xml` добавлен только тег maintainer — без него свежий catkin_pkg в ros:humble не собирает пакет) |
 | `tbo_msgs` | `EstimatorStatus` — диагностика оценщика (флаги проскальзывания/юза, режимы, сцепление, задержка) |
 | `tram_backup_odometry` | нода `tbo_node` (C++), ядро оценщика, параметры, карта пути, launch |
 | `tram_backup_odometry_tools` | `latency_probe` (задержка/частота/CPU/RAM), `evaluate_run` (точность против GNSS из bag) |
