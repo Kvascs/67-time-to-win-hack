@@ -119,6 +119,7 @@ tram_backup_odometry:
     base_link_along_m: 9.873  # published point ahead of antenna 1 along the track [m]
     base_link_height_m: 3.0  # antenna 1 height above rail top [m]
     bogie_base_m: 7.55  # distance between bogie centres (heading chord) [m]
+    antenna_baseline_m: 12.436  # antenna 1 -> antenna 2 along the body axis (base_link heading) [m]
     publish_grid_s: 0.05  # fixed stamp grid period (0 = off) [s]
     publish_on_cmd: 1.0  # publish at controller stamps [bool]
     publish_on_wheel: 1.0  # publish at bogie stamps [bool]

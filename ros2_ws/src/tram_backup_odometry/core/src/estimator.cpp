@@ -1442,26 +1442,39 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
   const double sig_s2 = o.s_var + (init_.var_applied ? 0.0 : p_.init_sigma_s * p_.init_sigma_s);
   const TrackMap* rm = nullptr;
   double sm = 0.0;
-  const double s_pub = o.s + o.v * p_.position_lead_s + p_.base_link_along_m;
+  const double s_ant = o.s + o.v * p_.position_lead_s;  // antenna 1 on the map (antenna) path
+  const double s_pub = s_ant + p_.base_link_along_m;
   {
     const TrackMap* ra = nullptr;
     double sa = 0.0;
     if (routeAt(o.s, ra, sa) && ra == map_) o.s_map = sa;
   }
   if (init_.anchored && routeAt(s_pub, rm, sm)) {
-    const TrackMap* rm2 = nullptr;
-    double sm2 = 0.0;
-    // body heading = chord from the rear bogie to the front bogie (REP-103 base_link x axis)
-    const double back = p_.bogie_base_m > 0.5 ? p_.bogie_base_m : 1.0;
-    routeAt(s_pub - back, rm2, sm2);
-    const MapPose a = rm->at(sm), b = rm2->at(sm2);
-    double ax, ay, az, bx, by, bz;
-    mapToOutput(a.x, a.y, a.z, ax, ay, az);
-    mapToOutput(b.x, b.y, b.z, bx, by, bz);
-    o.x = ax;
-    o.y = ay;
-    o.z = az;
-    o.yaw = std::atan2(ay - by, ax - bx);
+    // base_link = antenna 1 + base_link_along_m along the car body axis, the line through both
+    // antennas (organisers' TF: master x = -9.873, rover x = +2.563 in base_link). The map is the
+    // antenna path, which swings ~0.7 m outside the rails in the 16 m loops, so the path point
+    // base_link_along_m further on is not the bogie pivot; the body-axis construction is the rigid TF.
+    const MapPose p = rm->at(sm);
+    double bx = p.x, by = p.y, hx = std::cos(p.heading), hy = std::sin(p.heading);
+    const TrackMap *ra = nullptr, *rr = nullptr;
+    double sa = 0.0, sr = 0.0;
+    if (p_.antenna_baseline_m > 1.0 && routeAt(s_ant, ra, sa) && routeAt(s_ant + p_.antenna_baseline_m, rr, sr)) {
+      const MapPose A = ra->at(sa), Rv = rr->at(sr);
+      const double dx = Rv.x - A.x, dy = Rv.y - A.y, len = std::hypot(dx, dy);
+      if (len > 1.0) {
+        hx = dx / len;
+        hy = dy / len;
+        bx = A.x + p_.base_link_along_m * hx;
+        by = A.y + p_.base_link_along_m * hy;
+      }
+    }
+    double ox, oy, oz, ox2, oy2, oz2;
+    mapToOutput(bx, by, p.z, ox, oy, oz);
+    mapToOutput(bx + hx, by + hy, p.z, ox2, oy2, oz2);  // body heading in the output frame
+    o.x = ox;
+    o.y = oy;
+    o.z = oz;
+    o.yaw = std::atan2(oy2 - oy, ox2 - ox);
     o.map_matched = true;
     const double sc2 = p_.map_sigma_cross * p_.map_sigma_cross;
     const double c = std::cos(o.yaw), s = std::sin(o.yaw);

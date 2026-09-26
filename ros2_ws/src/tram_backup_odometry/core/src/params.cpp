@@ -116,6 +116,7 @@ static const ParamInfo kRegistry[] = {
     TBO_P(base_link_along_m, "m", "published point ahead of antenna 1 along the track"),
     TBO_P(base_link_height_m, "m", "antenna 1 height above rail top"),
     TBO_P(bogie_base_m, "m", "distance between bogie centres (heading chord)"),
+    TBO_P(antenna_baseline_m, "m", "antenna 1 -> antenna 2 along the body axis (base_link heading)"),
     TBO_P(publish_grid_s, "s", "fixed stamp grid period (0 = off)"),
     TBO_P(publish_on_cmd, "bool", "publish at controller stamps"),
     TBO_P(publish_on_wheel, "bool", "publish at bogie stamps"),

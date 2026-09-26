@@ -150,6 +150,7 @@ struct Params {
   double base_link_along_m = 9.873; // front bogie pivot ahead of antenna 1 (organisers' TF; data fit: 9.9)
   double base_link_height_m = 3.0;  // antennas above the wheel-rail contact point (organisers' TF)
   double bogie_base_m = 7.55;       // distance between bogie centres (organisers)
+  double antenna_baseline_m = 12.436;  // antenna 1 -> antenna 2 along the body axis (TF: 9.873 + 2.563)
   double publish_grid_s = 0.05;     // also publish on a fixed stamp grid (0 disables)
   double publish_on_cmd = 1.0;      // publish at every controller stamp
   double publish_on_wheel = 1.0;    // publish at every bogie stamp
