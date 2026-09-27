@@ -56,6 +56,14 @@ ros2 bag play <путь к bag>
 на несколько секунд, нода продолжает прогон: модель перекрывает паузу. Одиночные сообщения с мусорной меткой
 времени отбрасываются.
 
+Входные топики (имена задаются параметрами `topic_front`, `topic_rear`, `topic_cmd`; подписка best-effort, совместима
+с reliable- и best-effort-издателями): `/vehicle/front_bogie_velocity`, `/vehicle/rear_bogie_velocity`
+(`tram_vehicle_msgs/VelocitySensor`), `/vehicle/driver_position_cmd` (`tram_vehicle_msgs/DriverControllerCommand`).
+GNSS `/sensing/gnss/master/fix` и `/sensing/gnss/rover/fix` используются только в окне начальной привязки,
+после чего нода от них отписывается.
+
+Логи ноды печатаются в терминал 1 (`output='screen'` в launch-файле).
+
 ## 4. Выходные топики
 
 | Топик | Тип | Содержимое |
@@ -90,6 +98,8 @@ ros2 topic hz /result/velocity
 ros2 run tram_backup_odometry_tools latency_probe --csv latency.csv
 ```
 
+Измеренные значения задержки, частоты и ресурсов под ограничениями жюри — `docs/REPORT.md` §6.
+
 Точность по записанному прогону. Во время проигрывания запишите выходы, затем сравните с GNSS-эталоном из того же bag:
 
 ```bash
@@ -108,6 +118,9 @@ ros2 run tram_backup_odometry_tools evaluate_run --input-bag <путь к bag> -
 docker run --rm --cpus=2 --memory=512m -v <каталог с bag-ами>:/bags:ro -v $(pwd)/out:/out \
     tram_backup_odometry ros2 run tram_backup_odometry check_run.sh <имя bag> 120
 ```
+
+Результаты складываются в `out/<имя bag>/`: `node.log` (лог ноды), `probe.log` и `latency.csv` (задержка, частота,
+CPU/RAM), `play.log`, `record.log`, записанные выходы `run_out`; в конце печатается оценка `evaluate_run`.
 
 ## 6. Проверка без ROS (офлайн, то же ядро)
 
