@@ -150,6 +150,11 @@ g ≈ 0.97, у 30639 — 1.07–1.09.
 | `landmark_p_random`, `landmark_sigma_extra` | 0.15, 0.3 м | доля остановок не на балисе; добавка к разбросу места |
 | `landmark_assoc_q` | 0.008 м²/м | запас на уход одометрии с последней привязки |
 | `cutoff_notch`, `cutoff_min_v`, `cutoff_p_random` | 4, 2.0 м/с, 0.05 | места сброса тяги как балисы |
+| `ratio_enable`, `ratio_step_m`, `ratio_window_m`, `ratio_search_m` | 1, 50, 200, 8 м | поправки пути по карте отношения тележек: попытка каждые 50 м, окно 200 м, поиск ±8 м (`docs/MODEL.md` §6.7) |
+| `ratio_margin`, `ratio_sigma_max`, `ratio_sigma_min` | 3, 0.8 м, 0.35 м | однозначность и острота пика; нижняя граница σ поправки |
+| `ratio_dmax`, `ratio_gate_sd`, `ratio_min_samples` | 3 м, 3, 100 | наибольшая поправка, гейт по σ пути фильтра, пар отсчётов в окне |
+| `ratio_vmin`, `ratio_ymax`, `ratio_tau` | 1.5 м/с, 0.05, 5.39 | отбор отсчётов; автокорреляция отношения при 10 Гц |
+| `ratio_reset_assoc`, `ratio_update_k` | 0, 0 | поправка не сбрасывает запас ассоциации балис и не двигает k |
 | `stub_stop_min_m`, `stub_stop_max_m` | 85, 135 м | тупик у западной конечной: остановка так далеко за его началом — тупик (`docs/MODEL.md` §6.5) |
 | `stub_rough_min`, `stub_rough_from_m`, `stub_rough_to_m` | 0.013, −15, 12 м | шероховатость log(v_перед/v_зад) у стрелки и её окно по дуге антенны |
 | `stub_rough_early`, `stub_rough_early_from_m` | 0.02, 0 м | раннее решение при подавляющей шероховатости, от начала тупика |
@@ -183,6 +188,7 @@ g ≈ 0.97, у 30639 — 1.07–1.09.
 | `dfield_file` | `maps/dfield.csv` | поле невязки модели тяги |
 | `stub_file` | `maps/stub_west_arrival_2.csv` | тупик у западной конечной |
 | `wheel_epochs_file` | `maps/wheel_epochs.csv` | шаг квантования по вагонам и эпохам колёс |
+| `ratio_map_file` | `maps/ratio_map.csv` | карта отношения скоростей тележек по метрам цикла и её надёжность |
 | `gl_stops_file`, `gl_cutoffs_file`, `speed_envelope_file` | `maps/gl_*.csv`, `maps/speed_envelope.csv` | признаки поиска места без GNSS |
 | `traction_file` | `config/traction_lut.csv` | таблица тяги 31 × 21 |
 
