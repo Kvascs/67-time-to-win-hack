@@ -110,9 +110,11 @@ struct RunResult {
 };
 
 RunResult run(const std::vector<In>& ev, const Config& cfg, const TractionModel& model,
-              const TrackMap* map = nullptr, const TrackMap* stub = nullptr) {
+              const TrackMap* map = nullptr, const TrackMap* stub = nullptr,
+              const std::vector<WheelEpoch>* epochs = nullptr) {
   Estimator est(cfg, model, map);
   if (stub) est.setStub(*stub);
+  if (epochs) est.setWheelEpochs(*epochs);
   OutputScheduler sched(cfg.p);
   RunResult r;
   Stamp buf[64];
@@ -529,6 +531,46 @@ TEST_CASE("dead-end stub: a stop at its far part puts the tram on it, a stop nea
   // before the stop both runs are on the main line
   for (const Output& o : a.outs)
     if (toSec(o.stamp) < 9300.0 + 40.0) CHECK(std::abs(o.y) < 1.0);
+}
+
+TEST_CASE("wheel scale from the speed quantum: taken from the matching epoch, not from a later one") {
+  Config cfg;
+  cfg.output_frame = "map";
+  TractionModel model;
+  const TrackMap map = straightMap();
+  Truth tr;
+  const double k_x = 0.01;  // readings 1 % high on top of the test calibration
+  auto ev = makeRun(9300.0, 60.0, tr, [&](int, double, double v) { return v * kKmh * (1.0 + k_x); });
+  const double q = 0.00504;  // the sensor reports whole steps of q km/h
+  for (In& e : ev)
+    if (e.type == 0 || e.type == 1) e.a = std::round(e.a / q) * q;
+  const double k_eff = (1.0 + k_x) * kKmh * cfg.p.wheel_kmh_to_ms - 1.0;  // the filter's k of these readings
+  const double c = q / (1.0 + k_eff);
+  CHECK(dateMsk(fromSec(9300.0)) == 19700101);
+  const std::vector<WheelEpoch> right = {{1, 19700101, c, c}, {2, 19700101, c * 1.05, c * 1.05}};
+  const std::vector<WheelEpoch> later = {{1, 19700102, c, c}};  // an epoch after the run date: not used
+  const RunResult a = run(ev, cfg, model, &map, nullptr, &right);
+  const RunResult b = run(ev, cfg, model, &map, nullptr, &later);
+  CHECK(!a.outs.empty() && !b.outs.empty());
+  if (a.outs.empty() || b.outs.empty()) return;
+  const Output& oa = a.outs.back();
+  const Output& ob = b.outs.back();
+  CHECK(std::abs(oa.scale - k_eff) < 0.001);  // no landmark here: only the quantum can tell k
+  CHECK(std::abs(ob.scale) < 0.001);           // prior k = 0 kept
+  // distance from standstill at 4 s to the final stop
+  auto travelled = [&](const RunResult& r) {
+    const Output* o0 = nullptr;
+    for (const Output& o : r.outs)
+      if (toSec(o.stamp) >= 9304.0) {
+        o0 = &o;
+        break;
+      }
+    return o0 ? r.outs.back().s - o0->s : 0.0;
+  };
+  const double s_true = tr.sAt(toSec(a.outs.back().stamp)) - tr.sAt(9304.0);
+  CHECK(s_true > 200.0);
+  CHECK(std::abs(travelled(a) - s_true) < 0.5);
+  CHECK(std::abs(travelled(b) - s_true) > 2.0);  // ~0.9 % of the run without it
 }
 
 TEST_CASE("track field: linear interpolation and cyclic wrap (learned d(s), adhesion map)") {

@@ -15,6 +15,7 @@ namespace {
 constexpr double kPi = 3.14159265358979323846;
 constexpr double kLog2Pi = 1.8378770664093453;
 constexpr double kImplausiblePenalty = -4.0;  // log-likelihood penalty for trusting a jump
+constexpr std::size_t kQuantMaxSteps = 20000;  // speed-quantum steps kept per bogie and run
 
 // Which bogie each IMM mode trusts: {front, rear}.
 constexpr bool kTrust[kNumModes][2] = {
@@ -130,12 +131,48 @@ bool loadLandmarks(const std::string& path, std::vector<Landmark>& out, std::str
   return true;
 }
 
+bool loadWheelEpochs(const std::string& path, std::vector<WheelEpoch>& out, std::string* err) {
+  std::ifstream in(path);
+  if (!in) {
+    if (err) *err = "cannot open wheel epochs " + path;
+    return false;
+  }
+  out.clear();
+  std::string line;
+  while (std::getline(in, line)) {
+    if (line.empty() || line[0] == '#' || line[0] == 'v') continue;  // comment or header
+    for (char& c : line)
+      if (c == ',') c = ' ';
+    std::istringstream ss(line);
+    WheelEpoch e;
+    if (ss >> e.vehicle >> e.date >> e.c_front >> e.c_rear && e.c_front > 0.0 && e.c_rear > 0.0) out.push_back(e);
+  }
+  return true;
+}
+
+int dateMsk(Stamp t) {
+  // civil date of the Unix day (Howard Hinnant's days-to-civil), Moscow time
+  const long long sec = static_cast<long long>(std::floor(toSec(t))) + 3 * 3600;
+  long long z = (sec >= 0 ? sec : sec - 86399) / 86400 + 719468;
+  const long long era = (z >= 0 ? z : z - 146096) / 146097;
+  const long long doe = z - era * 146097;
+  const long long yoe = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365;
+  const long long doy = doe - (365 * yoe + yoe / 4 - yoe / 100);
+  const long long mp = (5 * doy + 2) / 153;
+  const long long d = doy - (153 * mp + 2) / 5 + 1;
+  const long long m = mp < 10 ? mp + 3 : mp - 9;
+  const long long y = yoe + era * 400 + (m <= 2 ? 1 : 0);
+  return static_cast<int>(y * 10000 + m * 100 + d);
+}
+
 Estimator::Estimator(const Config& cfg, const TractionModel& model, const TrackMap* map,
                      std::vector<const TrackMap*> branches)
     : cfg_(cfg), p_(cfg_.p), model_(model), map_(map && !map->empty() ? map : nullptr) {
   for (const TrackMap* b : branches)
     if (map_ && b && !b->empty() && b->hasJoin()) branches_.push_back(b);
   buf_.reserve(256);
+  for (QuantTrack& q : quant_) q.steps.reserve(kQuantMaxSteps);
+  quant_scratch_.reserve(kQuantMaxSteps);
   if (map_) map_lc_.reset(map_->origin());
   reset();
 }
@@ -153,6 +190,11 @@ void Estimator::reset() {
   init_.fixes.reserve(512);
   init_.other.reserve(512);
   frame_ready_ = false;
+  for (int i = 0; i < 2; ++i) {
+    quant_[i].have = false;
+    quant_[i].steps.clear();
+    quant_cache_n_[i] = 0;
+  }
 }
 
 bool Estimator::acceptStamp(Stamp stamp) {
@@ -198,6 +240,15 @@ bool Estimator::onWheel(Sensor sensor, Stamp stamp, double speed_kmh) {
     e.z[i] = std::numeric_limits<double>::quiet_NaN();
   } else {
     e.z[i] = std::max(0.0, speed_kmh) * p_.wheel_kmh_to_ms;
+    // smallest reading step (speed quantum): consecutive changes inside the search range
+    QuantTrack& qt = quant_[i];
+    if (qt.have) {
+      const double dq = std::abs(speed_kmh - qt.last);
+      if (dq > p_.quant_step_lo_kmh && dq < p_.quant_step_hi_kmh && qt.steps.size() < kQuantMaxSteps)
+        qt.steps.push_back(dq);
+    }
+    qt.last = speed_kmh;
+    qt.have = true;
   }
   if (!init_.have_first) {
     init_.have_first = true;
@@ -442,6 +493,7 @@ void Estimator::applyEvent(FilterState& f, const Event& e) const {
   }
   wheelUpdate(f, e);
   stubRoughness(f, e);
+  quantFuse(f);
 }
 
 void Estimator::advance(FilterState& f, Stamp t) const {
@@ -567,6 +619,101 @@ void Estimator::stubRoughness(FilterState& f, const Event& e) const {
     f.stub = true;
     f.stub_s0 = s - d;
   }
+}
+
+double Estimator::quantStep(int b) const {
+  const std::vector<double>& st = quant_[b].steps;
+  if (quant_cache_n_[b] == st.size() && st.size() > 0) return quant_cache_q_[b];
+  const double nan = std::numeric_limits<double>::quiet_NaN();
+  const double lo = p_.quant_step_lo_kmh, hi = p_.quant_step_hi_kmh;
+  double q = nan;
+  if (static_cast<double>(st.size()) >= p_.quant_min_steps && hi > lo) {
+    // modal 2e-6 km/h bin, then the median of the steps within the tolerance of it
+    constexpr double kBin = 2e-6;
+    constexpr int kMaxBins = 2048;
+    const int nb = std::min(kMaxBins, static_cast<int>((hi - lo) / kBin) + 1);
+    int hist[kMaxBins] = {0};
+    for (double v : st) {
+      const int bi = static_cast<int>((v - lo) / kBin);
+      if (bi >= 0 && bi < nb) ++hist[bi];
+    }
+    int best = 0;
+    for (int bi = 1; bi < nb; ++bi)
+      if (hist[bi] > hist[best]) best = bi;
+    const double mode = lo + (best + 0.5) * kBin;
+    quant_scratch_.clear();
+    for (double v : st)
+      if (std::abs(v - mode) < p_.quant_step_tol_kmh) quant_scratch_.push_back(v);
+    const double n = static_cast<double>(quant_scratch_.size());
+    if (n >= p_.quant_min_steps && n >= p_.quant_min_share * static_cast<double>(st.size())) {
+      const auto mid = quant_scratch_.begin() + quant_scratch_.size() / 2;
+      std::nth_element(quant_scratch_.begin(), mid, quant_scratch_.end());
+      q = *mid;
+    }
+  }
+  quant_cache_n_[b] = st.size();
+  quant_cache_q_[b] = q;
+  return q;
+}
+
+void Estimator::quantFuse(FilterState& f) const {
+  if (f.kq_done || p_.quant_k_enable < 0.5 || epochs_.empty() || !init_.have_first) return;
+  const double qf = quantStep(0), qr = quantStep(1);
+  if (!std::isfinite(qf) || !std::isfinite(qr)) return;
+  const int date = dateMsk(init_.t_first);
+  double k = 0.0, pkk = 0.0;
+  for (int j = 0; j < kNumModes; ++j) k += f.mu[j] * f.x[j](kK, 0);
+  for (int j = 0; j < kNumModes; ++j) {
+    const double dk = f.x[j](kK, 0) - k;
+    pkk += f.mu[j] * (f.P[j](kK, kK) + dk * dk);
+  }
+  const double r = p_.quant_k_sigma * p_.quant_k_sigma;
+  const double sd = std::sqrt(std::max(pkk, 0.0) + r);
+  // candidates: per vehicle the latest wheel epoch not later than the run date
+  double z1 = std::numeric_limits<double>::infinity(), z2 = z1, k1 = 0.0;
+  for (const WheelEpoch& e : epochs_) {
+    if (e.date > date) continue;
+    bool latest = true;
+    for (const WheelEpoch& o : epochs_)
+      if (o.vehicle == e.vehicle && o.date <= date && o.date > e.date) latest = false;
+    if (!latest) continue;
+    const double kq = 0.5 * (qf / e.c_front + qr / e.c_rear) - 1.0;
+    if (!(std::abs(kq) <= p_.quant_k_max)) continue;  // e.g. wheels turned since: an unknown epoch
+    const double z = std::abs(kq - k) / sd;
+    if (z < z1) {
+      z2 = z1;
+      z1 = z;
+      k1 = kq;
+    } else if (z < z2) {
+      z2 = z;
+    }
+  }
+  // only the candidate consistent with the filter's k, and no other one near it
+  if (!(z1 < p_.quant_k_gate_sd) || z2 < z1 + p_.quant_k_ambig_sd) return;
+  static const bool dbg = std::getenv("TBO_DEBUG_QK") != nullptr;
+  if (dbg)
+    std::fprintf(stderr, "QK t=%.1f date=%d q=%.7f/%.7f k=%.5f sd=%.5f -> k_q=%.5f (z %.2f, next %.2f)\n",
+                 toSec(f.t), date, qf, qr, k, sd, k1, z1, z2);
+  for (int j = 0; j < kNumModes; ++j) {  // one scalar measurement of k on every mode
+    StateVec& x = f.x[j];
+    StateCov& P = f.P[j];
+    const double S = P(kK, kK) + r;
+    if (!(S > 0.0)) continue;
+    StateVec K;
+    for (int i = 0; i < kNx; ++i) K(i, 0) = P(i, kK) / S;
+    x += K * (k1 - x(kK, 0));
+    Mat<1, kNx> H;
+    H(0, kK) = 1.0;
+    const StateCov IKH = StateCov::identity() - K * H;
+    Mat<1, 1> R;
+    R(0, 0) = r;
+    P = IKH * P * transpose(IKH) + K * R * transpose(K);
+    symmetrize(P);
+    x(kK, 0) = std::clamp(x(kK, 0), -0.05, 0.05);
+    if (!(x(kV, 0) >= 0.0)) x(kV, 0) = 0.0;
+  }
+  f.kq_done = true;
+  f.kq = k1;
 }
 
 bool Estimator::routeAt(double s_rel, const TrackMap*& m, double& s) const {

@@ -163,6 +163,24 @@ struct Params {
   double stub_rough_to_m = 12.0;
   double stub_rough_max_noise = 0.05;  // slow (60 s) rms front-rear difference above which it is skipped, m/s
   double landmark_max_dk = 0.004;   // max wheel-scale change applied by one landmark fix
+  // ---- wheel scale from the speed quantum ----
+  // A bogie reports speed in steps of q km/h, q = c (1 + k): c is fixed for a vehicle and wheel epoch
+  // (spread 0.02-0.05 % inside an epoch, a jump of 4.4-4.7 % after wheel turning) while the configured
+  // wheel factor sets q per run. With c from a vehicle x epoch table, k = q / c - 1 to 0.02 % (train) /
+  // 0.06 % (val) median, against 0.11-0.16 % for the filter's k after its first landmark. Candidates: per
+  // vehicle the latest epoch not later than the run date. One is taken, as a single scalar measurement of
+  // k, once it is the only candidate consistent with the filter's current k: at the organisers' bag right
+  // away (candidates +0.09 % and +5.6 %), on dates where the vehicles differ by 0.8 % after landmarks.
+  double quant_k_enable = 1.0;
+  double quant_k_sigma = 0.0008;     // sd of that measurement of k
+  double quant_k_max = 0.02;         // |k_q| above this is implausible: unknown wheel epoch, not used
+  double quant_k_gate_sd = 3.0;      // the candidate must lie within this many sd of the filter's k ...
+  double quant_k_ambig_sd = 3.0;     // ... and every other one this many sd farther
+  double quant_step_lo_kmh = 0.0035; // range searched for the smallest reading step, km/h
+  double quant_step_hi_kmh = 0.0062;
+  double quant_step_tol_kmh = 5e-5;  // steps within this of the modal step make up q
+  double quant_min_steps = 10.0;     // steps at q needed per bogie
+  double quant_min_share = 0.6;      // share of the in-range steps at q (noisy readings spread them out)
   double cutoff_enable = 1.0;       // traction cut-off landmarks (notch >= cutoff_notch -> 0)
   double cutoff_notch = 4.0;
   double cutoff_min_v = 2.0;        // only while moving faster than this, m/s
@@ -234,6 +252,7 @@ struct Config {
   std::string gl_cutoffs_file;           // GNSS-free localisation: cut-off places with probability (s,sigma,q)
   std::string speed_envelope_file;       // GNSS-free localisation: max speed per place (s,vmax)
   std::string stub_file;                 // dead-end stub CSV (join_s = main arc of its start), empty = off
+  std::string wheel_epochs_file;         // speed quantum per vehicle and wheel epoch CSV, empty = off
   std::string output_frame = "mgrs";     // mgrs (jury) | enu (first fix) | utm | map
   std::string init_source = "master";    // master | rover
   std::string frame_id = "map";

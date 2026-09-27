@@ -44,6 +44,16 @@ struct Landmark {
 };
 bool loadLandmarks(const std::string& path, std::vector<Landmark>& out, std::string* err);
 
+// Speed quantum of one vehicle and wheel epoch: q = c (1 + k), c per bogie in km/h (filter's k convention).
+struct WheelEpoch {
+  int vehicle = 0;
+  int date = 0;          // first day of the epoch, YYYYMMDD (Moscow time)
+  double c_front = 0.0;
+  double c_rear = 0.0;
+};
+bool loadWheelEpochs(const std::string& path, std::vector<WheelEpoch>& out, std::string* err);
+int dateMsk(Stamp t);    // YYYYMMDD of a stamp in Moscow time (UTC+3)
+
 struct Diagnostics {
   std::uint64_t wheel_msgs = 0, cmd_msgs = 0, gnss_msgs = 0;
   std::uint64_t invalid_wheel = 0, invalid_cmd = 0, rejected_stamps = 0;
@@ -95,6 +105,10 @@ class Estimator {
     vmax_env_ = std::move(vmax);
   }
   bool globalLocalisationRunning() const { return gl_ != nullptr; }
+  // Speed quantum per vehicle and wheel epoch (wheel scale k = q / c - 1).
+  void setWheelEpochs(std::vector<WheelEpoch> e) { epochs_ = std::move(e); }
+  // Smallest reading step of a bogie (0 front, 1 rear) seen so far in this run, km/h; NaN until clear.
+  double quantStep(int bogie) const;
 
   // ---- internals exposed for tests ----
   struct WheelTrack {
@@ -164,6 +178,8 @@ class Estimator {
     double stub_noise0 = 0.0;  // slow bogie noise level when entering the window, (m/s)^2
     double noise_slow = -1.0;  // slow EMA (60 s) of (front - rear)^2 while moving, (m/s)^2
     Stamp t_noise_slow = -1;
+    bool kq_done = false;    // wheel scale from the speed quantum already applied in this run
+    double kq = 0.0;         // the value applied
     double cmd_cusum = 0.0;  // evidence that the controller signal is wrong
     Stamp cmd_fault_t = -1;  // last time that evidence crossed the threshold
     Stamp t_cmd_cusum = -1;
@@ -238,6 +254,18 @@ class Estimator {
   bool stubCheck(FilterState& f) const;
   // Roughness of the front/rear speed ratio at the switch: the other (earlier) cue for the stub.
   void stubRoughness(FilterState& f, const Event& e) const;
+  // After a place fix: the wheel scale from the speed quantum as one measurement of k (once per run).
+  void quantFuse(FilterState& f) const;
+  std::vector<WheelEpoch> epochs_;
+  struct QuantTrack {
+    bool have = false;
+    double last = 0.0;           // last raw reading, km/h
+    std::vector<double> steps;   // |consecutive change| inside the search range, km/h
+  };
+  QuantTrack quant_[2];
+  mutable std::vector<double> quant_scratch_;  // median workspace, capacity reserved up front
+  mutable std::size_t quant_cache_n_[2] = {0, 0};  // quantStep() cached per number of steps
+  mutable double quant_cache_q_[2] = {0.0, 0.0};
 
   FilterState committed_;
   std::vector<Event> buf_;  // sorted by (t, seq); capacity reserved up front

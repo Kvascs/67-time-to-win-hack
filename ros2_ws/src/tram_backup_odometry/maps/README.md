@@ -11,6 +11,7 @@
 | `stub_west_arrival_2.csv` | тупиковый путь у западной конечной (125 м), на котором кончаются некоторые записи; `join_s` — дуга главного цикла, где он начинается |
 | `dfield.csv` | выученное поле невязки модели тяги по месту: `s,value` (ячейки 10 м) |
 | `gl_stops.csv`, `gl_cutoffs.csv`, `speed_envelope.csv` | признаки для поиска места без GNSS: места остановок, места сброса тяги, огибающая скорости |
+| `wheel_epochs.csv` | шаг квантования скорости тележек по вагонам и эпохам колёс: `vehicle,date,c_front,c_rear,n`; масштаб колеса k = q / c − 1 (6 эпох двух вагонов) |
 
 Как получены:
 
@@ -19,6 +20,8 @@ python analysis/map_build/run_all.py                      # карта по GNSS
 python tools/map/export_core_map.py --map-dir analysis/map_build/map
 python tools/map/cutoff_landmarks.py --map-dir analysis/map_build/map --split all
 python tools/map/export_stub.py --map-dir analysis/map_build/map
+python analysis/ideas_check/bogie_correlation/s5_quantum_k.py   # шаг квантования и k по бэгам
+python tools/map/export_wheel_epochs.py                         # wheel_epochs.csv (всё) и validation_maps (train)
 ```
 
 Для честной валидации на val используются карты, построенные только по train:

@@ -12,6 +12,7 @@ tram_backup_odometry:
     gl_cutoffs_file: "maps/gl_cutoffs.csv"
     speed_envelope_file: "maps/speed_envelope.csv"
     stub_file: "maps/stub_west_arrival_2.csv"
+    wheel_epochs_file: "maps/wheel_epochs.csv"
     output_frame: "mgrs"         # mgrs (jury, Autoware map frame) | enu | utm | map
     init_source: "master"        # GNSS antenna used for the initial fix
     frame_id: "map"
@@ -123,6 +124,16 @@ tram_backup_odometry:
     stub_rough_to_m: 12.0  # dead-end stub: roughness window end, antenna arc from the stub start [m]
     stub_rough_max_noise: 0.05  # dead-end stub: roughness test skipped above this slow bogie noise [m/s]
     landmark_max_dk: 0.004  # max wheel-scale change per landmark fix [-]
+    quant_k_enable: 1.0  # wheel scale from the speed quantum and the vehicle x wheel-epoch table [bool]
+    quant_k_sigma: 0.0008  # sd of the wheel scale taken from the speed quantum [-]
+    quant_k_max: 0.02  # |k from the quantum| above this is implausible (unknown wheel epoch) [-]
+    quant_k_gate_sd: 3.0  # the quantum candidate must lie within this of the filter's k [sigma]
+    quant_k_ambig_sd: 3.0  # every other candidate must be this much farther from k [sigma]
+    quant_step_lo_kmh: 0.0035  # smallest reading step: search range, low end [km/h]
+    quant_step_hi_kmh: 0.0062  # smallest reading step: search range, high end [km/h]
+    quant_step_tol_kmh: 5e-05  # steps within this of the modal step make up the quantum [km/h]
+    quant_min_steps: 10.0  # steps at the quantum needed per bogie [-]
+    quant_min_share: 0.6  # share of the in-range steps at the quantum needed [-]
     cutoff_enable: 1.0  # use traction cut-off landmarks [bool]
     cutoff_notch: 4.0  # min notch before an abrupt cut to 0 [-]
     cutoff_min_v: 2.0  # min speed for a cut-off fix [m/s]

@@ -116,6 +116,16 @@ static const ParamInfo kRegistry[] = {
     TBO_P(stub_rough_to_m, "m", "dead-end stub: roughness window end, antenna arc from the stub start"),
     TBO_P(stub_rough_max_noise, "m/s", "dead-end stub: roughness test skipped above this slow bogie noise"),
     TBO_P(landmark_max_dk, "-", "max wheel-scale change per landmark fix"),
+    TBO_P(quant_k_enable, "bool", "wheel scale from the speed quantum and the vehicle x wheel-epoch table"),
+    TBO_P(quant_k_sigma, "-", "sd of the wheel scale taken from the speed quantum"),
+    TBO_P(quant_k_max, "-", "|k from the quantum| above this is implausible (unknown wheel epoch)"),
+    TBO_P(quant_k_gate_sd, "sigma", "the quantum candidate must lie within this of the filter's k"),
+    TBO_P(quant_k_ambig_sd, "sigma", "every other candidate must be this much farther from k"),
+    TBO_P(quant_step_lo_kmh, "km/h", "smallest reading step: search range, low end"),
+    TBO_P(quant_step_hi_kmh, "km/h", "smallest reading step: search range, high end"),
+    TBO_P(quant_step_tol_kmh, "km/h", "steps within this of the modal step make up the quantum"),
+    TBO_P(quant_min_steps, "-", "steps at the quantum needed per bogie"),
+    TBO_P(quant_min_share, "-", "share of the in-range steps at the quantum needed"),
     TBO_P(cutoff_enable, "bool", "use traction cut-off landmarks"),
     TBO_P(cutoff_notch, "-", "min notch before an abrupt cut to 0"),
     TBO_P(cutoff_min_v, "m/s", "min speed for a cut-off fix"),
@@ -201,6 +211,7 @@ bool loadFlatYaml(const std::string& path, Config& cfg, std::string* err, std::s
     if (key == "gl_cutoffs_file") { cfg.gl_cutoffs_file = val; continue; }
     if (key == "speed_envelope_file") { cfg.speed_envelope_file = val; continue; }
     if (key == "stub_file") { cfg.stub_file = val; continue; }
+    if (key == "wheel_epochs_file") { cfg.wheel_epochs_file = val; continue; }
     if (key == "output_frame") { cfg.output_frame = val; continue; }
     if (key == "init_source") { cfg.init_source = val; continue; }
     if (key == "frame_id") { cfg.frame_id = val; continue; }

@@ -70,6 +70,7 @@ int main(int argc, char** argv) {
       std::printf("    gl_cutoffs_file: \"%s\"\n", "maps/gl_cutoffs.csv");
       std::printf("    speed_envelope_file: \"%s\"\n", "maps/speed_envelope.csv");
       std::printf("    stub_file: \"%s\"\n", "maps/stub_west_arrival_2.csv");
+      std::printf("    wheel_epochs_file: \"%s\"\n", "maps/wheel_epochs.csv");
       std::printf("    output_frame: \"mgrs\"         # mgrs (jury, Autoware map frame) | enu | utm | map\n");
       std::printf("    init_source: \"master\"        # GNSS antenna used for the initial fix\n");
       std::printf("    frame_id: \"map\"\n    child_frame_id: \"base_link\"\n");
@@ -123,6 +124,7 @@ int main(int argc, char** argv) {
     else if (kv.first == "gl_cutoffs_file") cfg.gl_cutoffs_file = kv.second;
     else if (kv.first == "speed_envelope_file") cfg.speed_envelope_file = kv.second;
     else if (kv.first == "stub_file") cfg.stub_file = kv.second;
+    else if (kv.first == "wheel_epochs_file") cfg.wheel_epochs_file = kv.second;
     else { std::fprintf(stderr, "unknown string param %s\n", kv.first.c_str()); return 2; }
   }
 
@@ -206,6 +208,14 @@ int main(int argc, char** argv) {
       return 2;
     }
     est.setStub(std::move(stub));
+  }
+  if (!cfg.wheel_epochs_file.empty()) {
+    std::vector<WheelEpoch> ep;
+    if (!loadWheelEpochs(cfg.wheel_epochs_file, ep, &err)) {
+      std::fprintf(stderr, "%s\n", err.c_str());
+      return 2;
+    }
+    est.setWheelEpochs(std::move(ep));
   }
   OutputScheduler sched(cfg.p);
 

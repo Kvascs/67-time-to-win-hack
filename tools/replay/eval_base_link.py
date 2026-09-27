@@ -77,7 +77,7 @@ def one(args):
     s = {'output_frame': 'mgrs', 'landmark_file': str(VAL / 'landmarks.csv'), 'cutoff_file': str(VAL / 'cutoffs.csv'),
          'dfield_file': str(VAL / 'dfield.csv'), 'gl_stops_file': str(VAL / 'gl_stops.csv'),
          'gl_cutoffs_file': str(VAL / 'gl_cutoffs.csv'), 'speed_envelope_file': str(VAL / 'speed_envelope.csv'),
-         'stub_file': str(VAL / 'stub_west_arrival_2.csv'), **sets}
+         'stub_file': str(VAL / 'stub_west_arrival_2.csv'), 'wheel_epochs_file': str(VAL / 'wheel_epochs.csv'), **sets}
     o = cpp_bridge.run_replay(ev, out, map_csv=VAL / 'track_map.csv',
                               traction_csv=cpp_bridge.PKG / 'config' / 'traction_lut.csv', sets=s, branches=br)
     t_first = o.stamp_ns.min() * 1e-9
