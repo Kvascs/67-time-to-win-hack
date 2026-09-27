@@ -12,6 +12,7 @@
 | `dfield.csv` | выученное поле невязки модели тяги по месту: `s,value` (ячейки 10 м) |
 | `gl_stops.csv`, `gl_cutoffs.csv`, `speed_envelope.csv` | признаки для поиска места без GNSS: места остановок, места сброса тяги, огибающая скорости |
 | `wheel_epochs.csv` | шаг квантования скорости тележек по вагонам и эпохам колёс: `vehicle,date,c_front,c_rear,n`; масштаб колеса k = q / c − 1 (6 эпох двух вагонов) |
+| `ratio_map.csv` | выученная карта отношения скоростей тележек по 1 м пути главного цикла: `bin,mu,sd,rel` (z = log(v_перед/v_зад) / σ_v(v)), в заголовке — длина цикла и σ_v по скорости; `rel = 0` — поправки там не делаются (проверка leave-one-out по train) |
 
 Как получены:
 
@@ -22,6 +23,9 @@ python tools/map/cutoff_landmarks.py --map-dir analysis/map_build/map --split al
 python tools/map/export_stub.py --map-dir analysis/map_build/map
 python analysis/ideas_check/bogie_correlation/s5_quantum_k.py   # шаг квантования и k по бэгам
 python tools/map/export_wheel_epochs.py                         # wheel_epochs.csv (всё) и validation_maps (train)
+python analysis/ideas_check/ratio_map_correction/build_map.py   # суммы карты отношения по прогонам
+python analysis/ideas_check/ratio_map_correction/reliab.py      # надёжность leave-one-out по train
+python tools/map/export_ratio_map.py                            # ratio_map.csv (всё) и validation_maps (train)
 ```
 
 Для честной валидации на val используются карты, построенные только по train:

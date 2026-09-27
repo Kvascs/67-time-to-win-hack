@@ -190,6 +190,29 @@ struct Params {
   double quant_step_tol_kmh = 5e-5;  // steps within this of the modal step make up q
   double quant_min_steps = 10.0;     // steps at q needed per bogie
   double quant_min_share = 0.6;      // share of the in-range steps at q (noisy readings spread them out)
+  // ---- corrections between places from the learned bogie-ratio map ("balises all along the track") ----
+  // log(v_front/v_rear) repeats by place (curves, joints, switches). Every ratio_step_m the last ratio_window_m
+  // of it is matched against a map learned from train runs within +-ratio_search_m of the estimate (free offset
+  // per window). Only sharp, unambiguous peaks in cells where a leave-one-out check over the train runs never
+  // made the estimate worse (66 % of the cycle), inside a Mahalanobis gate, enter as one measurement of the path.
+  // VAL simulation: correction error 0.15 m median; along RMS at the attempts 0.69 -> 0.45 m (plausible truth).
+  double ratio_enable = 1.0;
+  double ratio_step_m = 50.0;       // one attempt per this much travel, m
+  double ratio_window_m = 200.0;    // signal window behind the tram, m
+  double ratio_search_m = 8.0;      // corrections searched within +-this, m (0.1 m grid)
+  double ratio_margin = 3.0;        // log-likelihood margin to any other local maximum > 2 m away
+  double ratio_sigma_max = 0.8;     // peak curvature sigma above this: not sharp, not used, m
+  double ratio_sigma_min = 0.35;    // floor of the correction's sd, m
+  double ratio_dmax = 3.0;          // larger corrections are not used, m
+  double ratio_gate_sd = 3.0;       // |correction| within this many sd of the filter's along sd
+  double ratio_min_samples = 100.0; // paired bogie samples needed in the window
+  double ratio_vmin = 1.5;          // both bogies faster than this, m/s
+  double ratio_ymax = 0.05;         // |log(front/rear)| above this is not a track signature
+  double ratio_tau = 5.39;          // integrated autocorrelation factor of the ratio at 10 Hz
+  // A correction is weaker than a place fix and its errors are place-bound: it neither narrows the landmark
+  // association (no reset of the drift margin) nor moves the wheel scale (quantum and places calibrate k).
+  double ratio_reset_assoc = 0.0;   // 1: reset the landmark association margin like a place fix
+  double ratio_update_k = 0.0;      // 1: let the correction move k through the s-k correlation
   double cutoff_enable = 1.0;       // traction cut-off landmarks (notch >= cutoff_notch -> 0)
   double cutoff_notch = 4.0;
   double cutoff_min_v = 2.0;        // only while moving faster than this, m/s
@@ -262,6 +285,7 @@ struct Config {
   std::string speed_envelope_file;       // GNSS-free localisation: max speed per place (s,vmax)
   std::string stub_file;                 // dead-end stub CSV (join_s = main arc of its start), empty = off
   std::string wheel_epochs_file;         // speed quantum per vehicle and wheel epoch CSV, empty = off
+  std::string ratio_map_file;            // learned bogie-ratio map with reliability (main cycle), empty = off
   std::string output_frame = "mgrs";     // mgrs (jury) | enu (first fix) | utm | map
   std::string init_source = "master";    // master | rover
   std::string frame_id = "map";

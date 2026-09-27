@@ -129,6 +129,21 @@ static const ParamInfo kRegistry[] = {
     TBO_P(quant_step_tol_kmh, "km/h", "steps within this of the modal step make up the quantum"),
     TBO_P(quant_min_steps, "-", "steps at the quantum needed per bogie"),
     TBO_P(quant_min_share, "-", "share of the in-range steps at the quantum needed"),
+    TBO_P(ratio_enable, "bool", "corrections between places from the learned bogie-ratio map"),
+    TBO_P(ratio_step_m, "m", "bogie-ratio map: one match attempt per this much travel"),
+    TBO_P(ratio_window_m, "m", "bogie-ratio map: signal window behind the tram"),
+    TBO_P(ratio_search_m, "m", "bogie-ratio map: corrections searched within +-this"),
+    TBO_P(ratio_margin, "-", "bogie-ratio map: log-likelihood margin to any other local maximum > 2 m away"),
+    TBO_P(ratio_sigma_max, "m", "bogie-ratio map: peak sigma above this is not used"),
+    TBO_P(ratio_sigma_min, "m", "bogie-ratio map: floor of the correction sd"),
+    TBO_P(ratio_dmax, "m", "bogie-ratio map: larger corrections are not used"),
+    TBO_P(ratio_gate_sd, "sigma", "bogie-ratio map: Mahalanobis gate against the filter's along sd"),
+    TBO_P(ratio_min_samples, "-", "bogie-ratio map: paired bogie samples needed in the window"),
+    TBO_P(ratio_vmin, "m/s", "bogie-ratio map: both bogies faster than this"),
+    TBO_P(ratio_ymax, "-", "bogie-ratio map: |log(front/rear)| above this is not a track signature"),
+    TBO_P(ratio_tau, "-", "bogie-ratio map: integrated autocorrelation factor of the ratio"),
+    TBO_P(ratio_reset_assoc, "bool", "bogie-ratio map: a correction resets the landmark association margin"),
+    TBO_P(ratio_update_k, "bool", "bogie-ratio map: a correction may move the wheel scale k"),
     TBO_P(cutoff_enable, "bool", "use traction cut-off landmarks"),
     TBO_P(cutoff_notch, "-", "min notch before an abrupt cut to 0"),
     TBO_P(cutoff_min_v, "m/s", "min speed for a cut-off fix"),
@@ -215,6 +230,7 @@ bool loadFlatYaml(const std::string& path, Config& cfg, std::string* err, std::s
     if (key == "speed_envelope_file") { cfg.speed_envelope_file = val; continue; }
     if (key == "stub_file") { cfg.stub_file = val; continue; }
     if (key == "wheel_epochs_file") { cfg.wheel_epochs_file = val; continue; }
+    if (key == "ratio_map_file") { cfg.ratio_map_file = val; continue; }
     if (key == "output_frame") { cfg.output_frame = val; continue; }
     if (key == "init_source") { cfg.init_source = val; continue; }
     if (key == "frame_id") { cfg.frame_id = val; continue; }

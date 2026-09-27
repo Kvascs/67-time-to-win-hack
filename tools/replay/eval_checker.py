@@ -33,7 +33,8 @@ def package_sets() -> dict:
     return {'output_frame': 'mgrs', 'landmark_file': str(MAPS / 'landmarks.csv'), 'cutoff_file': str(MAPS / 'cutoffs.csv'),
             'dfield_file': str(MAPS / 'dfield.csv'), 'gl_stops_file': str(MAPS / 'gl_stops.csv'),
             'gl_cutoffs_file': str(MAPS / 'gl_cutoffs.csv'), 'speed_envelope_file': str(MAPS / 'speed_envelope.csv'),
-            'stub_file': str(MAPS / 'stub_west_arrival_2.csv'), 'wheel_epochs_file': str(MAPS / 'wheel_epochs.csv')}
+            'stub_file': str(MAPS / 'stub_west_arrival_2.csv'), 'wheel_epochs_file': str(MAPS / 'wheel_epochs.csv'),
+            'ratio_map_file': str(MAPS / 'ratio_map.csv')}
 
 
 def approximate_sync(ref_arrival, ref_stamp, out_arrival, out_stamp):

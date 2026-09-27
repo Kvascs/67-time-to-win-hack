@@ -1,0 +1,21 @@
+TRAIN leave-one-out: 3929 triggers in 46 runs, accepted 96 %, fails 106; unreliable cells 150 of 443 (34 % of the cycle); cells with failures 64
+TRAIN(LOO) base gate                           : accepted  95.7 %, made worse > 0.5 m 106, > 1.5 m  73 | RMS all 1.489 -> 1.328, plausible-truth 0.622 -> 0.569
+TRAIN(LOO) + reliability                       : accepted  64.8 %, made worse > 0.5 m   0, > 1.5 m  25 | RMS all 1.489 -> 1.314, plausible-truth 0.622 -> 0.453
+TRAIN(LOO) + reliability + Mahalanobis + |d|<3 : accepted  63.5 %, made worse > 0.5 m   0, > 1.5 m  25 | RMS all 1.489 -> 1.421, plausible-truth 0.622 -> 0.470
+VAL base gate                           : accepted  97.6 %, made worse > 0.5 m  33, > 1.5 m  15 | RMS all 0.991 -> 0.806, plausible-truth 0.693 -> 0.455
+VAL + reliability                       : accepted  66.4 %, made worse > 0.5 m   5, > 1.5 m   2 | RMS all 0.991 -> 0.803, plausible-truth 0.693 -> 0.445
+VAL + reliability + Mahalanobis + |d|<3 : accepted  66.3 %, made worse > 0.5 m   5, > 1.5 m   2 | RMS all 0.991 -> 0.821, plausible-truth 0.693 -> 0.445
+  30618_01f73500: triggers 98, accepted 62, RMS 1.35 -> 1.29
+  30618_0f120b35: triggers 104, accepted 68, RMS 0.71 -> 0.62
+  30618_22c1c589: triggers 107, accepted 73, RMS 0.70 -> 0.63
+  30618_2366c74a: triggers 62, accepted 45, RMS 0.78 -> 0.48
+  30618_2f104a1d: triggers 106, accepted 71, RMS 0.49 -> 0.30
+  30618_616ec56b: triggers 90, accepted 53, RMS 0.98 -> 0.87
+  30618_6cb3280a: triggers 82, accepted 61, RMS 0.50 -> 0.37
+  30618_a53d5f6f: triggers 100, accepted 67, RMS 1.17 -> 1.13
+  30618_b95ca60a: triggers 91, accepted 64, RMS 0.73 -> 0.46
+  30618_dd8d0741: triggers 98, accepted 64, RMS 1.19 -> 1.14
+  30618_e3d94878: triggers 105, accepted 70, RMS 1.07 -> 0.76
+  30618_f19a4ac3: triggers 62, accepted 34, RMS 1.19 -> 0.95
+  30639_2b4a6347: triggers 9, accepted 8, RMS 0.13 -> 0.25
+  30639_d927f360: triggers 101, accepted 65, RMS 1.43 -> 0.88

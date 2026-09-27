@@ -13,6 +13,7 @@ tram_backup_odometry:
     speed_envelope_file: "maps/speed_envelope.csv"
     stub_file: "maps/stub_west_arrival_2.csv"
     wheel_epochs_file: "maps/wheel_epochs.csv"
+    ratio_map_file: "maps/ratio_map.csv"
     output_frame: "mgrs"         # mgrs (jury, Autoware map frame) | enu | utm | map
     init_source: "master"        # GNSS antenna used for the initial fix
     frame_id: "map"
@@ -137,6 +138,21 @@ tram_backup_odometry:
     quant_step_tol_kmh: 5e-05  # steps within this of the modal step make up the quantum [km/h]
     quant_min_steps: 10.0  # steps at the quantum needed per bogie [-]
     quant_min_share: 0.6  # share of the in-range steps at the quantum needed [-]
+    ratio_enable: 1.0  # corrections between places from the learned bogie-ratio map [bool]
+    ratio_step_m: 50.0  # bogie-ratio map: one match attempt per this much travel [m]
+    ratio_window_m: 200.0  # bogie-ratio map: signal window behind the tram [m]
+    ratio_search_m: 8.0  # bogie-ratio map: corrections searched within +-this [m]
+    ratio_margin: 3.0  # bogie-ratio map: log-likelihood margin to any other local maximum > 2 m away [-]
+    ratio_sigma_max: 0.8  # bogie-ratio map: peak sigma above this is not used [m]
+    ratio_sigma_min: 0.35  # bogie-ratio map: floor of the correction sd [m]
+    ratio_dmax: 3.0  # bogie-ratio map: larger corrections are not used [m]
+    ratio_gate_sd: 3.0  # bogie-ratio map: Mahalanobis gate against the filter's along sd [sigma]
+    ratio_min_samples: 100.0  # bogie-ratio map: paired bogie samples needed in the window [-]
+    ratio_vmin: 1.5  # bogie-ratio map: both bogies faster than this [m/s]
+    ratio_ymax: 0.05  # bogie-ratio map: |log(front/rear)| above this is not a track signature [-]
+    ratio_tau: 5.39  # bogie-ratio map: integrated autocorrelation factor of the ratio [-]
+    ratio_reset_assoc: 0.0  # bogie-ratio map: a correction resets the landmark association margin [bool]
+    ratio_update_k: 0.0  # bogie-ratio map: a correction may move the wheel scale k [bool]
     cutoff_enable: 1.0  # use traction cut-off landmarks [bool]
     cutoff_notch: 4.0  # min notch before an abrupt cut to 0 [-]
     cutoff_min_v: 2.0  # min speed for a cut-off fix [m/s]

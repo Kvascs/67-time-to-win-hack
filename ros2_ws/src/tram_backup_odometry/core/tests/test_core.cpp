@@ -111,10 +111,11 @@ struct RunResult {
 
 RunResult run(const std::vector<In>& ev, const Config& cfg, const TractionModel& model,
               const TrackMap* map = nullptr, const TrackMap* stub = nullptr,
-              const std::vector<WheelEpoch>* epochs = nullptr) {
+              const std::vector<WheelEpoch>* epochs = nullptr, const RatioMap* rmap = nullptr) {
   Estimator est(cfg, model, map);
   if (stub) est.setStub(*stub);
   if (epochs) est.setWheelEpochs(*epochs);
+  if (rmap) est.setRatioMap(*rmap);
   OutputScheduler sched(cfg.p);
   RunResult r;
   Stamp buf[64];
@@ -572,6 +573,49 @@ TEST_CASE("dead-end stub: overwhelming switch roughness decides on the stub earl
   // at ~12 m/s the 20 samples are there only ~8 m past the stub start: the early decision comes ~4 m
   // before the window end (at the organisers' 2.4 m/s, 12 m before it)
   CHECK(t_early + 0.2 < t_late);
+}
+
+TEST_CASE("bogie-ratio map: the track signature holds the path when the wheel scale is 2 % off and no place is known") {
+  Config cfg;
+  cfg.output_frame = "map";
+  TractionModel model;
+  const TrackMap map = straightMap();  // map s = x + 500
+  // signature of the track: log(front/rear) as a function of the map arc (irregular, several wavelengths)
+  auto sig = [](double s) { return 0.006 * std::sin(s / 7.3) + 0.004 * std::sin(s / 2.9 + 1.0) + 0.003 * std::sin(s / 17.0); };
+  const double sv = 0.003;
+  RatioMap rm;
+  rm.L = 6000.0;
+  for (int i = 0; i < 6000; ++i) {
+    rm.mu.push_back(sig(i + 0.5) / sv);
+    rm.sd.push_back(0.5);
+    rm.rel.push_back(1);
+  }
+  rm.sv_v = {1.0, 20.0};
+  rm.sv_s = {sv, sv};
+  Truth tr;
+  const double k_x = 0.02;  // readings 2 % high: without a place fix the path runs ahead
+  auto ev = makeRun(9300.0, 60.0, tr, [&](int sensor, double t, double v) {
+    const double y = sig(500.0 + tr.sAt(9300.0 + t));
+    return v * kKmh * (1.0 + k_x) * (sensor == 0 ? std::exp(0.5 * y) : std::exp(-0.5 * y));
+  });
+  const RunResult with = run(ev, cfg, model, &map, nullptr, nullptr, &rm);
+  const RunResult without = run(ev, cfg, model, &map);
+  CHECK(!with.outs.empty() && !without.outs.empty());
+  if (with.outs.empty() || without.outs.empty()) return;
+  CHECK(with.diag.ratio_fixes >= 2);
+  CHECK(without.diag.ratio_fixes == 0);
+  const double s_true = tr.sAt(toSec(with.outs.back().stamp)) - tr.sAt(9304.0);
+  auto travelled = [&](const RunResult& r) {
+    for (const Output& o : r.outs)
+      if (toSec(o.stamp) >= 9304.0) return r.outs.back().s - o.s;
+    return 0.0;
+  };
+  CHECK(s_true > 200.0);
+  const double e_without = std::abs(travelled(without) - s_true), e_with = std::abs(travelled(with) - s_true);
+  CHECK(e_without > 3.0);  // ~2 % of the run: 8.3 m
+  // corrections every 50 m hold the path: 2.3 m. k itself is left to the quantum and places, so the path still
+  // drifts ~1 m per 50 m between corrections and the 200 m window sees the offset with a lag.
+  CHECK(e_with < 0.4 * e_without);
 }
 
 TEST_CASE("wheel scale from the speed quantum: taken from the matching epoch, not from a later one") {

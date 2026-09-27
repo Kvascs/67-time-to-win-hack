@@ -52,6 +52,17 @@ struct WheelEpoch {
   double c_rear = 0.0;
 };
 bool loadWheelEpochs(const std::string& path, std::vector<WheelEpoch>& out, std::string* err);
+
+// Learned bogie-ratio map of the main cycle: per 1 m of antenna arc the mean and sd of z = log(v_front/v_rear) /
+// sigma_v(v), with a reliability flag from a leave-one-out check over the train runs.
+struct RatioMap {
+  double L = 0.0;
+  std::vector<double> mu, sd;
+  std::vector<unsigned char> rel;   // 1: corrections allowed at this arc
+  std::vector<double> sv_v, sv_s;   // straight-track sd of log(front/rear) by speed
+  bool empty() const { return mu.empty(); }
+};
+bool loadRatioMap(const std::string& path, RatioMap& out, std::string* err);
 int dateMsk(Stamp t);    // YYYYMMDD of a stamp in Moscow time (UTC+3)
 
 struct Diagnostics {
@@ -59,6 +70,7 @@ struct Diagnostics {
   std::uint64_t invalid_wheel = 0, invalid_cmd = 0, rejected_stamps = 0;
   std::uint64_t late_dropped = 0, merged_pairs = 0, recoveries = 0, resets = 0, time_gaps = 0;
   std::uint64_t implausible_wheel = 0, gnss_ignored_after_window = 0, landmark_fixes = 0, global_fixes = 0;
+  std::uint64_t ratio_tries = 0, ratio_fixes = 0;
   int max_buffer = 0;
 };
 
@@ -107,6 +119,8 @@ class Estimator {
   bool globalLocalisationRunning() const { return gl_ != nullptr; }
   // Speed quantum per vehicle and wheel epoch (wheel scale k = q / c - 1).
   void setWheelEpochs(std::vector<WheelEpoch> e) { epochs_ = std::move(e); }
+  // Learned bogie-ratio map: along-track corrections between places.
+  void setRatioMap(RatioMap m) { rmap_ = std::move(m); }
   // Smallest reading step of a bogie (0 front, 1 rear) seen so far in this run, km/h; NaN until clear.
   double quantStep(int bogie) const;
 
@@ -256,6 +270,18 @@ class Estimator {
   void stubRoughness(FilterState& f, const Event& e) const;
   // After a place fix: the wheel scale from the speed quantum as one measurement of k (once per run).
   void quantFuse(FilterState& f) const;
+  // Committed events only: apply, bookkeeping, then the bogie-ratio correction step.
+  void commitOne(const Event& e);
+  void ratioStep(const Event& e, bool place_fixed);
+  RatioMap rmap_;
+  struct RatioSample {
+    double s, u, c;  // filter arc; log(front/rear) / sigma_v(v); 1 / sigma_v(v)
+  };
+  static constexpr int kRatioCap = 8192;
+  std::vector<RatioSample> rring_;  // ring buffer, capacity reserved up front
+  int rhead_ = 0, rcount_ = 0;
+  double rlast_s_ = -1e18;          // filter arc of the last match attempt
+  std::vector<double> rll_;         // log-likelihood over the search grid (workspace)
   std::vector<WheelEpoch> epochs_;
   struct QuantTrack {
     bool have = false;

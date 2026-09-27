@@ -150,6 +150,45 @@ bool loadWheelEpochs(const std::string& path, std::vector<WheelEpoch>& out, std:
   return true;
 }
 
+bool loadRatioMap(const std::string& path, RatioMap& out, std::string* err) {
+  std::ifstream in(path);
+  if (!in) {
+    if (err) *err = "cannot open ratio map " + path;
+    return false;
+  }
+  out = RatioMap{};
+  std::string line;
+  while (std::getline(in, line)) {
+    if (line.empty()) continue;
+    if (line.rfind("#sv,", 0) == 0) {  // speed table of the straight-track sd of log(front/rear)
+      double v = 0.0, s = 0.0;
+      if (std::sscanf(line.c_str() + 4, "%lf,%lf", &v, &s) == 2) {
+        out.sv_v.push_back(v);
+        out.sv_s.push_back(s);
+      }
+      continue;
+    }
+    if (line.rfind("# L=", 0) == 0) {
+      out.L = std::atof(line.c_str() + 4);
+      continue;
+    }
+    if (line[0] == '#' || line[0] == 'b') continue;
+    int i = 0, r = 0;
+    double mu = 0.0, sd = 1.0;
+    if (std::sscanf(line.c_str(), "%d,%lf,%lf,%d", &i, &mu, &sd, &r) == 4) {
+      out.mu.push_back(mu);
+      out.sd.push_back(sd);
+      out.rel.push_back(static_cast<unsigned char>(r != 0));
+    }
+  }
+  if (out.mu.empty() || out.sv_v.size() < 2 || !(out.L > 0.0)) {
+    if (err) *err = "bad ratio map " + path;
+    out = RatioMap{};
+    return false;
+  }
+  return true;
+}
+
 int dateMsk(Stamp t) {
   // civil date of the Unix day (Howard Hinnant's days-to-civil), Moscow time
   const long long sec = static_cast<long long>(std::floor(toSec(t))) + 3 * 3600;
@@ -173,6 +212,8 @@ Estimator::Estimator(const Config& cfg, const TractionModel& model, const TrackM
   buf_.reserve(256);
   for (QuantTrack& q : quant_) q.steps.reserve(kQuantMaxSteps);
   quant_scratch_.reserve(kQuantMaxSteps);
+  rring_.resize(kRatioCap);
+  rll_.reserve(1024);
   if (map_) map_lc_.reset(map_->origin());
   reset();
 }
@@ -195,6 +236,9 @@ void Estimator::reset() {
     quant_[i].steps.clear();
     quant_cache_n_[i] = 0;
   }
+  rhead_ = 0;
+  rcount_ = 0;
+  rlast_s_ = -1e18;
 }
 
 bool Estimator::acceptStamp(Stamp stamp) {
@@ -327,9 +371,7 @@ void Estimator::insert(const Event& e) {
   diag_.max_buffer = std::max(diag_.max_buffer, static_cast<int>(buf_.size()));
   commitOlderThan(latest_ - fromSec(p_.lag_window_s));
   while (buf_.size() > 200) {  // hard bound on work per query
-    applyEvent(committed_, buf_.front());
-    noteCommitted();
-    feedGlobal();
+    commitOne(buf_.front());
     buf_.erase(buf_.begin());
   }
 }
@@ -337,12 +379,204 @@ void Estimator::insert(const Event& e) {
 void Estimator::commitOlderThan(Stamp t) {
   size_t n = 0;
   while (n < buf_.size() && buf_[n].t < t) {
-    applyEvent(committed_, buf_[n]);
-    noteCommitted();
-    feedGlobal();
+    commitOne(buf_[n]);
     ++n;
   }
   if (n > 0) buf_.erase(buf_.begin(), buf_.begin() + static_cast<long>(n));
+}
+
+void Estimator::commitOne(const Event& e) {
+  const Stamp lm_before = committed_.lm_t;
+  applyEvent(committed_, e);
+  noteCommitted();
+  feedGlobal();
+  ratioStep(e, committed_.lm_t != lm_before);
+}
+
+void Estimator::ratioStep(const Event& e, bool place_fixed) {
+  if (rmap_.empty() || p_.ratio_enable < 0.5 || !map_ || !init_.anchored || e.is_cmd) return;
+  FilterState& f = committed_;
+  if (!f.started) return;
+  if (place_fixed || f.stub) {  // the arc jumped (place fix) or left the main cycle: start the window afresh
+    rcount_ = 0;
+    if (f.stub) return;
+  }
+  const bool both = e.has[0] && e.has[1] && std::isfinite(e.z[0]) && std::isfinite(e.z[1]);
+  if (!both || e.z[0] < p_.ratio_vmin || e.z[1] < p_.ratio_vmin) return;
+  // healthy bogies only: no joint anomaly, no CUSUM alarm, nothing stuck, the nominal hypothesis dominant
+  if (f.latch || f.wheel[0].alarm || f.wheel[1].alarm || f.wheel[0].stuck || f.wheel[1].stuck ||
+      f.mu[kModeNominal] < 0.9)
+    return;
+  const double y = std::log(e.z[0] / e.z[1]);
+  if (!(std::abs(y) < p_.ratio_ymax)) return;
+  double s = 0.0;
+  for (int j = 0; j < kNumModes; ++j) s += f.mu[j] * f.x[j](kS, 0);
+  const TrackMap* m = nullptr;
+  double sm = 0.0;
+  if (!routeAt(s, m, sm) || m != map_) {  // main cycle only (the map is learned there)
+    rcount_ = 0;
+    return;
+  }
+  auto sigmaV = [&](double v) {  // straight-track sd of log(front/rear) at speed v
+    const auto& xv = rmap_.sv_v;
+    const auto& ys = rmap_.sv_s;
+    if (v <= xv.front()) return ys.front();
+    if (v >= xv.back()) return ys.back();
+    const auto it = std::upper_bound(xv.begin(), xv.end(), v);
+    const size_t i = static_cast<size_t>(it - xv.begin());
+    const double w = (v - xv[i - 1]) / (xv[i] - xv[i - 1]);
+    return ys[i - 1] + w * (ys[i] - ys[i - 1]);
+  };
+  // append; drop what fell out of the window
+  const int cap = static_cast<int>(rring_.size());
+  if (rcount_ == cap) {
+    rhead_ = (rhead_ + 1) % cap;
+    --rcount_;
+  }
+  const double sv0 = sigmaV(0.5 * (e.z[0] + e.z[1]));
+  rring_[(rhead_ + rcount_) % cap] = {s, y / sv0, 1.0 / sv0};
+  ++rcount_;
+  while (rcount_ > 0 && rring_[rhead_].s < s - p_.ratio_window_m - 5.0) {
+    rhead_ = (rhead_ + 1) % cap;
+    --rcount_;
+  }
+  if (s - rlast_s_ < p_.ratio_step_m) return;
+  rlast_s_ = s;
+  int n = 0;
+  for (int k = 0; k < rcount_; ++k)
+    if (rring_[(rhead_ + k) % cap].s >= s - p_.ratio_window_m) ++n;
+  if (n < p_.ratio_min_samples) return;
+  const double L = rmap_.L;
+  const int nb = static_cast<int>(rmap_.mu.size());
+  auto wrapL = [&](double q) {
+    q = std::fmod(q, L);
+    return q < 0.0 ? q + L : q;
+  };
+  {  // corrections only where the leave-one-out check never made the estimate worse
+    const int b = std::clamp(static_cast<int>(wrapL(sm) * nb / L), 0, nb - 1);
+    if (!rmap_.rel[b]) return;
+  }
+  ++diag_.ratio_tries;
+  auto mapAt = [&](double q, double& mu, double& sd) {  // linear between bin centres, cyclic
+    const double u = wrapL(q) * nb / L - 0.5;
+    const double fl = std::floor(u);
+    const double w = u - fl;
+    int i0 = static_cast<int>(fl) % nb;
+    if (i0 < 0) i0 += nb;
+    const int i1 = (i0 + 1) % nb;
+    mu = rmap_.mu[i0] + w * (rmap_.mu[i1] - rmap_.mu[i0]);
+    sd = rmap_.sd[i0] + w * (rmap_.sd[i1] - rmap_.sd[i0]);
+  };
+  // log-likelihood of the window for every candidate correction g: y_i = b + sv_i (mu_z + sd_z eps), free b
+  constexpr double kStep = 0.1;
+  const int ng = 2 * static_cast<int>(std::lround(p_.ratio_search_m / kStep)) + 1;
+  rll_.assign(static_cast<size_t>(ng), 0.0);
+  for (int gi = 0; gi < ng; ++gi) {
+    const double g = -p_.ratio_search_m + gi * kStep;
+    double swc2 = 0.0, swcu = 0.0;
+    for (int pass = 0; pass < 2; ++pass) {
+      const double b = pass == 0 ? 0.0 : (swc2 > 0.0 ? swcu / swc2 : 0.0);
+      double ll = 0.0;
+      for (int k = 0; k < rcount_; ++k) {
+        const RatioSample& r = rring_[(rhead_ + k) % cap];
+        if (r.s < s - p_.ratio_window_m) continue;
+        double mu = 0.0, sd = 1.0;
+        mapAt(sm + (r.s - s) + g, mu, sd);
+        const double w = 1.0 / (sd * sd), c = r.c, u = r.u;
+        if (pass == 0) {
+          swc2 += w * c * c;
+          swcu += w * c * (u - mu);
+        } else {
+          const double res = u - b * c - mu;
+          ll += -0.5 * w * res * res - std::log(sd);
+        }
+      }
+      if (pass == 1) rll_[static_cast<size_t>(gi)] = ll / p_.ratio_tau;
+    }
+  }
+  // peak: argmax refined by a parabola, sharpness from a quadratic fit over +-0.5 m, margin to other maxima
+  int kb = 0;
+  for (int gi = 1; gi < ng; ++gi)
+    if (rll_[static_cast<size_t>(gi)] > rll_[static_cast<size_t>(kb)]) kb = gi;
+  const auto ll = [&](int gi) { return rll_[static_cast<size_t>(gi)]; };
+  if (kb == 0 || kb == ng - 1) return;  // at the edge of the search: not a peak
+  double d_hat = -p_.ratio_search_m + kb * kStep;
+  {
+    const double den = ll(kb - 1) - 2.0 * ll(kb) + ll(kb + 1);
+    if (den < 0.0) d_hat += 0.5 * kStep * (ll(kb - 1) - ll(kb + 1)) / den;
+  }
+  double sx[5] = {0, 0, 0, 0, 0}, sy[3] = {0, 0, 0};  // sums of x^0..x^4 and y x^0..x^2
+  for (int gi = std::max(0, kb - 5); gi <= std::min(ng - 1, kb + 5); ++gi) {
+    const double x = (gi - kb) * kStep, yv = ll(gi);
+    double xp = 1.0;
+    for (int q = 0; q < 5; ++q) {
+      sx[q] += xp;
+      if (q < 3) sy[q] += yv * xp;
+      xp *= x;
+    }
+  }
+  // normal equations for yv = a x^2 + b x + c (Cramer's rule)
+  const double A[3][3] = {{sx[4], sx[3], sx[2]}, {sx[3], sx[2], sx[1]}, {sx[2], sx[1], sx[0]}};
+  const double B[3] = {sy[2], sy[1], sy[0]};
+  auto det3 = [](const double M3[3][3]) {
+    return M3[0][0] * (M3[1][1] * M3[2][2] - M3[1][2] * M3[2][1]) - M3[0][1] * (M3[1][0] * M3[2][2] - M3[1][2] * M3[2][0]) +
+           M3[0][2] * (M3[1][0] * M3[2][1] - M3[1][1] * M3[2][0]);
+  };
+  const double D0 = det3(A);
+  if (!(std::abs(D0) > 0.0)) return;
+  double Aa[3][3];
+  for (int r = 0; r < 3; ++r)
+    for (int c = 0; c < 3; ++c) Aa[r][c] = c == 0 ? B[r] : A[r][c];
+  const double curv = -2.0 * det3(Aa) / D0;
+  const double sig_c = curv > 0.0 ? 1.0 / std::sqrt(curv) : 1e9;
+  double second = -1e300;
+  for (int gi = 0; gi < ng; ++gi) {
+    if (std::abs(gi - kb) * kStep <= 2.0 + 1e-9) continue;
+    const bool lmax = (gi == 0 || ll(gi) >= ll(gi - 1)) && (gi == ng - 1 || ll(gi) >= ll(gi + 1));
+    if (lmax) second = std::max(second, ll(gi));
+  }
+  const double margin = second > -1e299 ? ll(kb) - second : 1e9;
+  if (!(margin > p_.ratio_margin) || !(sig_c < p_.ratio_sigma_max)) return;
+  const double sd_c = std::max(sig_c, p_.ratio_sigma_min);
+  const double R = sd_c * sd_c;
+  double pss = 0.0;
+  for (int j = 0; j < kNumModes; ++j) {
+    const double ds = f.x[j](kS, 0) - s;
+    pss += f.mu[j] * (f.P[j](kS, kS) + ds * ds);
+  }
+  if (!(std::abs(d_hat) < p_.ratio_dmax) || !(std::abs(d_hat) < p_.ratio_gate_sd * std::sqrt(std::max(pss, 0.0) + R)))
+    return;
+  static const bool dbg = std::getenv("TBO_DEBUG_RATIO") != nullptr;
+  if (dbg)
+    std::fprintf(stderr, "RATIO t=%.1f s_map=%.1f d=%+.2f sig=%.2f margin=%.1f n=%d sd_s=%.2f\n", toSec(f.t), sm, d_hat,
+                 sig_c, margin, n, std::sqrt(std::max(pss, 0.0)));
+  for (int j = 0; j < kNumModes; ++j) {  // one scalar measurement of the path on every hypothesis
+    StateVec& x = f.x[j];
+    StateCov& P = f.P[j];
+    const double S = P(kS, kS) + R;
+    if (!(S > 0.0)) continue;
+    // like a place fix it moves the path only (speed, disturbance and gain stay with the wheels and the model;
+    // letting the s-v correlation act made the speed vs doppler worse on all 12 val runs)
+    StateVec K;
+    K(kS, 0) = P(kS, kS) / S;
+    if (p_.ratio_update_k > 0.5) K(kK, 0) = P(kK, kS) / S;  // k: normally calibrated by the quantum and places
+    x += K * (s + d_hat - x(kS, 0));
+    Mat<1, kNx> H;
+    H(0, kS) = 1.0;
+    const StateCov IKH = StateCov::identity() - K * H;
+    Mat<1, 1> Rm;
+    Rm(0, 0) = R;
+    P = IKH * P * transpose(IKH) + K * Rm * transpose(K);
+    symmetrize(P);
+    x(kK, 0) = std::clamp(x(kK, 0), -0.05, 0.05);
+    if (!(x(kV, 0) >= 0.0)) x(kV, 0) = 0.0;
+  }
+  double s_after = 0.0;
+  for (int j = 0; j < kNumModes; ++j) s_after += f.mu[j] * f.x[j](kS, 0);
+  for (int k = 0; k < rcount_; ++k) rring_[(rhead_ + k) % cap].s += s_after - s;  // keep the window consistent
+  rlast_s_ += s_after - s;
+  if (p_.ratio_reset_assoc > 0.5) f.lm_odo = f.odo;
+  ++diag_.ratio_fixes;
 }
 
 void Estimator::noteCommitted() {
