@@ -1,0 +1,89 @@
+# creep check  (2026-09-27 21:03)
+bags: train 36/52, val 12/17 (RTK frac > 0.8, no GNSS-vs-vehicle clock anomaly)
+filters: v_gnss > 3.0 m/s, |kappa| < 1/500 m (GNSS course and map), notch sign held >= 1.0 s, |log(front/rear) - median| < 2%, |y| < 3%; a = SG(1.5 s) d|v_gnss|/dt; a_force = a + g*grade (map grade, else vz/vh)
+y = log(v_wheel/v_gnss) - per-bag median over coasting epochs; beta in % of scale per m/s^2
+
+## 1. Lag scan (train): wheel sampled at t_gnss + tau; model y = a_r + b_r*a per regime (both bogies)
+tau_s   n      rms_resid_%  b_trac_F  b_brake_F  b_trac_R  b_brake_R   (%/(m/s^2), no lag term)
+-0.20  119080  0.5465      -2.354    -2.480     -2.353    -2.489
+-0.15  119084  0.5579      -2.069    -2.101     -2.058    -2.110
+-0.10  119083  0.5414      -1.716    -1.602     -1.705    -1.603
+-0.05  119085  0.4702      -0.956    -0.929     -0.956    -0.932
+-0.00  119076  0.4013      +0.008    -0.105     +0.007    -0.105
++0.05  119081  0.4277      +0.972    +0.727     +0.976    +0.723
++0.10  119076  0.4922      +1.811    +1.414     +1.819    +1.410
++0.15  119079  0.5190      +2.257    +1.932     +2.261    +1.920
++0.20  119082  0.5141      +2.569    +2.334     +2.576    +2.317
++0.25  119088  0.4929      +2.827    +2.633     +2.837    +2.606
++0.30  119092  0.4726      +3.092    +2.851     +3.091    +2.824
++0.35  119084  0.4687      +3.334    +3.076     +3.342    +3.044
++0.40  119093  0.4792      +3.582    +3.283     +3.578    +3.263
+-> best tau = -0.00 s (min residual rms)
+
+## 2. TRAIN at tau = -0.00 s: 119076 epochs, 36 bags; counts {'brake': 56370, 'trac': 55053, 'coast': 7653}
+   trac: a mean +0.53 (p5 +0.02, p95 +0.96); a_force mean +0.59; v mean 8.4 m/s
+   brake: a mean -0.55 (p5 -0.84, p95 -0.03); a_force mean -0.61; v mean 7.1 m/s
+   bogie regime x        beta %/(m/s2)  SE_cl   95%CI(bag bootstrap)  intercept %   tau_fit s(+/-SE)   n / bags
+   F     trac   a        +0.008     0.018  [-0.028, +0.038]      +0.052            -            55014/36
+   F     trac   a  +lag  +0.387     0.020  [+0.350, +0.418]      +0.014       -0.019(0.001)      55014/36
+   F     trac   af       +0.045     0.017  [+0.011, +0.073]      +0.030            -            55014/36
+   F     trac   af +lag  +0.379     0.022  [+0.338, +0.415]      -0.028       -0.016(0.001)      55014/36
+   F     brake  a        -0.105     0.020  [-0.138, -0.065]      +0.013            -            56355/36
+   F     brake  a  +lag  -0.087     0.027  [-0.135, -0.036]      +0.013       -0.001(0.001)      56355/36
+   F     brake  af       -0.029     0.023  [-0.070, +0.019]      +0.053            -            56355/36
+   F     brake  af +lag  +0.070     0.028  [+0.022, +0.133]      +0.062       -0.006(0.001)      56355/36
+   R     trac   a        +0.007     0.018  [-0.034, +0.039]      +0.052            -            55017/36
+   R     trac   a  +lag  +0.418     0.020  [+0.377, +0.451]      +0.011       -0.021(0.001)      55017/36
+   R     trac   af       +0.049     0.016  [+0.016, +0.078]      +0.027            -            55017/36
+   R     trac   af +lag  +0.416     0.023  [+0.373, +0.457]      -0.037       -0.018(0.001)      55017/36
+   R     brake  a        -0.105     0.021  [-0.142, -0.064]      +0.006            -            56361/36
+   R     brake  a  +lag  -0.078     0.029  [-0.131, -0.024]      +0.007       -0.002(0.001)      56361/36
+   R     brake  af       -0.019     0.023  [-0.061, +0.030]      +0.053            -            56361/36
+   R     brake  af +lag  +0.094     0.028  [+0.045, +0.154]      +0.063       -0.007(0.001)      56361/36
+   front-rear differential dfr = log(vf/vr) - coast median  vs a:
+     trac  beta +0.002 +/- 0.004 %/(m/s2), intercept -0.003 %
+     brake beta -0.001 +/- 0.004 %/(m/s2), intercept +0.004 %
+   per-bag slopes (a, with lag term), %/(m/s2): median [IQR], share > 0
+     F trac : +0.308 [+0.231, +0.399]  100% of 36
+     F brake: -0.114 [-0.222, -0.004]  25% of 36
+     R trac : +0.328 [+0.262, +0.427]  100% of 36
+     R brake: -0.096 [-0.216, +0.003]  28% of 36
+   noise: coast yF sd (10 Hz) 0.368 %, 10-s block-mean sd 0.301 %
+   binned mean yF by regime and speed (%), traction/braking a-normalised: mean(yF)/mean(a)
+     trac: 3-6 m/s: -0.040/+0.75 = -0.053;  6-9 m/s: +0.087/+0.63 = +0.138;  9-12 m/s: +0.080/+0.38 = +0.208;  12-20 m/s: +0.125/+0.25 = +0.504
+     brake: 3-6 m/s: +0.091/-0.61 = -0.149;  6-9 m/s: +0.047/-0.48 = -0.098;  9-12 m/s: +0.080/-0.58 = -0.138;  12-20 m/s: +0.071/-0.60 = -0.118
+
+## 2. VAL at tau = -0.00 s: 38727 epochs, 12 bags; counts {'brake': 18357, 'trac': 18302, 'coast': 2068}
+   trac: a mean +0.52 (p5 +0.01, p95 +0.96); a_force mean +0.57; v mean 8.4 m/s
+   brake: a mean -0.54 (p5 -0.87, p95 -0.02); a_force mean -0.61; v mean 7.4 m/s
+   bogie regime x        beta %/(m/s2)  SE_cl   95%CI(bag bootstrap)  intercept %   tau_fit s(+/-SE)   n / bags
+   F     trac   a        -0.015     0.024  [-0.064, +0.025]      +0.007            -            18299/12
+   F     trac   a  +lag  +0.270     0.032  [+0.191, +0.332]      -0.018       -0.015(0.002)      18299/12
+   F     trac   af       -0.011     0.027  [-0.072, +0.038]      +0.005            -            18299/12
+   F     trac   af +lag  +0.237     0.054  [+0.141, +0.334]      -0.036       -0.012(0.002)      18299/12
+   F     brake  a        -0.088     0.035  [-0.142, -0.022]      -0.017            -            18354/12
+   F     brake  a  +lag  -0.035     0.051  [-0.129, +0.055]      -0.015       -0.003(0.001)      18354/12
+   F     brake  af       -0.073     0.051  [-0.140, +0.026]      -0.014            -            18354/12
+   F     brake  af +lag  -0.010     0.071  [-0.108, +0.129]      -0.011       -0.004(0.001)      18354/12
+   R     trac   a        +0.001     0.025  [-0.057, +0.041]      -0.013            -            18299/12
+   R     trac   a  +lag  +0.308     0.036  [+0.216, +0.368]      -0.040       -0.016(0.002)      18299/12
+   R     trac   af       +0.008     0.028  [-0.055, +0.057]      -0.017            -            18299/12
+   R     trac   af +lag  +0.277     0.055  [+0.182, +0.369]      -0.062       -0.013(0.002)      18299/12
+   R     brake  a        -0.093     0.035  [-0.149, -0.031]      -0.042            -            18355/12
+   R     brake  a  +lag  -0.048     0.048  [-0.140, +0.035]      -0.041       -0.003(0.001)      18355/12
+   R     brake  af       -0.056     0.056  [-0.129, +0.049]      -0.026            -            18355/12
+   R     brake  af +lag  +0.021     0.077  [-0.082, +0.172]      -0.023       -0.005(0.001)      18355/12
+   front-rear differential dfr = log(vf/vr) - coast median  vs a:
+     trac  beta -0.014 +/- 0.006 %/(m/s2), intercept +0.007 %
+     brake beta +0.006 +/- 0.007 %/(m/s2), intercept +0.014 %
+   per-bag slopes (a, with lag term), %/(m/s2): median [IQR], share > 0
+     F trac : +0.223 [+0.208, +0.269]  100% of 12
+     F brake: +0.023 [-0.124, +0.069]  58% of 12
+     R trac : +0.238 [+0.205, +0.301]  100% of 12
+     R brake: -0.010 [-0.103, +0.050]  50% of 12
+   noise: coast yF sd (10 Hz) 0.389 %, 10-s block-mean sd 0.322 %
+   binned mean yF by regime and speed (%), traction/braking a-normalised: mean(yF)/mean(a)
+     trac: 3-6 m/s: -0.079/+0.76 = -0.104;  6-9 m/s: +0.016/+0.60 = +0.027;  9-12 m/s: +0.013/+0.38 = +0.034;  12-20 m/s: +0.072/+0.25 = +0.285
+     brake: 3-6 m/s: +0.056/-0.62 = -0.090;  6-9 m/s: +0.016/-0.48 = -0.032;  9-12 m/s: +0.021/-0.53 = -0.039;  12-20 m/s: +0.030/-0.53 = -0.057
+
+runtime 691 s

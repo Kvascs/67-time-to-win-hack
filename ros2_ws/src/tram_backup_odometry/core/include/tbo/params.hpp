@@ -209,8 +209,9 @@ struct Params {
   double ratio_vmin = 1.5;          // both bogies faster than this, m/s
   double ratio_ymax = 0.05;         // |log(front/rear)| above this is not a track signature
   double ratio_tau = 5.39;          // integrated autocorrelation factor of the ratio at 10 Hz
-  // A correction is weaker than a place fix and its errors are place-bound: it neither narrows the landmark
-  // association (no reset of the drift margin) nor moves the wheel scale (quantum and places calibrate k).
+  // A correction is weaker than a place fix and its errors are place-bound: it does not narrow the landmark
+  // association (no reset of the drift margin) and moves the wheel scale only with a reduced gain (D34;
+  // D33 left k to the quantum and places, which cost speed).
   double ratio_reset_assoc = 0.0;   // 1: reset the landmark association margin like a place fix
   double ratio_update_k = 1.0;      // 1: let the correction move k through the s-k correlation (D34)
   double ratio_k_dmax = 1e9;        // k moves only for corrections smaller than this [m]

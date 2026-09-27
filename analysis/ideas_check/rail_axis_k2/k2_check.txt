@@ -1,0 +1,144 @@
+k2_check: wheel speed / antenna ground speed vs track curvature
+map: analysis\validation_maps\track_map.csv (11054 pts, origin (55.8028, 37.424, 160.0)); master-antenna map, curvature sigma 2 m
+theory coefficient: master (u=6.098) 11.467, rover (u=6.338) 12.960 [m^2]; y = log(v_wheel/v_ant) predicted = -coef * k^2
+current code: v = v_wheel * c(k), c = 1 + min(0.415|k|, 0.009) - 0.054 k  -> y = -log c(k)
+train bags with master RTK fraction > 0.8: 41 of 52
+
+== common lag (wheel stamp = GNSS stamp + lag), rms of y on straight track, acc filter off, 12 bags ==
+  lag -0.40 s: rms 2.5810 %  (n=20284)
+  lag -0.35 s: rms 2.5260 %  (n=22322)
+  lag -0.30 s: rms 2.3780 %  (n=23293)
+  lag -0.25 s: rms 2.1921 %  (n=24907)
+  lag -0.20 s: rms 1.9499 %  (n=25583)
+  lag -0.15 s: rms 1.6667 %  (n=26859)
+  lag -0.10 s: rms 1.2062 %  (n=26690)
+  lag -0.05 s: rms 0.7374 %  (n=27105)
+  lag -0.00 s: rms 0.4392 %  (n=26684)
+  lag +0.05 s: rms 0.6702 %  (n=27106)
+  lag +0.10 s: rms 1.1325 %  (n=26671)
+  lag +0.15 s: rms 1.6143 %  (n=27008)
+  lag +0.20 s: rms 1.9478 %  (n=25863)
+  lag +0.25 s: rms 2.1830 %  (n=25191)
+  lag +0.30 s: rms 2.3677 %  (n=23498)
+  lag +0.35 s: rms 2.5074 %  (n=22513)
+  lag +0.40 s: rms 2.5845 %  (n=20626)
+  -> using lag = -0.00 s
+
+master epochs after filters: 81506 from 41 bags
+  epochs per curvature bin (before straight-normalisation/trim): R < 20: 75, 20-40: 3495, 40-80: 2425, 80-200: 5574, > 200: 69937
+  grade correction size: mean |log sqrt(1+g^2)| = 0.0144 %
+
+== MASTER, kappa at antenna ==
+--- MASTER, kappa at antenna: n = 81448 epochs, 41 bags, 2284 clusters (bag x 10 s); curvature column = k_ant
+model                                                      R2         AIC         BIC  coefficients (OLS SE / cluster SE)
+(a) k^2                                                0.1017   -855692.5   -855673.9  c0=-0.00040627 (1.9e-05/4.2e-05)  k^2=-6.0474 (0.063/0.42)
+(b) |k|                                                0.1330   -858578.0   -858559.4  c0=+0.0001083 (2e-05/4.4e-05)  |k|=-0.25582 (0.0023/0.015)
+(c) k^2 + |k|                                          0.1440   -859619.6   -859591.7  c0=+0.00051499 (2.4e-05/5.9e-05)  k^2=+6.9137 (0.21/1.1)  |k|=-0.50075 (0.0079/0.036)
+(d) beta*[-log c(k)] (current form, scale fitted)      0.1483   -860029.8   -860011.2  c0=+0.00043562 (2.1e-05/4.5e-05)  beta=+1.0188 (0.0086/0.045)
+(a+s) k^2 + k(signed)                                  0.1228   -857627.4   -857599.5  c0=-0.0003242 (1.9e-05/3.9e-05)  k^2=-8.0985 (0.078/0.42)  k=+0.11464 (0.0026/0.014)
+(b+s) |k| + k(signed)                                  0.1470   -859903.2   -859875.2  c0=+0.00022886 (2e-05/4.1e-05)  |k|=-0.30204 (0.0026/0.014)  k=+0.085741 (0.0023/0.013)
+(e) |k| capped at 0.009 (slope fitted, cap fixed)      0.1466   -859866.0   -859847.4  c0=+0.00039877 (2.1e-05/4.5e-05)  slope=-0.39894 (0.0034/0.019)
+(f) theory fixed: -11.47 k^2 (+c0)                     0.0200   -848605.7   -848596.4  c0=+8.3072e-06
+(g) current model fixed: -log c(k) (+c0)               0.1482   -860027.0   -860017.7  c0=+0.00041157
+(0) intercept only                                     0.0000   -846960.2   -846950.9  c0=-0.00086882
+
+R bin [m]        n  clust   mean|k|  y mean %    SE %  theory %  fit k2 %  fit|k| %  current %
+R < 20          69     24   0.05166    -1.207   0.204    -3.062    -1.615    -1.321     -0.619
+20-40         3477    190   0.03587    -0.827   0.057    -1.505    -0.794    -0.918     -0.775
+40-80         2422    212   0.01982    -0.771   0.058    -0.459    -0.242    -0.507     -0.835
+80-200        5572    606   0.00679    -0.250   0.022    -0.056    -0.029    -0.174     -0.290
+> 200        69908   2140   0.00139    -0.012   0.005    -0.004    -0.002    -0.035     -0.058
+  (predictions shown without the fitted intercepts; intercepts: k^2 fit c0=-0.041 %, |k| fit c0=+0.011 %)
+
+  1-s averaged data (n = 8930): R2 / AIC
+    (a) k^2                                              R2 0.2148  AIC  -102237.7  BIC  -102223.5  b1=-6.0603 (cl SE 0.47)
+    (b) |k|                                              R2 0.2931  AIC  -103174.8  BIC  -103160.6  b1=-0.25551 (cl SE 0.017)
+    (c) k^2 + |k|                                        R2 0.3299  AIC  -103650.3  BIC  -103629.0  b1=+8.7386 (cl SE 1.2) b2=-0.55769 (cl SE 0.041)
+    (d) beta*[-log c(k)] (current form, scale fitted)    R2 0.3377  AIC  -103756.6  BIC  -103742.4  b1=+1.011 (cl SE 0.048)
+
+== MASTER, kappa averaged between bogie pivots ==
+--- MASTER, kappa averaged between bogie pivots: n = 81448 epochs, 41 bags, 2284 clusters (bag x 10 s); curvature column = k_mid
+model                                                      R2         AIC         BIC  coefficients (OLS SE / cluster SE)
+(a) k^2                                                0.1081   -856346.9   -856328.3  c0=-0.00052622 (1.9e-05/4.2e-05)  k^2=-6.4587 (0.065/0.45)
+(b) |k|                                                0.1442   -859707.5   -859688.9  c0=-6.1916e-05 (2e-05/4.2e-05)  |k|=-0.26907 (0.0023/0.016)
+(c) k^2 + |k|                                          0.1577   -861002.5   -860974.6  c0=+0.00030367 (2.2e-05/5.2e-05)  k^2=+7.7782 (0.22/1.1)  |k|=-0.53732 (0.0078/0.036)
+(d) beta*[-log c(k)] (current form, scale fitted)      0.1606   -861280.7   -861262.0  c0=+0.00021378 (2e-05/4.3e-05)  beta=+1.0483 (0.0084/0.046)
+(a+s) k^2 + k(signed)                                  0.1292   -858293.4   -858265.5  c0=-0.00043888 (1.9e-05/3.8e-05)  k^2=-8.7626 (0.083/0.49)  k=+0.12118 (0.0027/0.017)
+(b+s) |k| + k(signed)                                  0.1578   -861007.0   -860979.1  c0=+5.0012e-05 (2e-05/4e-05)  |k|=-0.31807 (0.0027/0.015)  k=+0.08794 (0.0024/0.014)
+(e) |k| capped at 0.009 (slope fitted, cap fixed)      0.1600   -861224.9   -861206.3  c0=+0.00018489 (2e-05/4.3e-05)  slope=-0.41091 (0.0033/0.019)
+(f) theory fixed: -11.47 k^2 (+c0)                     0.0431   -850616.3   -850607.0  c0=-0.00016223
+(g) current model fixed: -log c(k) (+c0)               0.1602   -861249.6   -861240.3  c0=+0.00015805
+(0) intercept only                                     0.0000   -847028.1   -847018.8  c0=-0.00099558
+
+R bin [m]        n  clust   mean|k|  y mean %    SE %  theory %  fit k2 %  fit|k| %  current %
+R < 20          18      1   0.05130    -2.280     nan    -3.018    -1.700    -1.380     -0.621
+20-40         3333    179   0.03578    -0.830   0.057    -1.505    -0.848    -0.963     -0.767
+40-80         2644    187   0.01983    -0.829   0.050    -0.461    -0.260    -0.533     -0.827
+80-200        4708    385   0.00706    -0.280   0.029    -0.060    -0.034    -0.190     -0.299
+> 200        70745   2128   0.00109    -0.025   0.006    -0.003    -0.002    -0.029     -0.046
+  (predictions shown without the fitted intercepts; intercepts: k^2 fit c0=-0.053 %, |k| fit c0=-0.006 %)
+
+  1-s averaged data (n = 8930): R2 / AIC
+    (a) k^2                                              R2 0.2319  AIC  -102445.8  BIC  -102431.6  b1=-6.3639 (cl SE 0.48)
+    (b) |k|                                              R2 0.3193  AIC  -103524.4  BIC  -103510.2  b1=-0.26772 (cl SE 0.017)
+    (c) k^2 + |k|                                        R2 0.3567  AIC  -104027.9  BIC  -104006.6  b1=+8.5716 (cl SE 1.1) b2=-0.56103 (cl SE 0.037)
+    (d) beta*[-log c(k)] (current form, scale fitted)    R2 0.3634  AIC  -104123.6  BIC  -104109.4  b1=+1.0396 (cl SE 0.049)
+
+== sensitivity (kappa at antenna; coefficient of k^2 in (a), of |k| in (b); cluster SE) ==
+  nearest wheel sample within 0.05 s (per spec)    n= 80984  k^2:  -5.973 (0.42) R2 0.0938 AIC -846375.0 | |k|: -0.2529 (0.015) R2 0.1224 AIC -848968.2
+                                                   current-form beta +1.007 (0.047) R2 0.1354 AIC -850181.1; bin means y %: R < 20 -1.062 (n=72), 20-40 -0.837 (n=3388), 40-80 -0.731 (n=2336), 80-200 -0.251 (n=5584), > 200 -0.014 (n=69604)
+  no grade correction (horizontal GNSS speed)      n= 81449  k^2:  -6.142 (0.42) R2 0.1040 AIC -855222.9 | |k|: -0.2608 (0.015) R2 0.1370 AIC -858281.2
+                                                   current-form beta +1.040 (0.045) R2 0.1531 AIC -859812.5; bin means y %: R < 20 -1.228 (n=69), 20-40 -0.844 (n=3477), 40-80 -0.785 (n=2422), 80-200 -0.268 (n=5572), > 200 -0.017 (n=69909)
+  lag = 0                                          n= 81448  k^2:  -6.047 (0.42) R2 0.1017 AIC -855692.5 | |k|: -0.2558 (0.015) R2 0.1330 AIC -858578.0
+                                                   current-form beta +1.019 (0.045) R2 0.1483 AIC -860029.8; bin means y %: R < 20 -1.207 (n=69), 20-40 -0.827 (n=3477), 40-80 -0.771 (n=2422), 80-200 -0.250 (n=5572), > 200 -0.012 (n=69908)
+  front/rear tolerance 3%                          n= 85118  k^2:  -5.604 (0.38) R2 0.1097 AIC -878524.4 | |k|: -0.2515 (0.014) R2 0.1497 AIC -882434.5
+                                                   current-form beta +1.082 (0.042) R2 0.1756 AIC -885067.1; bin means y %: R < 20 -0.807 (n=204), 20-40 -0.831 (n=5160), 40-80 -0.850 (n=3531), 80-200 -0.252 (n=5760), > 200 -0.014 (n=70463)
+  front/rear tolerance 100% (no filter)            n= 85235  k^2:  -5.629 (0.38) R2 0.1105 AIC -879181.1 | |k|: -0.2526 (0.014) R2 0.1510 AIC -883148.7
+                                                   current-form beta +1.088 (0.042) R2 0.1775 AIC -885855.2; bin means y %: R < 20 -0.807 (n=204), 20-40 -0.834 (n=5218), 40-80 -0.858 (n=3570), 80-200 -0.252 (n=5760), > 200 -0.015 (n=70483)
+
+== ROVER, kappa at rover antenna (theory coefficient 12.96) ==
+--- ROVER, kappa at rover antenna: n = 78617 epochs, 41 bags, 2214 clusters (bag x 10 s); curvature column = k_ant
+model                                                      R2         AIC         BIC  coefficients (OLS SE / cluster SE)
+(a) k^2                                                0.0796   -821462.4   -821443.9  c0=-0.00045036 (2e-05/4.6e-05)  k^2=-5.6033 (0.068/0.47)
+(b) |k|                                                0.1044   -823616.0   -823597.5  c0=+3.2815e-05 (2.1e-05/4.7e-05)  |k|=-0.23697 (0.0025/0.015)
+(c) k^2 + |k|                                          0.1108   -824176.2   -824148.4  c0=+0.00033316 (2.5e-05/6.5e-05)  k^2=+5.0826 (0.21/1.3)  |k|=-0.41522 (0.0079/0.041)
+(d) beta*[-log c(k)] (current form, scale fitted)      0.1091   -824023.8   -824005.3  c0=+0.00028387 (2.2e-05/4.5e-05)  beta=+0.89433 (0.0091/0.045)
+(a+s) k^2 + k(signed)                                  0.0855   -821970.8   -821943.0  c0=-0.00041627 (2e-05/4.3e-05)  k^2=-6.6511 (0.082/0.5)  k=+0.06173 (0.0027/0.015)
+(b+s) |k| + k(signed)                                  0.1082   -823947.4   -823919.6  c0=+9.0404e-05 (2.1e-05/4.4e-05)  |k|=-0.26062 (0.0028/0.015)  k=+0.045888 (0.0025/0.014)
+(e) |k| capped at 0.009 (slope fitted, cap fixed)      0.1125   -824326.9   -824308.3  c0=+0.00027891 (2.2e-05/4.5e-05)  slope=-0.35837 (0.0036/0.018)
+(f) theory fixed: -12.96 k^2 (+c0)                    -0.0576   -810544.9   -810535.6  c0=+8.4215e-05
+(g) current model fixed: -log c(k) (+c0)               0.1075   -823891.6   -823882.3  c0=+0.00041873
+(0) intercept only                                    -0.0000   -814946.4   -814937.1  c0=-0.00085753
+
+R bin [m]        n  clust   mean|k|  y mean %    SE %  theory %  fit k2 %  fit|k| %  current %
+R < 20         128     25   0.05096    -1.125   0.194    -3.366    -1.455    -1.208     -0.623
+20-40         3221    189   0.03451    -0.758   0.056    -1.590    -0.687    -0.818     -0.794
+40-80         2332    215   0.01946    -0.667   0.051    -0.503    -0.218    -0.461     -0.803
+80-200        5873    641   0.00690    -0.203   0.020    -0.066    -0.028    -0.163     -0.288
+> 200        67063   2084   0.00137    -0.021   0.007    -0.004    -0.002    -0.032     -0.057
+  (predictions shown without the fitted intercepts; intercepts: k^2 fit c0=-0.045 %, |k| fit c0=+0.003 %)
+
+== ROVER, kappa averaged between bogie pivots (theory coefficient 12.96) ==
+--- ROVER, kappa averaged between bogie pivots: n = 78616 epochs, 41 bags, 2214 clusters (bag x 10 s); curvature column = k_mid
+model                                                      R2         AIC         BIC  coefficients (OLS SE / cluster SE)
+(a) k^2                                                0.0939   -822856.5   -822838.0  c0=-0.00049376 (2e-05/4.3e-05)  k^2=-6.212 (0.069/0.53)
+(b) |k|                                                0.1273   -825808.3   -825789.8  c0=-2.9802e-05 (2e-05/4.4e-05)  |k|=-0.26134 (0.0024/0.018)
+(c) k^2 + |k|                                          0.1399   -826950.0   -826922.2  c0=+0.0003363 (2.3e-05/7e-05)  k^2=+7.5602 (0.22/1.7)  |k|=-0.52185 (0.008/0.052)
+(d) beta*[-log c(k)] (current form, scale fitted)      0.1418   -827126.8   -827108.3  c0=+0.00023579 (2.1e-05/4.4e-05)  beta=+1.0084 (0.0088/0.051)
+(a+s) k^2 + k(signed)                                  0.1080   -824082.5   -824054.7  c0=-0.00042993 (2e-05/3.9e-05)  k^2=-8.0443 (0.086/0.57)  k=+0.099824 (0.0028/0.018)
+(b+s) |k| + k(signed)                                  0.1365   -826634.8   -826607.0  c0=+5.816e-05 (2.1e-05/4.2e-05)  |k|=-0.30077 (0.0028/0.017)  k=+0.07351 (0.0025/0.016)
+(e) |k| capped at 0.009 (slope fitted, cap fixed)      0.1429   -827225.8   -827207.3  c0=+0.00021837 (2.1e-05/4.3e-05)  slope=-0.39908 (0.0035/0.021)
+(f) theory fixed: -12.96 k^2 (+c0)                    -0.0169   -813788.0   -813778.8  c0=-1.8318e-05
+(g) current model fixed: -log c(k) (+c0)               0.1418   -827127.9   -827118.7  c0=+0.00022605
+(0) intercept only                                     0.0000   -815105.4   -815096.1  c0=-0.00093145
+
+R bin [m]        n  clust   mean|k|  y mean %    SE %  theory %  fit k2 %  fit|k| %  current %
+R < 20          25      2   0.05157    -3.251   1.601    -3.446    -1.652    -1.348     -0.620
+20-40         3111    169   0.03552    -0.809   0.066    -1.681    -0.806    -0.928     -0.775
+40-80         2554    181   0.01970    -0.786   0.052    -0.514    -0.247    -0.515     -0.821
+80-200        4571    398   0.00701    -0.262   0.025    -0.067    -0.032    -0.183     -0.295
+> 200        68355   2064   0.00113    -0.022   0.006    -0.004    -0.002    -0.029     -0.047
+  (predictions shown without the fitted intercepts; intercepts: k^2 fit c0=-0.049 %, |k| fit c0=-0.003 %)
+
+== note: share of candidate epochs rejected by the 1 % front/rear filter, per curvature bin (master) ==
+  R < 20: 56.1% of 278, 20-40: 36.3% of 6189, 40-80: 31.5% of 4946, 80-200: 2.6% of 10357, > 200: 0.6% of 176474

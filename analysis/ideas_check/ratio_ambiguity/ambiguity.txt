@@ -1,0 +1,96 @@
+TRAIN-only ratio map analysis\validation_maps\ratio_map.csv: 11054 bins, L 11053.7 m; window 200 m, samples every 0.8 m (10 Hz at 8 m/s), w = 1/sd^2 (z units, as the estimator), tau 5.39
+
+== map-only quantities over the cycle (p10 / p50 / p90)
+sigma_crb (raw mu')      0.305 / 0.42 / 0.569 m;   smoothed mu' 0.589 / 0.886 / 1.31 m
+sigma_curv (exp. LL fit)  0.167 / 0.208 / 0.283 m (inf at 0.0 %)
+side-peak a_lm (interior local max of chi at |D|>2 m; -1 = none): -1 / -0.105 / 0.167; none at 19.1 %; a_lm > 0.5 at 0.9 %
+amb a(s)                  0.0574 / 0.301 / 0.627;   expected margin m_exp 12.1 / 21.8 / 46.5 (gate wants > 3.0)
+|expected peak bias|      0 / 0 / 0 m
+fraction of cycle: sigma_crb < 0.3 m 7.9 %, a < 0.8 99.8 %, both 7.9 %; smoothed sigma_crb < 0.3 0.0 %; m_exp > 3 99.3 %
+LOO rel flag: reliable 66.1 % of bins; among reliable bins a < 0.8 99.8 %, among unreliable 99.8 %; sigma_crb < 0.3: 9.2 % vs 5.3 %
+
+== 25 m cells (reliab_cells.csv, LOO over TRAIN): 443 cells, with triggers 408, with failures 64, unreliable (widened +-1) 150
+score (higher = worse)   | AUC fail-cells (n>0)  | AUC unreliable (n>0)  | AUC unreliable (all)
+a mean                   | 0.559 +-0.040 (64/344) | 0.602 +-0.030 (137/271) | 0.582
+a max                    | 0.557 +-0.040 (64/344) | 0.604 +-0.030 (137/271) | 0.584
+a_lm max                 | 0.526 +-0.040 (64/344) | 0.551 +-0.030 (137/271) | 0.525
+sigma_crb median         | 0.610 +-0.040 (64/344) | 0.619 +-0.030 (137/271) | 0.590
+sigma_crb max            | 0.611 +-0.040 (64/344) | 0.621 +-0.030 (137/271) | 0.592
+sigma_crb_s median       | 0.555 +-0.040 (64/344) | 0.544 +-0.030 (137/271) | 0.523
+sigma_curv median        | 0.620 +-0.040 (64/344) | 0.635 +-0.030 (137/271) | 0.615
+-m_exp (min margin)      | 0.575 +-0.040 (64/344) | 0.559 +-0.030 (137/271) | 0.547
+-m_exp median            | 0.566 +-0.040 (64/344) | 0.548 +-0.030 (137/271) | 0.537
+Spearman(a mean, fail rate per cell, n>0): +0.072
+Spearman(sigma_crb median, fail rate per cell, n>0): +0.148
+Spearman(-m_exp (min margin), fail rate per cell, n>0): +0.104
+
+== VAL triggers (reliab_val.csv = sim_correct triggers, train map): 1215, base-accepted with plausible truth 1170, false fixes (|e_corr| > |e_filt| + 0.5) 33, |e_corr| > 1.5 m 15
+score (higher = worse)         | AUC false fix         | AUC |e_corr|>1.5   | Spearman(score, |e_corr|)
+a(s) map-only                  | 0.692 +-0.052 (33/1137) | 0.699 +-0.076 (15) | +0.028
+a_lm side peak map-only        | 0.497 +-0.051 (33/1137) | 0.594 +-0.078 (15) | +0.026
+sigma_crb map-only             | 0.743 +-0.050 (33/1137) | 0.754 +-0.073 (15) | +0.215
+sigma_crb smoothed map-only    | 0.555 +-0.052 (33/1137) | 0.570 +-0.077 (15) | +0.148
+-m_exp map-only                | 0.541 +-0.052 (33/1137) | 0.540 +-0.077 (15) | +0.118
+LOO unreliable flag (1-rel)    | 0.771 +-0.049 (33/1137) | 0.776 +-0.071 (15) | +0.121
+observed sig_c (online)        | 0.524 +-0.052 (33/1137) | 0.513 +-0.076 (15) | +0.110
+-observed margin_lm (online)   | 0.451 +-0.049 (33/1136) | 0.522 +-0.076 (15) | +0.073
+sanity: Spearman(map sigma_crb, observed sig_c) +0.397, median observed/map ratio 0.59 (observed windows carry ~237 samples at 1.2/m vs 251 assumed)
+-- exclusion at the LOO budget (34 % of the cycle excluded): false fixes kept / accepted fixes kept
+  LOO rel flag  : false fixes kept  5 of 33, |e_corr|>1.5 kept  2 of 15, accepted kept 68 %
+  a(s)          : false fixes kept 16 of 33, |e_corr|>1.5 kept  6 of 15, accepted kept 71 %
+  sigma_crb     : false fixes kept 12 of 33, |e_corr|>1.5 kept  6 of 15, accepted kept 70 %
+  -m_exp        : false fixes kept 18 of 33, |e_corr|>1.5 kept  8 of 15, accepted kept 67 %
+false fixes (s_mod, e_filt -> e_corr, sig_c, margin_lm | map: a, sigma_crb, m_exp, LOO rel):
+      50.9 30618_dd8d0741: +0.27 -> -1.16 sig_c 0.50 margin   22.4 | a 0.74 (argD -2.0) sig 0.431 m_exp   69.1 rel 0
+     910.4 30618_dd8d0741: -0.11 -> +0.96 sig_c 0.22 margin   41.0 | a 0.61 (argD -2.0) sig 0.355 m_exp   47.5 rel 0
+     960.5 30618_dd8d0741: -0.13 -> +1.05 sig_c 0.28 margin   20.8 | a 0.59 (argD -2.0) sig 0.449 m_exp   22.6 rel 0
+    5254.2 30618_a53d5f6f: +0.19 -> +0.75 sig_c 0.23 margin   15.7 | a 0.05 (argD -4.1) sig 0.365 m_exp   19.3 rel 1
+    5304.4 30618_a53d5f6f: +0.29 -> +0.79 sig_c 0.33 margin   10.9 | a 0.15 (argD +2.0) sig 0.472 m_exp   13.6 rel 1
+    5685.5 30618_22c1c589: -0.16 -> +1.00 sig_c 0.55 margin    3.3 | a 0.37 (argD -2.1) sig 1.609 m_exp    1.0 rel 1
+    5875.1 30618_e3d94878: +0.56 -> -3.58 sig_c 0.22 margin   13.4 | a 0.74 (argD -2.0) sig 0.543 m_exp   31.3 rel 0
+    5875.2 30618_f19a4ac3: -0.10 -> -4.18 sig_c 0.34 margin   12.0 | a 0.74 (argD -2.0) sig 0.543 m_exp   31.3 rel 0
+    5925.2 30618_e3d94878: +0.52 -> -3.60 sig_c 0.23 margin   13.2 | a 0.69 (argD -2.0) sig 0.548 m_exp   23.8 rel 0
+    5926.0 30618_f19a4ac3: -0.17 -> -4.27 sig_c 0.34 margin   14.9 | a 0.69 (argD -2.0) sig 0.544 m_exp   21.9 rel 0
+    5976.2 30618_e3d94878: +0.55 -> -4.35 sig_c 0.44 margin    7.4 | a 0.51 (argD -2.0) sig 0.452 m_exp   17.2 rel 0
+    5976.3 30618_f19a4ac3: -0.19 -> -4.42 sig_c 0.31 margin    6.7 | a 0.51 (argD -2.0) sig 0.452 m_exp   17.2 rel 0
+    6506.5 30639_d927f360: +0.14 -> -0.76 sig_c 0.35 margin   13.1 | a 0.36 (argD +2.0) sig 0.383 m_exp   21.0 rel 0
+    7288.9 30618_f19a4ac3: +0.96 -> +1.55 sig_c 0.32 margin   10.6 | a 0.10 (argD -2.0) sig 0.451 m_exp   15.4 rel 1
+    7667.1 30618_0f120b35: +0.03 -> -0.56 sig_c 0.20 margin   24.7 | a 0.57 (argD -2.0) sig 0.403 m_exp   30.2 rel 0
+    9445.3 30618_0f120b35: -0.23 -> +1.05 sig_c 0.29 margin   24.3 | a 0.55 (argD -2.0) sig 0.328 m_exp   41.8 rel 1
+    9496.6 30618_0f120b35: -0.28 -> +0.98 sig_c 0.43 margin   21.0 | a 0.57 (argD -2.0) sig 0.345 m_exp   39.9 rel 0
+    9547.1 30618_0f120b35: -0.33 -> +2.07 sig_c 0.33 margin    4.5 | a 0.61 (argD -2.0) sig 0.375 m_exp   26.3 rel 0
+   10205.9 30618_0f120b35: -0.29 -> +1.22 sig_c 0.19 margin   28.1 | a 0.27 (argD +2.0) sig 0.538 m_exp   15.4 rel 0
+   10217.8 30618_f19a4ac3: +0.09 -> -1.02 sig_c 0.18 margin   27.8 | a 0.30 (argD +2.0) sig 0.558 m_exp   14.9 rel 0
+   10220.8 30618_e3d94878: -1.03 -> -2.14 sig_c 0.16 margin   33.6 | a 0.30 (argD +2.0) sig 0.567 m_exp   15.6 rel 0
+   10244.9 30618_2f104a1d: -0.04 -> -0.86 sig_c 0.16 margin   30.6 | a 0.31 (argD +2.0) sig 0.558 m_exp   15.7 rel 0
+   10246.2 30639_d927f360: +0.54 -> -2.22 sig_c 0.22 margin   19.1 | a 0.31 (argD +2.0) sig 0.552 m_exp   15.4 rel 0
+   10256.8 30618_0f120b35: -0.40 -> +1.08 sig_c 0.22 margin   27.7 | a 0.30 (argD +2.0) sig 0.555 m_exp   15.7 rel 0
+   10264.9 30618_616ec56b: -0.06 -> +1.08 sig_c 0.13 margin   13.5 | a 0.28 (argD +2.0) sig 0.554 m_exp   15.7 rel 0
+   10268.0 30618_f19a4ac3: +0.03 -> -1.16 sig_c 0.21 margin   23.7 | a 0.26 (argD +2.0) sig 0.558 m_exp   16.5 rel 0
+   10271.6 30618_e3d94878: -1.10 -> -2.18 sig_c 0.16 margin   33.8 | a 0.28 (argD +2.0) sig 0.558 m_exp   16.9 rel 0
+   10295.5 30618_2f104a1d: -0.02 -> -0.86 sig_c 0.18 margin   21.5 | a 0.32 (argD +2.0) sig 0.556 m_exp   18.7 rel 0
+   10296.3 30639_d927f360: +0.59 -> -2.12 sig_c 0.21 margin   16.3 | a 0.32 (argD +2.0) sig 0.562 m_exp   15.9 rel 0
+   10307.0 30618_0f120b35: -0.37 -> +1.34 sig_c 0.26 margin   22.8 | a 0.44 (argD +2.0) sig 0.545 m_exp   20.9 rel 0
+   10315.1 30618_616ec56b: -0.15 -> +1.05 sig_c 0.13 margin    8.0 | a 0.52 (argD +2.0) sig 0.497 m_exp   24.0 rel 0
+   10318.4 30618_f19a4ac3: +0.04 -> -0.60 sig_c 0.26 margin   38.2 | a 0.48 (argD +2.0) sig 0.483 m_exp   27.3 rel 0
+   10322.2 30618_e3d94878: -1.08 -> -2.06 sig_c 0.16 margin   28.6 | a 0.44 (argD +2.0) sig 0.478 m_exp   26.9 rel 0
+
+== teammate's places (cycle percentile in brackets; high a / sigma, low m_exp = ambiguous)
+5875-5976 m: a mean 0.67 [92], max 0.74; sigma_crb median 0.540 [85]; m_exp median 23.3 [55]; LOO rel 0 %
+9550-9640 m: a mean 0.44 [70], max 0.66; sigma_crb median 0.448 [60]; m_exp median 16.7 [31]; LOO rel 46 %
+10250-10300 m: a mean 0.29 [49], max 0.33; sigma_crb median 0.557 [88]; m_exp median 15.9 [28]; LOO rel 0 %
+
+== periodicity of side peaks
+argmax |D| of chi within 2..8 m (0.5 m bins from 2): 9638 339 22 26 135 249 181 405 51 0 1 7  (2.0 m = main-lobe edge)
+genuine side-peak |D| within 2..8 m (0.5 m bins): 56 764 376 580 642 1119 981 2555 608 169 296 821
+argmax |D| of chi within 2..40 m (integer shifts), counts per |D| = 2..40:
+  all bins : 2:4427 3:101 4:8 5:10 6:5 7:1 8:0 9:2 10:4 11:160 12:1650 13:1598 14:115 15:8 16:0 17:0 18:41 19:48 20:60 21:50 22:0 23:132 24:35 25:346 26:76 27:148 28:119 29:113 30:135 31:214 32:74 33:81 34:58 35:60 36:188 37:603 38:271 39:29 40:84
+  chi > 0.5: 2:2225 3:0 4:2 5:3 6:5 7:1 8:0 9:2 10:1 11:4 12:174 13:227 14:84 15:0 16:0 17:0 18:0 19:10 20:7 21:4 22:0 23:123 24:24 25:25 26:33 27:63 28:31 29:1 30:4 31:3 32:23 33:26 34:4 35:3 36:132 37:179 38:74 39:1 40:14
+  share of argmax |D| within 1 m of 12.5 m (or 2x): 33.5 % (uniform over 2..40 m: 15.4 %)
+  share of argmax |D| within 1 m of 25.0 m (or 2x): 4.1 % (uniform over 2..40 m: 7.7 %)
+  most frequent |D|: 2 m (4427), 12 m (1650), 13 m (1598), 37 m (603), 25 m (346)
+autocorrelation of mu over the cycle at lags 1..40 m: 1:+0.62 2:+0.37 3:+0.22 4:+0.10 5:+0.00 6:-0.04 7:-0.19 8:-0.19 9:-0.04 10:+0.04 11:+0.08 12:+0.15 13:+0.13 14:+0.05 15:-0.00 16:-0.04 17:-0.07 18:-0.08 19:-0.08 20:-0.10 21:-0.08 22:-0.05 23:-0.04 24:+0.01 25:+0.04 26:+0.02 27:-0.01 28:-0.02 29:-0.03 30:-0.04 31:-0.03 32:-0.03 33:-0.04 34:-0.02 35:-0.01 36:+0.03 37:+0.08 38:+0.09 39:+0.05 40:+0.03
+  local maxima of the autocorrelation (> 0.02) at lags: [12, 25, 38, 43, 50]
+  periodogram peaks (period m, share of the 4-60 m band power): 12.5 (0.9 %), 12.7 (0.5 %), 12.5 (0.5 %), 12.5 (0.5 %), 13.5 (0.4 %), 11.9 (0.4 %), 12.4 (0.4 %), 53.4 (0.4 %)
+
+Spearman(a, sigma_crb) over the cycle +0.141; Spearman(a, m_exp) +0.351

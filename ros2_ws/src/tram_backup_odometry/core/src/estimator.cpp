@@ -555,8 +555,8 @@ void Estimator::ratioStep(const Event& e, bool place_fixed) {
     StateCov& P = f.P[j];
     const double S = P(kS, kS) + R;
     if (!(S > 0.0)) continue;
-    // like a place fix it moves the path only (speed, disturbance and gain stay with the wheels and the model;
-    // letting the s-v correlation act made the speed vs doppler worse on all 12 val runs)
+    // moves the path and, with a reduced gain, the wheel scale k (D34: when only s moved, the next place fix
+    // recalibrated k differently and the speed got worse); speed, disturbance and gain stay with the wheels and model
     StateVec K;
     K(kS, 0) = P(kS, kS) / S;
     if (p_.ratio_update_k > 0.5 && std::abs(d_hat) < p_.ratio_k_dmax)  // k: normally calibrated by the quantum and places

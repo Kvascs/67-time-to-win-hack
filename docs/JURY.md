@@ -136,4 +136,13 @@ docker run --rm --cpus=2 --memory=512m -v <check-code>:/check:ro -v <катал�
     tram_backup_odometry bash /chk/organisers_checker_live.sh 30618_88aea4d9
 ```
 
-На их бэге оба способа дают одно и то же: скорость RMSE 0.027 м/с, положение 3-D RMSE 0.63 м (`docs/REPORT.md` §1a, §6).
+Офлайн-повтор на сдаваемой сборке даёт на их бэге скорость RMSE 0.0267 м/с и положение 3-D RMSE 0.587 м
+(максимум 4.13 м). Без GNSS (`--no-gnss`: из входа удалены все фиксы) первая позиция появляется через 170 с,
+дальше 3-D RMSE 0.582 м:
+
+```bash
+python tools/replay/eval_checker.py --bag 30618_88aea4d9 --no-gnss
+```
+
+На всех сборках, проверенных вживую, живой прогон совпадал с офлайн-повтором; числа живого прогона —
+`docs/REPORT.md` §1a, §6.

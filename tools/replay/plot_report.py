@@ -1,8 +1,8 @@
 """Figures for docs/REPORT.md (PNG, docs/img/). Inputs are the outputs of the runs quoted in the report:
 
-  python tools/replay/eval_checker.py --tag _rm3                        # organisers' bag, submitted build
+  python tools/replay/eval_checker.py --tag _d34                        # organisers' bag, submitted build
   python tools/replay/eval_checker.py --tag _qk0 --set quant_k_enable=0 # the same build without D30
-  python tools/replay/eval_base_link.py --tag rm3_val --split val       # val, submitted build
+  python tools/replay/eval_base_link.py --tag d34_val --split val       # val, submitted build
   python tools/replay/eval_base_link.py --tag qk0_val --split val --set quant_k_enable=0
   docker run ... check_run.sh 30618_88aea4d9 0                          # live run: <out>/30618_88aea4d9/latency.csv
 
@@ -77,7 +77,7 @@ def fig_speed(o, ks):
 
 def fig_error_time():
     _, _, t0, d0 = pairs('_qk0')
-    _, _, t1, d1 = pairs('_rm3')
+    _, _, t1, d1 = pairs('_d34')
     fig, ax = plt.subplots(figsize=(8.2, 3.2))
     ax.plot(t0 / 60, d0, color=MUTED, lw=1.6, label=f'прежняя сборка: RMSE {np.sqrt(np.mean(d0 ** 2)):.2f} м')
     ax.plot(t1 / 60, d1, color=ACCENT, lw=1.6, label=f'сдаваемая сборка: RMSE {np.sqrt(np.mean(d1 ** 2)):.2f} м')
@@ -99,7 +99,7 @@ def fig_error_time():
 def fig_val():
     ev = ROOT / 'build_core' / 'eval'
     a = pd.read_csv(ev / 'bl_qk0_val.csv').set_index('bag').p3_rmse
-    b = pd.read_csv(ev / 'bl_rm3_val.csv').set_index('bag').p3_rmse
+    b = pd.read_csv(ev / 'bl_d34_val.csv').set_index('bag').p3_rmse
     df = pd.DataFrame({'before': a, 'after': b}).dropna().sort_values('after')
     y = np.arange(len(df))
     fig, ax = plt.subplots(figsize=(8.2, 4.6))
@@ -155,10 +155,10 @@ def fig_latency(path):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--latency', default=str(ROOT / 'build_core' / 'live9' / BAG / 'latency.csv'))
+    ap.add_argument('--latency', default=str(ROOT / 'build_core' / 'live11' / BAG / 'latency.csv'))
     a = ap.parse_args()
     IMG.mkdir(parents=True, exist_ok=True)
-    o, ks, _, _ = pairs('_rm3')
+    o, ks, _, _ = pairs('_d34')
     fig_speed(o, ks)
     fig_error_time()
     fig_val()

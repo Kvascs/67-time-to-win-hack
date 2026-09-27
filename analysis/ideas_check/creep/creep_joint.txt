@@ -1,0 +1,4 @@
+F: beta_trac +0.196+/-0.017  beta_brake +0.054+/-0.023 %/(m/s2); common tau -0.0094+/-0.0007 s; step trac +0.039 brake +0.021 % (vs coast)
+F: one beta (trac+brake) +0.121+/-0.018 %/(m/s2), common tau -0.0089+/-0.0007 s
+R: beta_trac +0.214+/-0.019  beta_brake +0.071+/-0.025 %/(m/s2); common tau -0.0104+/-0.0008 s; step trac +0.026 brake +0.004 % (vs coast)
+R: one beta (trac+brake) +0.139+/-0.020 %/(m/s2), common tau -0.0099+/-0.0008 s
