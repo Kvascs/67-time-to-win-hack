@@ -36,7 +36,7 @@ ros2_ws/src/
   tram_vehicle_msgs/            сообщения организаторов
   tbo_msgs/                     EstimatorStatus: флаги, вероятности режимов, λ, сцепление
   tram_backup_odometry/
-    core/                       C++17 ядро без ROS: фильтр, модель, карта, геодезия, глобальная привязка, реплей, 29 тестов
+    core/                       C++17 ядро без ROS: фильтр, модель, карта, геодезия, глобальная привязка, реплей, 30 тестов
     src/tbo_node.cpp            нода: подписки best-effort, публикация /result/*, /diagnostics
     config/                     params.yaml (генерируется из реестра ядра), traction_lut.csv
     maps/                       карта, ответвления, 49 остановок, 4 точки сброса тяги

@@ -17,7 +17,8 @@
 Вариант А — ROS 2 Humble установлен (Ubuntu 22.04):
 
 ```bash
-mkdir -p ~/tbo_ws && cp -r <repo>/ros2_ws/src ~/tbo_ws/
+git clone https://github.com/Kvascs/67-time-to-win-hack.git
+mkdir -p ~/tbo_ws && cp -r 67-time-to-win-hack/ros2_ws/src ~/tbo_ws/
 cd ~/tbo_ws
 source /opt/ros/humble/setup.bash
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
@@ -33,7 +34,7 @@ source install/setup.bash
 docker build -t tram_backup_odometry .
 ```
 
-При сборке образа выполняются модульные тесты ядра (29 тестов). Если хоть один не пройдёт, сборка упадёт.
+При сборке образа выполняются модульные тесты ядра (30 тестов). Если хоть один не пройдёт, сборка упадёт.
 
 ## 3. Запуск
 
@@ -113,6 +114,26 @@ docker run --rm --cpus=2 --memory=512m -v <каталог с bag-ами>:/bags:r
 ```bash
 cmake -S ros2_ws/src/tram_backup_odometry/core -B build_core -DCMAKE_BUILD_TYPE=Release
 cmake --build build_core -j
-./build_core/tbo_core_tests                     # 29 тестов
+./build_core/tbo_core_tests                     # 30 тестов
 python tools/replay/quick_eval.py               # метрики на отложенных bag-ах (нужен экспорт npz: tools/extract_bags.py)
 ```
+
+## 7. Проверка кодом организаторов
+
+Офлайн: то же C++-ядро, их сопоставление (`ApproximateTimeSynchronizer`, очередь 100, допуск 0.05 с) и их метрики.
+Эталон — `/localization/kinematic_state` из bag:
+
+```bash
+python tools/replay/eval_checker.py --bag 30618_88aea4d9
+```
+
+Вживую: их `metrics.py` из `check-code` работает рядом с нашей нодой в одном контейнере, пока bag проигрывается
+в реальном времени (каталог `check-code` организаторов монтируется в `/check`):
+
+```bash
+docker run --rm --cpus=2 --memory=512m -v <check-code>:/check:ro -v <каталог с bag-ами>:/bags:ro \
+    -v $(pwd)/out:/out -v $(pwd)/tools/replay:/chk:ro \
+    tram_backup_odometry bash /chk/organisers_checker_live.sh 30618_88aea4d9
+```
+
+На их бэге оба способа дают одно и то же: скорость RMSE 0.028 м/с, положение 3-D RMSE 1.12 м (`docs/REPORT.md` §1a, §6).
