@@ -605,6 +605,18 @@ void Estimator::stubRoughness(FilterState& f, const Event& e) const {
       const double y = std::log(e.z[0] / e.z[1]);
       f.stub_rs += y * y;
       ++f.stub_rn;
+      // overwhelming evidence decides at once instead of at the window end
+      if (p_.stub_rough_early > 0.0 && d >= p_.stub_rough_early_from_m && f.stub_rn >= 20) {
+        const double rough = std::sqrt(f.stub_rs / f.stub_rn);
+        const bool quiet = f.stub_noise0 >= 0.0 && f.stub_noise0 < p_.stub_rough_max_noise * p_.stub_rough_max_noise;
+        if (quiet && rough > p_.stub_rough_early) {
+          static const bool dbg = std::getenv("TBO_DEBUG_STUB") != nullptr;
+          if (dbg) std::fprintf(stderr, "STUBR early t=%.1f d=%.1f rough=%.4f n=%d\n", toSec(e.t), d, rough, f.stub_rn);
+          f.stub_rdone = true;
+          f.stub = true;
+          f.stub_s0 = s - d;
+        }
+      }
     }
     return;
   }
@@ -1794,7 +1806,7 @@ Output Estimator::makeOutput(const FilterState& f, Stamp t) const {
     MapPose p;
     double bx = 0.0, by = 0.0, hx = 1.0, hy = 0.0;
     if (on_stub) {  // the same construction on the dead-end stub polyline
-      const double da = s_ant - f.stub_s0;
+      const double da = s_ant - f.stub_s0 + p_.stub_arc_offset_m;
       p = stub_.at(da + p_.base_link_along_m);
       const MapPose A = stub_.at(da), Rv = stub_.at(da + p_.antenna_baseline_m);
       hx = std::cos(A.heading);

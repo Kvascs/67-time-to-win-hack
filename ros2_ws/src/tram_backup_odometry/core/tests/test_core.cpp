@@ -533,6 +533,47 @@ TEST_CASE("dead-end stub: a stop at its far part puts the tram on it, a stop nea
     if (toSec(o.stamp) < 9300.0 + 40.0) CHECK(std::abs(o.y) < 1.0);
 }
 
+TEST_CASE("dead-end stub: overwhelming switch roughness decides on the stub early, before the window end") {
+  Config cfg;
+  cfg.output_frame = "map";
+  TractionModel model;
+  TrackMap map;
+  map.setPoints({{-500, 0, 0, 0}, {5000, 0, 0, 0}}, false, {55.81, 37.462, 168.4});  // map s = x + 500
+  Truth tr;
+  // first pass to know where the run stops; the stub starts 100 m before that (the tram passes it moving)
+  (void)makeRun(9300.0, 60.0, tr, cleanWheels, 3.0, [](double t) { return t > 49.0 ? -0.4 : 0.0; });
+  const double join = 500.0 + tr.s.back() - 100.0;
+  auto rough = [&](int sensor, double t, double v) {  // +-2.5 % front/rear in the switch window only
+    const double s = 500.0 + tr.sAt(9300.0 + t);
+    const double a = (s > join - 15.0 && s < join + 12.0) ? 0.025 * std::sin(37.0 * t) : 0.0;
+    return v * kKmh * (sensor == 0 ? 1.0 + a : 1.0 - a);
+  };
+  const auto ev = makeRun(9300.0, 60.0, tr, rough, 3.0, [](double t) { return t > 49.0 ? -0.4 : 0.0; });
+  const std::string path = "tbo_test_stub_early.csv";
+  std::FILE* fh = std::fopen(path.c_str(), "wb");
+  std::fprintf(fh, "# stub\n# origin_lat=55.81 origin_lon=37.462 origin_h=168.4 cyclic=0 join_s=%.3f\ns,x,y,z\n", join);
+  for (int i = 0; i <= 125; ++i) std::fprintf(fh, "%d,%.4f,%.4f,0\n", i, join - 500.0 + i * 0.8660254, i * 0.5);
+  std::fclose(fh);
+  TrackMap stub;
+  std::string err;
+  CHECK(stub.loadCsv(path, &err));
+  std::remove(path.c_str());
+  auto leaves = [&](const RunResult& r) {  // first stamp at which the published point is off the main line
+    for (const Output& o : r.outs)
+      if (o.pos_valid && std::abs(o.y) > 0.5) return toSec(o.stamp);
+    return 1e18;
+  };
+  const RunResult early = run(ev, cfg, model, &map, &stub);
+  Config late_cfg = cfg;
+  late_cfg.p.stub_rough_early = 0.0;
+  const RunResult late = run(ev, late_cfg, model, &map, &stub);
+  const double t_early = leaves(early), t_late = leaves(late);
+  CHECK(t_early < 9360.0 && t_late < 9360.0);  // both end on the stub
+  // at ~12 m/s the 20 samples are there only ~8 m past the stub start: the early decision comes ~4 m
+  // before the window end (at the organisers' 2.4 m/s, 12 m before it)
+  CHECK(t_early + 0.2 < t_late);
+}
+
 TEST_CASE("wheel scale from the speed quantum: taken from the matching epoch, not from a later one") {
   Config cfg;
   cfg.output_frame = "map";

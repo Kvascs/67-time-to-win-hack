@@ -162,6 +162,15 @@ struct Params {
   double stub_rough_from_m = -15.0; // window on the antenna arc, relative to the stub start, m
   double stub_rough_to_m = 12.0;
   double stub_rough_max_noise = 0.05;  // slow (60 s) rms front-rear difference above which it is skipped, m/s
+  // Overwhelming evidence decides early: from the stub start on (antenna arc) a running rms above this means
+  // the stub at once. Main-line passes stay below 1.35 % anywhere in the window (23 passes), train stub runs
+  // 1.24-1.76 % (they still decide at the window end); the organisers' bag has 3.14 % at the stub start,
+  // where base_link is already 10 m into the stub and the window end is 12 m further (cross error up to 7.5 m).
+  double stub_rough_early = 0.02;   // 0 = off
+  double stub_rough_early_from_m = 0.0;
+  // On the stub the published point lagged the RTK base_link by 0.66 / 0.77 / 0.87 m more than just before the
+  // switch (3 train stub runs; the organisers' bag, not used for it: 0.94 m): the stub polyline starts too late.
+  double stub_arc_offset_m = 0.77;  // added to the arc along the stub when publishing on it, m
   double landmark_max_dk = 0.004;   // max wheel-scale change applied by one landmark fix
   // ---- wheel scale from the speed quantum ----
   // A bogie reports speed in steps of q km/h, q = c (1 + k): c is fixed for a vehicle and wheel epoch
