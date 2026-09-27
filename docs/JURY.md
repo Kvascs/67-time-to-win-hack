@@ -34,7 +34,7 @@ source install/setup.bash
 docker build -t tram_backup_odometry .
 ```
 
-При сборке образа выполняются модульные тесты ядра (31 тест). Если хоть один не пройдёт, сборка упадёт.
+При сборке образа выполняются модульные тесты ядра (32 теста). Если хоть один не пройдёт, сборка упадёт.
 
 ## 3. Запуск
 
@@ -114,7 +114,7 @@ docker run --rm --cpus=2 --memory=512m -v <каталог с bag-ами>:/bags:r
 ```bash
 cmake -S ros2_ws/src/tram_backup_odometry/core -B build_core -DCMAKE_BUILD_TYPE=Release
 cmake --build build_core -j
-./build_core/tbo_core_tests                     # 31 тест
+./build_core/tbo_core_tests                     # 32 теста
 python tools/replay/quick_eval.py               # метрики на отложенных bag-ах (нужен экспорт npz: tools/extract_bags.py)
 ```
 
@@ -136,4 +136,4 @@ docker run --rm --cpus=2 --memory=512m -v <check-code>:/check:ro -v <катал�
     tram_backup_odometry bash /chk/organisers_checker_live.sh 30618_88aea4d9
 ```
 
-На их бэге оба способа дают одно и то же: скорость RMSE 0.027 м/с, положение 3-D RMSE 0.96 м (`docs/REPORT.md` §1a, §6).
+На их бэге оба способа дают одно и то же: скорость RMSE 0.027 м/с, положение 3-D RMSE 0.82 м (`docs/REPORT.md` §1a, §6).

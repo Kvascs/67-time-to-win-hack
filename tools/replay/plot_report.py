@@ -1,6 +1,6 @@
 """Figures for docs/REPORT.md (PNG, docs/img/). Inputs are the outputs of the runs quoted in the report:
 
-  python tools/replay/eval_checker.py --tag _qk                         # organisers' bag, submitted build
+  python tools/replay/eval_checker.py --tag _final                      # organisers' bag, submitted build
   python tools/replay/eval_checker.py --tag _qk0 --set quant_k_enable=0 # the same build without D30
   python tools/replay/eval_base_link.py --tag qk_val --split val        # val, submitted build
   python tools/replay/eval_base_link.py --tag qk0_val --split val --set quant_k_enable=0
@@ -77,18 +77,19 @@ def fig_speed(o, ks):
 
 def fig_error_time():
     _, _, t0, d0 = pairs('_qk0')
-    _, _, t1, d1 = pairs('_qk')
+    _, _, t1, d1 = pairs('_final')
     fig, ax = plt.subplots(figsize=(8.2, 3.2))
-    ax.plot(t0 / 60, d0, color=MUTED, lw=1.6, label=f'без масштаба по шагу квантования: RMSE {np.sqrt(np.mean(d0 ** 2)):.2f} м')
+    ax.plot(t0 / 60, d0, color=MUTED, lw=1.6, label=f'прежняя сборка: RMSE {np.sqrt(np.mean(d0 ** 2)):.2f} м')
     ax.plot(t1 / 60, d1, color=ACCENT, lw=1.6, label=f'сдаваемая сборка: RMSE {np.sqrt(np.mean(d1 ** 2)):.2f} м')
-    ax.set_ylim(0, 4.0)
+    ax.set_ylim(0, 5.0)
     ax.set_xlabel('время от начала бэга, мин')
     ax.set_ylabel('3-D ошибка base_link, м')
     ax.set_title('Бэг организаторов, их сопоставление: ошибка положения по времени', loc='left')
-    tail = t1 / 60 > 21.0
-    if tail.any():
-        ax.annotate(f'тупик у конечной: до {d1[tail].max():.1f} м', xy=(21.15, 3.85), xytext=(13.2, 3.55),
-                    color=INK2, fontsize=9, arrowprops=dict(arrowstyle='->', color=INK2, lw=0.8))
+    tail0, tail1 = t0 / 60 > 21.0, t1 / 60 > 21.0
+    if tail0.any() and tail1.any():
+        ax.annotate(f'съезд в тупик: до {d0[tail0].max():.1f} м → до {d1[tail1].max():.1f} м', xy=(21.2, 4.5),
+                    xytext=(11.5, 4.45), color=INK2, fontsize=9, va='center',
+                    arrowprops=dict(arrowstyle='->', color=INK2, lw=0.8))
     ax.legend(loc='upper left')
     fig.tight_layout()
     fig.savefig(IMG / 'checker_error_time.png', dpi=110)
@@ -154,10 +155,10 @@ def fig_latency(path):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--latency', default=str(ROOT / 'build_core' / 'live5' / BAG / 'latency.csv'))
+    ap.add_argument('--latency', default=str(ROOT / 'build_core' / 'live7' / BAG / 'latency.csv'))
     a = ap.parse_args()
     IMG.mkdir(parents=True, exist_ok=True)
-    o, ks, _, _ = pairs('_qk')
+    o, ks, _, _ = pairs('_final')
     fig_speed(o, ks)
     fig_error_time()
     fig_val()

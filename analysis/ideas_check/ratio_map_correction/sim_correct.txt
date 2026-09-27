@@ -1,0 +1,19 @@
+VAL, train-only map, step 50 m, window 200 m, grid +-8 m: 1215 triggers in 14 bags
+accepted 1186 (98 %); accepted |e_corr|: median 0.15 m, p90 0.49, > 1.5 m: 29
+at the same accepted triggers the filter had |e_filt| median 0.32 m, p90 1.14
+RMS over all triggers: filter 0.991 m -> with accepted corrections 0.806 m
+triggers with |e_filt| > 1 m: 160; of them accepted with |e_corr| < 0.5 m: 109
+  30618_01f73500: triggers 98, accepted 95, RMS e_filt 1.35 -> 1.28 m
+  30618_0f120b35: triggers 104, accepted 101, RMS e_filt 0.71 -> 0.63 m
+  30618_22c1c589: triggers 107, accepted 105, RMS e_filt 0.70 -> 0.59 m
+  30618_2366c74a: triggers 62, accepted 61, RMS e_filt 0.78 -> 0.28 m
+  30618_2f104a1d: triggers 106, accepted 105, RMS e_filt 0.49 -> 0.22 m
+  30618_616ec56b: triggers 90, accepted 87, RMS e_filt 0.98 -> 0.85 m
+  30618_6cb3280a: triggers 82, accepted 80, RMS e_filt 0.50 -> 0.35 m
+  30618_a53d5f6f: triggers 100, accepted 98, RMS e_filt 1.17 -> 1.11 m
+  30618_b95ca60a: triggers 91, accepted 89, RMS e_filt 0.73 -> 0.44 m
+  30618_dd8d0741: triggers 98, accepted 98, RMS e_filt 1.19 -> 1.13 m
+  30618_e3d94878: triggers 105, accepted 103, RMS e_filt 1.07 -> 0.87 m
+  30618_f19a4ac3: triggers 62, accepted 59, RMS e_filt 1.19 -> 1.21 m
+  30639_2b4a6347: triggers 9, accepted 8, RMS e_filt 0.13 -> 0.25 m
+  30639_d927f360: triggers 101, accepted 97, RMS e_filt 1.43 -> 0.54 m
