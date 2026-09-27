@@ -144,6 +144,8 @@ static const ParamInfo kRegistry[] = {
     TBO_P(ratio_tau, "-", "bogie-ratio map: integrated autocorrelation factor of the ratio"),
     TBO_P(ratio_reset_assoc, "bool", "bogie-ratio map: a correction resets the landmark association margin"),
     TBO_P(ratio_update_k, "bool", "bogie-ratio map: a correction may move the wheel scale k"),
+    TBO_P(ratio_k_dmax, "m", "bogie-ratio map: k moves only for corrections smaller than this"),
+    TBO_P(ratio_k_gain, "-", "bogie-ratio map: scale of the k gain of a correction (0..1)"),
     TBO_P(cutoff_enable, "bool", "use traction cut-off landmarks"),
     TBO_P(cutoff_notch, "-", "min notch before an abrupt cut to 0"),
     TBO_P(cutoff_min_v, "m/s", "min speed for a cut-off fix"),

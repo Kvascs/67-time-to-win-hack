@@ -212,7 +212,9 @@ struct Params {
   // A correction is weaker than a place fix and its errors are place-bound: it neither narrows the landmark
   // association (no reset of the drift margin) nor moves the wheel scale (quantum and places calibrate k).
   double ratio_reset_assoc = 0.0;   // 1: reset the landmark association margin like a place fix
-  double ratio_update_k = 0.0;      // 1: let the correction move k through the s-k correlation
+  double ratio_update_k = 1.0;      // 1: let the correction move k through the s-k correlation (D34)
+  double ratio_k_dmax = 1e9;        // k moves only for corrections smaller than this [m]
+  double ratio_k_gain = 0.3;        // scale of the k gain (0..1; the Joseph update keeps P consistent) (D34)
   double cutoff_enable = 1.0;       // traction cut-off landmarks (notch >= cutoff_notch -> 0)
   double cutoff_notch = 4.0;
   double cutoff_min_v = 2.0;        // only while moving faster than this, m/s

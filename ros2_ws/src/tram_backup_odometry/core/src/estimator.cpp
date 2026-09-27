@@ -559,7 +559,8 @@ void Estimator::ratioStep(const Event& e, bool place_fixed) {
     // letting the s-v correlation act made the speed vs doppler worse on all 12 val runs)
     StateVec K;
     K(kS, 0) = P(kS, kS) / S;
-    if (p_.ratio_update_k > 0.5) K(kK, 0) = P(kK, kS) / S;  // k: normally calibrated by the quantum and places
+    if (p_.ratio_update_k > 0.5 && std::abs(d_hat) < p_.ratio_k_dmax)  // k: normally calibrated by the quantum and places
+      K(kK, 0) = p_.ratio_k_gain * P(kK, kS) / S;
     x += K * (s + d_hat - x(kS, 0));
     Mat<1, kNx> H;
     H(0, kS) = 1.0;
