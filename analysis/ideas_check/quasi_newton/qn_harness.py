@@ -35,7 +35,7 @@ JOBS = 2
 def _snapshot() -> Path:
     """Frozen copy of the train-only maps and the traction table, named by their content hash.
     Other sessions edit analysis/validation_maps while this runs (landmarks.csv was replaced at 01:34 during
-    run 1, commit 8592b5f "honest validation landmarks"); every replay reads the snapshot, and the cache is
+    run 1, commit 3a7de09 "honest validation landmarks"); every replay reads the snapshot, and the cache is
     keyed by the snapshot hash."""
     import hashlib
     import shutil

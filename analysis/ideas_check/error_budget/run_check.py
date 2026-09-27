@@ -49,7 +49,7 @@ def main():
     tmp.mkdir(exist_ok=True)
     ev, out = tmp / f'{BAG}_ev{a.tag}.csv', tmp / f'{BAG}_out{a.tag}.csv'
     CB.export_events(BAG, ev)
-    # the submitted build (final2) knows no stub_file: keep the package set of commit c1f3512 only
+    # the submitted build (final2) knows no stub_file: keep the package set of commit 2f989c7 only
     base = {k: v for k, v in EC.package_sets().items() if not k.startswith('stub')}
     sets = {**base, **dict(s.split('=', 1) for s in a.set)}
     br = ','.join(str(EC.MAPS / f) for f in ('branch_fan_F2.csv', 'branch_fan_F3.csv', 'branch_wb_detour.csv'))
